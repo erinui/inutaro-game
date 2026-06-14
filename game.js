@@ -264,8 +264,8 @@ function spawnItem(now) {
     y = airTop + ((airLane + 0.5) / airLaneCount) * Math.max(60, airBottom - airTop);
     y = clamp(y, reachable.top - wave, airBottom);
   } else if (type.motion === "dragonfly") {
-    const dragonflyTop = reachable.top;
-    const dragonflyBottom = dragonflyTop + (reachable.bottom - dragonflyTop) * 0.2;
+    const dragonflyTop = reachable.top + Math.max(12, spriteSize * 0.18);
+    const dragonflyBottom = dragonflyTop + (reachable.bottom - dragonflyTop) * 0.22;
     y = dragonflyTop + Math.random() * Math.max(1, dragonflyBottom - dragonflyTop);
   }
 
@@ -528,11 +528,7 @@ function collide(now) {
     if (item.hit) {
       continue;
     }
-    const caught =
-      item.x > player.catch.left &&
-      item.x < player.catch.right &&
-      item.y > player.catch.top &&
-      item.y < player.catch.bottom;
+    const caught = rectsOverlap(player.catch, itemHitBox(item));
     if (caught) {
       item.hit = true;
       state.score += 1;
@@ -582,6 +578,17 @@ function spawnImpact(x, y, size, now, persist = false) {
 
 function rectsOverlap(a, b) {
   return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+}
+
+function itemHitBox(item) {
+  const halfWidth = item.motion === "dragonfly" ? item.spriteSize * 0.44 : item.radius;
+  const halfHeight = item.motion === "dragonfly" ? item.spriteSize * 0.22 : item.radius;
+  return {
+    left: item.x - halfWidth,
+    right: item.x + halfWidth,
+    top: item.y - halfHeight,
+    bottom: item.y + halfHeight,
+  };
 }
 
 function drawBackground(v, now) {
