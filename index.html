@@ -8,7 +8,7 @@
       name="description"
       content="犬タローを操作して、制限時間内に虫さんを集めるブラウザゲームです。お邪魔に当たるとゲームオーバー。"
     />
-    <link rel="stylesheet" href="style.css?v=20260614-total-unit-fix" />
+    <link rel="stylesheet" href="style.css?v=20260614-share-follow" />
   </head>
   <body>
     <main class="game-shell">
@@ -52,9 +52,29 @@
             <strong><span id="result-c">0</span><small class="count-unit">ひき</small></strong>
           </div>
         </div>
+        <div class="result-actions">
+          <button id="save-screen" type="button">画面保存</button>
+          <button id="save-result" type="button">リザルト保存</button>
+          <button id="share-open" type="button">共有</button>
+          <button id="profile-open" type="button">フォロー</button>
+        </div>
+        <div id="share-panel" class="share-panel" hidden>
+          <button id="share-native" type="button">画像つき共有</button>
+          <a id="share-x" href="https://twitter.com/intent/tweet" target="_blank" rel="noopener">X</a>
+          <a id="share-line" href="https://social-plugins.line.me/lineit/share" target="_blank" rel="noopener">LINE</a>
+          <button id="copy-url" type="button">URLコピー</button>
+          <span id="share-status" aria-live="polite"></span>
+        </div>
+        <div id="profile-panel" class="profile-panel" hidden>
+          <div>
+            <a href="https://x.com/erikanuinui" target="_blank" rel="noopener">X</a>
+            <a href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener">YouTube</a>
+          </div>
+          <button id="profile-close" type="button">CLOSE</button>
+        </div>
         <button id="restart" class="restart-button" type="button">RESTART</button>
       </section>
     </main>
-    <script src="game.js?v=20260614-reach-tune"></script>
+    <script src="game.js?v=20260614-share-follow"></script>
   </body>
 </html>
