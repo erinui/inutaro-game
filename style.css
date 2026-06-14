@@ -183,6 +183,10 @@ canvas {
   gap: 18px;
 }
 
+.result-row[hidden] {
+  display: none;
+}
+
 .result-row strong {
   color: #151b18;
   font-size: 28px;
@@ -223,8 +227,18 @@ canvas {
 }
 
 .result-breakdown strong {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
   color: #151b18;
   font-size: 26px;
+  line-height: 1;
+}
+
+.result-breakdown small {
+  font-size: 13px;
+  font-weight: 800;
   line-height: 1;
 }
 
