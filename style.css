@@ -409,9 +409,11 @@ canvas {
   }
 
   .start-button.is-compact {
-    top: auto;
     right: 10px;
-    bottom: 104px;
+    top: 10px;
+    min-width: 82px;
+    min-height: 38px;
+    font-size: 12px;
   }
 
   .continue-button {
@@ -462,6 +464,7 @@ canvas {
     left: 18px;
     z-index: 4;
     display: flex;
+    flex-direction: row-reverse;
     align-items: end;
     justify-content: space-between;
     pointer-events: none;
