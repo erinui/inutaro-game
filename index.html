@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sky Drop Collector Prototype</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <canvas id="game" width="960" height="540" aria-label="game canvas"></canvas>
+      <div class="hud" aria-hidden="true">
+        <div class="stat">
+          <span>ITEMS</span>
+          <strong id="score">0</strong>
+        </div>
+        <div class="stat">
+          <span>TIME</span>
+          <strong id="time">40</strong>
+        </div>
+      </div>
+      <button id="start" class="start-button" type="button">START</button>
+      <button id="continue" class="continue-button" type="button" hidden>NEXT</button>
+      <section id="result-panel" class="result-panel" aria-live="polite" hidden>
+        <span class="result-label">RESULT</span>
+        <strong id="result-title" class="result-title">CLEAR</strong>
+        <div class="result-summary">
+          <div class="result-row">
+            <span>TIME</span>
+            <strong id="result-time">0.0s</strong>
+          </div>
+          <div class="result-row result-total">
+            <span>TOTAL</span>
+            <strong id="result-total">0</strong>
+          </div>
+        </div>
+        <div class="result-breakdown">
+          <div>
+            <img src="assets/item_a.png" alt="" />
+            <strong id="result-a">0</strong>
+          </div>
+          <div>
+            <img src="assets/item_b.png" alt="" />
+            <strong id="result-b">0</strong>
+          </div>
+          <div>
+            <img src="assets/item_c.png" alt="" />
+            <strong id="result-c">0</strong>
+          </div>
+        </div>
+        <button id="restart" class="restart-button" type="button">RESTART</button>
+      </section>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>
