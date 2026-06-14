@@ -18,8 +18,6 @@ const saveResultButton = document.querySelector("#save-result");
 const shareOpenButton = document.querySelector("#share-open");
 const sharePanel = document.querySelector("#share-panel");
 const shareNativeButton = document.querySelector("#share-native");
-const shareXLink = document.querySelector("#share-x");
-const shareLineLink = document.querySelector("#share-line");
 const copyUrlButton = document.querySelector("#copy-url");
 const shareStatusEl = document.querySelector("#share-status");
 const profileOpenButton = document.querySelector("#profile-open");
@@ -212,7 +210,6 @@ function showResult() {
   sharePanel.hidden = true;
   profilePanel.hidden = true;
   setShareStatus("");
-  updateShareLinks();
   resultPanel.hidden = false;
 }
 
@@ -228,12 +225,6 @@ function resultText() {
   }
 
   return `犬タローの虫さんまってまってで ${total} 捕まえたよ！`;
-}
-
-function updateShareLinks() {
-  const text = resultText();
-  shareXLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(gameUrl)}`;
-  shareLineLink.href = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(gameUrl)}&text=${encodeURIComponent(text)}`;
 }
 
 function spawnItem(now) {
