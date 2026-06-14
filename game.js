@@ -38,7 +38,7 @@ const itemImages = {
 const itemTypes = [
   { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
   { key: "b", label: "B", motion: "flutter", radius: 34, spriteSize: 126, color: "#d9bd42", glow: "rgba(240, 200, 90, 0.18)", speed: 148 },
-  { key: "c", label: "C", motion: "dragonfly", radius: 30, spriteSize: 118, color: "#74a6cf", glow: "rgba(116, 166, 207, 0.22)", speed: 285 },
+  { key: "c", label: "C", motion: "dragonfly", radius: 30, spriteSize: 118, color: "#74a6cf", glow: "rgba(116, 166, 207, 0.22)", speed: 340 },
 ];
 
 const hazardTypes = [
@@ -228,17 +228,17 @@ function spawnItem(now) {
   } else if (type.motion === "flutter") {
     const airLaneCount = v.w < 620 ? 3 : 4;
     const airLane = Math.floor(Math.random() * airLaneCount);
-    const airTop = v.skyLine + v.h * 0.19;
-    const airBottom = v.floorY - v.h * 0.24;
+    const airTop = Math.max(v.skyLine + v.h * 0.19, reachable.top - wave);
+    const airBottom = Math.max(airTop, reachable.bottom - wave * 0.45);
     y = airTop + ((airLane + 0.5) / airLaneCount) * Math.max(60, airBottom - airTop);
-    y = clamp(y, reachable.top - wave, reachable.bottom - wave);
+    y = clamp(y, reachable.top - wave, airBottom);
   } else if (type.motion === "dragonfly") {
     const airLaneCount = v.w < 620 ? 3 : 4;
     const airLane = Math.floor(Math.random() * airLaneCount);
-    const airTop = v.skyLine + v.h * 0.16;
-    const airBottom = v.floorY - v.h * 0.31;
+    const airTop = Math.max(v.skyLine + v.h * 0.16, reachable.top);
+    const airBottom = Math.max(airTop, reachable.bottom - spriteSize * 0.1);
     y = airTop + ((airLane + 0.5) / airLaneCount) * Math.max(60, airBottom - airTop);
-    y = clamp(y, reachable.top + spriteSize * 0.08, reachable.bottom - spriteSize * 0.08);
+    y = clamp(y, reachable.top, airBottom);
   }
 
   state.items.push({
@@ -252,7 +252,7 @@ function spawnItem(now) {
     wave,
     phase: Math.random() * Math.PI * 2,
     hoverUntil: 0,
-    nextHoverAt: type.motion === "dragonfly" ? now + 900 + Math.random() * 1400 : 0,
+    nextHoverAt: type.motion === "dragonfly" ? now + 650 + Math.random() * 1000 : 0,
     burstUntil: 0,
     bornAt: now,
     hit: false,
@@ -452,12 +452,12 @@ function update(dt, now) {
         speed = 0;
       } else {
         if (item.nextHoverAt && now >= item.nextHoverAt) {
-          item.hoverUntil = now + 280 + Math.random() * 440;
-          item.burstUntil = item.hoverUntil + 320 + Math.random() * 260;
-          item.nextHoverAt = now + 1500 + Math.random() * 2300;
+          item.hoverUntil = now + 360 + Math.random() * 560;
+          item.burstUntil = item.hoverUntil + 420 + Math.random() * 420;
+          item.nextHoverAt = now + 950 + Math.random() * 1500;
           speed = 0;
         } else if (item.burstUntil > now) {
-          speed *= 1.85;
+          speed *= 2.35;
         }
       }
     }
