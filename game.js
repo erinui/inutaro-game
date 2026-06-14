@@ -15,7 +15,7 @@ const restartButton = document.querySelector("#restart");
 
 const durationSeconds = 40;
 
-const backgroundImage = loadImage("assets/bg.jpg");
+const backgroundImage = loadImage("assets/bg.jpg?v=20260614-bg");
 
 const playerImages = {
   idle: loadImage("assets/player_idle.png"),
