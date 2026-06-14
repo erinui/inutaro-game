@@ -162,7 +162,7 @@ canvas {
 }
 
 .result-label,
-.result-summary span {
+.result-row > span {
   color: #5f6a64;
   font-size: 12px;
   font-weight: 800;
