@@ -528,7 +528,11 @@ function collide(now) {
     if (item.hit) {
       continue;
     }
-    const caught = rectsOverlap(player.catch, itemHitBox(item));
+    const caught =
+      item.x > player.catch.left &&
+      item.x < player.catch.right &&
+      item.y > player.catch.top &&
+      item.y < player.catch.bottom;
     if (caught) {
       item.hit = true;
       state.score += 1;
@@ -578,17 +582,6 @@ function spawnImpact(x, y, size, now, persist = false) {
 
 function rectsOverlap(a, b) {
   return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-}
-
-function itemHitBox(item) {
-  const halfWidth = item.motion === "dragonfly" ? item.spriteSize * 0.44 : item.radius;
-  const halfHeight = item.motion === "dragonfly" ? item.spriteSize * 0.22 : item.radius;
-  return {
-    left: item.x - halfWidth,
-    right: item.x + halfWidth,
-    top: item.y - halfHeight,
-    bottom: item.y + halfHeight,
-  };
 }
 
 function drawBackground(v, now) {
