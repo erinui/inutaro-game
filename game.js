@@ -23,6 +23,10 @@ const shareStatusEl = document.querySelector("#share-status");
 const profileOpenButton = document.querySelector("#profile-open");
 const profilePanel = document.querySelector("#profile-panel");
 const profileCloseButton = document.querySelector("#profile-close");
+const stickZone = document.querySelector("#stick-zone");
+const stickThumb = document.querySelector("#stick-thumb");
+const jumpButton = document.querySelector("#jump-button");
+const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: coarse)");
 
 const durationSeconds = 40;
 const gameUrl = "https://erinui.github.io/inutaro-game/";
@@ -103,6 +107,9 @@ const state = {
   floaters: [],
   damageShake: 0,
   keys: new Set(),
+  stickPointerId: null,
+  virtualStickX: 0,
+  virtualStickY: 0,
 };
 
 const jumpPhysics = {
@@ -407,6 +414,11 @@ function update(dt, now) {
   if (state.keys.has("ArrowRight") || state.keys.has("d")) {
     state.targetX += dt * 1.8;
     state.facing = -1;
+  }
+  const stickX = mobileControlsEnabled() ? state.virtualStickX : 0;
+  if (Math.abs(stickX) > 0.08) {
+    state.targetX += stickX * dt * 1.92;
+    state.facing = stickX > 0 ? -1 : 1;
   }
 
   state.targetX = Math.max(0, Math.min(1, state.targetX));
@@ -1128,14 +1140,87 @@ function setTargetFromClientX(clientX) {
   state.targetX = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 }
 
+function mobileControlsEnabled() {
+  return mobileControlsQuery.matches;
+}
+
+function updateStickFromPointer(event) {
+  const rect = stickZone.getBoundingClientRect();
+  const max = Math.max(24, Math.min(rect.width, rect.height) * 0.28);
+  const centerX = rect.left + rect.width * 0.5;
+  const centerY = rect.top + rect.height * 0.5;
+  const dx = clamp(event.clientX - centerX, -max, max);
+  const dy = clamp(event.clientY - centerY, -max, max);
+
+  state.virtualStickX = Math.abs(dx / max) < 0.08 ? 0 : dx / max;
+  state.virtualStickY = dy / max;
+  stickThumb.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+}
+
+function resetStick() {
+  state.stickPointerId = null;
+  state.virtualStickX = 0;
+  state.virtualStickY = 0;
+  stickZone.classList.remove("is-active");
+  stickThumb.style.transform = "";
+}
+
 canvas.addEventListener("pointermove", (event) => {
+  if (mobileControlsEnabled()) {
+    return;
+  }
   setTargetFromClientX(event.clientX);
 });
 
 canvas.addEventListener("pointerdown", (event) => {
+  if (mobileControlsEnabled()) {
+    return;
+  }
   canvas.setPointerCapture(event.pointerId);
   setTargetFromClientX(event.clientX);
   jump(event.timeStamp || performance.now());
+});
+
+stickZone.addEventListener("pointerdown", (event) => {
+  if (!mobileControlsEnabled()) {
+    return;
+  }
+  event.preventDefault();
+  state.stickPointerId = event.pointerId;
+  stickZone.setPointerCapture(event.pointerId);
+  stickZone.classList.add("is-active");
+  updateStickFromPointer(event);
+});
+
+stickZone.addEventListener("pointermove", (event) => {
+  if (!mobileControlsEnabled() || state.stickPointerId !== event.pointerId) {
+    return;
+  }
+  event.preventDefault();
+  updateStickFromPointer(event);
+});
+
+for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
+  stickZone.addEventListener(eventName, (event) => {
+    if (state.stickPointerId === event.pointerId) {
+      resetStick();
+    }
+  });
+}
+
+jumpButton.addEventListener("pointerdown", (event) => {
+  if (!mobileControlsEnabled()) {
+    return;
+  }
+  event.preventDefault();
+  event.stopPropagation();
+  jump(event.timeStamp || performance.now());
+});
+
+jumpButton.addEventListener("click", (event) => {
+  if (mobileControlsEnabled()) {
+    event.preventDefault();
+  }
 });
 
 window.addEventListener("keydown", (event) => {
@@ -1171,6 +1256,16 @@ profileCloseButton.addEventListener("click", () => {
   profilePanel.hidden = true;
 });
 window.addEventListener("resize", fitCanvas);
+const resetStickOnDesktop = () => {
+  if (!mobileControlsEnabled()) {
+    resetStick();
+  }
+};
+if (mobileControlsQuery.addEventListener) {
+  mobileControlsQuery.addEventListener("change", resetStickOnDesktop);
+} else {
+  mobileControlsQuery.addListener(resetStickOnDesktop);
+}
 
 fitCanvas();
 drawLoadingScreen(view());
