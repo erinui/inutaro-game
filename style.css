@@ -351,14 +351,18 @@ canvas {
   outline-offset: 2px;
 }
 
-.restart-button {
-  min-width: 132px;
-  min-height: 46px;
+.result-close-actions {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
   margin-top: 12px;
-  border: 0;
+}
+
+.restart-button,
+.end-button {
+  min-height: 46px;
   border-radius: 8px;
-  background: #1d2521;
-  color: #fff;
   cursor: pointer;
   font: inherit;
   font-size: 14px;
@@ -366,7 +370,20 @@ canvas {
   letter-spacing: 0;
 }
 
-.restart-button:focus-visible {
+.restart-button {
+  border: 0;
+  background: #1d2521;
+  color: #fff;
+}
+
+.end-button {
+  border: 1px solid rgba(29, 37, 33, 0.18);
+  background: rgba(255, 255, 255, 0.76);
+  color: #1d2521;
+}
+
+.restart-button:focus-visible,
+.end-button:focus-visible {
   outline: 3px solid #e3b657;
   outline-offset: 3px;
 }
