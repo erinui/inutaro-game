@@ -13,6 +13,7 @@ const resultAEl = document.querySelector("#result-a");
 const resultBEl = document.querySelector("#result-b");
 const resultCEl = document.querySelector("#result-c");
 const restartButton = document.querySelector("#restart");
+const endButton = document.querySelector("#end");
 const saveScreenButton = document.querySelector("#save-screen");
 const saveResultButton = document.querySelector("#save-result");
 const shareOpenButton = document.querySelector("#share-open");
@@ -176,6 +177,52 @@ function resetGame() {
   startButton.classList.add("is-compact");
   continueButton.hidden = true;
   resultPanel.hidden = true;
+}
+
+function showTitle() {
+  const now = performance.now();
+  state.running = false;
+  state.startedAt = 0;
+  state.lastTime = now;
+  state.score = 0;
+  state.endedAt = 0;
+  state.endReason = "";
+  state.resultPending = false;
+  state.resultRevealAt = 0;
+  state.continueVisible = false;
+  state.resultVisible = false;
+  state.itemCounts = { a: 0, b: 0, c: 0 };
+  state.timeLeft = durationSeconds;
+  state.playerX = 0.55;
+  state.targetX = 0.55;
+  state.facing = 1;
+  state.playerLift = 0;
+  state.playerLiftVelocity = 0;
+  state.grounded = true;
+  state.jumpSquash = 0;
+  state.catcherOpen = 0;
+  state.enemyX = 0.5;
+  state.enemyDirection = 1;
+  state.enemyBob = 0;
+  state.nextItemAt = 0;
+  state.nextHazardAt = 0;
+  state.itemBag = [];
+  state.items = [];
+  state.hazards = [];
+  state.impacts = [];
+  state.sparks = [];
+  state.floaters = [];
+  state.damageShake = 0;
+  scoreEl.textContent = "0";
+  timeEl.textContent = String(durationSeconds);
+  startButton.textContent = "START";
+  startButton.classList.remove("is-compact");
+  continueButton.hidden = true;
+  resultPanel.hidden = true;
+  sharePanel.hidden = true;
+  profilePanel.hidden = true;
+  setShareStatus("");
+  resetStick();
 }
 
 function finishGame(now, reason) {
@@ -1022,16 +1069,30 @@ function downloadBlob(blob, filename) {
   URL.revokeObjectURL(url);
 }
 
+async function saveImageBlob(blob, filename, successText) {
+  const file = new File([blob], filename, { type: "image/png" });
+  if (mobileControlsEnabled() && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+    await navigator.share({
+      title: "犬タローの虫さんまってまって",
+      text: "犬タローの虫さんまってまって",
+      files: [file],
+    });
+    setShareStatus("保存先を選択しました");
+    return;
+  }
+
+  downloadBlob(blob, filename);
+  setShareStatus(successText);
+}
+
 async function saveEndScreenCapture() {
   const blob = await canvasToBlob(createEndScreenCanvas());
-  downloadBlob(blob, "inutaro-screen.png");
-  setShareStatus("画面を保存しました");
+  await saveImageBlob(blob, "inutaro-screen.png", "画面を保存しました");
 }
 
 async function saveResultCapture() {
   const blob = await canvasToBlob(createResultCardCanvas());
-  downloadBlob(blob, "inutaro-result.png");
-  setShareStatus("リザルトを保存しました");
+  await saveImageBlob(blob, "inutaro-result.png", "リザルトを保存しました");
 }
 
 async function shareResult() {
@@ -1260,6 +1321,7 @@ window.addEventListener("keyup", (event) => {
 startButton.addEventListener("click", resetGame);
 continueButton.addEventListener("click", showResult);
 restartButton.addEventListener("click", resetGame);
+endButton.addEventListener("click", showTitle);
 saveScreenButton.addEventListener("click", () => runAction(saveEndScreenCapture));
 saveResultButton.addEventListener("click", () => runAction(saveResultCapture));
 shareOpenButton.addEventListener("click", () => {
