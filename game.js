@@ -152,6 +152,7 @@ function resetGame() {
   scoreEl.textContent = "0";
   timeEl.textContent = String(durationSeconds);
   startButton.textContent = "RESET";
+  startButton.classList.add("is-compact");
   continueButton.hidden = true;
   resultPanel.hidden = true;
 }
@@ -294,7 +295,8 @@ function spawnHazard(now) {
 }
 
 function jump(now) {
-  if (!state.running || !state.grounded) {
+  const canPreviewJump = !state.running && !state.startedAt;
+  if ((!state.running && !canPreviewJump) || !state.grounded) {
     return;
   }
 
