@@ -13,8 +13,21 @@ const resultAEl = document.querySelector("#result-a");
 const resultBEl = document.querySelector("#result-b");
 const resultCEl = document.querySelector("#result-c");
 const restartButton = document.querySelector("#restart");
+const saveScreenButton = document.querySelector("#save-screen");
+const saveResultButton = document.querySelector("#save-result");
+const shareOpenButton = document.querySelector("#share-open");
+const sharePanel = document.querySelector("#share-panel");
+const shareNativeButton = document.querySelector("#share-native");
+const shareXLink = document.querySelector("#share-x");
+const shareLineLink = document.querySelector("#share-line");
+const copyUrlButton = document.querySelector("#copy-url");
+const shareStatusEl = document.querySelector("#share-status");
+const profileOpenButton = document.querySelector("#profile-open");
+const profilePanel = document.querySelector("#profile-panel");
+const profileCloseButton = document.querySelector("#profile-close");
 
 const durationSeconds = 40;
+const gameUrl = "https://erinui.github.io/inutaro-game/";
 
 const backgroundImage = loadImage("assets/bg.jpg?v=20260614-bg");
 
@@ -196,12 +209,31 @@ function showResult() {
   resultAEl.textContent = String(state.itemCounts.a);
   resultBEl.textContent = String(state.itemCounts.b);
   resultCEl.textContent = String(state.itemCounts.c);
+  sharePanel.hidden = true;
+  profilePanel.hidden = true;
+  setShareStatus("");
+  updateShareLinks();
   resultPanel.hidden = false;
 }
 
 function survivedSeconds() {
   const end = state.endedAt || performance.now();
   return Math.min(durationSeconds, Math.max(0, (end - state.startedAt) / 1000));
+}
+
+function resultText() {
+  const total = `${state.score}ひき`;
+  if (state.endReason === "hazard") {
+    return `犬タローの虫さんまってまってで ${total} 捕まえたよ！${survivedSeconds().toFixed(1)}秒でゲームオーバー…もう一回！`;
+  }
+
+  return `犬タローの虫さんまってまってで ${total} 捕まえたよ！`;
+}
+
+function updateShareLinks() {
+  const text = resultText();
+  shareXLink.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(gameUrl)}`;
+  shareLineLink.href = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(gameUrl)}&text=${encodeURIComponent(text)}`;
 }
 
 function spawnItem(now) {
@@ -829,6 +861,213 @@ function drawGameOver(v, now) {
   ctx.restore();
 }
 
+function drawEndOverlay(targetCtx, width, height) {
+  targetCtx.save();
+  targetCtx.fillStyle = "rgba(255,255,255,0.52)";
+  targetCtx.fillRect(0, 0, width, height);
+  targetCtx.fillStyle = palettes.text;
+  targetCtx.textAlign = "center";
+  targetCtx.textBaseline = "middle";
+  targetCtx.font = `800 ${Math.max(46, width * 0.06)}px system-ui, sans-serif`;
+  targetCtx.fillText(state.endReason === "hazard" ? "GAME OVER" : "CLEAR", width / 2, height * 0.45);
+  targetCtx.restore();
+}
+
+function createEndScreenCanvas() {
+  const output = document.createElement("canvas");
+  output.width = canvas.width;
+  output.height = canvas.height;
+  const outputCtx = output.getContext("2d");
+  outputCtx.drawImage(canvas, 0, 0, output.width, output.height);
+  drawEndOverlay(outputCtx, output.width, output.height);
+  return output;
+}
+
+function createResultCardCanvas() {
+  const output = document.createElement("canvas");
+  output.width = 1200;
+  output.height = 630;
+  const card = output.getContext("2d");
+
+  card.fillStyle = "#dff2f2";
+  card.fillRect(0, 0, output.width, output.height);
+  if (backgroundImage.complete && backgroundImage.naturalWidth) {
+    drawCoverImageTo(card, backgroundImage, 0, 0, output.width, output.height);
+  }
+
+  card.fillStyle = "rgba(255,255,255,0.72)";
+  roundRectOn(card, 58, 54, 1084, 522, 28);
+  card.fill();
+
+  card.fillStyle = palettes.text;
+  card.textAlign = "left";
+  card.textBaseline = "alphabetic";
+  card.font = "800 52px system-ui, sans-serif";
+  card.fillText("犬タローの虫さんまってまって", 102, 130);
+
+  card.font = "900 82px system-ui, sans-serif";
+  card.fillText(state.endReason === "hazard" ? "GAME OVER" : "CLEAR", 102, 230);
+
+  if (playerImages.idle.complete && playerImages.idle.naturalWidth) {
+    card.drawImage(playerImages.idle, 790, 112, 230, 230);
+  }
+
+  card.fillStyle = "rgba(29,37,33,0.08)";
+  roundRectOn(card, 102, 280, 390, 136, 20);
+  card.fill();
+  card.fillStyle = "#5f6a64";
+  card.font = "800 24px system-ui, sans-serif";
+  card.fillText("TOTAL", 132, 322);
+  card.fillStyle = palettes.text;
+  card.font = "900 78px system-ui, sans-serif";
+  card.fillText(String(state.score), 132, 390);
+  card.font = "800 30px system-ui, sans-serif";
+  card.fillText("ひき", 132 + String(state.score).length * 48 + 10, 389);
+
+  if (state.endReason === "hazard") {
+    card.fillStyle = "#5f6a64";
+    card.font = "800 25px system-ui, sans-serif";
+    card.fillText(`${survivedSeconds().toFixed(1)}秒でゲームオーバー`, 522, 342);
+  }
+
+  const rows = [
+    { image: itemImages.a, count: state.itemCounts.a, x: 120 },
+    { image: itemImages.b, count: state.itemCounts.b, x: 284 },
+    { image: itemImages.c, count: state.itemCounts.c, x: 448 },
+  ];
+
+  for (const row of rows) {
+    card.fillStyle = "rgba(255,255,255,0.62)";
+    roundRectOn(card, row.x, 440, 128, 86, 18);
+    card.fill();
+    if (row.image.complete && row.image.naturalWidth) {
+      card.drawImage(row.image, row.x + 12, 451, 62, 62);
+    }
+    card.fillStyle = palettes.text;
+    card.font = "900 32px system-ui, sans-serif";
+    card.fillText(String(row.count), row.x + 78, 495);
+    card.font = "800 17px system-ui, sans-serif";
+    card.fillText("ひき", row.x + 78 + String(row.count).length * 20 + 5, 495);
+  }
+
+  card.fillStyle = "#5f6a64";
+  card.font = "800 24px system-ui, sans-serif";
+  card.fillText(gameUrl, 658, 502);
+
+  return output;
+}
+
+function drawCoverImageTo(targetCtx, image, x, y, width, height) {
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+  const sourceWidth = width / scale;
+  const sourceHeight = height / scale;
+  const sourceX = (image.naturalWidth - sourceWidth) * 0.5;
+  const sourceY = (image.naturalHeight - sourceHeight) * 0.5;
+  targetCtx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
+}
+
+function roundRectOn(targetCtx, x, y, w, h, r) {
+  targetCtx.beginPath();
+  targetCtx.moveTo(x + r, y);
+  targetCtx.arcTo(x + w, y, x + w, y + h, r);
+  targetCtx.arcTo(x + w, y + h, x, y + h, r);
+  targetCtx.arcTo(x, y + h, x, y, r);
+  targetCtx.arcTo(x, y, x + w, y, r);
+  targetCtx.closePath();
+}
+
+function canvasToBlob(sourceCanvas) {
+  return new Promise((resolve, reject) => {
+    sourceCanvas.toBlob((blob) => {
+      if (blob) {
+        resolve(blob);
+      } else {
+        reject(new Error("画像の作成に失敗しました"));
+      }
+    }, "image/png");
+  });
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+async function saveEndScreenCapture() {
+  const blob = await canvasToBlob(createEndScreenCanvas());
+  downloadBlob(blob, "inutaro-screen.png");
+  setShareStatus("画面を保存しました");
+}
+
+async function saveResultCapture() {
+  const blob = await canvasToBlob(createResultCardCanvas());
+  downloadBlob(blob, "inutaro-result.png");
+  setShareStatus("リザルトを保存しました");
+}
+
+async function shareResult() {
+  const screenBlob = await canvasToBlob(createEndScreenCanvas());
+  const resultBlob = await canvasToBlob(createResultCardCanvas());
+  const files = [
+    new File([screenBlob], "inutaro-screen.png", { type: "image/png" }),
+    new File([resultBlob], "inutaro-result.png", { type: "image/png" }),
+  ];
+  const shareData = {
+    title: "犬タローの虫さんまってまって",
+    text: resultText(),
+    url: gameUrl,
+    files,
+  };
+
+  if (navigator.canShare && navigator.canShare({ files })) {
+    await navigator.share(shareData);
+    setShareStatus("共有しました");
+    return;
+  }
+
+  if (navigator.share) {
+    await navigator.share({ title: shareData.title, text: shareData.text, url: shareData.url });
+    setShareStatus("共有しました");
+    return;
+  }
+
+  await copyGameUrl();
+}
+
+async function copyGameUrl() {
+  const text = `${resultText()}\n${gameUrl}`;
+  if (navigator.clipboard) {
+    await navigator.clipboard.writeText(text);
+  } else {
+    const input = document.createElement("textarea");
+    input.value = text;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.append(input);
+    input.select();
+    document.execCommand("copy");
+    input.remove();
+  }
+  setShareStatus("URLをコピーしました");
+}
+
+function setShareStatus(text) {
+  shareStatusEl.textContent = text;
+}
+
+function runAction(action) {
+  action().catch(() => {
+    setShareStatus("この環境では実行できませんでした");
+  });
+}
+
 function roundedRect(x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -906,6 +1145,23 @@ window.addEventListener("keyup", (event) => {
 startButton.addEventListener("click", resetGame);
 continueButton.addEventListener("click", showResult);
 restartButton.addEventListener("click", resetGame);
+saveScreenButton.addEventListener("click", () => runAction(saveEndScreenCapture));
+saveResultButton.addEventListener("click", () => runAction(saveResultCapture));
+shareOpenButton.addEventListener("click", () => {
+  sharePanel.hidden = !sharePanel.hidden;
+  profilePanel.hidden = true;
+  setShareStatus("");
+});
+shareNativeButton.addEventListener("click", () => runAction(shareResult));
+copyUrlButton.addEventListener("click", () => runAction(copyGameUrl));
+profileOpenButton.addEventListener("click", () => {
+  profilePanel.hidden = !profilePanel.hidden;
+  sharePanel.hidden = true;
+  setShareStatus("");
+});
+profileCloseButton.addEventListener("click", () => {
+  profilePanel.hidden = true;
+});
 window.addEventListener("resize", fitCanvas);
 
 fitCanvas();
