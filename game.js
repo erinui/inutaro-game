@@ -15,6 +15,8 @@ const restartButton = document.querySelector("#restart");
 
 const durationSeconds = 40;
 
+const backgroundImage = loadImage("assets/bg.jpg");
+
 const playerImages = {
   idle: loadImage("assets/player_idle.png"),
   jump: loadImage("assets/player_jump.png"),
@@ -545,6 +547,11 @@ function rectsOverlap(a, b) {
 }
 
 function drawBackground(v, now) {
+  if (backgroundImage.complete && backgroundImage.naturalWidth) {
+    drawCoverImage(backgroundImage, 0, 0, v.w, v.h);
+    return;
+  }
+
   const gradient = ctx.createLinearGradient(0, 0, 0, v.h);
   gradient.addColorStop(0, palettes.skyTop);
   gradient.addColorStop(1, palettes.skyBottom);
@@ -591,6 +598,16 @@ function drawBackground(v, now) {
     ctx.lineTo(x + 54, v.h);
     ctx.stroke();
   }
+}
+
+function drawCoverImage(image, x, y, width, height) {
+  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
+  const sourceWidth = width / scale;
+  const sourceHeight = height / scale;
+  const sourceX = (image.naturalWidth - sourceWidth) * 0.5;
+  const sourceY = (image.naturalHeight - sourceHeight) * 0.5;
+
+  ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
 }
 
 function drawEnemy(v, now) {
