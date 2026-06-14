@@ -143,7 +143,7 @@ canvas {
   left: 50%;
   top: 50%;
   display: grid;
-  width: min(92%, 386px);
+  width: min(92%, 430px);
   min-width: 320px;
   place-items: center;
   padding: 24px 26px 26px;
@@ -258,10 +258,93 @@ canvas {
   font-size: 17px;
 }
 
+.result-actions {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.result-actions button,
+.share-panel button,
+.share-panel a,
+.profile-panel button,
+.profile-panel a {
+  min-height: 38px;
+  border: 1px solid rgba(29, 37, 33, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #1d2521;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: none;
+}
+
+.result-actions button,
+.share-panel button,
+.share-panel a,
+.profile-panel button,
+.profile-panel a {
+  display: inline-grid;
+  place-items: center;
+}
+
+.share-panel {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.share-panel[hidden],
+.profile-panel[hidden] {
+  display: none;
+}
+
+.share-panel span {
+  grid-column: 1 / -1;
+  min-height: 16px;
+  color: #5f6a64;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.profile-panel {
+  display: grid;
+  width: 100%;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(29, 37, 33, 0.12);
+  text-align: center;
+}
+
+.profile-panel div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.result-actions button:focus-visible,
+.share-panel button:focus-visible,
+.share-panel a:focus-visible,
+.profile-panel button:focus-visible,
+.profile-panel a:focus-visible {
+  outline: 3px solid #e3b657;
+  outline-offset: 2px;
+}
+
 .restart-button {
   min-width: 132px;
   min-height: 46px;
-  margin-top: 16px;
+  margin-top: 12px;
   border: 0;
   border-radius: 8px;
   background: #1d2521;
@@ -328,7 +411,7 @@ canvas {
   .result-panel {
     width: calc(100% - 32px);
     min-width: 0;
-    padding: 20px;
+    padding: 18px;
   }
 
   .result-title {
@@ -351,5 +434,14 @@ canvas {
   .result-breakdown img {
     width: 44px;
     height: 44px;
+  }
+
+  .result-actions,
+  .share-panel {
+    gap: 6px;
+  }
+
+  .share-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
