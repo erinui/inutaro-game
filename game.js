@@ -100,6 +100,7 @@ const state = {
   enemyBob: 0,
   nextItemAt: 0,
   nextHazardAt: 0,
+  itemBag: [],
   items: [],
   hazards: [],
   impacts: [],
@@ -162,6 +163,7 @@ function resetGame() {
   state.enemyDirection = Math.random() < 0.5 ? -1 : 1;
   state.nextItemAt = now + 420;
   state.nextHazardAt = now + 1300 + Math.random() * 600;
+  state.itemBag = [];
   state.items = [];
   state.hazards = [];
   state.impacts = [];
@@ -237,8 +239,7 @@ function resultText() {
 
 function spawnItem(now) {
   const v = view();
-  const roll = Math.random();
-  const type = roll < 0.32 ? itemTypes[0] : roll < 0.82 ? itemTypes[1] : itemTypes[2];
+  const type = nextItemType();
   const laneCount = v.w < 620 ? 4 : 5;
   const lane = Math.floor(Math.random() * laneCount);
   const playableTop = v.floorY - Math.min(v.h * 0.43, 230);
@@ -285,6 +286,22 @@ function spawnItem(now) {
     bornAt: now,
     hit: false,
   });
+}
+
+function nextItemType() {
+  if (state.itemBag.length === 0) {
+    state.itemBag = shuffleItems([0, 1, 2, 0, 1, 2]);
+  }
+  return itemTypes[state.itemBag.pop()];
+}
+
+function shuffleItems(items) {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 }
 
 function reachableAirRange(v) {
