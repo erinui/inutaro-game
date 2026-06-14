@@ -257,12 +257,9 @@ function spawnItem(now) {
     y = airTop + ((airLane + 0.5) / airLaneCount) * Math.max(60, airBottom - airTop);
     y = clamp(y, reachable.top - wave, airBottom);
   } else if (type.motion === "dragonfly") {
-    const airLaneCount = v.w < 620 ? 3 : 4;
-    const airLane = Math.floor(Math.random() * airLaneCount);
-    const airTop = Math.max(v.skyLine + v.h * 0.16, reachable.top);
-    const airBottom = Math.max(airTop, reachable.bottom - spriteSize * 0.1);
-    y = airTop + ((airLane + 0.5) / airLaneCount) * Math.max(60, airBottom - airTop);
-    y = clamp(y, reachable.top, airBottom);
+    const dragonflyTop = reachable.apex;
+    const dragonflyBottom = dragonflyTop + (reachable.bottom - dragonflyTop) * 0.2;
+    y = dragonflyTop + Math.random() * Math.max(1, dragonflyBottom - dragonflyTop);
   }
 
   state.items.push({
@@ -290,7 +287,7 @@ function reachableAirRange(v) {
   const bottomOnGround = v.floorY + 10 - playerSize * 0.12;
   const top = topAtMaxJump + Math.max(12, v.h * 0.025);
   const bottom = bottomOnGround - Math.max(22, v.h * 0.05);
-  return { top, bottom: Math.max(top + 48, bottom) };
+  return { apex: topAtMaxJump, top, bottom: Math.max(top + 48, bottom) };
 }
 
 function clamp(value, min, max) {
