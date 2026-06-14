@@ -26,6 +26,7 @@ const profileCloseButton = document.querySelector("#profile-close");
 
 const durationSeconds = 40;
 const gameUrl = "https://erinui.github.io/inutaro-game/";
+const assetPromises = [];
 
 const backgroundImage = loadImage("assets/bg.jpg?v=20260614-bg");
 
@@ -1071,8 +1072,27 @@ function roundedRect(x, y, w, h, r) {
 
 function loadImage(src) {
   const image = new Image();
+  const ready = new Promise((resolve) => {
+    image.addEventListener("load", () => resolve(image), { once: true });
+    image.addEventListener("error", () => resolve(image), { once: true });
+  });
+  assetPromises.push(ready);
   image.src = src;
   return image;
+}
+
+function drawLoadingScreen(v) {
+  ctx.fillStyle = "#dff2f2";
+  ctx.fillRect(0, 0, v.w, v.h);
+
+  ctx.fillStyle = "rgba(255,255,255,0.62)";
+  ctx.beginPath();
+  ctx.ellipse(v.w * 0.16, v.h * 0.18, v.w * 0.1, v.h * 0.035, 0, 0, Math.PI * 2);
+  ctx.ellipse(v.w * 0.78, v.h * 0.22, v.w * 0.12, v.h * 0.04, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#abd8bf";
+  ctx.fillRect(0, v.h * 0.84, v.w, v.h * 0.16);
 }
 
 function frame(now) {
@@ -1156,5 +1176,8 @@ profileCloseButton.addEventListener("click", () => {
 window.addEventListener("resize", fitCanvas);
 
 fitCanvas();
-state.lastTime = performance.now();
-requestAnimationFrame(frame);
+drawLoadingScreen(view());
+Promise.all(assetPromises).then(() => {
+  state.lastTime = performance.now();
+  requestAnimationFrame(frame);
+});
