@@ -138,6 +138,10 @@ canvas {
   outline-offset: 3px;
 }
 
+.mobile-controls {
+  display: none;
+}
+
 .result-panel {
   position: absolute;
   left: 50%;
@@ -407,7 +411,7 @@ canvas {
   .start-button.is-compact {
     top: auto;
     right: 10px;
-    bottom: 10px;
+    bottom: 104px;
   }
 
   .continue-button {
@@ -448,4 +452,115 @@ canvas {
     gap: 6px;
   }
 
+}
+
+@media (max-width: 760px) and (pointer: coarse) {
+  .mobile-controls {
+    position: absolute;
+    right: 18px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    left: 18px;
+    z-index: 4;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    pointer-events: none;
+  }
+
+  .stick-zone,
+  .jump-button {
+    pointer-events: auto;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .stick-zone {
+    display: grid;
+    width: 126px;
+    height: 126px;
+    place-items: center;
+  }
+
+  .stick-base {
+    position: relative;
+    width: 102px;
+    height: 102px;
+    border: 1px solid rgba(29, 37, 33, 0.22);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.34);
+    box-shadow: inset 0 0 0 12px rgba(255, 255, 255, 0.24), 0 10px 22px rgba(29, 37, 33, 0.12);
+    backdrop-filter: blur(8px);
+  }
+
+  .stick-base::before,
+  .stick-base::after {
+    position: absolute;
+    top: 50%;
+    width: 22px;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(29, 37, 33, 0.32);
+    content: "";
+  }
+
+  .stick-base::before {
+    left: 18px;
+    transform: translateY(-50%);
+  }
+
+  .stick-base::after {
+    right: 18px;
+    transform: translateY(-50%);
+  }
+
+  .stick-thumb {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: block;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(29, 37, 33, 0.2);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 8px 16px rgba(29, 37, 33, 0.16);
+    transform: translate(-50%, -50%);
+    transition: transform 120ms ease-out;
+  }
+
+  .stick-zone.is-active .stick-thumb {
+    transition: none;
+  }
+
+  .jump-button {
+    display: grid;
+    width: 82px;
+    height: 82px;
+    place-items: center;
+    border: 1px solid rgba(29, 37, 33, 0.22);
+    border-radius: 50%;
+    background: rgba(29, 37, 33, 0.78);
+    box-shadow: 0 10px 22px rgba(29, 37, 33, 0.18);
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+    backdrop-filter: blur(8px);
+  }
+
+  .jump-button:active {
+    transform: translateY(1px) scale(0.98);
+  }
+
+  .result-panel {
+    z-index: 7;
+  }
+
+  .continue-button,
+  .start-button {
+    z-index: 6;
+  }
 }
