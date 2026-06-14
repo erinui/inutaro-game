@@ -82,8 +82,8 @@ canvas {
 
 .start-button {
   position: absolute;
-  right: 16px;
-  top: 16px;
+  left: 50%;
+  top: 54%;
   min-width: 96px;
   min-height: 44px;
   border: 0;
@@ -95,6 +95,14 @@ canvas {
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0;
+  transform: translate(-50%, -50%);
+}
+
+.start-button.is-compact {
+  left: auto;
+  right: 16px;
+  top: 16px;
+  transform: none;
 }
 
 .start-button:focus-visible {
@@ -194,6 +202,10 @@ canvas {
 }
 
 .result-total strong {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 3px;
   margin-top: 2px;
   color: #151b18;
   font-size: 52px;
@@ -236,10 +248,14 @@ canvas {
   line-height: 1;
 }
 
-.result-breakdown small {
+.count-unit {
   font-size: 13px;
   font-weight: 800;
   line-height: 1;
+}
+
+.result-total .count-unit {
+  font-size: 17px;
 }
 
 .restart-button {
@@ -299,7 +315,7 @@ canvas {
     font-size: 19px;
   }
 
-  .start-button {
+  .start-button.is-compact {
     top: auto;
     right: 10px;
     bottom: 10px;
