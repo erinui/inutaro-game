@@ -6,6 +6,7 @@ const startButton = document.querySelector("#start");
 const continueButton = document.querySelector("#continue");
 const resultPanel = document.querySelector("#result-panel");
 const resultTitleEl = document.querySelector("#result-title");
+const resultTimeRowEl = document.querySelector("#result-time-row");
 const resultTimeEl = document.querySelector("#result-time");
 const resultTotalEl = document.querySelector("#result-total");
 const resultAEl = document.querySelector("#result-a");
@@ -187,7 +188,9 @@ function showResult() {
   state.resultVisible = true;
   continueButton.hidden = true;
   resultTitleEl.textContent = state.endReason === "hazard" ? "GAME OVER" : "CLEAR";
-  resultTimeEl.textContent = `${survivedSeconds().toFixed(1)}s`;
+  const isGameOver = state.endReason === "hazard";
+  resultTimeRowEl.hidden = !isGameOver;
+  resultTimeEl.textContent = isGameOver ? `${survivedSeconds().toFixed(1)}s` : "";
   resultTotalEl.textContent = String(state.score);
   resultAEl.textContent = String(state.itemCounts.a);
   resultBEl.textContent = String(state.itemCounts.b);
