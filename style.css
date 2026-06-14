@@ -144,7 +144,11 @@ canvas {
   top: 50%;
   display: grid;
   width: min(92%, 430px);
+  max-height: min(88dvh, calc(100% - 32px));
   min-width: 320px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   place-items: center;
   padding: 24px 26px 26px;
   border: 1px solid rgba(29, 37, 33, 0.18);
@@ -155,6 +159,8 @@ canvas {
   transform-origin: center;
   animation: result-enter 340ms cubic-bezier(0.2, 0.86, 0.22, 1) both;
   backdrop-filter: blur(12px);
+  scrollbar-gutter: stable both-edges;
+  -webkit-overflow-scrolling: touch;
 }
 
 .result-panel[hidden] {
@@ -410,6 +416,7 @@ canvas {
 
   .result-panel {
     width: calc(100% - 32px);
+    max-height: calc(100% - 24px);
     min-width: 0;
     padding: 18px;
   }
