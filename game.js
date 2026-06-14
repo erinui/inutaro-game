@@ -264,7 +264,7 @@ function spawnItem(now) {
     y = airTop + ((airLane + 0.5) / airLaneCount) * Math.max(60, airBottom - airTop);
     y = clamp(y, reachable.top - wave, airBottom);
   } else if (type.motion === "dragonfly") {
-    const dragonflyTop = reachable.apex;
+    const dragonflyTop = reachable.top;
     const dragonflyBottom = dragonflyTop + (reachable.bottom - dragonflyTop) * 0.2;
     y = dragonflyTop + Math.random() * Math.max(1, dragonflyBottom - dragonflyTop);
   }
