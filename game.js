@@ -289,12 +289,17 @@ function spawnItem(now) {
 
 function reachableAirRange(v) {
   const playerSize = Math.min(v.h * 0.32, v.w < 620 ? 142 : 176);
-  const maxLift = v.h * jumpPhysics.maxHeightRatio;
+  const maxLift = maxPlayerLift(v);
   const topAtMaxJump = v.floorY + 10 - playerSize * 0.88 - maxLift;
   const bottomOnGround = v.floorY + 10 - playerSize * 0.12;
   const top = topAtMaxJump + Math.max(12, v.h * 0.025);
   const bottom = bottomOnGround - Math.max(22, v.h * 0.05);
   return { apex: topAtMaxJump, top, bottom: Math.max(top + 48, bottom) };
+}
+
+function maxPlayerLift(v) {
+  const physicsLift = (jumpPhysics.power * jumpPhysics.power) / (2 * jumpPhysics.gravity);
+  return Math.min(v.h * jumpPhysics.maxHeightRatio, physicsLift);
 }
 
 function clamp(value, min, max) {
@@ -431,7 +436,7 @@ function update(dt, now) {
   state.damageShake = Math.max(0, state.damageShake - dt * 42);
 
   if (!state.grounded) {
-    const maxLift = v.h * jumpPhysics.maxHeightRatio;
+    const maxLift = maxPlayerLift(v);
     state.playerLiftVelocity -= jumpPhysics.gravity * dt;
     state.playerLift += state.playerLiftVelocity * dt;
     if (state.playerLift >= maxLift && state.playerLiftVelocity > 0) {
