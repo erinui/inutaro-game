@@ -32,7 +32,7 @@ const jumpButton = document.querySelector("#jump-button");
 const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: coarse)");
 
 const durationSeconds = 40;
-const gameUrl = "https://erinui.github.io/inutaro-game/";
+const gameUrl = "https://erinui.github.io/inutaro-game/?share=20260616-ogp";
 const assetPromises = [];
 
 const backgroundImage = loadImage("assets/bg.jpg?v=20260614-bg");
