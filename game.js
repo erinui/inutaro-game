@@ -26,6 +26,8 @@ const profilePanel = document.querySelector("#profile-panel");
 const profileCloseButton = document.querySelector("#profile-close");
 const stickZone = document.querySelector("#stick-zone");
 const stickThumb = document.querySelector("#stick-thumb");
+const moveLeftButton = document.querySelector("#move-left");
+const moveRightButton = document.querySelector("#move-right");
 const jumpButton = document.querySelector("#jump-button");
 const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: coarse)");
 
@@ -477,16 +479,16 @@ function update(dt, now) {
   }
 
   if (state.keys.has("ArrowLeft") || state.keys.has("a")) {
-    state.targetX -= dt * 1.8;
+    state.targetX -= dt * 0.9;
     state.facing = 1;
   }
   if (state.keys.has("ArrowRight") || state.keys.has("d")) {
-    state.targetX += dt * 1.8;
+    state.targetX += dt * 0.9;
     state.facing = -1;
   }
   const stickX = mobileControlsEnabled() ? state.virtualStickX : 0;
   if (Math.abs(stickX) > 0.08) {
-    state.targetX += stickX * dt * 1.92;
+    state.targetX += stickX * dt * 0.96;
     state.facing = stickX > 0 ? -1 : 1;
   }
 
@@ -494,7 +496,7 @@ function update(dt, now) {
   if (Math.abs(state.targetX - state.playerX) > 0.006) {
     state.facing = state.targetX > state.playerX ? -1 : 1;
   }
-  state.playerX += (state.targetX - state.playerX) * Math.min(1, dt * 12);
+  state.playerX += (state.targetX - state.playerX) * Math.min(1, dt * 6);
   state.catcherOpen = Math.max(0, state.catcherOpen - dt * 3.2);
   state.jumpSquash += (0 - state.jumpSquash) * Math.min(1, dt * 10);
   state.damageShake = Math.max(0, state.damageShake - dt * 42);
@@ -1228,6 +1230,9 @@ function mobileControlsEnabled() {
 }
 
 function updateStickFromPointer(event) {
+  if (!stickZone || !stickThumb) {
+    return;
+  }
   const rect = stickZone.getBoundingClientRect();
   const max = Math.max(24, Math.min(rect.width, rect.height) * 0.28);
   const centerX = rect.left + rect.width * 0.5;
@@ -1244,8 +1249,10 @@ function resetStick() {
   state.stickPointerId = null;
   state.virtualStickX = 0;
   state.virtualStickY = 0;
-  stickZone.classList.remove("is-active");
-  stickThumb.style.transform = "";
+  stickZone?.classList.remove("is-active");
+  stickThumb?.style.removeProperty("transform");
+  moveLeftButton?.classList.remove("is-active");
+  moveRightButton?.classList.remove("is-active");
 }
 
 canvas.addEventListener("pointermove", (event) => {
@@ -1264,32 +1271,62 @@ canvas.addEventListener("pointerdown", (event) => {
   jump(event.timeStamp || performance.now());
 });
 
-stickZone.addEventListener("pointerdown", (event) => {
-  if (!mobileControlsEnabled()) {
-    return;
-  }
-  event.preventDefault();
-  state.stickPointerId = event.pointerId;
-  stickZone.setPointerCapture(event.pointerId);
-  stickZone.classList.add("is-active");
-  updateStickFromPointer(event);
-});
-
-stickZone.addEventListener("pointermove", (event) => {
-  if (!mobileControlsEnabled() || state.stickPointerId !== event.pointerId) {
-    return;
-  }
-  event.preventDefault();
-  updateStickFromPointer(event);
-});
-
-for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
-  stickZone.addEventListener(eventName, (event) => {
-    if (state.stickPointerId === event.pointerId) {
-      resetStick();
+if (stickZone) {
+  stickZone.addEventListener("pointerdown", (event) => {
+    if (!mobileControlsEnabled()) {
+      return;
     }
+    event.preventDefault();
+    state.stickPointerId = event.pointerId;
+    stickZone.setPointerCapture(event.pointerId);
+    stickZone.classList.add("is-active");
+    updateStickFromPointer(event);
   });
+
+  stickZone.addEventListener("pointermove", (event) => {
+    if (!mobileControlsEnabled() || state.stickPointerId !== event.pointerId) {
+      return;
+    }
+    event.preventDefault();
+    updateStickFromPointer(event);
+  });
+
+  for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
+    stickZone.addEventListener(eventName, (event) => {
+      if (state.stickPointerId === event.pointerId) {
+        resetStick();
+      }
+    });
+  }
 }
+
+function bindMoveButton(button, direction) {
+  if (!button) {
+    return;
+  }
+
+  button.addEventListener("pointerdown", (event) => {
+    if (!mobileControlsEnabled()) {
+      return;
+    }
+    event.preventDefault();
+    state.stickPointerId = event.pointerId;
+    state.virtualStickX = direction;
+    button.setPointerCapture(event.pointerId);
+    button.classList.add("is-active");
+  });
+
+  for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
+    button.addEventListener(eventName, (event) => {
+      if (state.stickPointerId === event.pointerId && state.virtualStickX === direction) {
+        resetStick();
+      }
+    });
+  }
+}
+
+bindMoveButton(moveLeftButton, -1);
+bindMoveButton(moveRightButton, 1);
 
 jumpButton.addEventListener("pointerdown", (event) => {
   if (!mobileControlsEnabled()) {
