@@ -433,22 +433,25 @@ function spawnSparks(x, y, now, color, count) {
 }
 
 function spawnTwinkles(x, y, now) {
-  const colors = ["#fff7b8", "#ffe06f", "#ffffff", "#ffd2f2"];
-  for (let i = 0; i < 22; i += 1) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = 46 + Math.random() * 155;
+  const offsets = [
+    { x: -18, y: -10, vx: -16, vy: -32, size: 9, kind: "cross" },
+    { x: 4, y: -22, vx: 2, vy: -38, size: 12, kind: "diamond" },
+    { x: 20, y: 2, vx: 18, vy: -24, size: 8, kind: "cross" },
+  ];
+  for (const sparkle of offsets) {
     state.sparks.push({
       kind: "twinkle",
-      x,
-      y,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 36,
-      size: 5 + Math.random() * 9,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      rotation: Math.random() * Math.PI,
-      spin: (Math.random() - 0.5) * 8,
+      shape: sparkle.kind,
+      x: x + sparkle.x,
+      y: y + sparkle.y,
+      vx: sparkle.vx,
+      vy: sparkle.vy,
+      size: sparkle.size,
+      color: "#ffd84d",
+      rotation: sparkle.kind === "diamond" ? Math.PI / 4 : 0,
+      spin: sparkle.kind === "diamond" ? 1.4 : 0,
       bornAt: now,
-      life: 0.46 + Math.random() * 0.28,
+      life: 0.38,
     });
   }
 }
@@ -939,34 +942,36 @@ function drawSparks(now) {
 
 function drawTwinkle(spark, age, alpha) {
   const pulse = Math.sin(Math.min(1, age / spark.life) * Math.PI);
-  const size = spark.size * (0.72 + pulse * 1.05);
+  const size = spark.size * (0.78 + pulse * 0.38);
 
   ctx.save();
   ctx.translate(spark.x, spark.y);
   ctx.rotate(spark.rotation);
-  ctx.globalCompositeOperation = "lighter";
-  ctx.globalAlpha = alpha * (0.72 + pulse * 0.28);
-  ctx.shadowColor = spark.color;
-  ctx.shadowBlur = size * 1.6;
-  ctx.strokeStyle = spark.color;
-  ctx.lineWidth = Math.max(1.4, size * 0.18);
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.moveTo(-size * 1.35, 0);
-  ctx.lineTo(size * 1.35, 0);
-  ctx.moveTo(0, -size * 1.35);
-  ctx.lineTo(0, size * 1.35);
-  ctx.stroke();
-
-  ctx.rotate(Math.PI / 4);
+  ctx.globalAlpha = alpha * 0.82;
   ctx.fillStyle = spark.color;
+  ctx.strokeStyle = spark.color;
+  ctx.lineCap = "round";
+
+  if (spark.shape === "diamond") {
+    ctx.beginPath();
+    ctx.moveTo(0, -size);
+    ctx.lineTo(size * 0.58, 0);
+    ctx.lineTo(0, size);
+    ctx.lineTo(-size * 0.58, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+    return;
+  }
+
+  ctx.strokeStyle = spark.color;
+  ctx.lineWidth = Math.max(1.6, size * 0.22);
   ctx.beginPath();
+  ctx.moveTo(-size, 0);
+  ctx.lineTo(size, 0);
   ctx.moveTo(0, -size);
-  ctx.lineTo(size * 0.33, 0);
   ctx.lineTo(0, size);
-  ctx.lineTo(-size * 0.33, 0);
-  ctx.closePath();
-  ctx.fill();
+  ctx.stroke();
   ctx.restore();
 }
 
