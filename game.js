@@ -73,6 +73,7 @@ const soundEffects = {
   hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.66, { maxDuration: 0.32, minInterval: 120 }),
 };
 let audioContext = null;
+let soundUnlocked = false;
 
 const itemTypes = [
   { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
@@ -1335,18 +1336,25 @@ function playSound(name) {
 
   const context = getAudioContext();
   if (context) {
-    if (context.state === "suspended") {
-      context.resume().catch(() => {});
-    }
+    const playPreparedSound = () => {
+      if (sound.buffer) {
+        playBufferedSound(context, sound);
+        return;
+      }
 
-    if (sound.buffer) {
-      playBufferedSound(context, sound);
-    } else {
-      prepareSound(sound).then(() => {
-        if (sound.buffer) {
+      prepareSound(sound).then((buffer) => {
+        if (buffer) {
           playBufferedSound(context, sound);
+        } else {
+          playFallbackSound(sound);
         }
       });
+    };
+
+    if (context.state === "suspended") {
+      context.resume().then(playPreparedSound).catch(() => playFallbackSound(sound));
+    } else {
+      playPreparedSound();
     }
     return;
   }
@@ -1355,16 +1363,23 @@ function playSound(name) {
 }
 
 function unlockSounds() {
+  if (soundUnlocked) {
+    return;
+  }
+  soundUnlocked = true;
+
   const context = getAudioContext();
   if (context && context.state === "suspended") {
     context.resume().catch(() => {});
   }
+  playSilentUnlockBuffer(context);
 
   for (const sound of Object.values(soundEffects)) {
     prepareSound(sound);
     for (const fallback of sound.fallbackPool) {
       try {
         fallback.load();
+        unlockFallbackAudio(fallback);
       } catch {}
     }
   }
@@ -1402,13 +1417,26 @@ function prepareSound(sound) {
 
   sound.loading = fetch(sound.src)
     .then((response) => response.arrayBuffer())
-    .then((data) => context.decodeAudioData(data))
+    .then((data) => decodeSoundData(context, data))
     .then((buffer) => {
       sound.buffer = buffer;
       return buffer;
     })
     .catch(() => null);
   return sound.loading;
+}
+
+function decodeSoundData(context, data) {
+  return new Promise((resolve, reject) => {
+    const promise = context.decodeAudioData(
+      data.slice(0),
+      (buffer) => resolve(buffer),
+      (error) => reject(error),
+    );
+    if (promise) {
+      promise.then(resolve).catch(reject);
+    }
+  });
 }
 
 function playBufferedSound(context, sound) {
@@ -1421,6 +1449,44 @@ function playBufferedSound(context, sound) {
   source.start();
   if (sound.maxDuration) {
     source.stop(context.currentTime + sound.maxDuration);
+  }
+}
+
+function playSilentUnlockBuffer(context) {
+  if (!context) {
+    return;
+  }
+
+  try {
+    const source = context.createBufferSource();
+    source.buffer = context.createBuffer(1, 1, 22050);
+    source.connect(context.destination);
+    source.start(0);
+  } catch {}
+}
+
+function unlockFallbackAudio(audio) {
+  const wasMuted = audio.muted;
+  try {
+    audio.muted = true;
+    const playback = audio.play();
+    if (playback) {
+      playback
+        .then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.muted = wasMuted;
+        })
+        .catch(() => {
+          audio.muted = wasMuted;
+        });
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.muted = wasMuted;
+    }
+  } catch {
+    audio.muted = wasMuted;
   }
 }
 
@@ -1658,7 +1724,8 @@ window.addEventListener("keyup", (event) => {
   state.keys.delete(event.key);
 });
 
-document.addEventListener("pointerdown", unlockSounds, { once: true });
+document.addEventListener("pointerdown", unlockSounds, { once: true, capture: true });
+document.addEventListener("touchstart", unlockSounds, { once: true, capture: true, passive: true });
 document.addEventListener("keydown", unlockSounds, { once: true });
 
 startButton.addEventListener("click", resetGame);
