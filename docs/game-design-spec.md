@@ -336,7 +336,7 @@ GitHub Pagesやブラウザのキャッシュで古いJavaScript/CSSが残らな
 
 現在の公開確認版:
 
-- `style.css?v=20260616-sp-control`
+- `style.css?v=20260616-sp-control2`
 - `game.js?v=20260615-hazard-tune`
 
 ## 11. 素材一覧
