@@ -363,6 +363,9 @@ GitHub Pagesやブラウザのキャッシュで古いJavaScript/CSSが残らな
 | `assets/item_a.png` | カタツムリ |
 | `assets/item_b.png` | 蝶 |
 | `assets/item_c.png` | トンボ |
+| `assets/favicon.png` | ブラウザタブ用アイコン |
+| `assets/apple-touch-icon.png` | iOSホーム画面用アイコン |
+| `assets/icon-192.png` | 汎用アプリアイコン |
 | `assets/sound_jump.mp3` | ジャンプ効果音 |
 | `assets/sound_itemget.mp3` | アイテム取得効果音 |
 | `assets/sound_hazard-hit.mp3` | お邪魔命中効果音 |
@@ -413,6 +416,7 @@ GitHub Pagesで公開しています。
 | 2026-06-16 | SPでのダブルタップ拡大、長押しメニュー、テキスト選択、ドラッグ開始を抑制 |
 | 2026-06-16 | ジャンプ時とお邪魔命中時の効果音をローカル実装 |
 | 2026-06-16 | アイテム取得時の効果音をローカル実装 |
+| 2026-06-16 | ブラウザタブとホーム画面用のアイコン画像をローカル実装 |
 
 ## 14. 今後の拡張案
 
