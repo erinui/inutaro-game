@@ -419,6 +419,7 @@ function addFloater(text, x, y, color) {
 function spawnSparks(x, y, now, color, count) {
   for (let i = 0; i < count; i += 1) {
     state.sparks.push({
+      kind: "dust",
       x,
       y,
       vx: (Math.random() - 0.5) * 150,
@@ -427,6 +428,27 @@ function spawnSparks(x, y, now, color, count) {
       color,
       bornAt: now,
       life: 0.34 + Math.random() * 0.2,
+    });
+  }
+}
+
+function spawnTwinkles(x, y, now) {
+  const colors = ["#fff7b8", "#ffe06f", "#ffffff", "#ffd2f2"];
+  for (let i = 0; i < 22; i += 1) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 46 + Math.random() * 155;
+    state.sparks.push({
+      kind: "twinkle",
+      x,
+      y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 36,
+      size: 5 + Math.random() * 9,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * Math.PI,
+      spin: (Math.random() - 0.5) * 8,
+      bornAt: now,
+      life: 0.46 + Math.random() * 0.28,
     });
   }
 }
@@ -578,7 +600,13 @@ function update(dt, now) {
   for (const spark of state.sparks) {
     spark.x += spark.vx * dt;
     spark.y += spark.vy * dt;
-    spark.vy += 250 * dt;
+    if (spark.kind === "twinkle") {
+      spark.vx *= Math.max(0, 1 - dt * 1.6);
+      spark.vy *= Math.max(0, 1 - dt * 1.6);
+      spark.rotation += spark.spin * dt;
+    } else {
+      spark.vy += 250 * dt;
+    }
   }
   for (const floater of state.floaters) {
     floater.y -= 9 * dt;
@@ -610,8 +638,8 @@ function collide(now) {
       state.itemCounts[item.key] += 1;
       state.catcherOpen = 1;
       scoreEl.textContent = String(state.score);
-      addFloater("+1", player.x, player.y + player.h * 0.1, item.color);
-      spawnSparks(item.x, item.y, now, item.color, 8);
+      addFloater("+1", player.x, player.y + player.h * 0.1, "#d39b24");
+      spawnTwinkles(item.x, item.y, now);
     }
   }
 
@@ -896,12 +924,49 @@ function drawSparks(now) {
   for (const spark of state.sparks) {
     const age = (now - spark.bornAt) * 0.001;
     const alpha = Math.max(0, 1 - age / spark.life);
-    ctx.globalAlpha = alpha * 0.68;
-    ctx.fillStyle = spark.color;
-    ctx.beginPath();
-    ctx.ellipse(spark.x, spark.y, spark.size * (1 + age * 1.8), spark.size * 0.66, 0, 0, Math.PI * 2);
-    ctx.fill();
+    if (spark.kind === "twinkle") {
+      drawTwinkle(spark, age, alpha);
+    } else {
+      ctx.globalAlpha = alpha * 0.68;
+      ctx.fillStyle = spark.color;
+      ctx.beginPath();
+      ctx.ellipse(spark.x, spark.y, spark.size * (1 + age * 1.8), spark.size * 0.66, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
+  ctx.restore();
+}
+
+function drawTwinkle(spark, age, alpha) {
+  const pulse = Math.sin(Math.min(1, age / spark.life) * Math.PI);
+  const size = spark.size * (0.72 + pulse * 1.05);
+
+  ctx.save();
+  ctx.translate(spark.x, spark.y);
+  ctx.rotate(spark.rotation);
+  ctx.globalCompositeOperation = "lighter";
+  ctx.globalAlpha = alpha * (0.72 + pulse * 0.28);
+  ctx.shadowColor = spark.color;
+  ctx.shadowBlur = size * 1.6;
+  ctx.strokeStyle = spark.color;
+  ctx.lineWidth = Math.max(1.4, size * 0.18);
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(-size * 1.35, 0);
+  ctx.lineTo(size * 1.35, 0);
+  ctx.moveTo(0, -size * 1.35);
+  ctx.lineTo(0, size * 1.35);
+  ctx.stroke();
+
+  ctx.rotate(Math.PI / 4);
+  ctx.fillStyle = spark.color;
+  ctx.beginPath();
+  ctx.moveTo(0, -size);
+  ctx.lineTo(size * 0.33, 0);
+  ctx.lineTo(0, size);
+  ctx.lineTo(-size * 0.33, 0);
+  ctx.closePath();
+  ctx.fill();
   ctx.restore();
 }
 
