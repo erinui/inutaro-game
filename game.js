@@ -1325,6 +1325,44 @@ function resetStick() {
   moveRightButton?.classList.remove("is-active");
 }
 
+function eventInGameShell(event) {
+  return event.target instanceof Element && Boolean(event.target.closest(".game-shell"));
+}
+
+for (const eventName of ["contextmenu", "selectstart", "dragstart"]) {
+  document.addEventListener(eventName, (event) => {
+    if (eventInGameShell(event)) {
+      event.preventDefault();
+    }
+  });
+}
+
+for (const eventName of ["gesturestart", "gesturechange", "gestureend"]) {
+  document.addEventListener(
+    eventName,
+    (event) => {
+      event.preventDefault();
+    },
+    { passive: false },
+  );
+}
+
+let lastTouchEndAt = 0;
+document.addEventListener(
+  "touchend",
+  (event) => {
+    if (!eventInGameShell(event)) {
+      return;
+    }
+    const now = Date.now();
+    if (now - lastTouchEndAt < 320) {
+      event.preventDefault();
+    }
+    lastTouchEndAt = now;
+  },
+  { passive: false },
+);
+
 canvas.addEventListener("pointermove", (event) => {
   if (mobileControlsEnabled()) {
     return;
