@@ -8,7 +8,7 @@
       name="description"
       content="犬タローを操作して、制限時間内に虫さんを集めるブラウザゲームです。お邪魔に当たるとゲームオーバー。"
     />
-    <link rel="stylesheet" href="style.css?v=20260615-end-save" />
+    <link rel="stylesheet" href="style.css?v=20260615-move-speed" />
   </head>
   <body>
     <main class="game-shell">
@@ -26,10 +26,9 @@
       <button id="start" class="start-button" type="button">START</button>
       <button id="continue" class="continue-button" type="button" hidden>RESULT</button>
       <div id="mobile-controls" class="mobile-controls">
-        <div id="stick-zone" class="stick-zone" role="application" aria-label="左右移動スティック">
-          <div class="stick-base">
-            <span id="stick-thumb" class="stick-thumb"></span>
-          </div>
+        <div id="move-buttons" class="move-buttons" role="group" aria-label="左右移動">
+          <button id="move-left" class="move-button" type="button" aria-label="左へ移動">←</button>
+          <button id="move-right" class="move-button" type="button" aria-label="右へ移動">→</button>
         </div>
         <button id="jump-button" class="jump-button" type="button" aria-label="ジャンプ">↑</button>
       </div>
@@ -84,6 +83,6 @@
         </div>
       </section>
     </main>
-    <script src="game.js?v=20260615-end-save"></script>
+    <script src="game.js?v=20260615-move-speed"></script>
   </body>
 </html>
