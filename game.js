@@ -61,7 +61,7 @@ const itemTypes = [
 ];
 
 const hazardTypes = [
-  { label: "!", width: 38, height: 54, spriteSize: 144, impactSize: 220, color: "#df7367", speed: 215 },
+  { label: "!", width: 34.2, height: 48.6, spriteSize: 129.6, impactSize: 220, color: "#df7367", speed: 236.5 },
 ];
 
 const palettes = {
