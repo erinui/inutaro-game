@@ -54,6 +54,12 @@ const itemImages = {
   c: loadImage("assets/item_c.png"),
 };
 
+const soundEffects = {
+  jump: loadSound("assets/sound_jump.mp3", 0.52),
+  itemGet: loadSound("assets/sound_itemget.mp3", 0.58),
+  hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.68),
+};
+
 const itemTypes = [
   { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
   { key: "b", label: "B", motion: "flutter", radius: 34, spriteSize: 126, color: "#d9bd42", glow: "rgba(240, 200, 90, 0.18)", speed: 148 },
@@ -402,6 +408,7 @@ function jump(now) {
   state.grounded = false;
   state.playerLiftVelocity = jumpPhysics.power;
   state.jumpSquash = -0.14;
+  playSound("jump");
   spawnSparks(playerPosition(view()).x, view().floorY + 4, now, "#f4eddb", 10);
 }
 
@@ -643,6 +650,7 @@ function collide(now) {
       scoreEl.textContent = String(state.score);
       addFloater("+1", player.x, player.y + player.h * 0.1, "#d39b24");
       spawnTwinkles(item.x, item.y, now);
+      playSound("itemGet");
     }
   }
 
@@ -662,6 +670,7 @@ function collide(now) {
       state.jumpSquash = 0.22;
       spawnImpact(hazard.x, Math.min(hazard.y + hazard.height * 0.34, player.body.bottom), hazard.impactSize, now, true);
       addFloater("OUT", player.x, player.y + player.h * 0.24, palettes.danger);
+      playSound("hazardHit");
       finishGame(now, "hazard");
       return;
     } else if (hazard.y + hazard.height * 0.5 >= v.floorY) {
@@ -1245,6 +1254,38 @@ function loadImage(src) {
   return image;
 }
 
+function loadSound(src, volume) {
+  const audio = new Audio(src);
+  audio.preload = "auto";
+  audio.volume = volume;
+  return audio;
+}
+
+function playSound(name) {
+  const sound = soundEffects[name];
+  if (!sound) {
+    return;
+  }
+
+  try {
+    sound.currentTime = 0;
+    const playback = sound.play();
+    if (playback) {
+      playback.catch(() => {});
+    }
+  } catch {
+    // Audio playback can be blocked until the first user gesture.
+  }
+}
+
+function unlockSounds() {
+  for (const sound of Object.values(soundEffects)) {
+    try {
+      sound.load();
+    } catch {}
+  }
+}
+
 function drawLoadingScreen(v) {
   ctx.fillStyle = "#dff2f2";
   ctx.fillRect(0, 0, v.w, v.h);
@@ -1462,6 +1503,9 @@ window.addEventListener("keydown", (event) => {
 window.addEventListener("keyup", (event) => {
   state.keys.delete(event.key);
 });
+
+document.addEventListener("pointerdown", unlockSounds, { once: true });
+document.addEventListener("keydown", unlockSounds, { once: true });
 
 startButton.addEventListener("click", resetGame);
 continueButton.addEventListener("click", showResult);
