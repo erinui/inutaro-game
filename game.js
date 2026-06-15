@@ -68,10 +68,11 @@ const itemImages = {
 };
 
 const soundEffects = {
-  jump: loadSound("assets/sound_jump.mp3", 0.52),
-  itemGet: loadSound("assets/sound_itemget.mp3", 0.58),
-  hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.68),
+  jump: loadSound("assets/sound_jump.mp3", 0.48, { maxDuration: 0.34, minInterval: 80 }),
+  itemGet: loadSound("assets/sound_itemget.mp3", 0.48, { maxDuration: 0.62, minInterval: 90 }),
+  hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.66, { maxDuration: 0.32, minInterval: 120 }),
 };
+let audioContext = null;
 
 const itemTypes = [
   { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
@@ -1300,11 +1301,24 @@ function loadImage(src) {
   return image;
 }
 
-function loadSound(src, volume) {
-  const audio = new Audio(src);
-  audio.preload = "auto";
-  audio.volume = volume;
-  return audio;
+function loadSound(src, volume, options = {}) {
+  const fallbackPool = Array.from({ length: 2 }, () => {
+    const audio = new Audio(src);
+    audio.preload = "auto";
+    audio.volume = volume;
+    return audio;
+  });
+
+  return {
+    src,
+    volume,
+    buffer: null,
+    loading: null,
+    fallbackPool,
+    maxDuration: options.maxDuration || 0,
+    minInterval: options.minInterval || 0,
+    lastPlayedAt: 0,
+  };
 }
 
 function playSound(name) {
@@ -1313,22 +1327,117 @@ function playSound(name) {
     return;
   }
 
+  const now = performance.now();
+  if (sound.minInterval && now - sound.lastPlayedAt < sound.minInterval) {
+    return;
+  }
+  sound.lastPlayedAt = now;
+
+  const context = getAudioContext();
+  if (context) {
+    if (context.state === "suspended") {
+      context.resume().catch(() => {});
+    }
+
+    if (sound.buffer) {
+      playBufferedSound(context, sound);
+    } else {
+      prepareSound(sound).then(() => {
+        if (sound.buffer) {
+          playBufferedSound(context, sound);
+        }
+      });
+    }
+    return;
+  }
+
+  playFallbackSound(sound);
+}
+
+function unlockSounds() {
+  const context = getAudioContext();
+  if (context && context.state === "suspended") {
+    context.resume().catch(() => {});
+  }
+
+  for (const sound of Object.values(soundEffects)) {
+    prepareSound(sound);
+    for (const fallback of sound.fallbackPool) {
+      try {
+        fallback.load();
+      } catch {}
+    }
+  }
+}
+
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) {
+    return null;
+  }
+
+  if (!audioContext) {
+    try {
+      audioContext = new AudioContextClass({ latencyHint: "interactive" });
+    } catch {
+      audioContext = new AudioContextClass();
+    }
+  }
+
+  return audioContext;
+}
+
+function prepareSound(sound) {
+  if (sound.buffer) {
+    return Promise.resolve(sound.buffer);
+  }
+  if (sound.loading) {
+    return sound.loading;
+  }
+
+  const context = getAudioContext();
+  if (!context || !window.fetch) {
+    return Promise.resolve(null);
+  }
+
+  sound.loading = fetch(sound.src)
+    .then((response) => response.arrayBuffer())
+    .then((data) => context.decodeAudioData(data))
+    .then((buffer) => {
+      sound.buffer = buffer;
+      return buffer;
+    })
+    .catch(() => null);
+  return sound.loading;
+}
+
+function playBufferedSound(context, sound) {
+  const source = context.createBufferSource();
+  const gain = context.createGain();
+  source.buffer = sound.buffer;
+  gain.gain.value = sound.volume;
+  source.connect(gain);
+  gain.connect(context.destination);
+  source.start();
+  if (sound.maxDuration) {
+    source.stop(context.currentTime + sound.maxDuration);
+  }
+}
+
+function playFallbackSound(sound) {
+  const audio = sound.fallbackPool.find((candidate) => candidate.paused || candidate.ended);
+  if (!audio) {
+    return;
+  }
+
   try {
-    sound.currentTime = 0;
-    const playback = sound.play();
+    audio.currentTime = 0;
+    const playback = audio.play();
     if (playback) {
       playback.catch(() => {});
     }
   } catch {
     // Audio playback can be blocked until the first user gesture.
-  }
-}
-
-function unlockSounds() {
-  for (const sound of Object.values(soundEffects)) {
-    try {
-      sound.load();
-    } catch {}
   }
 }
 
