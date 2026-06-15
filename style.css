@@ -487,12 +487,45 @@ canvas {
     pointer-events: none;
   }
 
+  .move-buttons,
+  .move-button,
   .stick-zone,
   .jump-button {
     pointer-events: auto;
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;
+  }
+
+  .move-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 72px);
+    gap: 10px;
+  }
+
+  .move-button {
+    display: grid;
+    width: 72px;
+    height: 72px;
+    place-items: center;
+    border: 1px solid rgba(29, 37, 33, 0.22);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.58);
+    box-shadow: 0 10px 22px rgba(29, 37, 33, 0.13);
+    color: #1d2521;
+    cursor: pointer;
+    font: inherit;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+    backdrop-filter: blur(8px);
+  }
+
+  .move-button:active,
+  .move-button.is-active {
+    background: rgba(29, 37, 33, 0.76);
+    color: #fff;
+    transform: translateY(1px) scale(0.98);
   }
 
   .stick-zone {
