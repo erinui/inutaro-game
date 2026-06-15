@@ -34,6 +34,19 @@ const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: 
 const durationSeconds = 40;
 const gameUrl = "https://erinui.github.io/inutaro-game/?share=20260616-ogp";
 const assetPromises = [];
+const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
+const renderState = {
+  ratio: 1,
+  rect: { left: 0, top: 0, width: 960, height: 540 },
+  view: { w: 960, h: 540, floorY: 454, skyLine: 97 },
+};
+const backgroundCache = {
+  canvas: document.createElement("canvas"),
+  w: 0,
+  h: 0,
+  ratio: 0,
+  ready: false,
+};
 
 const backgroundImage = loadImage("assets/bg.jpg?v=20260614-bg");
 
@@ -130,20 +143,31 @@ const jumpPhysics = {
 
 function fitCanvas() {
   const rect = canvas.getBoundingClientRect();
-  const ratio = window.devicePixelRatio || 1;
-  canvas.width = Math.round(rect.width * ratio);
-  canvas.height = Math.round(rect.height * ratio);
-  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-}
-
-function view() {
-  const rect = canvas.getBoundingClientRect();
-  return {
+  const maxPixelRatio = 2;
+  const ratio = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
+  renderState.ratio = ratio;
+  renderState.rect = {
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
+  };
+  renderState.view = {
     w: rect.width,
     h: rect.height,
     floorY: rect.height * 0.84,
     skyLine: rect.height * 0.18,
   };
+  canvas.width = Math.round(rect.width * ratio);
+  canvas.height = Math.round(rect.height * ratio);
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = coarsePointerQuery.matches ? "low" : "medium";
+  backgroundCache.ready = false;
+}
+
+function view() {
+  return renderState.view;
 }
 
 function resetGame() {
@@ -558,8 +582,11 @@ function update(dt, now) {
   }
 
   if (state.running) {
-    state.timeLeft = Math.max(0, durationSeconds - Math.floor((now - state.startedAt) / 1000));
-    timeEl.textContent = String(state.timeLeft);
+    const nextTimeLeft = Math.max(0, durationSeconds - Math.floor((now - state.startedAt) / 1000));
+    if (nextTimeLeft !== state.timeLeft) {
+      state.timeLeft = nextTimeLeft;
+      timeEl.textContent = String(state.timeLeft);
+    }
     if (state.timeLeft <= 0) {
       finishGame(now, "timeup");
       return;
@@ -697,7 +724,7 @@ function rectsOverlap(a, b) {
 
 function drawBackground(v, now) {
   if (backgroundImage.complete && backgroundImage.naturalWidth) {
-    drawCoverImage(backgroundImage, 0, 0, v.w, v.h);
+    drawCachedBackground(v);
     return;
   }
 
@@ -747,6 +774,25 @@ function drawBackground(v, now) {
     ctx.lineTo(x + 54, v.h);
     ctx.stroke();
   }
+}
+
+function drawCachedBackground(v) {
+  const targetW = Math.max(1, Math.round(v.w * renderState.ratio));
+  const targetH = Math.max(1, Math.round(v.h * renderState.ratio));
+  if (!backgroundCache.ready || backgroundCache.w !== targetW || backgroundCache.h !== targetH || backgroundCache.ratio !== renderState.ratio) {
+    backgroundCache.canvas.width = targetW;
+    backgroundCache.canvas.height = targetH;
+    const bgCtx = backgroundCache.canvas.getContext("2d");
+    bgCtx.imageSmoothingEnabled = true;
+    bgCtx.imageSmoothingQuality = coarsePointerQuery.matches ? "low" : "medium";
+    drawCoverImageTo(bgCtx, backgroundImage, 0, 0, targetW, targetH);
+    backgroundCache.w = targetW;
+    backgroundCache.h = targetH;
+    backgroundCache.ratio = renderState.ratio;
+    backgroundCache.ready = true;
+  }
+
+  ctx.drawImage(backgroundCache.canvas, 0, 0, v.w, v.h);
 }
 
 function drawCoverImage(image, x, y, width, height) {
@@ -1332,8 +1378,7 @@ function frame(now) {
 }
 
 function setTargetFromClientX(clientX) {
-  const rect = canvas.getBoundingClientRect();
-  state.targetX = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+  state.targetX = Math.max(0, Math.min(1, (clientX - renderState.rect.left) / renderState.rect.width));
 }
 
 function mobileControlsEnabled() {
@@ -1529,6 +1574,8 @@ profileCloseButton.addEventListener("click", () => {
   profilePanel.hidden = true;
 });
 window.addEventListener("resize", fitCanvas);
+window.addEventListener("orientationchange", fitCanvas);
+window.visualViewport?.addEventListener("resize", fitCanvas);
 const resetStickOnDesktop = () => {
   if (!mobileControlsEnabled()) {
     resetStick();
