@@ -482,7 +482,7 @@ canvas {
     z-index: 4;
     display: flex;
     flex-direction: row-reverse;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
     pointer-events: none;
   }
@@ -497,15 +497,15 @@ canvas {
 
   .stick-zone {
     display: grid;
-    width: 126px;
-    height: 126px;
+    width: 139px;
+    height: 139px;
     place-items: center;
   }
 
   .stick-base {
     position: relative;
-    width: 102px;
-    height: 102px;
+    width: 112px;
+    height: 112px;
     border: 1px solid rgba(29, 37, 33, 0.22);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.34);
