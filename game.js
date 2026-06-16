@@ -3,6 +3,7 @@ const ctx = canvas.getContext("2d");
 const scoreEl = document.querySelector("#score");
 const timeEl = document.querySelector("#time");
 const startButton = document.querySelector("#start");
+const soundToggleButton = document.querySelector("#sound-toggle");
 const continueButton = document.querySelector("#continue");
 const resultPanel = document.querySelector("#result-panel");
 const resultTitleEl = document.querySelector("#result-title");
@@ -72,8 +73,12 @@ const soundEffects = {
   itemGet: loadSound("assets/sound_itemget.mp3", 0.48, { maxDuration: 0.62, minInterval: 90 }),
   hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.66, { maxDuration: 0.32, minInterval: 120 }),
 };
+const backgroundMusic = loadBgm("assets/bgm.mp3", 0.18);
 let audioContext = null;
 let soundUnlocked = false;
+let bgmStarted = false;
+let bgmLoadRequested = false;
+let soundEnabled = true;
 
 const itemTypes = [
   { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
@@ -174,6 +179,7 @@ function view() {
 
 function resetGame() {
   const now = performance.now();
+  startBgm();
   state.running = true;
   state.startedAt = now;
   state.lastTime = now;
@@ -1322,7 +1328,85 @@ function loadSound(src, volume, options = {}) {
   };
 }
 
+function loadBgm(src, volume) {
+  const audio = new Audio(src);
+  audio.preload = "none";
+  audio.loop = true;
+  audio.volume = volume;
+  audio.setAttribute("playsinline", "");
+  return audio;
+}
+
+function primeBgm() {
+  if (!backgroundMusic || bgmLoadRequested) {
+    return;
+  }
+
+  bgmLoadRequested = true;
+  try {
+    backgroundMusic.load();
+  } catch {}
+}
+
+function startBgm() {
+  bgmStarted = true;
+  if (!soundEnabled) {
+    return;
+  }
+
+  if (!backgroundMusic || !backgroundMusic.paused) {
+    return;
+  }
+
+  try {
+    primeBgm();
+    const playback = backgroundMusic.play();
+    if (playback) {
+      playback.catch(() => {});
+    }
+  } catch {
+    // Background music can be blocked until a direct user gesture.
+  }
+}
+
+function stopBgm() {
+  if (!backgroundMusic || backgroundMusic.paused) {
+    return;
+  }
+
+  try {
+    backgroundMusic.pause();
+  } catch {}
+}
+
+function updateSoundToggle() {
+  if (!soundToggleButton) {
+    return;
+  }
+
+  soundToggleButton.textContent = soundEnabled ? "🔊" : "🔇";
+  soundToggleButton.classList.toggle("is-muted", !soundEnabled);
+  soundToggleButton.setAttribute("aria-pressed", String(!soundEnabled));
+  soundToggleButton.setAttribute("aria-label", soundEnabled ? "サウンドをOFFにする" : "サウンドをONにする");
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  if (soundEnabled) {
+    if (bgmStarted) {
+      startBgm();
+    }
+  } else {
+    stopBgm();
+  }
+  updateSoundToggle();
+}
+
 function playSound(name) {
+  if (!soundEnabled) {
+    return;
+  }
+
   const sound = soundEffects[name];
   if (!sound) {
     return;
@@ -1364,6 +1448,9 @@ function playSound(name) {
 
 function unlockSounds() {
   if (soundUnlocked) {
+    if (bgmStarted) {
+      startBgm();
+    }
     return;
   }
   soundUnlocked = true;
@@ -1383,6 +1470,24 @@ function unlockSounds() {
       } catch {}
     }
   }
+
+  primeBgm();
+  if (soundEnabled && bgmStarted) {
+    startBgm();
+  }
+}
+
+function scheduleBgmAfterLoad() {
+  const playAfterLoad = () => {
+    startBgm();
+  };
+
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(playAfterLoad, { timeout: 800 });
+    return;
+  }
+
+  window.setTimeout(playAfterLoad, 200);
 }
 
 function getAudioContext() {
@@ -1728,6 +1833,7 @@ document.addEventListener("pointerdown", unlockSounds, { once: true, capture: tr
 document.addEventListener("touchstart", unlockSounds, { once: true, capture: true, passive: true });
 document.addEventListener("keydown", unlockSounds, { once: true });
 
+soundToggleButton?.addEventListener("click", toggleSound);
 startButton.addEventListener("click", resetGame);
 continueButton.addEventListener("click", showResult);
 restartButton.addEventListener("click", resetGame);
@@ -1764,8 +1870,10 @@ if (mobileControlsQuery.addEventListener) {
 }
 
 fitCanvas();
+updateSoundToggle();
 drawLoadingScreen(view());
 Promise.all(assetPromises).then(() => {
   state.lastTime = performance.now();
   requestAnimationFrame(frame);
+  scheduleBgmAfterLoad();
 });
