@@ -150,6 +150,7 @@ const jumpPhysics = {
 
 const frameControl = {
   lastDrawAt: 0,
+  toleranceMs: 2,
 };
 
 function fitCanvas() {
@@ -1639,11 +1640,11 @@ function frame(now) {
   }
 
   const interval = targetFrameInterval();
-  if (frameControl.lastDrawAt && now - frameControl.lastDrawAt < interval) {
+  if (shouldSkipFrame(now, interval)) {
     requestAnimationFrame(frame);
     return;
   }
-  frameControl.lastDrawAt = now;
+  markFrameDrawn(now, interval);
 
   const dt = Math.min(0.05, (now - state.lastTime) / 1000 || 0);
   state.lastTime = now;
@@ -1683,6 +1684,24 @@ function targetFrameInterval() {
     return 1000 / 15;
   }
   return 1000 / 30;
+}
+
+function shouldSkipFrame(now, interval) {
+  if (!frameControl.lastDrawAt) {
+    return false;
+  }
+
+  return now - frameControl.lastDrawAt + frameControl.toleranceMs < interval;
+}
+
+function markFrameDrawn(now, interval) {
+  const elapsed = frameControl.lastDrawAt ? now - frameControl.lastDrawAt : interval;
+  if (elapsed > interval) {
+    frameControl.lastDrawAt = now - (elapsed % interval);
+    return;
+  }
+
+  frameControl.lastDrawAt = now;
 }
 
 function setTargetFromClientX(clientX) {
