@@ -1316,7 +1316,7 @@ function loadImage(src) {
 function loadSound(src, volume, options = {}) {
   const fallbackPool = Array.from({ length: 2 }, () => {
     const audio = new Audio(src);
-    audio.preload = "auto";
+    audio.preload = "none";
     audio.volume = volume;
     return audio;
   });
