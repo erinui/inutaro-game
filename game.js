@@ -219,7 +219,7 @@ function resetGame() {
   state.damageShake = 0;
   scoreEl.textContent = "0";
   timeEl.textContent = String(durationSeconds);
-  startButton.textContent = "RESET";
+  startButton.textContent = "リセット";
   startButton.classList.add("is-compact");
   continueButton.hidden = true;
   resultPanel.hidden = true;
@@ -261,7 +261,7 @@ function showTitle() {
   state.damageShake = 0;
   scoreEl.textContent = "0";
   timeEl.textContent = String(durationSeconds);
-  startButton.textContent = "START";
+  startButton.textContent = "はじめる";
   startButton.classList.remove("is-compact");
   continueButton.hidden = true;
   resultPanel.hidden = true;
@@ -281,7 +281,7 @@ function finishGame(now, reason) {
   state.endReason = reason;
   state.continueVisible = false;
   state.resultVisible = false;
-  startButton.textContent = "RESTART";
+  startButton.textContent = "もう一回";
   if (reason === "hazard") {
     state.resultPending = true;
     state.resultRevealAt = now + 950;
@@ -302,10 +302,10 @@ function showResult() {
   state.continueVisible = false;
   state.resultVisible = true;
   continueButton.hidden = true;
-  resultTitleEl.textContent = state.endReason === "hazard" ? "GAME OVER" : "CLEAR";
+  resultTitleEl.textContent = state.endReason === "hazard" ? "ゲームオーバー" : "クリア！";
   const isGameOver = state.endReason === "hazard";
   resultTimeRowEl.hidden = !isGameOver;
-  resultTimeEl.textContent = isGameOver ? `${survivedSeconds().toFixed(1)}s` : "";
+  resultTimeEl.textContent = isGameOver ? `${survivedSeconds().toFixed(1)}秒` : "";
   resultTotalEl.textContent = String(state.score);
   resultAEl.textContent = String(state.itemCounts.a);
   resultBEl.textContent = String(state.itemCounts.b);
@@ -324,10 +324,10 @@ function survivedSeconds() {
 function resultText() {
   const total = `${state.score}ひき`;
   if (state.endReason === "hazard") {
-    return `犬タローの虫さんまってまってで ${total} 捕まえたよ！${survivedSeconds().toFixed(1)}秒でゲームオーバー…もう一回！`;
+    return `犬タローの虫さんまってまってで虫さんを${total}捕まえたよ！${survivedSeconds().toFixed(1)}秒でゲームオーバー…もう一回！`;
   }
 
-  return `犬タローの虫さんまってまってで ${total} 捕まえたよ！`;
+  return `犬タローの虫さんまってまってで虫さんを${total}捕まえたよ！`;
 }
 
 function spawnItem(now) {
@@ -710,7 +710,7 @@ function collide(now) {
       state.damageShake = 5;
       state.jumpSquash = 0.22;
       spawnImpact(hazard.x, Math.min(hazard.y + hazard.height * 0.34, player.body.bottom), hazard.impactSize, now, true);
-      addFloater("OUT", player.x, player.y + player.h * 0.24, palettes.danger);
+      addFloater("あっ！", player.x, player.y + player.h * 0.24, palettes.danger);
       playSound("hazardHit");
       finishGame(now, "hazard");
       return;
@@ -1068,7 +1068,7 @@ function drawGameOver(v, now) {
   ctx.globalAlpha = reveal;
   ctx.textAlign = "center";
   ctx.font = `800 ${Math.max(32, v.w * 0.044)}px system-ui, sans-serif`;
-  ctx.fillText(state.endReason === "hazard" ? "GAME OVER" : "CLEAR", v.w / 2, v.h * 0.45);
+  ctx.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", v.w / 2, v.h * 0.45);
   ctx.restore();
 }
 
@@ -1080,7 +1080,7 @@ function drawEndOverlay(targetCtx, width, height) {
   targetCtx.textAlign = "center";
   targetCtx.textBaseline = "middle";
   targetCtx.font = `800 ${Math.max(46, width * 0.06)}px system-ui, sans-serif`;
-  targetCtx.fillText(state.endReason === "hazard" ? "GAME OVER" : "CLEAR", width / 2, height * 0.45);
+  targetCtx.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", width / 2, height * 0.45);
   targetCtx.restore();
 }
 
@@ -1119,12 +1119,12 @@ function ensureHtml2Canvas() {
           if (window.html2canvas) {
             resolve(window.html2canvas);
           } else {
-            reject(new Error("リザルト保存の準備に失敗しました"));
+            reject(new Error("けっか保存の準備に失敗しました"));
           }
         },
         { once: true },
       );
-      script.addEventListener("error", () => reject(new Error("リザルト保存の準備に失敗しました")), { once: true });
+      script.addEventListener("error", () => reject(new Error("けっか保存の準備に失敗しました")), { once: true });
       document.head.append(script);
     });
   }
@@ -1139,7 +1139,7 @@ async function createResultCaptureCanvas() {
   const width = Math.ceil(rect.width);
   const height = Math.ceil(Math.max(rect.height, element.scrollHeight));
   if (!width || !height) {
-    throw new Error("保存できるリザルト画面がありません");
+    throw new Error("保存できるけっか画面がありません");
   }
 
   return html2canvas(element, {
@@ -1191,10 +1191,10 @@ async function saveImageBlob(blob, filename, successText) {
   if (mobileControlsEnabled() && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
     await navigator.share({
       title: "犬タローの虫さんまってまって",
-      text: "犬タローの虫さんまってまって",
+      text: "犬タローの虫さんまってまっての画像です",
       files: [file],
     });
-    setShareStatus("保存先を選択しました");
+    setShareStatus("保存先を選びました");
     return;
   }
 
@@ -1209,7 +1209,7 @@ async function saveEndScreenCapture() {
 
 async function saveResultCapture() {
   const blob = await canvasToBlob(await createResultCaptureCanvas());
-  await saveImageBlob(blob, "inutaro-result.png", "リザルトを保存しました");
+  await saveImageBlob(blob, "inutaro-result.png", "けっかを保存しました");
 }
 
 async function shareResult() {
@@ -1256,7 +1256,7 @@ async function copyGameUrl() {
     document.execCommand("copy");
     input.remove();
   }
-  setShareStatus("URLをコピーしました");
+  setShareStatus("リンクをコピーしました");
 }
 
 function setShareStatus(text) {
@@ -1366,10 +1366,10 @@ function updateSoundToggle() {
     return;
   }
 
-  soundToggleButton.textContent = soundEnabled ? "🔊" : "🔇";
   soundToggleButton.classList.toggle("is-muted", !soundEnabled);
   soundToggleButton.setAttribute("aria-pressed", String(!soundEnabled));
-  soundToggleButton.setAttribute("aria-label", soundEnabled ? "サウンドをOFFにする" : "サウンドをONにする");
+  soundToggleButton.setAttribute("aria-label", soundEnabled ? "サウンドを切る" : "サウンドを入れる");
+  soundToggleButton.setAttribute("title", soundEnabled ? "サウンドを切る" : "サウンドを入れる");
 }
 
 function toggleSound() {

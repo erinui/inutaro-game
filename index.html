@@ -27,24 +27,26 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png?v=20260616-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=20260616-icon" />
-    <link rel="stylesheet" href="style.css?v=20260616-sound-top-local" />
+    <link rel="stylesheet" href="style.css?v=20260617-ui-copy" />
   </head>
   <body>
     <main class="game-shell">
       <canvas id="game" width="960" height="540" aria-label="犬タローの虫さんまってまって"></canvas>
       <div class="hud" aria-hidden="true">
         <div class="stat">
-          <span>ITEMS</span>
+          <span>つかまえた</span>
           <strong id="score">0</strong>
         </div>
         <div class="stat">
-          <span>TIME</span>
+          <span>のこり</span>
           <strong id="time">40</strong>
         </div>
       </div>
-      <button id="sound-toggle" class="sound-toggle" type="button" aria-label="サウンドをOFFにする" aria-pressed="false">🔊</button>
-      <button id="start" class="start-button" type="button">START</button>
-      <button id="continue" class="continue-button" type="button" hidden>RESULT</button>
+      <button id="sound-toggle" class="sound-toggle" type="button" aria-label="サウンドを切る" aria-pressed="false">
+        <span class="sound-icon" aria-hidden="true"></span>
+      </button>
+      <button id="start" class="start-button" type="button">はじめる</button>
+      <button id="continue" class="continue-button" type="button" hidden>けっかへ</button>
       <div id="mobile-controls" class="mobile-controls">
         <div id="stick-zone" class="stick-zone" role="application" aria-label="左右移動スティック">
           <div class="stick-base">
@@ -54,15 +56,15 @@
         <button id="jump-button" class="jump-button" type="button" aria-label="ジャンプ">↑</button>
       </div>
       <section id="result-panel" class="result-panel" aria-live="polite" hidden>
-        <span class="result-label">RESULT</span>
-        <strong id="result-title" class="result-title">CLEAR</strong>
+        <span class="result-label">けっか</span>
+        <strong id="result-title" class="result-title">クリア！</strong>
         <div class="result-summary">
           <div id="result-time-row" class="result-row">
-            <span>TIME</span>
-            <strong id="result-time">0.0s</strong>
+            <span>じかん</span>
+            <strong id="result-time">0.0秒</strong>
           </div>
           <div class="result-row result-total">
-            <span>TOTAL</span>
+            <span>合計</span>
             <strong><span id="result-total">0</span><small class="count-unit">ひき</small></strong>
           </div>
         </div>
@@ -81,14 +83,14 @@
           </div>
         </div>
         <div class="result-actions">
-          <button id="save-screen" type="button">画面保存</button>
-          <button id="save-result" type="button">リザルト保存</button>
+          <button id="save-screen" type="button">画面を保存</button>
+          <button id="save-result" type="button">けっかを保存</button>
           <button id="share-open" type="button">共有</button>
           <button id="profile-open" type="button">フォロー</button>
         </div>
         <div id="share-panel" class="share-panel" hidden>
-          <button id="share-native" type="button">画像つき共有</button>
-          <button id="copy-url" type="button">URLコピー</button>
+          <button id="share-native" type="button">画像つきで共有</button>
+          <button id="copy-url" type="button">リンクをコピー</button>
           <span id="share-status" aria-live="polite"></span>
         </div>
         <div id="profile-panel" class="profile-panel" hidden>
@@ -96,14 +98,14 @@
             <a href="https://x.com/erikanuinui" target="_blank" rel="noopener">X</a>
             <a href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener">YouTube</a>
           </div>
-          <button id="profile-close" type="button">CLOSE</button>
+          <button id="profile-close" type="button">とじる</button>
         </div>
         <div class="result-close-actions">
-          <button id="restart" class="restart-button" type="button">RESTART</button>
-          <button id="end" class="end-button" type="button">おわり</button>
+          <button id="restart" class="restart-button" type="button">もう一回</button>
+          <button id="end" class="end-button" type="button">タイトルへ</button>
         </div>
       </section>
     </main>
-    <script src="game.js?v=20260616-result-dom-capture"></script>
+    <script src="game.js?v=20260617-ui-copy"></script>
   </body>
 </html>
