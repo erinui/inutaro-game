@@ -73,7 +73,7 @@ const soundEffects = {
   itemGet: loadSound("assets/sound_itemget.mp3", 0.48, { maxDuration: 0.62, minInterval: 90 }),
   hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.66, { maxDuration: 0.32, minInterval: 120 }),
 };
-const backgroundMusic = loadBgm("assets/bgm.mp3", 0.18);
+const backgroundMusic = loadBgm("assets/bgm.mp3?v=20260616-bgm2", 0.24);
 let audioContext = null;
 let soundUnlocked = false;
 let bgmStarted = false;
