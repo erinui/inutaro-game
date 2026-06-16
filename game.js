@@ -148,9 +148,13 @@ const jumpPhysics = {
   maxHeightRatio: 0.34,
 };
 
+const frameControl = {
+  lastDrawAt: 0,
+};
+
 function fitCanvas() {
   const rect = canvas.getBoundingClientRect();
-  const maxPixelRatio = 2;
+  const maxPixelRatio = coarsePointerQuery.matches ? 1.5 : 2;
   const ratio = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
   renderState.ratio = ratio;
   renderState.rect = {
@@ -1627,6 +1631,20 @@ function drawLoadingScreen(v) {
 }
 
 function frame(now) {
+  if (document.hidden) {
+    state.lastTime = now;
+    frameControl.lastDrawAt = now;
+    requestAnimationFrame(frame);
+    return;
+  }
+
+  const interval = targetFrameInterval();
+  if (frameControl.lastDrawAt && now - frameControl.lastDrawAt < interval) {
+    requestAnimationFrame(frame);
+    return;
+  }
+  frameControl.lastDrawAt = now;
+
   const dt = Math.min(0.05, (now - state.lastTime) / 1000 || 0);
   state.lastTime = now;
   update(dt, now);
@@ -1655,6 +1673,16 @@ function frame(now) {
   drawFloaters(now);
 
   requestAnimationFrame(frame);
+}
+
+function targetFrameInterval() {
+  if (state.running) {
+    return 1000 / 60;
+  }
+  if (state.resultVisible) {
+    return 1000 / 15;
+  }
+  return 1000 / 30;
 }
 
 function setTargetFromClientX(clientX) {
@@ -1858,6 +1886,11 @@ profileCloseButton.addEventListener("click", () => {
 window.addEventListener("resize", fitCanvas);
 window.addEventListener("orientationchange", fitCanvas);
 window.visualViewport?.addEventListener("resize", fitCanvas);
+document.addEventListener("visibilitychange", () => {
+  const now = performance.now();
+  state.lastTime = now;
+  frameControl.lastDrawAt = now;
+});
 const resetStickOnDesktop = () => {
   if (!mobileControlsEnabled()) {
     resetStick();
