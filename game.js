@@ -1471,7 +1471,6 @@ function unlockSounds() {
     for (const fallback of sound.fallbackPool) {
       try {
         fallback.load();
-        unlockFallbackAudio(fallback);
       } catch {}
     }
   }
@@ -1573,31 +1572,6 @@ function playSilentUnlockBuffer(context) {
     source.connect(context.destination);
     source.start(0);
   } catch {}
-}
-
-function unlockFallbackAudio(audio) {
-  const wasMuted = audio.muted;
-  try {
-    audio.muted = true;
-    const playback = audio.play();
-    if (playback) {
-      playback
-        .then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-          audio.muted = wasMuted;
-        })
-        .catch(() => {
-          audio.muted = wasMuted;
-        });
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.muted = wasMuted;
-    }
-  } catch {
-    audio.muted = wasMuted;
-  }
 }
 
 function playFallbackSound(sound) {
