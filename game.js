@@ -1182,10 +1182,6 @@ function createResultCardCanvas() {
     drawCountWithUnit(card, row.count, row.x + 78, 495, 32, 17);
   }
 
-  card.fillStyle = "#5f6a64";
-  card.font = "800 24px system-ui, sans-serif";
-  card.fillText(gameUrl, 658, 502);
-
   return output;
 }
 
