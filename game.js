@@ -710,7 +710,7 @@ function collide(now) {
       state.damageShake = 5;
       state.jumpSquash = 0.22;
       spawnImpact(hazard.x, Math.min(hazard.y + hazard.height * 0.34, player.body.bottom), hazard.impactSize, now, true);
-      addFloater("あっ！", player.x, player.y + player.h * 0.24, palettes.danger);
+      addFloater("ヌッ！", player.x, player.y + player.h * 0.24, palettes.danger);
       playSound("hazardHit");
       finishGame(now, "hazard");
       return;
