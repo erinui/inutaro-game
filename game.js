@@ -79,7 +79,6 @@ let soundUnlocked = false;
 let bgmStarted = false;
 let bgmLoadRequested = false;
 let soundEnabled = true;
-let html2CanvasLoadPromise = null;
 
 const itemTypes = [
   { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
@@ -1103,64 +1102,91 @@ function drawCoverImageTo(targetCtx, image, x, y, width, height) {
   targetCtx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height);
 }
 
-function ensureHtml2Canvas() {
-  if (window.html2canvas) {
-    return Promise.resolve(window.html2canvas);
-  }
-
-  if (!html2CanvasLoadPromise) {
-    html2CanvasLoadPromise = new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = "assets/html2canvas.min.js?v=1.4.1";
-      script.async = true;
-      script.addEventListener(
-        "load",
-        () => {
-          if (window.html2canvas) {
-            resolve(window.html2canvas);
-          } else {
-            reject(new Error("けっか保存の準備に失敗しました"));
-          }
-        },
-        { once: true },
-      );
-      script.addEventListener("error", () => reject(new Error("けっか保存の準備に失敗しました")), { once: true });
-      document.head.append(script);
-    });
-  }
-
-  return html2CanvasLoadPromise;
+function roundRectOn(targetCtx, x, y, w, h, r) {
+  targetCtx.beginPath();
+  targetCtx.moveTo(x + r, y);
+  targetCtx.arcTo(x + w, y, x + w, y + h, r);
+  targetCtx.arcTo(x + w, y + h, x, y + h, r);
+  targetCtx.arcTo(x, y + h, x, y, r);
+  targetCtx.arcTo(x, y, x + w, y, r);
+  targetCtx.closePath();
 }
 
-async function createResultCaptureCanvas() {
-  const html2canvas = await ensureHtml2Canvas();
-  const element = resultPanel;
-  const rect = element.getBoundingClientRect();
-  const width = Math.ceil(rect.width);
-  const height = Math.ceil(Math.max(rect.height, element.scrollHeight));
-  if (!width || !height) {
-    throw new Error("保存できるけっか画面がありません");
+function drawCountWithUnit(targetCtx, count, x, y, numberSize, unitSize) {
+  const text = String(count);
+  targetCtx.font = `900 ${numberSize}px system-ui, sans-serif`;
+  targetCtx.fillText(text, x, y);
+  const unitX = x + targetCtx.measureText(text).width + Math.max(5, numberSize * 0.12);
+  targetCtx.font = `800 ${unitSize}px system-ui, sans-serif`;
+  targetCtx.fillText("ひき", unitX, y);
+}
+
+function createResultCardCanvas() {
+  const output = document.createElement("canvas");
+  output.width = 1200;
+  output.height = 630;
+  const card = output.getContext("2d");
+
+  card.fillStyle = "#dff2f2";
+  card.fillRect(0, 0, output.width, output.height);
+  if (backgroundImage.complete && backgroundImage.naturalWidth) {
+    drawCoverImageTo(card, backgroundImage, 0, 0, output.width, output.height);
   }
 
-  return html2canvas(element, {
-    backgroundColor: null,
-    logging: false,
-    scale: Math.min(window.devicePixelRatio || 1, 2),
-    width,
-    height,
-    onclone: (documentClone) => {
-      const panelClone = documentClone.querySelector("#result-panel");
-      if (!panelClone) {
-        return;
-      }
+  card.fillStyle = "rgba(255,255,255,0.72)";
+  roundRectOn(card, 58, 54, 1084, 522, 28);
+  card.fill();
 
-      panelClone.style.maxHeight = "none";
-      panelClone.style.height = `${height}px`;
-      panelClone.style.overflow = "visible";
-      panelClone.style.animation = "none";
-      panelClone.scrollTop = 0;
-    },
-  });
+  card.fillStyle = palettes.text;
+  card.textAlign = "left";
+  card.textBaseline = "alphabetic";
+  card.font = "800 52px system-ui, sans-serif";
+  card.fillText("犬タローの虫さんまってまって", 102, 130);
+
+  card.font = "900 82px system-ui, sans-serif";
+  card.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", 102, 230);
+
+  if (playerImages.idle.complete && playerImages.idle.naturalWidth) {
+    card.drawImage(playerImages.idle, 790, 112, 230, 230);
+  }
+
+  card.fillStyle = "rgba(29,37,33,0.08)";
+  roundRectOn(card, 102, 280, 390, 136, 20);
+  card.fill();
+  card.fillStyle = "#5f6a64";
+  card.font = "800 24px system-ui, sans-serif";
+  card.fillText("合計", 132, 322);
+  card.fillStyle = palettes.text;
+  drawCountWithUnit(card, state.score, 132, 390, 78, 30);
+
+  if (state.endReason === "hazard") {
+    card.fillStyle = "#5f6a64";
+    card.font = "800 25px system-ui, sans-serif";
+    card.fillText(`${survivedSeconds().toFixed(1)}秒でゲームオーバー`, 522, 342);
+  }
+
+  const rows = [
+    { image: itemImages.a, count: state.itemCounts.a, x: 120 },
+    { image: itemImages.b, count: state.itemCounts.b, x: 284 },
+    { image: itemImages.c, count: state.itemCounts.c, x: 448 },
+  ];
+
+  for (const row of rows) {
+    card.fillStyle = "rgba(255,255,255,0.62)";
+    roundRectOn(card, row.x, 440, 128, 86, 18);
+    card.fill();
+    if (row.image.complete && row.image.naturalWidth) {
+      card.drawImage(row.image, row.x + 12, 451, 62, 62);
+    }
+    card.fillStyle = palettes.text;
+    drawCountWithUnit(card, row.count, row.x + 78, 495, 32, 17);
+  }
+
+  card.fillStyle = "#5f6a64";
+  card.font = "800 24px system-ui, sans-serif";
+  card.fillText(gameUrl, 658, 502);
+
+  return output;
 }
 
 function canvasToBlob(sourceCanvas) {
@@ -1208,13 +1234,13 @@ async function saveEndScreenCapture() {
 }
 
 async function saveResultCapture() {
-  const blob = await canvasToBlob(await createResultCaptureCanvas());
+  const blob = await canvasToBlob(createResultCardCanvas());
   await saveImageBlob(blob, "inutaro-result.png", "けっかを保存しました");
 }
 
 async function shareResult() {
   const screenBlob = await canvasToBlob(createEndScreenCanvas());
-  const resultBlob = await canvasToBlob(await createResultCaptureCanvas());
+  const resultBlob = await canvasToBlob(createResultCardCanvas());
   const files = [
     new File([screenBlob], "inutaro-screen.png", { type: "image/png" }),
     new File([resultBlob], "inutaro-result.png", { type: "image/png" }),
