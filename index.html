@@ -3,109 +3,193 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>犬タローの虫さんまってまって</title>
+    <title>犬タローゲーム</title>
     <meta
       name="description"
-      content="犬タローを操作して、制限時間内に虫さんを集めるブラウザゲームです。お邪魔に当たるとゲームオーバー。"
+      content="犬タローと仲間たちの手描きブラウザゲームを遊べるポータルサイトです。"
     />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="犬タローの虫さんまってまって" />
-    <meta property="og:title" content="犬タローの虫さんまってまって" />
+    <meta property="og:site_name" content="犬タローゲーム" />
+    <meta property="og:title" content="犬タローゲーム" />
     <meta
       property="og:description"
-      content="犬タローを操作して虫さんを捕まえるブラウザゲーム。お邪魔を避けながら、制限時間内に何びき捕まえられるかな？"
+      content="犬タローと仲間たちの手描きブラウザゲームを遊べるポータルサイトです。"
     />
     <meta property="og:url" content="https://erinui.github.io/inutaro-game/" />
     <meta property="og:image" content="https://erinui.github.io/inutaro-game/assets/icon-192.png?v=20260616-icon" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="犬タローの虫さんまってまって" />
+    <meta name="twitter:title" content="犬タローゲーム" />
     <meta
       name="twitter:description"
-      content="犬タローを操作して虫さんを捕まえるブラウザゲーム。お邪魔を避けながら、制限時間内に何びき捕まえられるかな？"
+      content="犬タローと仲間たちの手描きブラウザゲームを遊べるポータルサイトです。"
     />
     <meta name="twitter:image" content="https://erinui.github.io/inutaro-game/assets/icon-192.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png?v=20260616-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=20260616-icon" />
-    <link rel="stylesheet" href="style.css?v=20260617-note-icon" />
+    <link rel="stylesheet" href="home.css?v=20260620-scroll-local" />
   </head>
   <body>
-    <main class="game-shell">
-      <canvas id="game" width="960" height="540" aria-label="犬タローの虫さんまってまって"></canvas>
-      <div class="hud" aria-hidden="true">
-        <div class="stat">
-          <span>つかまえた</span>
-          <strong id="score">0</strong>
-        </div>
-        <div class="stat">
-          <span>のこり</span>
-          <strong id="time">40</strong>
-        </div>
-      </div>
-      <button id="sound-toggle" class="sound-toggle" type="button" aria-label="サウンドを切る" aria-pressed="false">
-        <span class="sound-icon" aria-hidden="true"></span>
-      </button>
-      <button id="start" class="start-button" type="button">はじめる</button>
-      <button id="continue" class="continue-button" type="button" hidden>けっかへ</button>
-      <div id="mobile-controls" class="mobile-controls">
-        <div id="stick-zone" class="stick-zone" role="application" aria-label="左右移動スティック">
-          <div class="stick-base">
-            <span id="stick-thumb" class="stick-thumb"></span>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="犬タローゲーム ホーム">
+        <img src="assets/icon-192.png?v=20260616-icon" alt="" />
+        <span>犬タローゲーム</span>
+      </a>
+      <nav class="site-nav" aria-label="サイトメニュー">
+        <a href="#games">ゲーム</a>
+        <a href="#characters">キャラクター</a>
+        <a href="#news">おしらせ</a>
+        <a href="#links">リンク</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Handmade browser games</p>
+          <h1 id="hero-title">犬タローとあそぶ、ちいさなゲーム置き場。</h1>
+          <p>
+            手描きキャラクターの世界で、すぐに遊べるブラウザゲームを集めていきます。
+            まずは犬タローが虫さんを追いかけるミニゲームから。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="games/inutaro-mushi/">あそぶ</a>
+            <a class="secondary-link" href="#games">ゲームを見る</a>
+          </div>
+          <div class="hero-badges" aria-label="サイトの特徴">
+            <span>すぐ遊べる</span>
+            <span>手描きゲーム</span>
+            <span>スマホ対応</span>
           </div>
         </div>
-        <button id="jump-button" class="jump-button" type="button" aria-label="ジャンプ">↑</button>
-      </div>
-      <section id="result-panel" class="result-panel" aria-live="polite" hidden>
-        <span class="result-label">けっか</span>
-        <strong id="result-title" class="result-title">クリア！</strong>
-        <div class="result-summary">
-          <div id="result-time-row" class="result-row">
-            <span>じかん</span>
-            <strong id="result-time">0.0秒</strong>
-          </div>
-          <div class="result-row result-total">
-            <span>合計</span>
-            <strong><span id="result-total">0</span><small class="count-unit">ひき</small></strong>
-          </div>
+        <div class="hero-visual" aria-hidden="true">
+          <img class="hero-bg" src="assets/bg.jpg?v=20260614-bg" alt="" />
+          <img class="hero-player" src="assets/player_idle.png" alt="" />
+          <img class="hero-butterfly" src="assets/item_b.png" alt="" />
+          <img class="hero-dragonfly" src="assets/item_c.png" alt="" />
+          <span class="hero-sticker">虫さん<br />まってヌ</span>
         </div>
-        <div class="result-breakdown">
+      </section>
+
+      <section id="games" class="section" aria-labelledby="games-title">
+        <div class="section-heading">
+          <p class="eyebrow">Games</p>
+          <h2 id="games-title">ゲーム</h2>
+        </div>
+        <div class="game-grid">
+          <article class="game-card">
+            <a class="game-thumb" href="games/inutaro-mushi/" aria-label="犬タローの虫さんまってまってを遊ぶ">
+              <img src="assets/icon-192.png?v=20260616-icon" alt="" />
+              <span class="thumb-badge">あそべる</span>
+            </a>
+            <div class="game-card-body">
+              <div>
+                <p class="game-status">公開中</p>
+                <h3>犬タローの虫さんまってまって</h3>
+                <p>
+                  犬タローを動かして虫さんを捕まえる40秒のアクションゲームです。
+                  鳥のお邪魔を避けながら、たくさんの虫さんを追いかけます。
+                </p>
+              </div>
+              <div class="game-meta">
+                <span>プレイ時間 40秒</span>
+                <span>PC / SP対応</span>
+              </div>
+              <a class="card-button" href="games/inutaro-mushi/">あそぶ</a>
+            </div>
+          </article>
+
+          <article class="game-card is-coming">
+            <div class="game-thumb">
+              <span>Next</span>
+            </div>
+            <div class="game-card-body">
+              <div>
+                <p class="game-status">準備中</p>
+                <h3>次のゲーム</h3>
+                <p>
+                  犬タローや仲間たちが登場する新しいゲームを追加予定です。
+                  公開されたらここから選べるようになります。
+                </p>
+              </div>
+              <div class="game-meta">
+                <span>Coming soon</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="characters" class="section split-section" aria-labelledby="characters-title">
+        <div>
+          <p class="eyebrow">Characters</p>
+          <h2 id="characters-title">キャラクター</h2>
+          <p>
+            犬タローは、虫さんを追いかけるこのゲームの主人公です。
+            語尾に「ヌ」がつく、少し不思議でかわいいキャラクターです。
+          </p>
+        </div>
+        <a class="panel-link" href="pages/characters.html">
+          <span>キャラクター紹介</span>
+          <strong>犬タローのプロフィールを見る</strong>
+        </a>
+      </section>
+
+      <section id="news" class="section news-section" aria-labelledby="news-title">
+        <div class="section-heading">
           <div>
-            <img src="assets/item_a.png" alt="" />
-            <strong><span id="result-a">0</span><small class="count-unit">ひき</small></strong>
+            <p class="eyebrow">News</p>
+            <h2 id="news-title">おしらせ・SNS</h2>
           </div>
-          <div>
-            <img src="assets/item_b.png" alt="" />
-            <strong><span id="result-b">0</span><small class="count-unit">ひき</small></strong>
-          </div>
-          <div>
-            <img src="assets/item_c.png" alt="" />
-            <strong><span id="result-c">0</span><small class="count-unit">ひき</small></strong>
-          </div>
+          <a class="section-link" href="pages/blog.html">一覧を見る</a>
         </div>
-        <div class="result-actions">
-          <button id="save-screen" type="button">画面を保存</button>
-          <button id="save-result" type="button">けっかを保存</button>
-          <button id="share-open" type="button">共有</button>
-          <button id="profile-open" type="button">フォロー</button>
+        <div class="news-intro">
+          <p>
+            X、YouTube、ブログの新着をまとめて表示します。今は手動更新のデータを使い、
+            将来的には投稿や動画の取得を自動化できる構成にしています。
+          </p>
         </div>
-        <div id="share-panel" class="share-panel" hidden>
-          <button id="share-native" type="button">画像つきで共有</button>
-          <button id="copy-url" type="button">リンクをコピー</button>
-          <span id="share-status" aria-live="polite"></span>
+        <div id="news-feed" class="news-feed" aria-live="polite">
+          <article class="news-card is-loading">
+            <div>
+              <span class="news-source">News</span>
+              <h3>新着を読み込み中</h3>
+              <p>犬タローゲームのおしらせを準備しています。</p>
+            </div>
+          </article>
         </div>
-        <div id="profile-panel" class="profile-panel" hidden>
-          <div>
-            <a href="https://x.com/erikanuinui" target="_blank" rel="noopener">X</a>
-            <a href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener">YouTube</a>
-          </div>
-          <button id="profile-close" type="button">とじる</button>
+      </section>
+
+      <section id="links" class="section link-section" aria-labelledby="links-title">
+        <div class="section-heading">
+          <p class="eyebrow">Links</p>
+          <h2 id="links-title">リンク</h2>
         </div>
-        <div class="result-close-actions">
-          <button id="restart" class="restart-button" type="button">もう一回</button>
-          <button id="end" class="end-button" type="button">タイトルへ</button>
+        <div class="link-grid">
+          <a href="https://x.com/erikanuinui" target="_blank" rel="noopener noreferrer">
+            <span class="link-label"><span class="social-icon social-icon-x" aria-hidden="true"></span>X</span>
+            <strong>@erikanuinui</strong>
+          </a>
+          <a href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener noreferrer">
+            <span class="link-label"><span class="social-icon social-icon-youtube" aria-hidden="true"></span>YouTube</span>
+            <strong>チャンネルを見る</strong>
+          </a>
+          <a href="pages/terms.html">
+            <span>Terms</span>
+            <strong>利用規約</strong>
+          </a>
+          <a href="pages/privacy.html">
+            <span>Privacy</span>
+            <strong>プライバシーポリシー</strong>
+          </a>
         </div>
       </section>
     </main>
-    <script src="game.js?v=20260618-result-card-no-url"></script>
+
+    <footer class="site-footer">
+      <span>犬タローゲーム</span>
+      <span>© erikanuinui</span>
+    </footer>
+    <script src="home.js?v=20260620-external-links-local"></script>
   </body>
 </html>
