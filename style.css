@@ -193,6 +193,39 @@ a {
   outline-offset: 3px;
 }
 
+.home-link {
+  position: absolute;
+  left: 50%;
+  top: calc(54% + 56px);
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(29, 37, 33, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #1d2521;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateX(-50%);
+  backdrop-filter: blur(10px);
+}
+
+.game-shell.is-playing .home-link,
+.game-shell.is-ended .home-link,
+.game-shell.is-result .home-link {
+  display: none;
+}
+
+.home-link:focus-visible {
+  outline: 3px solid #e3b657;
+  outline-offset: 3px;
+}
+
 .continue-button {
   position: absolute;
   left: 50%;
@@ -430,7 +463,8 @@ a {
 .share-panel button:focus-visible,
 .share-panel a:focus-visible,
 .profile-panel button:focus-visible,
-.profile-panel a:focus-visible {
+.profile-panel a:focus-visible,
+.result-home-link:focus-visible {
   outline: 3px solid #e3b657;
   outline-offset: 2px;
 }
@@ -444,7 +478,8 @@ a {
 }
 
 .restart-button,
-.end-button {
+.end-button,
+.result-home-link {
   min-height: 46px;
   border-radius: 8px;
   cursor: pointer;
@@ -452,6 +487,7 @@ a {
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0;
+  text-decoration: none;
 }
 
 .restart-button {
@@ -460,14 +496,19 @@ a {
   color: #fff;
 }
 
-.end-button {
+.end-button,
+.result-home-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(29, 37, 33, 0.18);
   background: rgba(255, 255, 255, 0.76);
   color: #1d2521;
 }
 
 .restart-button:focus-visible,
-.end-button:focus-visible {
+.end-button:focus-visible,
+.result-home-link:focus-visible {
   outline: 3px solid #e3b657;
   outline-offset: 3px;
 }

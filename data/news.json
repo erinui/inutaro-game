@@ -1,0 +1,32 @@
+[
+  {
+    "id": "x-follow-erikanuinui",
+    "source": "x",
+    "sourceLabel": "X",
+    "date": "2026-06-19",
+    "title": "犬タローゲームの更新情報はXでもおしらせします",
+    "body": "制作メモやアップデート情報を投稿していきます。",
+    "url": "https://x.com/erikanuinui",
+    "cta": "Xで見る"
+  },
+  {
+    "id": "youtube-channel-erikanuinui",
+    "source": "youtube",
+    "sourceLabel": "YouTube",
+    "date": "2026-06-19",
+    "title": "YouTubeチャンネルへの導線を追加しました",
+    "body": "動画や活動情報を見られるように、チャンネルへのリンクをまとめています。",
+    "url": "https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9",
+    "cta": "YouTubeで見る"
+  },
+  {
+    "id": "home-page-start",
+    "source": "blog",
+    "sourceLabel": "Blog",
+    "date": "2026-06-19",
+    "title": "犬タローゲームのホームページを準備中です",
+    "body": "ゲーム選択、キャラクター紹介、ブログ、おしらせを見られるサイトに育てていきます。",
+    "url": "pages/blog.html",
+    "cta": "記事を見る"
+  }
+]

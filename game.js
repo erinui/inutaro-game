@@ -1,5 +1,6 @@
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
+const gameShell = document.querySelector(".game-shell");
 const scoreEl = document.querySelector("#score");
 const timeEl = document.querySelector("#time");
 const startButton = document.querySelector("#start");
@@ -14,7 +15,6 @@ const resultAEl = document.querySelector("#result-a");
 const resultBEl = document.querySelector("#result-b");
 const resultCEl = document.querySelector("#result-c");
 const restartButton = document.querySelector("#restart");
-const endButton = document.querySelector("#end");
 const saveScreenButton = document.querySelector("#save-screen");
 const saveResultButton = document.querySelector("#save-result");
 const shareOpenButton = document.querySelector("#share-open");
@@ -33,7 +33,10 @@ const jumpButton = document.querySelector("#jump-button");
 const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: coarse)");
 
 const durationSeconds = 40;
-const gameUrl = "https://erinui.github.io/inutaro-game/?share=20260616-ogp";
+const siteUrl = "https://erinui.github.io/inutaro-game/";
+const gameUrl = `${siteUrl}games/inutaro-mushi/?share=20260619-home`;
+const scriptUrl = document.currentScript?.src || new URL("game.js", window.location.href).href;
+const assetBaseUrl = new URL("assets/", scriptUrl);
 const assetPromises = [];
 const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
 const renderState = {
@@ -49,31 +52,31 @@ const backgroundCache = {
   ready: false,
 };
 
-const backgroundImage = loadImage("assets/bg.jpg?v=20260614-bg");
+const backgroundImage = loadImage(assetUrl("bg.jpg?v=20260614-bg"));
 
 const playerImages = {
-  idle: loadImage("assets/player_idle.png"),
-  jump: loadImage("assets/player_jump.png"),
+  idle: loadImage(assetUrl("player_idle.png")),
+  jump: loadImage(assetUrl("player_jump.png")),
 };
 
 const enemyImages = {
-  idle: loadImage("assets/enemy_idle.png"),
-  hazard: loadImage("assets/hazard_1.png"),
-  impact: loadImage("assets/hazard_2.png"),
+  idle: loadImage(assetUrl("enemy_idle.png")),
+  hazard: loadImage(assetUrl("hazard_1.png")),
+  impact: loadImage(assetUrl("hazard_2.png")),
 };
 
 const itemImages = {
-  a: loadImage("assets/item_a.png"),
-  b: loadImage("assets/item_b.png"),
-  c: loadImage("assets/item_c.png"),
+  a: loadImage(assetUrl("item_a.png")),
+  b: loadImage(assetUrl("item_b.png")),
+  c: loadImage(assetUrl("item_c.png")),
 };
 
 const soundEffects = {
-  jump: loadSound("assets/sound_jump.mp3", 0.48, { maxDuration: 0.34, minInterval: 80 }),
-  itemGet: loadSound("assets/sound_itemget.mp3", 0.48, { maxDuration: 0.62, minInterval: 90 }),
-  hazardHit: loadSound("assets/sound_hazard-hit.mp3", 0.66, { maxDuration: 0.32, minInterval: 120 }),
+  jump: loadSound(assetUrl("sound_jump.mp3"), 0.48, { maxDuration: 0.34, minInterval: 80 }),
+  itemGet: loadSound(assetUrl("sound_itemget.mp3"), 0.48, { maxDuration: 0.62, minInterval: 90 }),
+  hazardHit: loadSound(assetUrl("sound_hazard-hit.mp3"), 0.66, { maxDuration: 0.32, minInterval: 120 }),
 };
-const backgroundMusic = loadBgm("assets/bgm.mp3?v=20260616-bgm2", 0.24);
+const backgroundMusic = loadBgm(assetUrl("bgm.mp3?v=20260616-bgm2"), 0.24);
 let audioContext = null;
 let soundUnlocked = false;
 let bgmStarted = false;
@@ -102,6 +105,10 @@ const palettes = {
   danger: "#7d3842",
   safe: "#4f7d65",
 };
+
+function assetUrl(path) {
+  return new URL(path, assetBaseUrl).href;
+}
 
 const state = {
   running: false,
@@ -220,6 +227,8 @@ function resetGame() {
   timeEl.textContent = String(durationSeconds);
   startButton.textContent = "リセット";
   startButton.classList.add("is-compact");
+  gameShell.classList.add("is-playing");
+  gameShell.classList.remove("is-ended", "is-result");
   continueButton.hidden = true;
   resultPanel.hidden = true;
 }
@@ -262,6 +271,7 @@ function showTitle() {
   timeEl.textContent = String(durationSeconds);
   startButton.textContent = "はじめる";
   startButton.classList.remove("is-compact");
+  gameShell.classList.remove("is-playing", "is-ended", "is-result");
   continueButton.hidden = true;
   resultPanel.hidden = true;
   sharePanel.hidden = true;
@@ -276,6 +286,8 @@ function finishGame(now, reason) {
   }
 
   state.running = false;
+  gameShell.classList.remove("is-playing", "is-result");
+  gameShell.classList.add("is-ended");
   state.endedAt = now;
   state.endReason = reason;
   state.continueVisible = false;
@@ -300,6 +312,8 @@ function showResult() {
   state.resultPending = false;
   state.continueVisible = false;
   state.resultVisible = true;
+  gameShell.classList.remove("is-ended");
+  gameShell.classList.add("is-result");
   continueButton.hidden = true;
   resultTitleEl.textContent = state.endReason === "hazard" ? "ゲームオーバー" : "クリア！";
   const isGameOver = state.endReason === "hazard";
@@ -1856,8 +1870,7 @@ document.addEventListener("keydown", unlockSounds, { once: true });
 soundToggleButton?.addEventListener("click", toggleSound);
 startButton.addEventListener("click", resetGame);
 continueButton.addEventListener("click", showResult);
-restartButton.addEventListener("click", resetGame);
-endButton.addEventListener("click", showTitle);
+restartButton.addEventListener("click", showTitle);
 saveScreenButton.addEventListener("click", () => runAction(saveEndScreenCapture));
 saveResultButton.addEventListener("click", () => runAction(saveResultCapture));
 shareOpenButton.addEventListener("click", () => {
