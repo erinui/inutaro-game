@@ -365,6 +365,11 @@ a {
   object-fit: contain;
 }
 
+.result-breakdown img.result-item-snail {
+  transform: translateY(-13px);
+  transform-origin: center center;
+}
+
 .result-breakdown strong {
   display: inline-flex;
   align-items: baseline;
@@ -592,6 +597,10 @@ a {
   .result-breakdown img {
     width: 44px;
     height: 44px;
+  }
+
+  .result-breakdown img.result-item-snail {
+    transform: translateY(-11px);
   }
 
   .result-actions,

@@ -66,7 +66,7 @@ const enemyImages = {
 };
 
 const itemImages = {
-  a: loadImage(assetUrl("item_a.png")),
+  a: loadImage(assetUrl("item_a.png?v=20260620-snail")),
   b: loadImage(assetUrl("item_b.png")),
   c: loadImage(assetUrl("item_c.png")),
 };
@@ -84,7 +84,17 @@ let bgmLoadRequested = false;
 let soundEnabled = true;
 
 const itemTypes = [
-  { key: "a", label: "A", motion: "ground", radius: 18, spriteSize: 75, color: "#f0c85a", glow: "rgba(240, 200, 90, 0.20)", speed: 62 },
+  {
+    key: "a",
+    label: "A",
+    motion: "ground",
+    radius: 18,
+    spriteSize: 78.4,
+    groundAnchor: 0.48,
+    color: "#f0c85a",
+    glow: "rgba(240, 200, 90, 0.20)",
+    speed: 62,
+  },
   { key: "b", label: "B", motion: "flutter", radius: 34, spriteSize: 126, color: "#d9bd42", glow: "rgba(240, 200, 90, 0.18)", speed: 148 },
   { key: "c", label: "C", motion: "dragonfly", radius: 30, spriteSize: 118, color: "#74a6cf", glow: "rgba(116, 166, 207, 0.22)", speed: 340 },
 ];
@@ -362,7 +372,7 @@ function spawnItem(now) {
   let y = playableTop + ((lane + 0.5) / laneCount) * (playableBottom - playableTop);
 
   if (type.motion === "ground") {
-    y = v.floorY - spriteSize * 0.22;
+    y = v.floorY - spriteSize * (type.groundAnchor ?? 0.22);
   } else if (type.motion === "flutter") {
     const airLaneCount = v.w < 620 ? 3 : 4;
     const airLane = Math.floor(Math.random() * airLaneCount);
@@ -1180,7 +1190,7 @@ function createResultCardCanvas() {
   }
 
   const rows = [
-    { image: itemImages.a, count: state.itemCounts.a, x: 120 },
+    { image: itemImages.a, count: state.itemCounts.a, x: 120, drawY: -29 },
     { image: itemImages.b, count: state.itemCounts.b, x: 284 },
     { image: itemImages.c, count: state.itemCounts.c, x: 448 },
   ];
@@ -1190,7 +1200,8 @@ function createResultCardCanvas() {
     roundRectOn(card, row.x, 440, 128, 86, 18);
     card.fill();
     if (row.image.complete && row.image.naturalWidth) {
-      card.drawImage(row.image, row.x + 12, 451, 62, 62);
+      const itemSize = row.drawSize ?? 62;
+      card.drawImage(row.image, row.x + 12 + (row.drawX ?? 0), 451 + (row.drawY ?? 0), itemSize, itemSize);
     }
     card.fillStyle = palettes.text;
     drawCountWithUnit(card, row.count, row.x + 78, 495, 32, 17);
