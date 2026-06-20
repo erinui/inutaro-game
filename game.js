@@ -36,7 +36,7 @@ const jumpButton = document.querySelector("#jump-button");
 const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: coarse)");
 
 const durationSeconds = 40;
-const siteUrl = "https://erinui.github.io/inutaro-game/";
+const siteUrl = "https://erinui.github.io/games/inutaro-mushi/";
 const gameUrl = `${siteUrl}games/inutaro-mushi/?share=20260619-home`;
 const scriptUrl = document.currentScript?.src || new URL("game.js", window.location.href).href;
 const assetBaseUrl = new URL("assets/", scriptUrl);
