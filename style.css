@@ -368,10 +368,8 @@ a {
   height: 74px;
 }
 
-.howto-plus {
-  color: #5f6a64;
-  font-size: 22px;
-  font-weight: 900;
+.howto-visual img.howto-snail {
+  transform: translateY(-9px);
 }
 
 .howto-grid {
@@ -439,6 +437,10 @@ a {
 
 .howto-device-sp {
   display: none;
+}
+
+.howto-device-sp .howto-control-art {
+  flex-wrap: nowrap;
 }
 
 .howto-control-art {
@@ -887,6 +889,10 @@ a {
     height: 58px;
   }
 
+  .howto-visual img.howto-snail {
+    transform: translateY(-7px);
+  }
+
   .howto-grid {
     grid-template-columns: 1fr;
     gap: 8px;
@@ -1095,8 +1101,10 @@ a {
     display: grid;
   }
 
-  .howto-control-art {
+  .howto-device-sp .howto-control-art {
+    flex-wrap: nowrap;
     min-height: 74px;
+    gap: 12px;
   }
 
   .continue-button,
