@@ -156,7 +156,7 @@ https://erinui.github.io/
 
 | ファイル | 用途 |
 | --- | --- |
-| `assets/html2canvas.min.js` | リザルト画像保存・共有用のキャプチャ |
+| `assets/html2canvas.min.js` | 旧リザルトモーダル保存実装で使用していたDOMキャプチャライブラリ。現在のリザルト保存はCanvasで共有用カードを生成 |
 
 ## CSS / JS の役割
 
