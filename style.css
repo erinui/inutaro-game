@@ -893,16 +893,15 @@ a {
   }
 
   .howto-cardlet {
-    grid-template-columns: 74px 1fr;
-    align-items: center;
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 6px;
   }
 
   .howto-cardlet-image {
-    grid-row: span 2;
-  }
-
-  .howto-cardlet-image {
-    min-height: 54px;
+    grid-row: auto;
+    min-height: 48px;
+    justify-content: center;
   }
 
   .howto-cardlet-image img {
