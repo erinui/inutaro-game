@@ -6,14 +6,14 @@
     <title>犬タローの虫さんまってまって</title>
     <meta
       name="description"
-      content="犬タローを操作して、制限時間内に虫さんを集めるブラウザゲームです。お邪魔に当たるとゲームオーバー。"
+      content="犬タローを操作して、制限時間内に虫さんを集めるブラウザゲームです。カラスの落とし物に当たるとゲームオーバー。"
     />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="犬タローの虫さんまってまって" />
     <meta property="og:title" content="犬タローの虫さんまってまって" />
     <meta
       property="og:description"
-      content="犬タローを操作して虫さんを捕まえるブラウザゲーム。お邪魔を避けながら、制限時間内に何びき捕まえられるかな？"
+      content="犬タローを操作して虫さんを捕まえるブラウザゲーム。カラスの落とし物をよけながら、制限時間内に何びき捕まえられるかな？"
     />
     <meta property="og:url" content="https://erinui.github.io/inutaro-game/games/inutaro-mushi/" />
     <meta property="og:image" content="https://erinui.github.io/inutaro-game/assets/icon-192.png?v=20260616-icon" />
@@ -21,13 +21,13 @@
     <meta name="twitter:title" content="犬タローの虫さんまってまって" />
     <meta
       name="twitter:description"
-      content="犬タローを操作して虫さんを捕まえるブラウザゲーム。お邪魔を避けながら、制限時間内に何びき捕まえられるかな？"
+      content="犬タローを操作して虫さんを捕まえるブラウザゲーム。カラスの落とし物をよけながら、制限時間内に何びき捕まえられるかな？"
     />
     <meta name="twitter:image" content="https://erinui.github.io/inutaro-game/assets/icon-192.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon.png?v=20260616-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-touch-icon.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="192x192" href="../../assets/icon-192.png?v=20260616-icon" />
-    <link rel="stylesheet" href="../../style.css?v=20260620-snail-size" />
+    <link rel="stylesheet" href="../../style.css?v=20260620-howto" />
   </head>
   <body>
     <main class="game-shell">
@@ -45,8 +45,13 @@
       <button id="sound-toggle" class="sound-toggle" type="button" aria-label="サウンドを切る" aria-pressed="false">
         <span class="sound-icon" aria-hidden="true"></span>
       </button>
-      <button id="start" class="start-button" type="button">はじめる</button>
-      <a class="home-link" href="../../">ホームへ</a>
+      <div class="start-actions">
+        <button id="start" class="start-button" type="button">はじめる</button>
+        <button id="howto-open" class="howto-button" type="button" aria-expanded="false" aria-controls="howto-panel">
+          あそびかた
+        </button>
+        <a class="home-link" href="../../">ホームへ</a>
+      </div>
       <button id="continue" class="continue-button" type="button" hidden>けっかへ</button>
       <div id="mobile-controls" class="mobile-controls">
         <div id="stick-zone" class="stick-zone" role="application" aria-label="左右移動スティック">
@@ -56,6 +61,63 @@
         </div>
         <button id="jump-button" class="jump-button" type="button" aria-label="ジャンプ">↑</button>
       </div>
+      <section id="howto-panel" class="howto-panel" role="dialog" aria-modal="true" aria-labelledby="howto-title" hidden>
+        <div class="howto-card">
+          <div class="howto-head">
+            <span>あそびかた</span>
+            <button id="howto-close" class="howto-close" type="button" aria-label="あそびかたを閉じる">×</button>
+          </div>
+          <strong id="howto-title" class="howto-title">虫さんをつかまえるヌ！</strong>
+          <div class="howto-visual howto-visual-goal" aria-hidden="true">
+            <img class="howto-player" src="../../assets/player_idle.png" alt="" />
+            <span class="howto-plus">+</span>
+            <img src="../../assets/item_a.png?v=20260620-snail" alt="" />
+            <img src="../../assets/item_b.png" alt="" />
+            <img src="../../assets/item_c.png" alt="" />
+          </div>
+          <div class="howto-grid">
+            <article class="howto-cardlet">
+              <div class="howto-cardlet-image">
+                <img class="howto-snail" src="../../assets/item_a.png?v=20260620-snail" alt="" />
+                <img src="../../assets/item_b.png" alt="" />
+                <img src="../../assets/item_c.png" alt="" />
+              </div>
+              <h3>虫さんをつかまえる</h3>
+              <p>カタツムリ、蝶、トンボを集めます。制限時間は40秒です。</p>
+            </article>
+            <article class="howto-cardlet">
+              <div class="howto-cardlet-image">
+                <img src="../../assets/enemy_idle.png" alt="" />
+                <img src="../../assets/hazard_1.png" alt="" />
+              </div>
+              <h3>カラスの落とし物をよける</h3>
+              <p>カラスの落とし物に当たると、その時点でゲームオーバーです。</p>
+            </article>
+          </div>
+          <div class="howto-device howto-device-pc">
+            <div class="howto-control-art" aria-hidden="true">
+              <span class="howto-mouse"></span>
+              <span class="howto-key">←</span>
+              <span class="howto-key">→</span>
+              <span class="howto-key howto-key-wide">SPACE</span>
+            </div>
+            <div>
+              <h3>PCでの操作</h3>
+              <p>マウス移動で左右移動、クリックでジャンプ。キーボードは← → / A Dで移動、Space / ↑ / Wでジャンプできます。</p>
+            </div>
+          </div>
+          <div class="howto-device howto-device-sp">
+            <div class="howto-control-art" aria-hidden="true">
+              <span class="howto-jump-demo">↑</span>
+              <span class="howto-stick-demo"><i></i></span>
+            </div>
+            <div>
+              <h3>スマホでの操作</h3>
+              <p>左のジャンプボタンでジャンプ。右のスティックを左右に動かして犬タローを移動します。</p>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="result-panel" class="result-panel" aria-live="polite" hidden>
         <span class="result-label">けっか</span>
         <strong id="result-title" class="result-title">クリア！</strong>
@@ -107,6 +169,6 @@
         </div>
       </section>
     </main>
-    <script src="../../game.js?v=20260620-snail-size"></script>
+    <script src="../../game.js?v=20260620-howto"></script>
   </body>
 </html>
