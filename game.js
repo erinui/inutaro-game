@@ -4,6 +4,9 @@ const gameShell = document.querySelector(".game-shell");
 const scoreEl = document.querySelector("#score");
 const timeEl = document.querySelector("#time");
 const startButton = document.querySelector("#start");
+const howtoOpenButton = document.querySelector("#howto-open");
+const howtoCloseButton = document.querySelector("#howto-close");
+const howtoPanel = document.querySelector("#howto-panel");
 const soundToggleButton = document.querySelector("#sound-toggle");
 const continueButton = document.querySelector("#continue");
 const resultPanel = document.querySelector("#result-panel");
@@ -199,8 +202,28 @@ function view() {
   return renderState.view;
 }
 
+function openHowto() {
+  if (!howtoPanel || !howtoOpenButton) {
+    return;
+  }
+
+  howtoPanel.hidden = false;
+  howtoOpenButton.setAttribute("aria-expanded", "true");
+  howtoCloseButton?.focus();
+}
+
+function closeHowto() {
+  if (!howtoPanel || !howtoOpenButton) {
+    return;
+  }
+
+  howtoPanel.hidden = true;
+  howtoOpenButton.setAttribute("aria-expanded", "false");
+}
+
 function resetGame() {
   const now = performance.now();
+  closeHowto();
   startBgm();
   state.running = true;
   state.startedAt = now;
@@ -245,6 +268,7 @@ function resetGame() {
 
 function showTitle() {
   const now = performance.now();
+  closeHowto();
   state.running = false;
   state.startedAt = 0;
   state.lastTime = now;
@@ -1863,6 +1887,18 @@ jumpButton.addEventListener("click", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
+  if (howtoPanel && !howtoPanel.hidden) {
+    if (event.key === "Escape") {
+      closeHowto();
+      howtoOpenButton?.focus();
+      return;
+    }
+    if (event.key !== "Tab") {
+      event.preventDefault();
+      return;
+    }
+  }
+
   state.keys.add(event.key);
   if (event.key === " " || event.key === "ArrowUp" || event.key === "w") {
     event.preventDefault();
@@ -1878,6 +1914,17 @@ document.addEventListener("pointerdown", unlockSounds, { once: true, capture: tr
 document.addEventListener("touchstart", unlockSounds, { once: true, capture: true, passive: true });
 document.addEventListener("keydown", unlockSounds, { once: true });
 
+howtoOpenButton?.addEventListener("click", openHowto);
+howtoCloseButton?.addEventListener("click", () => {
+  closeHowto();
+  howtoOpenButton?.focus();
+});
+howtoPanel?.addEventListener("click", (event) => {
+  if (event.target === howtoPanel) {
+    closeHowto();
+    howtoOpenButton?.focus();
+  }
+});
 soundToggleButton?.addEventListener("click", toggleSound);
 startButton.addEventListener("click", resetGame);
 continueButton.addEventListener("click", showResult);

@@ -166,10 +166,19 @@ a {
   outline-offset: 3px;
 }
 
-.start-button {
+.start-actions {
   position: absolute;
   left: 50%;
   top: 54%;
+  z-index: 4;
+  display: grid;
+  width: min(210px, 68%);
+  gap: 10px;
+  transform: translate(-50%, -50%);
+}
+
+.start-button,
+.howto-button {
   min-width: 96px;
   min-height: 44px;
   border: 0;
@@ -181,27 +190,32 @@ a {
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0;
-  transform: translate(-50%, -50%);
 }
 
 .start-button.is-compact {
   display: none;
 }
 
-.start-button:focus-visible {
+.howto-button {
+  border: 1px solid rgba(29, 37, 33, 0.18);
+  background: rgba(255, 255, 255, 0.82);
+  color: #1d2521;
+  box-shadow: 0 5px 12px rgba(29, 37, 33, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.start-button:focus-visible,
+.howto-button:focus-visible {
   outline: 3px solid #e3b657;
   outline-offset: 3px;
 }
 
 .home-link {
-  position: absolute;
-  left: 50%;
-  top: calc(54% + 56px);
-  z-index: 4;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 92px;
+  width: 100%;
+  min-width: 96px;
   min-height: 36px;
   padding: 0 14px;
   border: 1px solid rgba(29, 37, 33, 0.18);
@@ -211,10 +225,12 @@ a {
   font-size: 13px;
   font-weight: 800;
   text-decoration: none;
-  transform: translateX(-50%);
   backdrop-filter: blur(10px);
 }
 
+.game-shell.is-playing .start-actions,
+.game-shell.is-ended .start-actions,
+.game-shell.is-result .start-actions,
 .game-shell.is-playing .home-link,
 .game-shell.is-ended .home-link,
 .game-shell.is-result .home-link {
@@ -256,6 +272,265 @@ a {
 
 .mobile-controls {
   display: none;
+}
+
+.howto-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(223, 242, 242, 0.48);
+  backdrop-filter: blur(5px);
+  touch-action: pan-y;
+}
+
+.howto-panel[hidden] {
+  display: none;
+}
+
+.howto-card {
+  display: grid;
+  width: min(92%, 560px);
+  max-height: min(88dvh, calc(100% - 24px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(29, 37, 33, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 42px rgba(29, 37, 33, 0.22);
+  animation: howto-enter 300ms cubic-bezier(0.2, 0.86, 0.22, 1) both;
+  scrollbar-gutter: stable both-edges;
+  -webkit-overflow-scrolling: touch;
+}
+
+.howto-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.howto-head span {
+  color: #5f6a64;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.howto-close {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid rgba(29, 37, 33, 0.16);
+  border-radius: 50%;
+  background: rgba(249, 250, 245, 0.88);
+  color: #1d2521;
+  cursor: pointer;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.howto-title {
+  color: #151b18;
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.howto-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 86px;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid rgba(29, 37, 33, 0.12);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(223, 242, 242, 0.88), rgba(183, 218, 193, 0.68));
+}
+
+.howto-visual img {
+  display: block;
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.howto-visual .howto-player {
+  width: 74px;
+  height: 74px;
+}
+
+.howto-plus {
+  color: #5f6a64;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.howto-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.howto-cardlet,
+.howto-device {
+  border: 1px solid rgba(29, 37, 33, 0.12);
+  border-radius: 8px;
+  background: rgba(249, 250, 245, 0.72);
+}
+
+.howto-cardlet {
+  display: grid;
+  gap: 7px;
+  padding: 11px;
+}
+
+.howto-cardlet-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  gap: 4px;
+}
+
+.howto-cardlet-image img {
+  display: block;
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.howto-cardlet-image img.howto-snail {
+  transform: translateY(-9px);
+}
+
+.howto-cardlet h3,
+.howto-device h3 {
+  margin: 0;
+  color: #151b18;
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.howto-cardlet p,
+.howto-device p {
+  margin: 0;
+  color: #4d5b53;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.howto-device {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.howto-device-sp {
+  display: none;
+}
+
+.howto-control-art {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  min-height: 86px;
+  gap: 7px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(223, 242, 242, 0.65);
+}
+
+.howto-mouse {
+  position: relative;
+  display: block;
+  width: 42px;
+  height: 62px;
+  border: 3px solid #1d2521;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.howto-mouse::before {
+  position: absolute;
+  left: 50%;
+  top: 9px;
+  width: 4px;
+  height: 12px;
+  border-radius: 4px;
+  background: #e3b657;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.howto-key {
+  display: grid;
+  min-width: 34px;
+  height: 32px;
+  place-items: center;
+  border: 2px solid rgba(29, 37, 33, 0.22);
+  border-radius: 6px;
+  background: #fff;
+  color: #1d2521;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.howto-key-wide {
+  min-width: 68px;
+  font-size: 11px;
+}
+
+.howto-jump-demo {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(29, 37, 33, 0.82);
+  color: #fff;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.howto-stick-demo {
+  position: relative;
+  display: block;
+  width: 78px;
+  height: 78px;
+  border: 2px solid rgba(29, 37, 33, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.howto-stick-demo i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 5px 10px rgba(29, 37, 33, 0.14);
+  transform: translate(-18%, -50%);
+}
+
+.howto-close:focus-visible {
+  outline: 3px solid #e3b657;
+  outline-offset: 2px;
 }
 
 .result-panel {
@@ -530,6 +805,18 @@ a {
   }
 }
 
+@keyframes howto-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 720px) {
   body {
     padding: 10px;
@@ -564,6 +851,76 @@ a {
 
   .start-button.is-compact {
     display: none;
+  }
+
+  .start-actions {
+    width: min(230px, 70%);
+    gap: 9px;
+  }
+
+  .howto-panel {
+    padding: 12px;
+  }
+
+  .howto-card {
+    width: calc(100% - 24px);
+    max-height: calc(100% - 24px);
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .howto-title {
+    font-size: 24px;
+  }
+
+  .howto-visual {
+    min-height: 76px;
+  }
+
+  .howto-visual img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .howto-visual .howto-player {
+    width: 58px;
+    height: 58px;
+  }
+
+  .howto-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .howto-cardlet {
+    grid-template-columns: 74px 1fr;
+    align-items: center;
+  }
+
+  .howto-cardlet-image {
+    grid-row: span 2;
+  }
+
+  .howto-cardlet-image {
+    min-height: 54px;
+  }
+
+  .howto-cardlet-image img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .howto-cardlet-image img.howto-snail {
+    transform: translateY(-7px);
+  }
+
+  .howto-cardlet h3 {
+    margin-bottom: 3px;
+  }
+
+  .howto-device {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .continue-button {
@@ -729,6 +1086,18 @@ a {
 
   .result-panel {
     z-index: 7;
+  }
+
+  .howto-device-pc {
+    display: none;
+  }
+
+  .howto-device-sp {
+    display: grid;
+  }
+
+  .howto-control-art {
+    min-height: 74px;
   }
 
   .continue-button,
