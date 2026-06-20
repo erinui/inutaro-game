@@ -1786,9 +1786,6 @@ let lastTouchEndAt = 0;
 document.addEventListener(
   "touchend",
   (event) => {
-    if (!eventInGameShell(event)) {
-      return;
-    }
     const now = Date.now();
     if (now - lastTouchEndAt < 320) {
       event.preventDefault();
