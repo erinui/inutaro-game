@@ -28,6 +28,7 @@ const shareStatusEl = document.querySelector("#share-status");
 const profileOpenButton = document.querySelector("#profile-open");
 const profilePanel = document.querySelector("#profile-panel");
 const profileCloseButton = document.querySelector("#profile-close");
+const browserChromeScrollSpace = document.querySelector(".browser-chrome-scroll-space");
 const stickZone = document.querySelector("#stick-zone");
 const stickThumb = document.querySelector("#stick-thumb");
 const jumpButton = document.querySelector("#jump-button");
@@ -225,6 +226,7 @@ function closeHowto() {
 function resetGame() {
   const now = performance.now();
   closeHowto();
+  requestCompactBrowserChrome();
   startBgm();
   state.running = true;
   state.startedAt = now;
@@ -1729,6 +1731,22 @@ function markFrameDrawn(now, interval) {
 
 function fixedLandscapeRotated() {
   return fixedLandscapeQuery.matches;
+}
+
+function requestCompactBrowserChrome() {
+  if (!mobileControlsEnabled() || !browserChromeScrollSpace) {
+    return;
+  }
+
+  const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const targetY = Math.min(96, maxScroll);
+  if (!targetY) {
+    return;
+  }
+
+  requestAnimationFrame(() => {
+    window.scrollTo({ top: targetY, left: 0, behavior: "auto" });
+  });
 }
 
 function clientToGameXRatio(clientX, clientY) {
