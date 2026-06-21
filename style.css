@@ -60,6 +60,10 @@ canvas {
   -webkit-user-select: none;
 }
 
+.browser-chrome-scroll-space {
+  display: none;
+}
+
 button,
 a {
   touch-action: manipulation;
@@ -994,18 +998,49 @@ a {
 }
 
 @media (pointer: coarse) {
+  html,
   body {
+    scrollbar-width: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    display: block;
     min-height: 100dvh;
     padding: 0;
     background: #dce8df;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .game-shell {
+    position: fixed;
+    left: 50%;
+    top: 50%;
     width: min(100vw, calc(100dvh * 16 / 9));
     height: min(100dvh, calc(100vw * 9 / 16));
     aspect-ratio: 16 / 9;
     border: 0;
     box-shadow: none;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+  }
+
+  .game-shell:not(.is-playing),
+  .game-shell:not(.is-playing) canvas {
+    touch-action: pan-y;
+  }
+
+  .browser-chrome-scroll-space {
+    display: block;
+    width: 1px;
+    height: calc(100dvh + 140px);
+    opacity: 0;
+    pointer-events: none;
   }
 
   .hud {
