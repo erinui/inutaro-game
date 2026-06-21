@@ -30,10 +30,9 @@ const profilePanel = document.querySelector("#profile-panel");
 const profileCloseButton = document.querySelector("#profile-close");
 const stickZone = document.querySelector("#stick-zone");
 const stickThumb = document.querySelector("#stick-thumb");
-const moveLeftButton = document.querySelector("#move-left");
-const moveRightButton = document.querySelector("#move-right");
 const jumpButton = document.querySelector("#jump-button");
-const mobileControlsQuery = window.matchMedia("(max-width: 760px) and (pointer: coarse)");
+const mobileControlsQuery = window.matchMedia("(pointer: coarse)");
+const fixedLandscapeQuery = window.matchMedia("(orientation: portrait)");
 
 const durationSeconds = 40;
 const siteUrl = "https://erinui.github.io/games/inutaro-mushi/";
@@ -175,6 +174,8 @@ const frameControl = {
 
 function fitCanvas() {
   const rect = canvas.getBoundingClientRect();
+  const cssWidth = canvas.clientWidth || rect.width;
+  const cssHeight = canvas.clientHeight || rect.height;
   const maxPixelRatio = coarsePointerQuery.matches ? 1.5 : 2;
   const ratio = Math.min(window.devicePixelRatio || 1, maxPixelRatio);
   renderState.ratio = ratio;
@@ -185,13 +186,13 @@ function fitCanvas() {
     height: rect.height,
   };
   renderState.view = {
-    w: rect.width,
-    h: rect.height,
-    floorY: rect.height * 0.84,
-    skyLine: rect.height * 0.18,
+    w: cssWidth,
+    h: cssHeight,
+    floorY: cssHeight * 0.84,
+    skyLine: cssHeight * 0.18,
   };
-  canvas.width = Math.round(rect.width * ratio);
-  canvas.height = Math.round(rect.height * ratio);
+  canvas.width = Math.round(cssWidth * ratio);
+  canvas.height = Math.round(cssHeight * ratio);
   ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = coarsePointerQuery.matches ? "low" : "medium";
@@ -1726,8 +1727,20 @@ function markFrameDrawn(now, interval) {
   frameControl.lastDrawAt = now;
 }
 
-function setTargetFromClientX(clientX) {
-  state.targetX = Math.max(0, Math.min(1, (clientX - renderState.rect.left) / renderState.rect.width));
+function fixedLandscapeRotated() {
+  return fixedLandscapeQuery.matches;
+}
+
+function clientToGameXRatio(clientX, clientY) {
+  const rect = renderState.rect;
+  if (fixedLandscapeRotated()) {
+    return clamp((clientY - rect.top) / rect.height, 0, 1);
+  }
+  return clamp((clientX - rect.left) / rect.width, 0, 1);
+}
+
+function setTargetFromClientPoint(clientX, clientY) {
+  state.targetX = clientToGameXRatio(clientX, clientY);
 }
 
 function mobileControlsEnabled() {
@@ -1744,9 +1757,11 @@ function updateStickFromPointer(event) {
   const centerY = rect.top + rect.height * 0.5;
   const dx = clamp(event.clientX - centerX, -max, max);
   const dy = clamp(event.clientY - centerY, -max, max);
+  const inputDx = fixedLandscapeRotated() ? dy : dx;
+  const inputDy = fixedLandscapeRotated() ? -dx : dy;
 
-  state.virtualStickX = Math.abs(dx / max) < 0.08 ? 0 : dx / max;
-  state.virtualStickY = dy / max;
+  state.virtualStickX = Math.abs(inputDx / max) < 0.08 ? 0 : inputDx / max;
+  state.virtualStickY = inputDy / max;
   stickThumb.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
 }
 
@@ -1756,8 +1771,6 @@ function resetStick() {
   state.virtualStickY = 0;
   stickZone?.classList.remove("is-active");
   stickThumb?.style.removeProperty("transform");
-  moveLeftButton?.classList.remove("is-active");
-  moveRightButton?.classList.remove("is-active");
 }
 
 function eventInGameShell(event) {
@@ -1799,7 +1812,7 @@ canvas.addEventListener("pointermove", (event) => {
   if (mobileControlsEnabled()) {
     return;
   }
-  setTargetFromClientX(event.clientX);
+  setTargetFromClientPoint(event.clientX, event.clientY);
 });
 
 canvas.addEventListener("pointerdown", (event) => {
@@ -1807,7 +1820,7 @@ canvas.addEventListener("pointerdown", (event) => {
     return;
   }
   canvas.setPointerCapture(event.pointerId);
-  setTargetFromClientX(event.clientX);
+  setTargetFromClientPoint(event.clientX, event.clientY);
   jump(event.timeStamp || performance.now());
 });
 
@@ -1839,34 +1852,6 @@ if (stickZone) {
     });
   }
 }
-
-function bindMoveButton(button, direction) {
-  if (!button) {
-    return;
-  }
-
-  button.addEventListener("pointerdown", (event) => {
-    if (!mobileControlsEnabled()) {
-      return;
-    }
-    event.preventDefault();
-    state.stickPointerId = event.pointerId;
-    state.virtualStickX = direction;
-    button.setPointerCapture(event.pointerId);
-    button.classList.add("is-active");
-  });
-
-  for (const eventName of ["pointerup", "pointercancel", "lostpointercapture"]) {
-    button.addEventListener(eventName, (event) => {
-      if (state.stickPointerId === event.pointerId && state.virtualStickX === direction) {
-        resetStick();
-      }
-    });
-  }
-}
-
-bindMoveButton(moveLeftButton, -1);
-bindMoveButton(moveRightButton, 1);
 
 jumpButton.addEventListener("pointerdown", (event) => {
   if (!mobileControlsEnabled()) {
@@ -1943,9 +1928,12 @@ profileOpenButton.addEventListener("click", () => {
 profileCloseButton.addEventListener("click", () => {
   profilePanel.hidden = true;
 });
-window.addEventListener("resize", fitCanvas);
-window.addEventListener("orientationchange", fitCanvas);
-window.visualViewport?.addEventListener("resize", fitCanvas);
+const handleViewportChange = () => {
+  fitCanvas();
+};
+window.addEventListener("resize", handleViewportChange);
+window.addEventListener("orientationchange", handleViewportChange);
+window.visualViewport?.addEventListener("resize", handleViewportChange);
 document.addEventListener("visibilitychange", () => {
   const now = performance.now();
   state.lastTime = now;
@@ -1961,7 +1949,11 @@ if (mobileControlsQuery.addEventListener) {
 } else {
   mobileControlsQuery.addListener(resetStickOnDesktop);
 }
-
+if (fixedLandscapeQuery.addEventListener) {
+  fixedLandscapeQuery.addEventListener("change", handleViewportChange);
+} else {
+  fixedLandscapeQuery.addListener(handleViewportChange);
+}
 fitCanvas();
 updateSoundToggle();
 drawLoadingScreen(view());
