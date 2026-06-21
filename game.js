@@ -41,6 +41,7 @@ const gameUrl = `${siteUrl}games/inutaro-mushi/?share=20260619-home`;
 const scriptUrl = document.currentScript?.src || new URL("game.js", window.location.href).href;
 const assetBaseUrl = new URL("assets/", scriptUrl);
 const assetPromises = [];
+const canvasFontFamily = '"KeinannPop", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif';
 const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
 const renderState = {
   ratio: 1,
@@ -56,6 +57,10 @@ const backgroundCache = {
 };
 
 const backgroundImage = loadImage(assetUrl("bg.jpg?v=20260614-bg"));
+
+if (document.fonts?.load) {
+  assetPromises.push(document.fonts.load(`900 24px ${canvasFontFamily}`).catch(() => null));
+}
 
 const playerImages = {
   idle: loadImage(assetUrl("player_idle.png")),
@@ -121,6 +126,10 @@ const palettes = {
 
 function assetUrl(path) {
   return new URL(path, assetBaseUrl).href;
+}
+
+function canvasFont(weight, size) {
+  return `${weight} ${size}px ${canvasFontFamily}`;
 }
 
 const state = {
@@ -945,7 +954,7 @@ function drawPlaceholderItem(item, age) {
   ctx.fill();
   ctx.stroke();
   ctx.fillStyle = "rgba(255,255,255,0.88)";
-  ctx.font = `800 ${Math.max(13, item.radius * 0.9)}px system-ui, sans-serif`;
+  ctx.font = canvasFont(800, Math.max(13, item.radius * 0.9));
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(item.label, 0, 1);
@@ -965,7 +974,7 @@ function drawHazard(hazard, now) {
     ctx.fill();
     ctx.stroke();
     ctx.fillStyle = "rgba(255,255,255,0.78)";
-    ctx.font = `800 ${Math.max(13, hazard.height * 0.34)}px system-ui, sans-serif`;
+    ctx.font = canvasFont(800, Math.max(13, hazard.height * 0.34));
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(hazard.label, 0, 0);
@@ -1097,7 +1106,7 @@ function drawTwinkle(spark, age, alpha) {
 function drawFloaters(now) {
   ctx.save();
   ctx.textAlign = "center";
-  ctx.font = "800 20px system-ui, sans-serif";
+  ctx.font = canvasFont(800, 20);
   for (const floater of state.floaters) {
     const age = (now - floater.bornAt) * 0.001;
     const t = Math.min(1, age / floater.life);
@@ -1117,7 +1126,7 @@ function drawGameOver(v, now) {
   ctx.fillStyle = palettes.text;
   ctx.globalAlpha = reveal;
   ctx.textAlign = "center";
-  ctx.font = `800 ${Math.max(32, v.w * 0.044)}px system-ui, sans-serif`;
+  ctx.font = canvasFont(800, Math.max(32, v.w * 0.044));
   ctx.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", v.w / 2, v.h * 0.45);
   ctx.restore();
 }
@@ -1129,7 +1138,7 @@ function drawEndOverlay(targetCtx, width, height) {
   targetCtx.fillStyle = palettes.text;
   targetCtx.textAlign = "center";
   targetCtx.textBaseline = "middle";
-  targetCtx.font = `800 ${Math.max(46, width * 0.06)}px system-ui, sans-serif`;
+  targetCtx.font = canvasFont(800, Math.max(46, width * 0.06));
   targetCtx.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", width / 2, height * 0.45);
   targetCtx.restore();
 }
@@ -1165,10 +1174,10 @@ function roundRectOn(targetCtx, x, y, w, h, r) {
 
 function drawCountWithUnit(targetCtx, count, x, y, numberSize, unitSize) {
   const text = String(count);
-  targetCtx.font = `900 ${numberSize}px system-ui, sans-serif`;
+  targetCtx.font = canvasFont(900, numberSize);
   targetCtx.fillText(text, x, y);
   const unitX = x + targetCtx.measureText(text).width + Math.max(5, numberSize * 0.12);
-  targetCtx.font = `800 ${unitSize}px system-ui, sans-serif`;
+  targetCtx.font = canvasFont(800, unitSize);
   targetCtx.fillText("ひき", unitX, y);
 }
 
@@ -1191,10 +1200,10 @@ function createResultCardCanvas() {
   card.fillStyle = palettes.text;
   card.textAlign = "left";
   card.textBaseline = "alphabetic";
-  card.font = "800 52px system-ui, sans-serif";
+  card.font = canvasFont(800, 52);
   card.fillText("犬タローの虫さんまってまって", 102, 130);
 
-  card.font = "900 82px system-ui, sans-serif";
+  card.font = canvasFont(900, 82);
   card.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", 102, 230);
 
   if (playerImages.idle.complete && playerImages.idle.naturalWidth) {
@@ -1205,14 +1214,14 @@ function createResultCardCanvas() {
   roundRectOn(card, 102, 280, 390, 136, 20);
   card.fill();
   card.fillStyle = "#5f6a64";
-  card.font = "800 24px system-ui, sans-serif";
+  card.font = canvasFont(800, 24);
   card.fillText("合計", 132, 322);
   card.fillStyle = palettes.text;
   drawCountWithUnit(card, state.score, 132, 390, 78, 30);
 
   if (state.endReason === "hazard") {
     card.fillStyle = "#5f6a64";
-    card.font = "800 25px system-ui, sans-serif";
+    card.font = canvasFont(800, 25);
     card.fillText(`${survivedSeconds().toFixed(1)}秒でゲームオーバー`, 522, 342);
   }
 
