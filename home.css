@@ -1,9 +1,11 @@
 @font-face {
   font-family: "KeinannPop";
-  src: url("assets/fonts/keinann-pop.ttf") format("truetype");
+  src:
+    url("assets/fonts/keinann-pop.woff2") format("woff2"),
+    url("assets/fonts/keinann-pop.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
 }
 
 :root {
