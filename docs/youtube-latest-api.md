@@ -95,7 +95,7 @@ GitHub Actionsでの設定:
 | Repository Variable | `YOUTUBE_CHANNEL_ID` | 任意。未設定時は `UCdnf6zMzSdZuvUxS-CS2REQ` |
 | Repository Variable | `YOUTUBE_HANDLE` | 任意。未設定時は `@えりぬい` |
 
-Workflowは6時間ごとに実行し、GitHub画面から手動実行もできる。
+Workflowは4時間ごとの10分に実行し、GitHub画面から手動実行もできる。
 
 ## レスポンス例
 
