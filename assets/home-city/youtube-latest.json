@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "fetchedAt": "2026-07-04T11:24:59.036Z",
+  "channel": {
+    "id": "UCdnf6zMzSdZuvUxS-CS2REQ",
+    "title": "erikaさんはぬいちゅーばぁ",
+    "handle": "@えりぬい",
+    "url": "https://www.youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ",
+    "statistics": {
+      "subscriberCount": 27,
+      "hiddenSubscriberCount": false,
+      "viewCount": 2523,
+      "videoCount": 28
+    }
+  },
+  "videos": [
+    {
+      "id": "0SYZWyrYrKk",
+      "title": "【犬タローごめん】もっちゅりんをご機嫌に食す！！可愛すぎておかしくなっちゃうっ",
+      "description": "やばいやばいやばい！\nネットオーダーしてからずっっっと\n楽しみに待ってたもっちゅりん！！！\n\n美味しい以前に可愛すぎて…\nこの可愛さは記録しておかねば…\n\n犬タローもいっぱい我慢したね！ごめんね！",
+      "publishedAt": "2026-07-02T09:33:28Z",
+      "url": "https://www.youtube.com/watch?v=0SYZWyrYrKk",
+      "thumbnail": {
+        "url": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "v9yCQAbBghw",
+      "title": "バタピーコーラvsみそピーコーラ|行け千葉県民の魂(ソウル)！熱き闘いがここに🥜",
+      "description": "ぬいちゅーばーたるもの\n流行ってるもんはとりあえずやっとこ🥜\nということで、今更のバタピーコーラです！！\n\nしかし私は千葉県民。\nピーナッツといったら、ピーナッツ味噌…\n\nみそピーでしょ？！？！\n\nピーナッツ界のW杯開催🏆\n🇺🇸アメリカ🆚千葉🇯🇵\n勝者はどちらだ。\n\n………という気持ちで編集してました。\n全然サッカーの話はしてません。",
+      "publishedAt": "2026-06-27T05:33:03Z",
+      "url": "https://www.youtube.com/watch?v=v9yCQAbBghw",
+      "thumbnail": {
+        "url": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    },
+    {
+      "id": "0mzRY_-7uvU",
+      "title": "【IKEA】ぽこポケコラボがてんこもりすぎる",
+      "description": "IKEAのコラボイベントが楽しい…っ！\nぽこあポケモンとコラボだよ。\n\nパピモッチも私も大はしゃぎでした。",
+      "publishedAt": "2026-05-05T05:06:52Z",
+      "url": "https://www.youtube.com/watch?v=0mzRY_-7uvU",
+      "thumbnail": {
+        "url": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    }
+  ]
+}
