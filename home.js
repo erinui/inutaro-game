@@ -1,129 +1,126 @@
-const newsFeed = document.querySelector("#news-feed");
-const newsSourceStyles = {
-  x: "X",
-  youtube: "YouTube",
-  blog: "Blog",
-  game: "Game",
-};
+const youtubeCard = document.querySelector(".map-link-youtube");
+const sasukeButton = document.querySelector(".map-decoration-sasuke");
+const bukuroButton = document.querySelector(".map-decoration-bukurochan");
 
-function formatNewsDate(value) {
-  const date = new Date(`${value}T00:00:00`);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-  return new Intl.DateTimeFormat("ja-JP", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(date);
+if (youtubeCard) {
+  hydrateYoutubeCard(youtubeCard);
+  startYoutubeDisplayCycle(youtubeCard);
 }
 
-function isExternalUrl(url) {
+bindDecorationAction(sasukeButton, "is-walking", 1600);
+bindDecorationAction(bukuroButton, "is-questioning", 1100);
+
+function bindDecorationAction(element, className, duration) {
+  if (!element) return;
+
+  let timer = 0;
+  element.addEventListener("click", () => {
+    element.classList.remove(className);
+    window.clearTimeout(timer);
+    window.requestAnimationFrame(() => {
+      element.classList.add(className);
+      timer = window.setTimeout(() => {
+        element.classList.remove(className);
+      }, duration);
+    });
+  });
+}
+
+async function hydrateYoutubeCard(card) {
   try {
-    return new URL(url, window.location.href).origin !== window.location.origin;
-  } catch {
-    return false;
-  }
-}
-
-function markExternalLinks(root = document) {
-  const links = root.matches?.("a[href]") ? [root] : [...root.querySelectorAll("a[href]")];
-  for (const link of links) {
-    if (!isExternalUrl(link.href)) {
-      continue;
+    const data = await fetchYoutubeData();
+    if (data?.ok) {
+      applyYoutubeData(card, data);
     }
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+  } catch (_error) {
+    // Local static preview keeps the fallback values.
   }
 }
 
-function createNewsCard(item) {
-  const article = document.createElement("article");
-  article.className = `news-card news-card-${item.source || "blog"}`;
+async function fetchYoutubeData() {
+  const apiResponse = await fetch("/api/latest-youtube?maxResults=3", {
+    headers: {
+      Accept: "application/json",
+    },
+  });
 
-  const meta = document.createElement("div");
-  meta.className = "news-meta";
+  if (apiResponse.ok) {
+    return apiResponse.json();
+  }
 
-  const source = document.createElement("span");
-  source.className = "news-source";
+  const staticResponse = await fetch("assets/home-city/youtube-latest.json", {
+    cache: "no-store",
+    headers: {
+      Accept: "application/json",
+    },
+  });
 
-  const icon = document.createElement("span");
-  icon.className = `social-icon social-icon-${item.source || "news"}`;
-  icon.setAttribute("aria-hidden", "true");
+  if (staticResponse.ok) {
+    return staticResponse.json();
+  }
 
-  const label = document.createElement("span");
-  label.textContent = item.sourceLabel || newsSourceStyles[item.source] || "News";
-
-  source.append(icon, label);
-
-  const date = document.createElement("time");
-  date.dateTime = item.date || "";
-  date.textContent = item.date ? formatNewsDate(item.date) : "";
-
-  meta.append(source, date);
-
-  const title = document.createElement("h3");
-  title.textContent = item.title || "おしらせ";
-
-  const body = document.createElement("p");
-  body.textContent = item.body || "";
-
-  const link = document.createElement("a");
-  link.className = "news-link";
-  link.href = item.url || "pages/blog.html";
-  link.textContent = item.cta || "詳しく見る";
-  markExternalLinks(link);
-
-  article.append(meta, title, body, link);
-  return article;
+  return null;
 }
 
-function renderNews(items) {
-  const sortedItems = [...items]
-    .filter((item) => item && item.title)
-    .sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")))
-    .slice(0, 6);
+function applyYoutubeData(card, data) {
+  const thumbnails = card.querySelectorAll(".youtube-thumb");
+  data.videos?.slice(0, thumbnails.length).forEach((video, index) => {
+    const thumbnailUrl = video?.thumbnail?.url;
+    if (thumbnailUrl && thumbnails[index]) {
+      thumbnails[index].src = thumbnailUrl;
+    }
+  });
 
-  newsFeed.replaceChildren();
+  const stats = data.channel?.statistics || {};
+  const subscribers = card.querySelector(".youtube-stat-subscribers");
+  const videos = card.querySelector(".youtube-stat-videos");
+  if (subscribers) {
+    subscribers.textContent = formatSubscribers(stats.subscriberCount, stats.hiddenSubscriberCount);
+  }
+  if (videos) {
+    videos.textContent = `動画：${formatCount(stats.videoCount)}本`;
+  }
+}
 
-  if (!sortedItems.length) {
-    const empty = document.createElement("article");
-    empty.className = "news-card";
-    empty.innerHTML = "<span class=\"news-source\">News</span><h3>おしらせ準備中</h3><p>新しい更新情報を準備しています。</p>";
-    newsFeed.append(empty);
+function formatSubscribers(count, isHidden) {
+  if (isHidden || count === null || count === undefined) {
+    return "公開まち";
+  }
+  return `約${formatCount(count)}人`;
+}
+
+function formatCount(count) {
+  if (count === null || count === undefined || Number.isNaN(Number(count))) {
+    return "0";
+  }
+  return new Intl.NumberFormat("ja-JP").format(Number(count));
+}
+
+function startYoutubeDisplayCycle(card) {
+  const params = new URLSearchParams(window.location.search);
+  const panelParam = params.get("youtubePanel");
+  if (panelParam !== null) {
+    showYoutubePanel(card, Number(panelParam));
     return;
   }
 
-  for (const item of sortedItems) {
-    newsFeed.append(createNewsCard(item));
-  }
-}
-
-async function loadNews() {
-  if (!newsFeed) {
+  if (params.get("showStats") === "1") {
+    showYoutubePanel(card, card.querySelectorAll(".youtube-thumb").length);
     return;
   }
 
-  try {
-    const response = await fetch("data/news.json?v=20260619-news-local", { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`Failed to load news: ${response.status}`);
-    }
-    renderNews(await response.json());
-  } catch {
-    renderNews([
-      {
-        source: "blog",
-        sourceLabel: "News",
-        date: "2026-06-19",
-        title: "おしらせを読み込めませんでした",
-        body: "時間をおいてからもう一度確認してください。",
-        url: "pages/blog.html",
-        cta: "ブログを見る",
-      },
-    ]);
-  }
+  let activeIndex = 0;
+  window.setInterval(() => {
+    const panelCount = card.querySelectorAll(".youtube-thumb").length + 1;
+    activeIndex = (activeIndex + 1) % panelCount;
+    showYoutubePanel(card, activeIndex);
+  }, 10000);
 }
 
-loadNews();
-markExternalLinks();
+function showYoutubePanel(card, activeIndex) {
+  const thumbnails = card.querySelectorAll(".youtube-thumb");
+  thumbnails.forEach((thumbnail, index) => {
+    thumbnail.classList.toggle("is-active", index === activeIndex);
+  });
+  card.classList.toggle("is-showing-stats", activeIndex >= thumbnails.length);
+}

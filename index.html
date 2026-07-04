@@ -3,119 +3,187 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>erinui</title>
+    <title>えりぬいシティ | erinui</title>
     <meta
       name="description"
-      content="erinuiのゲーム、キャラクター、ブログ、SNSへの入口です。"
+      content="えりぬいのゲーム、キャラクター、ブログ、SNSへの入口です。まちを歩く気分で楽しめる公式ホームです。"
     />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="erinui" />
-    <meta property="og:title" content="erinui" />
+    <meta property="og:title" content="えりぬいシティ" />
     <meta
       property="og:description"
-      content="erinuiのゲーム、キャラクター、ブログ、SNSへの入口です。"
+      content="えりぬいのゲーム、キャラクター、ブログ、SNSへの入口です。まちを歩く気分で楽しめる公式ホームです。"
     />
     <meta property="og:url" content="https://erinui.github.io/" />
     <meta property="og:image" content="https://erinui.github.io/assets/icon-192.png?v=20260616-icon" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="erinui" />
+    <meta name="twitter:title" content="えりぬいシティ" />
     <meta
       name="twitter:description"
-      content="erinuiのゲーム、キャラクター、ブログ、SNSへの入口です。"
+      content="えりぬいのゲーム、キャラクター、ブログ、SNSへの入口です。まちを歩く気分で楽しめる公式ホームです。"
     />
     <meta name="twitter:image" content="https://erinui.github.io/assets/icon-192.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.png?v=20260616-icon" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=20260616-icon" />
     <link rel="preload" href="assets/fonts/keinann-pop.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="home.css?v=20260627-font-woff2-local" />
+    <link rel="stylesheet" href="home.css?v=20260704-city-home-local" />
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="./" aria-label="erinui ホーム">
-        <img src="assets/icon-192.png?v=20260616-icon" alt="" />
-        <span>erinui</span>
-      </a>
-      <nav class="site-nav" aria-label="サイトメニュー">
+  <body class="city-home">
+    <header class="draft-header" aria-label="サイトヘッダー">
+      <a class="site-brand" href="./" aria-label="えりぬいシティ トップへ">えりぬいシティ</a>
+      <nav class="nav-links" aria-label="メインメニュー">
+        <a href="#city-map-title">まち案内</a>
+        <a href="#news-title">おしらせ</a>
+        <a href="#character-title">なかまたち</a>
         <a href="games/">ゲーム</a>
-        <a href="pages/characters.html">キャラクター</a>
-        <a href="pages/blog.html">ブログ</a>
-        <a href="#links">リンク</a>
       </nav>
     </header>
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">erinui home</p>
-          <h1 id="hero-title">ゲームとキャラクターの小さな入口。</h1>
-          <p>
-            犬タローのゲーム、キャラクター紹介、制作メモ、SNSへのリンクをまとめています。
-            まずは公開中のゲームから遊べます。
-          </p>
-          <div class="hero-actions">
-            <a class="primary-link" href="games/">ゲームを見る</a>
-            <a class="secondary-link" href="pages/characters.html">キャラクターを見る</a>
-          </div>
-          <div class="hero-badges" aria-label="サイトの内容">
-            <span>ゲーム</span>
-            <span>キャラクター</span>
-            <span>ブログ</span>
-          </div>
+    <main id="top" class="draft-page">
+      <section class="hero-board" aria-labelledby="hero-title">
+        <div class="hero-character hero-character-left" aria-hidden="true">
+          <img src="assets/home-city/map_character.png" alt="" />
+          <img src="assets/home-city/map_decoration_bukurochan.png" alt="" />
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <img class="hero-bg" src="assets/bg.jpg?v=20260614-bg" alt="" />
-          <img class="hero-player" src="assets/player_idle.png" alt="" />
-          <img class="hero-butterfly" src="assets/item_b.png" alt="" />
-          <img class="hero-dragonfly" src="assets/item_c.png" alt="" />
-          <span class="hero-sticker">ようこそ<br />だヌ</span>
+        <div class="hero-logo">
+          <p class="draft-label">official home</p>
+          <h1 id="hero-title">えりぬい<br />シティ</h1>
+          <p class="hero-copy">ゲームやSNS、グッズやブログへ、まちを歩く気分で遊びにいける公式ホームです。</p>
+        </div>
+        <div class="hero-guide" aria-label="案内キャラクター枠">
+          <p>ようこそ</p>
+          <img src="assets/home-city/map_sns.png" alt="" />
         </div>
       </section>
 
-      <section id="links" class="section link-section" aria-labelledby="links-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Contents</p>
-            <h2 id="links-title">ページ</h2>
+      <section class="message-ribbon" aria-label="サイト説明">
+        <p>ここは、えりぬいの公式HPです。かんこう気分でいっぱい楽しんでいってね！</p>
+      </section>
+
+      <section class="city-map" aria-labelledby="city-map-title">
+        <h2 id="city-map-title" class="section-tag">まちを歩く</h2>
+        <div class="city-map-layout">
+          <div class="map-stage">
+            <img class="map-decoration map-decoration-tree map-decoration-tree-1" src="assets/home-city/map_decoration_tree.png" alt="" aria-hidden="true" />
+            <img class="map-decoration map-decoration-tree map-decoration-tree-2" src="assets/home-city/map_decoration_tree.png" alt="" aria-hidden="true" />
+            <img class="map-decoration map-decoration-tree map-decoration-tree-3" src="assets/home-city/map_decoration_tree.png" alt="" aria-hidden="true" />
+            <img class="map-decoration map-decoration-tree map-decoration-tree-4" src="assets/home-city/map_decoration_tree.png" alt="" aria-hidden="true" />
+            <span class="map-decoration map-decoration-bird" aria-hidden="true">
+              <img class="map-decoration-image" src="assets/home-city/map_decoration_bird.png" alt="" />
+            </span>
+            <button class="map-decoration map-decoration-control map-decoration-sasuke" type="button" aria-label="サスケを歩かせる">
+              <img class="map-decoration-image" src="assets/home-city/map_decoration_sasuke.png" alt="" aria-hidden="true" />
+            </button>
+            <button class="map-decoration map-decoration-control map-decoration-bukurochan" type="button" aria-label="ブクロちゃんの反応を見る">
+              <img class="map-decoration-image" src="assets/home-city/map_decoration_bukurochan.png" alt="" aria-hidden="true" />
+            </button>
+            <a class="map-card map-link-character" href="pages/characters.html" aria-label="キャラクター紹介へ">
+              <img class="map-image" src="assets/home-city/map_character.png" alt="" />
+            </a>
+            <a class="map-card map-link-sns" href="https://x.com/erikanuinui" target="_blank" rel="noopener noreferrer" aria-label="Xへ">
+              <img class="map-image" src="assets/home-city/map_sns.png" alt="" />
+            </a>
+            <a class="map-card map-link-linestamp" href="#" aria-label="LINEスタンプページ 未設定">
+              <img class="map-image" src="assets/home-city/map_linestamp.png" alt="" />
+            </a>
+            <a class="map-card map-link-game" href="games/" aria-label="ゲームページへ">
+              <img class="map-image" src="assets/home-city/map_game.png" alt="" />
+            </a>
+            <a class="map-card map-link-goods" href="#" aria-label="商品紹介ページ 未設定">
+              <img class="map-image" src="assets/home-city/map_goods.png" alt="" />
+            </a>
+            <a class="map-card map-link-blog" href="pages/blog.html" aria-label="ブログページへ">
+              <img class="map-image" src="assets/home-city/map_blog.png" alt="" />
+            </a>
+            <a class="map-card map-link-illustrate" href="#" aria-label="イラストページ 未設定">
+              <img class="map-image" src="assets/home-city/map_illastrate.png" alt="" />
+            </a>
+            <a class="map-card map-link-youtube" href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener noreferrer" aria-label="YouTubeチャンネルへ">
+              <span class="youtube-screen" aria-hidden="true">
+                <img class="youtube-thumb is-active" src="assets/home-city/youtube-thumb-1.jpg?v=20260704-youtube-latest" alt="" />
+                <img class="youtube-thumb" src="assets/home-city/youtube-thumb-2.jpg?v=20260704-youtube-latest" alt="" />
+                <img class="youtube-thumb" src="assets/home-city/youtube-thumb-3.jpg?v=20260704-youtube-latest" alt="" />
+                <span class="youtube-stats">
+                  <span class="youtube-stat-label">登録者数</span>
+                  <span class="youtube-stat-line youtube-stat-subscribers">約27人</span>
+                </span>
+              </span>
+              <img class="map-image youtube-frame" src="assets/home-city/map_youtube.png?v=20260704-map-youtube" alt="" />
+            </a>
           </div>
+          <aside class="map-guide-card" aria-label="マップ説明">
+            <p class="map-guide-kicker">CITY GUIDE</p>
+            <h3>えりぬいシティを歩く</h3>
+            <p>
+              気になる建物や看板から、ゲーム、SNS、ブログ、グッズなどのページへ移動できます。
+              まずはまちの全体像を見ながら、行きたい場所を探してください。
+            </p>
+            <div class="map-guide-spots" aria-label="主なスポット">
+              <span>ゲームセンター</span>
+              <span>YouTube看板</span>
+              <span>ブログ通り</span>
+              <span>グッズのお店</span>
+            </div>
+          </aside>
         </div>
-        <div class="link-grid parent-link-grid">
-          <a href="games/">
-            <span>Games</span>
-            <strong>ゲーム</strong>
+      </section>
+
+      <section class="news-section" aria-labelledby="news-title">
+        <h2 id="news-title" class="section-title">おしらせ</h2>
+        <div class="news-grid">
+          <a class="news-card" href="games/inutaro-mushi/">
+            <p class="news-date">GAME</p>
+            <h3>犬タローの虫さんまってまって</h3>
+            <p>犬タローを操作して虫さんを捕まえるブラウザゲームを公開中です。</p>
           </a>
-          <a href="pages/characters.html">
-            <span>Characters</span>
-            <strong>キャラクター紹介</strong>
+          <a class="news-card" href="pages/blog.html">
+            <p class="news-date">BLOG</p>
+            <h3>おしらせ・ブログ</h3>
+            <p>制作メモや更新情報をまとめていく予定です。</p>
           </a>
-          <a href="pages/blog.html">
-            <span>Blog</span>
-            <strong>おしらせ・ブログ</strong>
+          <a class="news-card" href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener noreferrer">
+            <p class="news-date">YOUTUBE</p>
+            <h3>最新動画を看板に表示</h3>
+            <p>マップ内のYouTube看板に、最新サムネイルを表示する想定です。</p>
           </a>
-          <a href="pages/terms.html">
-            <span>Terms</span>
-            <strong>利用規約</strong>
+        </div>
+      </section>
+
+      <section class="character-section" aria-labelledby="character-title">
+        <h2 id="character-title" class="section-title">なかまたち</h2>
+        <div class="character-grid">
+          <a class="character-card" href="pages/characters.html">
+            <img src="assets/home-city/map_character.png" alt="" />
+            <h3>犬タロー</h3>
+            <p>ゲームにも登場する、えりぬいシティの元気な案内役です。</p>
           </a>
-          <a href="pages/privacy.html">
-            <span>Privacy</span>
-            <strong>プライバシーポリシー</strong>
+          <a class="character-card" href="pages/characters.html">
+            <img src="assets/home-city/map_decoration_sasuke.png" alt="" />
+            <h3>sasuke</h3>
+            <p>まちの道をちょこちょこ歩くネズミのキャラクターです。</p>
           </a>
-          <a href="https://x.com/erikanuinui" target="_blank" rel="noopener noreferrer">
-            <span class="link-label"><span class="social-icon social-icon-x" aria-hidden="true"></span>X</span>
-            <strong>@erikanuinui</strong>
-          </a>
-          <a href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener noreferrer">
-            <span class="link-label"><span class="social-icon social-icon-youtube" aria-hidden="true"></span>YouTube</span>
-            <strong>チャンネルを見る</strong>
+          <a class="character-card" href="pages/characters.html">
+            <img src="assets/home-city/map_decoration_bukurochan.png" alt="" />
+            <h3>bukurochan</h3>
+            <p>気になることがあると、頭の上に「？」が浮かぶ猫のキャラクターです。</p>
           </a>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <span>erinui</span>
-      <span>© erikanuinui</span>
+    <footer class="draft-footer">
+      <div class="footer-inner">
+        <p>えりぬいシティ</p>
+        <nav aria-label="フッターリンク">
+          <a href="https://x.com/erikanuinui" target="_blank" rel="noopener noreferrer">X</a>
+          <a href="https://youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ?si=6SSUX-yhsGjFffu9" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="pages/terms.html">利用規約</a>
+          <a href="pages/privacy.html">プライバシーポリシー</a>
+        </nav>
+      </div>
     </footer>
-    <script src="home.js?v=20260620-parent-local"></script>
+    <script src="home.js?v=20260704-youtube-latest"></script>
   </body>
 </html>

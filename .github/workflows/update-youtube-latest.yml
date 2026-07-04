@@ -1,0 +1,41 @@
+name: Update YouTube latest data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-youtube-latest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch latest YouTube data
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID || 'UCdnf6zMzSdZuvUxS-CS2REQ' }}
+          YOUTUBE_HANDLE: ${{ vars.YOUTUBE_HANDLE || '@えりぬい' }}
+          YOUTUBE_MAX_RESULTS: "3"
+        run: node scripts/update-youtube-latest.mjs
+
+      - name: Commit updated YouTube assets
+        run: |
+          if git diff --quiet -- assets/home-city/youtube-latest.json assets/home-city/youtube-thumb-1.jpg assets/home-city/youtube-thumb-2.jpg assets/home-city/youtube-thumb-3.jpg; then
+            echo "No YouTube updates."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/home-city/youtube-latest.json assets/home-city/youtube-thumb-1.jpg assets/home-city/youtube-thumb-2.jpg assets/home-city/youtube-thumb-3.jpg
+          git commit -m "Update YouTube latest data"
+          git push
