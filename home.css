@@ -235,9 +235,6 @@ a {
   font-size: clamp(42px, 8vw, 82px);
   line-height: 1;
   letter-spacing: 0;
-  text-shadow:
-    3px 3px 0 #fff,
-    6px 6px 0 rgba(0, 0, 0, 0.12);
 }
 
 .hero-copy {
@@ -522,7 +519,6 @@ a {
   font-size: clamp(24px, 4vw, 38px);
   line-height: 1;
   opacity: 0;
-  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.24);
   transform: translate(-50%, 10%) scale(0.72) rotate(-6deg);
   pointer-events: none;
 }
@@ -727,7 +723,6 @@ a {
   color: #fff;
   font-size: clamp(10px, 1.05vw, 16px);
   line-height: 1.1;
-  text-shadow: 1px 1px 0 #000;
   opacity: 0;
   transition: opacity 420ms ease;
 }
@@ -1282,9 +1277,6 @@ body:not(.city-home) h1 {
   font-size: clamp(38px, 7vw, 76px);
   line-height: 1.04;
   letter-spacing: 0;
-  text-shadow:
-    3px 3px 0 #fff,
-    6px 6px 0 rgba(0, 0, 0, 0.12);
 }
 
 body:not(.city-home) h2 {
@@ -1494,6 +1486,219 @@ body:not(.city-home) .content-panel img {
   filter: drop-shadow(6px 6px 0 rgba(0, 0, 0, 0.16));
 }
 
+body:not(.city-home) .character-profile-page {
+  width: min(100%, 960px);
+}
+
+.character-profile-list {
+  display: grid;
+  gap: clamp(18px, 3vw, 28px);
+  padding: clamp(18px, 4vw, 38px);
+  border: 4px solid #111;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(255, 233, 106, 0.48) 0 56px, transparent 58px),
+    radial-gradient(circle at 94% 12%, rgba(255, 181, 210, 0.34) 0 66px, transparent 68px),
+    radial-gradient(circle at 50% 100%, rgba(125, 223, 154, 0.26) 0 130px, transparent 132px),
+    linear-gradient(180deg, #fffef8 0%, #f4ffe9 100%);
+  box-shadow: 8px 8px 0 #111;
+  overflow: visible;
+}
+
+.character-profile-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1.08fr);
+  gap: 0;
+  min-height: 330px;
+  align-items: stretch;
+  padding: 0;
+  border: 4px solid #111;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 7px 7px 0 #111;
+  overflow: hidden;
+  --profile-color: #1c66ad;
+  --profile-bg: #d9edff;
+  --profile-img-max-width: 84%;
+  --profile-img-max-height: clamp(190px, 22vw, 270px);
+  --profile-img-offset-y: 0;
+}
+
+.character-profile-card-feature {
+  grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1.08fr);
+}
+
+.character-profile-card-alt {
+  grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.92fr);
+}
+
+.character-profile-image,
+.character-profile-card-alt .character-profile-image {
+  order: 1;
+}
+
+.character-profile-body,
+.character-profile-card-alt .character-profile-body {
+  order: 2;
+}
+
+.character-profile-card-alt .character-profile-image {
+  order: 2;
+}
+
+.character-profile-card-alt .character-profile-body {
+  order: 1;
+}
+
+.character-profile-image {
+  display: grid;
+  min-height: 320px;
+  height: 100%;
+  place-items: center;
+  align-self: stretch;
+  padding: clamp(18px, 3vw, 30px);
+  border-left: 2px solid #111;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.58) 0 42px, transparent 44px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 58%),
+    var(--profile-bg);
+  box-shadow: inset 0 -10px 0 rgba(17, 17, 17, 0.08);
+  overflow: hidden;
+}
+
+.character-profile-card-alt .character-profile-image {
+  border-right: 0;
+  border-left: 2px solid #111;
+  border-radius: 0 20px 20px 0;
+}
+
+.character-profile-card:not(.character-profile-card-alt) .character-profile-image {
+  border-right: 2px solid #111;
+  border-left: 0;
+  border-radius: 20px 0 0 20px;
+}
+
+body:not(.city-home) .character-profile-image img {
+  width: auto;
+  height: auto;
+  max-width: var(--profile-img-max-width);
+  max-height: var(--profile-img-max-height);
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(10px 12px 8px rgba(17, 17, 17, 0.28));
+  transform: translateY(var(--profile-img-offset-y));
+}
+
+.character-profile-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 54px);
+}
+
+body:not(.city-home) .character-profile-card h2 {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 5px 20px 8px;
+  border: 3px solid #111;
+  border-radius: 999px;
+  background: var(--sun);
+  box-shadow: 5px 5px 0 #111;
+  color: #111;
+  font-size: clamp(26px, 3.6vw, 40px);
+  line-height: 1;
+  white-space: nowrap;
+  transform: rotate(-1deg);
+}
+
+body:not(.city-home) .character-profile-card h2::before {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #111;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 2px 2px 0 #111;
+  content: "";
+}
+
+.character-profile-card p {
+  margin-bottom: 0;
+}
+
+.character-profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.character-profile-tags span {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 4px 10px 6px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 2px 2px 0 #111;
+  color: #111;
+  font-size: 13px;
+}
+
+.profile-inutaro-origin {
+  --profile-color: #1d64aa;
+  --profile-bg: #d8ebff;
+  --profile-img-max-width: 82%;
+  --profile-img-max-height: clamp(420px, 39vw, 460px);
+  --profile-img-offset-y: -62px;
+  overflow: visible;
+}
+
+.profile-inutaro-origin .character-profile-image {
+  position: relative;
+  overflow: visible;
+}
+
+body:not(.city-home) .profile-inutaro-origin .character-profile-image img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(var(--profile-img-offset-y));
+}
+
+.profile-inutaro-nuigurumi {
+  --profile-color: #9a5300;
+  --profile-bg: #ffe6c6;
+  --profile-img-max-width: 80%;
+}
+
+.profile-erika {
+  --profile-color: #24a3ad;
+  --profile-bg: #d7f6fb;
+  --profile-img-max-width: 78%;
+}
+
+.profile-sasuke {
+  --profile-color: #d95fbd;
+  --profile-bg: #ffe1f4;
+  --profile-img-max-width: 72%;
+  --profile-img-max-height: clamp(178px, 21vw, 252px);
+}
+
+.profile-bukuro {
+  --profile-color: #459f28;
+  --profile-bg: #ddf6d5;
+  --profile-img-max-width: 72%;
+  --profile-img-max-height: clamp(178px, 21vw, 252px);
+}
+
 body:not(.city-home) .site-footer {
   display: flex;
   flex-wrap: wrap;
@@ -1517,6 +1722,37 @@ body:not(.city-home) .site-footer {
 
   body:not(.city-home) .game-grid {
     grid-template-columns: 1fr;
+  }
+
+  .character-profile-card,
+  .character-profile-card-feature,
+  .character-profile-card-alt {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .character-profile-image,
+  .character-profile-card-alt .character-profile-image,
+  .character-profile-body,
+  .character-profile-card-alt .character-profile-body {
+    order: initial;
+  }
+
+  .character-profile-image {
+    order: 1;
+  }
+
+  .character-profile-card .character-profile-image,
+  .character-profile-card-alt .character-profile-image,
+  .character-profile-card:not(.character-profile-card-alt) .character-profile-image {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid #111;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .character-profile-body {
+    order: 2;
   }
 }
 
@@ -1592,5 +1828,55 @@ body:not(.city-home) .site-footer {
 
   body:not(.city-home) .game-thumb {
     min-height: 190px;
+  }
+
+  .character-profile-list {
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .character-profile-card {
+    min-height: 0;
+    border-radius: 20px;
+    box-shadow: 5px 5px 0 #111;
+  }
+
+  .character-profile-body {
+    padding: 18px;
+  }
+
+  body:not(.city-home) .character-profile-card h2 {
+    gap: 7px;
+    padding: 5px 14px 7px;
+    font-size: clamp(24px, 8vw, 32px);
+  }
+
+  body:not(.city-home) .character-profile-card h2::before {
+    width: 10px;
+    height: 10px;
+  }
+
+  .character-profile-image {
+    min-height: 220px;
+  }
+
+  .character-profile-image img {
+    max-width: var(--profile-img-max-width);
+    max-height: var(--profile-img-max-height);
+  }
+
+  .profile-inutaro-origin .character-profile-image {
+    min-height: 220px;
+  }
+
+  .profile-inutaro-origin {
+    --profile-img-max-width: 64%;
+    --profile-img-max-height: 260px;
+    --profile-img-offset-y: -34px;
+  }
+
+  .profile-inutaro-nuigurumi,
+  .profile-erika {
+    --profile-img-max-width: 76%;
   }
 }

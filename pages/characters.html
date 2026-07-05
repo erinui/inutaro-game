@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>キャラクター紹介 | erinui</title>
-    <meta name="description" content="erinuiのキャラクター紹介ページです。" />
+    <meta name="description" content="えりぬいシティに登場するキャラクター紹介ページです。" />
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon.png?v=20260616-icon" />
     <link rel="preload" href="../assets/fonts/keinann-pop.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="../home.css?v=20260705-menu-breakpoint-local" />
+    <link rel="stylesheet" href="../home.css?v=20260705-inutaro-border-local" />
   </head>
   <body>
     <header class="site-header">
@@ -26,19 +26,108 @@
         <a href="./blog.html">おしらせ</a>
       </nav>
     </header>
-    <main class="content-page">
+    <main class="content-page character-profile-page">
       <section class="page-hero">
         <p class="eyebrow">Characters</p>
         <h1>キャラクター紹介</h1>
-        <p>erinuiに登場するキャラクターを紹介していくページです。</p>
+        <p>えりぬいシティに登場する、ちょっと不思議でかわいい仲間たちです。</p>
       </section>
-      <section class="content-panel">
-        <h2>犬タロー</h2>
-        <p>
-          「犬タローの虫さんまってまって」でプレイヤーが操作するキャラクターです。
-          語尾に「ヌ」がつく、少し不思議でかわいい存在です。
-        </p>
-        <img src="../assets/player_idle.png" alt="犬タロー" />
+
+      <section class="character-profile-list" aria-label="キャラクター一覧">
+        <article class="character-profile-card character-profile-card-feature profile-inutaro-origin">
+          <div class="character-profile-image">
+            <img src="../assets/characters/chara_inutaro_origin.png" alt="犬タロー オリジン" />
+          </div>
+          <div class="character-profile-body">
+            <h2>犬タロー</h2>
+            <p>
+              犬のようだけど、犬ではない。<br>
+              クールに見えるがとてもやさしく、熱いハートを持っている。
+              もう1体の犬タローと呼び分けるときは「オリジン」と呼ばれている。かっこいいね！
+            </p>
+            <div class="character-profile-tags">
+              <span>犬ではない</span>
+              <span>やさしい</span>
+              <span>大きい</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="character-profile-card character-profile-card-feature character-profile-card-alt profile-inutaro-nuigurumi">
+          <div class="character-profile-image">
+            <img src="../assets/characters/chara_inutaro_nuigurumi.png" alt="犬タロー ぬいぐるみ" />
+          </div>
+          <div class="character-profile-body">
+            <h2>犬タロー</h2>
+            <p>
+              えりかが犬タローのぬいぐるみをつくった。<br>
+              そして、ちょっと失敗した。<br>
+              オリジンとは全く別の人格だが、こいつも犬タローである。
+              好奇心旺盛で冒険家、かっこよくなりたい。呼び分けるときは「ぬいちゃん」と呼んであげてほしい。
+            </p>
+            <div class="character-profile-tags">
+              <span>ぬいちゃん</span>
+              <span>冒険家</span>
+              <span>かっこよくなりたい</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="character-profile-card profile-erika">
+          <div class="character-profile-image">
+            <img src="../assets/characters/chara_erika-san.png" alt="えりか" />
+          </div>
+          <div class="character-profile-body">
+            <h2>えりか</h2>
+            <p>
+              女性。人間の姿、ぬいぐるみの姿、二次元の姿…様々な姿で人生を楽しんでいる。<br>
+              人間年齢だと34歳。独身。
+            </p>
+            <div class="character-profile-tags">
+              <span>いろんな姿</span>
+              <span>人生を楽しむ</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="character-profile-card character-profile-card-alt profile-sasuke">
+          <div class="character-profile-image">
+            <img src="../assets/characters/chara_sasuke.png" alt="さすけ" />
+          </div>
+          <div class="character-profile-body">
+            <h2>さすけ</h2>
+            <p>
+              ハムスター（パールホワイト）の男の子。<br>
+              おっとりしているが元気いっぱい。<br>
+              とってもかわいい。
+            </p>
+            <div class="character-profile-tags">
+              <span>ハムスター</span>
+              <span>男の子</span>
+              <span>元気いっぱい</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="character-profile-card profile-bukuro">
+          <div class="character-profile-image">
+            <img src="../assets/characters/chara_bukuro.png" alt="ぶくろちゃん" />
+          </div>
+          <div class="character-profile-body">
+            <h2>ぶくろちゃん</h2>
+            <p>
+              さすらいのネコ。<br>
+              いろんな場所を転々としてきたようだ。<br>
+              池袋出身。車道を平気で横切る。<br>
+              だれかこいつに交通ルールを教えてやって！
+            </p>
+            <div class="character-profile-tags">
+              <span>ネコ</span>
+              <span>池袋出身</span>
+              <span>さすらい</span>
+            </div>
+          </div>
+        </article>
       </section>
     </main>
     <footer class="site-footer">
