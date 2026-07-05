@@ -89,6 +89,7 @@ a {
   background: var(--sun);
   box-shadow: 4px 4px 0 #111;
   font-size: clamp(18px, 2.3vw, 26px);
+  line-height: 1;
   white-space: nowrap;
 }
 
@@ -119,7 +120,16 @@ a {
   line-height: 1;
 }
 
-.nav-links a:hover {
+.nav-links a {
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  background: var(--sun);
+  outline: none;
   transform: translateY(-2px);
 }
 
@@ -924,7 +934,8 @@ a {
 }
 
 @media (max-width: 760px) {
-  .draft-header {
+  .draft-header,
+  body:not(.city-home) .site-header {
     position: sticky;
     align-items: center;
     flex-direction: row;
@@ -932,8 +943,16 @@ a {
     padding: 12px;
   }
 
-  .site-brand {
+  .site-brand,
+  body:not(.city-home) .brand {
+    min-width: 0;
     font-size: 20px;
+  }
+
+  body:not(.city-home) .brand span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .site-brand img,
@@ -947,7 +966,8 @@ a {
     flex: 0 0 auto;
   }
 
-  .nav-links {
+  .nav-links,
+  body:not(.city-home) .site-nav {
     position: absolute;
     top: calc(100% + 8px);
     right: 12px;
@@ -972,7 +992,8 @@ a {
       visibility 0s linear 190ms;
   }
 
-  .draft-header.is-menu-open .nav-links {
+  .draft-header.is-menu-open .nav-links,
+  body:not(.city-home) .site-header.is-menu-open .site-nav {
     opacity: 1;
     transform: translateY(0) scale(1);
     visibility: visible;
@@ -982,10 +1003,12 @@ a {
       visibility 0s;
   }
 
-  .nav-links a {
+  .nav-links a,
+  body:not(.city-home) .site-nav a {
     display: flex;
     width: 100%;
     justify-content: center;
+    padding: 7px 12px;
     font-size: 14px;
   }
 
@@ -1195,12 +1218,13 @@ body:not(.city-home) img {
 body:not(.city-home) .site-header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 30;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 14px clamp(18px, 4vw, 54px);
+  gap: 28px;
+  min-height: 66px;
+  padding: 16px clamp(18px, 4vw, 48px);
   border-bottom: 4px solid #111;
   background: rgba(255, 254, 248, 0.94);
   box-shadow: 0 7px 0 rgba(0, 0, 0, 0.12);
@@ -1218,7 +1242,10 @@ body:not(.city-home) .brand {
   background: var(--sun);
   box-shadow: 4px 4px 0 #111;
   color: #111;
-  font-size: clamp(18px, 2.3vw, 24px);
+  font-size: clamp(18px, 2.3vw, 26px);
+  line-height: 1;
+  min-height: 34px;
+  white-space: nowrap;
 }
 
 body:not(.city-home) .brand img {
@@ -1246,9 +1273,11 @@ body:not(.city-home) .site-nav a {
   background: #fff;
   box-shadow: 3px 3px 0 #111;
   color: #111;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1;
-  transition: transform 150ms ease;
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
 }
 
 body:not(.city-home) .site-nav a:hover,
@@ -1257,6 +1286,75 @@ body:not(.city-home) .site-nav a:focus-visible {
   color: #111;
   outline: none;
   transform: translateY(-2px);
+}
+
+@media (max-width: 760px) {
+  body:not(.city-home) .site-header {
+    position: sticky;
+    align-items: center;
+    flex-direction: row;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  body:not(.city-home) .brand {
+    min-width: 0;
+    font-size: 20px;
+  }
+
+  body:not(.city-home) .brand img {
+    width: 30px;
+    height: 30px;
+  }
+
+  body:not(.city-home) .brand span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  body:not(.city-home) .site-nav {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 12px;
+    left: 12px;
+    z-index: 40;
+    display: grid;
+    width: auto;
+    justify-content: stretch;
+    gap: 10px;
+    padding: 12px;
+    border: 3px solid #111;
+    border-radius: 18px;
+    background: rgba(255, 254, 248, 0.98);
+    box-shadow: 6px 6px 0 #111;
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+    transform-origin: top right;
+    visibility: hidden;
+    transition:
+      opacity 180ms ease,
+      transform 190ms ease,
+      visibility 0s linear 190ms;
+  }
+
+  body:not(.city-home) .site-header.is-menu-open .site-nav {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    visibility: visible;
+    transition:
+      opacity 180ms ease,
+      transform 190ms ease,
+      visibility 0s;
+  }
+
+  body:not(.city-home) .site-nav a {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 7px 12px;
+    font-size: 14px;
+  }
 }
 
 body:not(.city-home) main {
@@ -1712,14 +1810,6 @@ body:not(.city-home) .site-footer {
 }
 
 @media (max-width: 900px) {
-  body:not(.city-home) .site-header {
-    gap: 14px;
-  }
-
-  body:not(.city-home) .site-nav {
-    justify-content: flex-end;
-  }
-
   body:not(.city-home) .game-grid {
     grid-template-columns: 1fr;
   }
