@@ -37,9 +37,9 @@ const fixedLandscapeQuery = window.matchMedia("(orientation: portrait)");
 
 const durationSeconds = 40;
 const siteUrl = "https://erinui.github.io/games/inutaro-mushi/";
-const gameUrl = `${siteUrl}games/inutaro-mushi/?share=20260619-home`;
+const gameUrl = `${siteUrl}?share=20260705-asset-refactor`;
 const scriptUrl = document.currentScript?.src || new URL("game.js", window.location.href).href;
-const assetBaseUrl = new URL("assets/", scriptUrl);
+const assetBaseUrl = new URL("../../assets/games/inutaro-mushi/", scriptUrl);
 const assetPromises = [];
 const canvasFontFamily = '"KeinannPop", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif';
 const coarsePointerQuery = window.matchMedia("(pointer: coarse)");

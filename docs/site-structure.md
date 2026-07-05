@@ -1,38 +1,42 @@
 # erinui サイト階層整理
 
-最終更新: 2026-06-21
+最終更新: 2026-07-05
 
-## 公開サイトの基本方針
+## 1. 基本方針
 
-GitHub Pages のルートは、ゲーム単体ではなく「erinui」の親ホームページとして使用します。
+GitHub Pagesのルートは、ゲーム単体ではなく「えりぬいシティ」という親ホームとして扱います。
 
-親ホームページから、ゲーム一覧、キャラクター紹介、ブログ、SNS、利用規約、プライバシーポリシーへ移動できる構成です。
+親ホームから、ゲーム一覧、キャラクター紹介、ブログ、SNS、YouTube、グッズ、LINEスタンプ、規約ページへ移動できる構成です。
 
-ゲーム一覧は `/games/` に分離し、現在作成中の「犬タローの虫さんまってまって」はその配下の `/games/inutaro-mushi/` に配置します。今後ゲームが増えた場合は、`/games/` にゲームカードを追加して選択できる形で拡張します。
+現在の公開確認URL:
 
-最終想定公開URL:
-
-https://erinui.github.io/
-
-現在のGitHub Pages確認URL:
-
+```text
 https://erinui.github.io/inutaro-game/
+```
 
-現在は `erinui/inutaro-game` リポジトリのGitHub Pagesで確認しています。最終的に `https://erinui.github.io/` 直下で運用する場合は、`erinui/erinui.github.io` リポジトリへの移行または同期が必要です。
+将来的な想定URL:
 
-## ページ階層
+```text
+https://erinui.github.io/
+```
+
+## 2. 現在の階層
 
 ```text
 /
 ├── index.html
-│   └── erinui 親ホーム
+│   └── えりぬいシティ トップ
 │
 ├── games/
 │   ├── index.html
-│   │   └── ゲーム一覧トップ
+│   │   └── ゲーム一覧
 │   └── inutaro-mushi/
-│       └── index.html
-│           └── 犬タローの虫さんまってまって
+│       ├── index.html
+│       │   └── 犬タローの虫さんまってまって
+│       ├── game.js
+│       │   └── ゲームロジック
+│       └── style.css
+│           └── ゲーム専用UI
 │
 ├── pages/
 │   ├── characters.html
@@ -44,166 +48,193 @@ https://erinui.github.io/inutaro-game/
 │   └── privacy.html
 │       └── プライバシーポリシー
 │
-├── data/
-│   └── news.json
-│       └── ホームのおしらせ表示データ
-│
 ├── assets/
-│   └── 画像・音声・アイコン・補助ライブラリ
+│   ├── home-city/
+│   ├── characters/
+│   ├── fonts/
+│   ├── games/
+│   │   └── inutaro-mushi/
+│   └── アイコン
+│
+├── functions/
+│   └── api/latest-youtube.js
+│
+├── scripts/
+│   └── update-youtube-latest.mjs
 │
 ├── home.css
 ├── home.js
-├── style.css
-└── game.js
+└── site-nav.js
 ```
 
-## 公開ページ一覧
+## 3. 公開ページ一覧
 
 | URL | ファイル | 役割 |
 | --- | --- | --- |
-| `/` | `index.html` | erinui 親ホーム / サイト導線 |
-| `/games/` | `games/index.html` | ゲーム一覧トップ |
+| `/` | `index.html` | えりぬいシティ トップ |
+| `/games/` | `games/index.html` | ゲーム一覧 |
 | `/games/inutaro-mushi/` | `games/inutaro-mushi/index.html` | ゲーム本体 |
-| `/pages/characters.html` | `pages/characters.html` | 犬タローなどのキャラクター紹介 |
-| `/pages/blog.html` | `pages/blog.html` | おしらせ・制作メモ・更新情報 |
+| `/pages/characters.html` | `pages/characters.html` | キャラクター紹介 |
+| `/pages/blog.html` | `pages/blog.html` | おしらせ・ブログ |
 | `/pages/terms.html` | `pages/terms.html` | 利用規約 |
 | `/pages/privacy.html` | `pages/privacy.html` | プライバシーポリシー |
 
-## 親ホームページ構成
+## 4. トップページ導線
 
-`index.html` は erinui 全体の入口として扱います。
+トップページは、縦長マップを中心にしたナビゲーションです。
 
-| セクション | 内容 | 主な遷移先 |
+| 導線 | 遷移先 | 備考 |
 | --- | --- | --- |
-| ヘッダー | ブランド、サイト内ナビゲーション | `/games/`, `/pages/characters.html`, `/pages/blog.html`, `#links` |
-| ヒーロー | erinui の簡易紹介 | `/games/`, `/pages/characters.html` |
-| ページリンク | 現在用意できているページへのカードリンク | ゲーム、キャラクター、ブログ、規約、SNS |
-| フッター | サイト名、著作表示 | なし |
+| キャラクター | `pages/characters.html` | サイト内 |
+| X | `https://x.com/erikanuinui` | 外部、別タブ |
+| LINEスタンプ | `https://store.line.me/emojishop/author/2919902/ja` | 外部、別タブ |
+| ゲーム | `games/` | サイト内 |
+| グッズ | `https://suzuri.jp/erikanuinui` | 外部、別タブ |
+| ブログ | `https://note.com/erinui` | 外部、別タブ |
+| イラスト | `#` | 未設定 |
+| YouTube | YouTubeチャンネル | 外部、別タブ |
 
-親ホームは一旦簡易デザインとし、今あるページへの入口を優先します。
+YouTube看板は、最新3本のサムネイルと登録者数を10秒周期で切り替えます。
 
-## ゲーム一覧トップ構成
+## 5. 共通ヘッダー
 
-`games/index.html` は、ゲームが並ぶことをメインにしたページです。旧ホームにあったキャラクター紹介、ブログ、SNS導線、規約導線は親ホーム側へ移し、ゲーム一覧ではゲームカードを主役にします。
+トップページと下層ページではHTMLクラス名が異なりますが、見た目と挙動は統一しています。
 
-| セクション | 内容 | 主な遷移先 |
+| 種類 | トップ | 下層 |
 | --- | --- | --- |
-| ヘッダー | 親ホーム、固定ページへの導線 | `/`, `/pages/characters.html`, `/pages/blog.html` |
-| ページヒーロー | ゲーム一覧の説明 | なし |
-| ゲームカード | 公開中ゲームと準備中ゲーム | `/games/inutaro-mushi/` |
-| フッター | サイト名、著作表示 | なし |
+| ヘッダー | `.draft-header` | `.site-header` |
+| ブランド | `.site-brand` | `.brand` |
+| ナビ | `.nav-links` | `.site-nav` |
 
-## ゲームページ構成
+ルール:
 
-`games/inutaro-mushi/index.html` はゲーム本体のページです。
+- 左端はアイコン付きの「えりぬいシティ」
+- 右側は主要ページへのリンク
+- 現在ページへの重複リンクは置かない
+- SPでは三本線メニューへ集約
+- 開閉制御は `site-nav.js`
 
-| 要素 | 内容 |
-| --- | --- |
-| `canvas#game` | ゲーム描画 |
-| サウンドボタン | BGM・効果音の一括 ON/OFF |
-| ゲーム一覧へ | スタート画面からゲーム一覧へ戻る導線 |
-| はじめる | ゲーム開始 |
-| あそびかた | 操作方法とゲーム説明を表示 |
-| けっかへ | クリア / ゲームオーバー後にリザルト表示 |
-| リザルトモーダル | 保存、共有、フォロー、もう一回、ゲーム一覧への導線 |
+## 6. ページ別構成
 
-ゲームページからゲーム一覧へ戻る導線は、スタート画面とリザルト画面に配置します。クリア / ゲームオーバー直後の画面には戻るボタンを置かず、まず結果を認識させてからリザルトへ進む流れにします。
+### トップ
 
-## 固定ページ構成
+```text
+index.html
+```
 
-`pages/` 配下はサイト共通ヘッダーとフッターを持つ固定ページです。
+構成:
 
-| ファイル | 現在の状態 | 今後の拡張 |
-| --- | --- | --- |
-| `characters.html` | 犬タローの概要と画像を掲載 | 仲間キャラクター、設定、プロフィールを追加 |
-| `blog.html` | 準備中表示 | 更新履歴、制作メモ、投稿一覧を追加 |
-| `terms.html` | 簡易利用規約を掲載 | 素材利用、禁止事項、免責を詳細化 |
-| `privacy.html` | 簡易プライバシーポリシーを掲載 | アクセス解析や外部サービス利用時に更新 |
+- 共通ヘッダー
+- ヒーロー
+- まちを歩くマップ
+- おしらせ
+- なかまたち
+- フッター
 
-## データ構成
+### ゲーム一覧
 
-### `data/news.json`
+```text
+games/index.html
+```
 
-ホームのおしらせカードを表示するためのデータです。
+構成:
 
-現在は手動更新の JSON ですが、将来的に X、YouTube、ブログ、ゲーム更新などを同じカード形式で扱えるようにしています。
+- 共通ヘッダー
+- ページヒーロー
+- ゲームカード
+- フッター
 
-表示処理は `home.js` が担当します。
+### ゲーム本体
 
-## 共通資産
+```text
+games/inutaro-mushi/index.html
+```
 
-### 画像
+構成:
 
-| ファイル | 用途 |
-| --- | --- |
-| `assets/icon-192.png` | サイトアイコン、ホームゲームカード、OGP |
-| `assets/favicon.png` | ブラウザアイコン |
-| `assets/apple-touch-icon.png` | iOS ホーム画面用アイコン |
-| `assets/bg.jpg` | ゲーム背景、ホームヒーロー |
-| `assets/player_idle.png` | 犬タロー通常 |
-| `assets/player_jump.png` | 犬タロージャンプ |
-| `assets/enemy_idle.png` | カラス |
-| `assets/hazard_1.png` | カラスの落とし物、落下中 |
-| `assets/hazard_2.png` | カラスの落とし物、着弾時 |
-| `assets/item_a.png` | カタツムリ |
-| `assets/item_b.png` | 蝶 |
-| `assets/item_c.png` | トンボ |
+- Canvasゲーム
+- サウンドボタン
+- スタート画面
+- あそびかた
+- SP横向きコントローラー
+- 結果待機画面
+- リザルト
+- 保存・共有・フォロー導線
 
-### 音声
+### キャラクター紹介
 
-| ファイル | 用途 |
-| --- | --- |
-| `assets/bgm.mp3` | BGM |
-| `assets/sound_jump.mp3` | ジャンプ効果音 |
-| `assets/sound_itemget.mp3` | 虫さん取得効果音 |
-| `assets/sound_hazard-hit.mp3` | カラスの落とし物に当たった時の効果音 |
+```text
+pages/characters.html
+```
 
-### 補助ライブラリ
+構成:
 
-| ファイル | 用途 |
-| --- | --- |
-| `assets/html2canvas.min.js` | 旧リザルトモーダル保存実装で使用していたDOMキャプチャライブラリ。現在のリザルト保存はCanvasで共有用カードを生成 |
+- 共通ヘッダー
+- ページヒーロー
+- キャラクターカード一覧
+- フッター
 
-## CSS / JS の役割
+カードはPCで左右交互、SPで1カラムにします。犬タロー（オリジン）のみ、画像がカード上部からはみ出す演出を持ちます。
 
-| ファイル | 対象 | 役割 |
-| --- | --- | --- |
-| `home.css` | ホーム、固定ページ | サイト共通レイアウト、ホームデザイン、固定ページデザイン |
-| `home.js` | ホーム | おしらせ JSON 読み込み、外部リンクの別タブ化 |
-| `style.css` | ゲームページ | ゲームUI、モーダル、SP横向きコントローラー、固定横画面モード、あそびかた、リザルト |
-| `game.js` | ゲームページ | ゲームロジック、描画、音声、保存、共有 |
+### おしらせ・ブログ
 
-表示フォントは `assets/fonts/keinann-pop.ttf` の `けいなんポップ体` をサイト全体で使用します。利用条件確認用のReadmeは `assets/fonts/keinann-pop-readme.pdf` として同梱します。
+```text
+pages/blog.html
+```
 
-## 公開対象外・注意対象
+現在はnoteへの導線ページです。
 
-以下は現時点では通常公開・GitHub反映の対象外として扱います。
+### 利用規約・プライバシーポリシー
+
+```text
+pages/terms.html
+pages/privacy.html
+```
+
+現在は簡易版です。外部サービス、分析、問い合わせなどを追加する場合は内容を更新します。
+
+## 7. 公開対象外・検討用
 
 | パス | 扱い |
 | --- | --- |
-| `games/inutaro-3d-prototype/` | 3D試作。現在の公開サイト本体には含めない |
-| `docs/server-migration-plan.md` | サーバー移行検討メモ。通常の公開反映対象には含めない |
+| `drafts/home-wireframe/` | ホーム検討用。本番導線からは分離 |
+| `games/inutaro-3d-prototype/` | 3D試作。ゲーム一覧には未掲載 |
+| `docs/server-migration-plan.md` | サーバー移行検討メモ |
 
-## 今後の推奨階層
+## 8. 拡張ルール
 
-ゲーム追加時は、次の形で増やします。
-
-```text
-games/
-├── inutaro-mushi/
-│   └── index.html
-└── next-game-slug/
-    └── index.html
-```
-
-ゲームごとに大きく仕様や実装が異なる場合は、共通 `game.js` へ無理にまとめず、以下のようにゲーム別ファイルへ分けます。
+### ゲーム追加
 
 ```text
 games/
-└── next-game-slug/
+└── new-game-slug/
     ├── index.html
     ├── game.js
     └── style.css
+
+assets/
+└── games/
+    └── new-game-slug/
+        └── ゲーム専用画像・音声
 ```
 
-ただし、サイト全体のヘッダー、フッター、カードデザイン、固定ページは `home.css` を中心に共通化します。
+追加時は `games/index.html` にカードを追加します。ゲーム専用の画像・音声は、サイト共通素材と混ざらないように `assets/games/{slug}/` に配置します。
+
+### キャラクター追加
+
+追加時は以下を更新します。
+
+- `assets/characters/`
+- `pages/characters.html`
+- `home.css` のキャラクター別スタイル変数
+- 必要に応じてトップの「なかまたち」
+
+### 外部リンク追加・変更
+
+確認箇所:
+
+- トップのマップ
+- トップのおしらせ
+- フッター
+- 固定ページ
+- 本資料

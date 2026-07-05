@@ -1,6 +1,6 @@
 # 犬タローの虫さんまってまって 仕様・設計資料
 
-最終更新: 2026-06-21
+最終更新: 2026-07-05
 
 ## 1. 概要
 
@@ -24,13 +24,13 @@ https://erinui.github.io/inutaro-game/
 
 https://erinui.github.io/inutaro-game/games/inutaro-mushi/
 
-ローカル確認URL:
+現在の主なローカル確認URL:
 
-http://127.0.0.1:8778/
+http://127.0.0.1:8780/
 
 ## サイト構成
 
-GitHub Pagesのルートは、ゲーム単体ページではなく、`erinui` の親ホームとして使用します。
+GitHub Pagesのルートは、ゲーム単体ページではなく、`えりぬいシティ` の親ホームとして使用します。
 
 現時点では `erinui/inutaro-game` リポジトリのGitHub Pagesとして公開しているため、実際の確認URLは `/inutaro-game/` 配下です。最終的に `erinui.github.io` 直下で運用する場合は、`erinui/erinui.github.io` への移行または同期を行います。
 
@@ -46,11 +46,11 @@ GitHub Pagesのルートは、ゲーム単体ページではなく、`erinui` �
 | `/pages/terms.html` | 利用規約 |
 | `/pages/privacy.html` | プライバシーポリシー |
 
-親ホームには、現在用意できているページへのリンクを簡易カードとして配置します。ゲーム一覧にはゲームカードを並べ、今後ゲームが増えた場合は `/games/` にカードを追加して選択できる構成にします。
+親ホームは「まちを歩く」マップ型ナビゲーションを中心に、ゲーム、キャラクター、SNS、YouTube、ブログ、グッズ、LINEスタンプへの導線を配置します。ゲーム一覧にはゲームカードを並べ、今後ゲームが増えた場合は `/games/` にカードを追加して選択できる構成にします。
 
-`data/news.json` は、将来的に親ホームやブログ導線へおしらせカードを戻す場合のデータとして保持します。X、YouTube、ブログ、ゲーム更新を同じカードUIで扱えるようにしておき、将来的にGitHub ActionsなどでSNS/YouTubeの新着取得を自動化しても、表示側の実装を大きく変えずに済む構成にします。
+サイト全体の構成、共通ヘッダー、トップページ、キャラクター紹介、YouTube看板、公開フローの詳細は `docs/site-specification.md` を参照します。
 
-親ホームとゲーム一覧のビジュアルは、犬タローの手描き感に合わせて、明るい背景、ステッカー風のラベル、色分けされたカード、立体感のあるボタンでポップに見せます。ゲーム本体は操作しやすさを優先したまま、ゲーム一覧側で遊びに行きたくなる雰囲気を作ります。
+親ホーム、ゲーム一覧、固定ページのビジュアルは、犬タローの手描き感に合わせて、明るい背景、ステッカー風のラベル、黒い太線、立体感のあるボタンでポップに見せます。ゲーム本体は操作しやすさを優先したまま、ゲーム一覧側で遊びに行きたくなる雰囲気を作ります。
 
 ## 2. 企画コンセプト
 
@@ -173,8 +173,8 @@ SP時の画像保存は、ブラウザの制限により写真アプリへ直接
 | 項目 | 内容 |
 | --- | --- |
 | 名前 | 犬タロー |
-| 通常画像 | `assets/player_idle.png` |
-| ジャンプ画像 | `assets/player_jump.png` |
+| 通常画像 | `assets/games/inutaro-mushi/player_idle.png` |
+| ジャンプ画像 | `assets/games/inutaro-mushi/player_jump.png` |
 | 向き | 左移動時は元画像、右移動時は左右反転 |
 | 当たり判定 | 体部分を中心にした矩形 |
 | 取得判定 | 犬タロー周辺のキャッチ範囲 |
@@ -184,7 +184,7 @@ SP時の画像保存は、ブラウザの制限により写真アプリへ直接
 | 項目 | 内容 |
 | --- | --- |
 | モチーフ | カラス |
-| 画像 | `assets/enemy_idle.png` |
+| 画像 | `assets/games/inutaro-mushi/enemy_idle.png` |
 | 挙動 | 空を左右に移動 |
 | 役割 | 不定期にカラスの落とし物を投下 |
 
@@ -192,8 +192,8 @@ SP時の画像保存は、ブラウザの制限により写真アプリへ直接
 
 | 項目 | 内容 |
 | --- | --- |
-| 落下中画像 | `assets/hazard_1.png` |
-| 着弾画像 | `assets/hazard_2.png` |
+| 落下中画像 | `assets/games/inutaro-mushi/hazard_1.png` |
+| 着弾画像 | `assets/games/inutaro-mushi/hazard_2.png` |
 | 挙動 | 上空から直線的に落下 |
 | プレイヤー命中時 | 即ゲームオーバー |
 | 地面着弾時 | 着弾画像を一時表示 |
@@ -203,9 +203,9 @@ SP時の画像保存は、ブラウザの制限により写真アプリへ直接
 
 | 種類 | 画像 | 動き | 速度 | 出現位置 |
 | --- | --- | --- | --- | --- |
-| カタツムリ | `assets/item_a.png` | 地面をゆっくり進む | 遅い | 地面付近 |
-| 蝶 | `assets/item_b.png` | 空中を上下にふわふわ進む | 中程度 | ジャンプで届く範囲を基準に調整 |
-| トンボ | `assets/item_c.png` | 水平移動、急停止、ホバリング、急発進 | 速い | ギリギリ届く高さを上限に調整 |
+| カタツムリ | `assets/games/inutaro-mushi/item_a.png` | 地面をゆっくり進む | 遅い | 地面付近 |
+| 蝶 | `assets/games/inutaro-mushi/item_b.png` | 空中を上下にふわふわ進む | 中程度 | ジャンプで届く範囲を基準に調整 |
+| トンボ | `assets/games/inutaro-mushi/item_c.png` | 水平移動、急停止、ホバリング、急発進 | 速い | ギリギリ届く高さを上限に調整 |
 
 ### 到達可能性の設計
 
@@ -270,9 +270,9 @@ SP時の画像保存は、ブラウザの制限により写真アプリへ直接
 
 | タイミング | ファイル |
 | --- | --- |
-| ジャンプ時 | `assets/sound_jump.mp3` |
-| アイテム取得時 | `assets/sound_itemget.mp3` |
-| カラスの落とし物命中時 | `assets/sound_hazard-hit.mp3` |
+| ジャンプ時 | `assets/games/inutaro-mushi/sound_jump.mp3` |
+| アイテム取得時 | `assets/games/inutaro-mushi/sound_itemget.mp3` |
+| カラスの落とし物命中時 | `assets/games/inutaro-mushi/sound_hazard-hit.mp3` |
 
 ブラウザの自動再生制限に配慮し、初回のポインター操作またはキーボード操作時に音声を読み込むようにしています。再生に失敗してもゲーム進行は止めません。
 
@@ -280,7 +280,7 @@ SP時の画像保存は、ブラウザの制限により写真アプリへ直接
 
 | タイミング | ファイル |
 | --- | --- |
-| ロード完了後からページ滞在中 | `assets/bgm.mp3` |
+| ロード完了後からページ滞在中 | `assets/games/inutaro-mushi/bgm.mp3` |
 
 BGMは長尺音源のため、効果音用のWeb Audio APIではなく `HTMLAudioElement` のループ再生を使用します。ゲーム画像のロード完了後、低優先タイミングで再生開始を試み、クリア / ゲームオーバー / リザルト画面でも止めずに流し続けます。ブラウザの自動再生制限で止められた場合は、最初のポインター操作またはキーボード操作時に再開します。効果音を邪魔しないように音量は控えめに設定します。
 
@@ -307,7 +307,7 @@ BGMは長尺音源のため、効果音用のWeb Audio APIではなく `HTMLAudi
 
 ### 背景
 
-背景画像は `assets/bg.jpg` を使用します。
+背景画像は `assets/games/inutaro-mushi/bg.jpg` を使用します。
 
 Canvas全面に対して、画像をcover相当で描画します。画面比率が変わっても隙間が出ないように、画像の中央を基準にトリミング表示します。
 
@@ -347,8 +347,8 @@ SPブラウザでは、URLバーや下部バーをWebページ側から常時非
 | `games/inutaro-mushi/index.html` | ゲーム本体のHTML構造、HUD、ボタン、SP横向き操作UI、リザルトモーダル |
 | `home.css` | 親ホーム、ゲーム一覧、固定ページの共通デザイン |
 | `home.js` | 親ホームのおしらせ表示、外部リンク処理 |
-| `style.css` | ゲームページのレイアウト、ボタン、HUD、リザルト、SP横向き操作UI、固定横画面モードの見た目 |
-| `game.js` | ゲームループ、入力、物理、出現、衝突、描画、保存/共有 |
+| `games/inutaro-mushi/style.css` | ゲームページのレイアウト、ボタン、HUD、リザルト、SP横向き操作UI、固定横画面モードの見た目 |
+| `games/inutaro-mushi/game.js` | ゲームループ、入力、物理、出現、衝突、描画、保存/共有 |
 | `assets/` | キャラクター、アイテム、背景、音声、アイコン |
 | `docs/game-design-spec.md` | 仕様・設計・開発記録 |
 | `docs/performance-optimization-review.md` | パフォーマンス最適化の検討・採用判断 |
@@ -450,39 +450,39 @@ GitHub Pagesやブラウザのキャッシュで古いJavaScript/CSSが残らな
 
 - `home.css?v=...`
 - `home.js?v=...`
-- `style.css?v=...`
-- `game.js?v=...`
-- `assets/bg.jpg?v=...`
+- `games/inutaro-mushi/style.css?v=...`
+- `games/inutaro-mushi/game.js?v=...`
+- `assets/games/inutaro-mushi/bg.jpg?v=...`
 
 現在のローカル確認版:
 
 - `home.css?v=20260621-font-local`
 - `home.js?v=20260620-parent-local`
-- `style.css?v=20260621-font-local`
-- `game.js?v=20260621-font-local`
+- `games/inutaro-mushi/style.css?v=20260705-asset-refactor`
+- `games/inutaro-mushi/game.js?v=20260705-asset-refactor`
 
 ## 11. 素材一覧
 
 | ファイル | 用途 |
 | --- | --- |
-| `assets/bg.jpg` | 背景 |
-| `assets/player_idle.png` | 犬タロー通常 |
-| `assets/player_jump.png` | 犬タロージャンプ |
-| `assets/enemy_idle.png` | カラス |
-| `assets/hazard_1.png` | カラスの落とし物落下中 |
-| `assets/hazard_2.png` | カラスの落とし物着弾 |
-| `assets/item_a.png` | カタツムリ |
-| `assets/item_b.png` | 蝶 |
-| `assets/item_c.png` | トンボ |
+| `assets/games/inutaro-mushi/bg.jpg` | 背景 |
+| `assets/games/inutaro-mushi/player_idle.png` | 犬タロー通常 |
+| `assets/games/inutaro-mushi/player_jump.png` | 犬タロージャンプ |
+| `assets/games/inutaro-mushi/enemy_idle.png` | カラス |
+| `assets/games/inutaro-mushi/hazard_1.png` | カラスの落とし物落下中 |
+| `assets/games/inutaro-mushi/hazard_2.png` | カラスの落とし物着弾 |
+| `assets/games/inutaro-mushi/item_a.png` | カタツムリ |
+| `assets/games/inutaro-mushi/item_b.png` | 蝶 |
+| `assets/games/inutaro-mushi/item_c.png` | トンボ |
 | `assets/favicon.png` | ブラウザタブ用アイコン |
 | `assets/apple-touch-icon.png` | iOSホーム画面用アイコン |
 | `assets/icon-192.png` | 汎用アプリアイコン |
-| `assets/sound_jump.mp3` | ジャンプ効果音 |
-| `assets/sound_itemget.mp3` | アイテム取得効果音 |
-| `assets/sound_hazard-hit.mp3` | カラスの落とし物命中効果音 |
-| `assets/bgm.mp3` | ループBGM |
+| `assets/games/inutaro-mushi/sound_jump.mp3` | ジャンプ効果音 |
+| `assets/games/inutaro-mushi/sound_itemget.mp3` | アイテム取得効果音 |
+| `assets/games/inutaro-mushi/sound_hazard-hit.mp3` | カラスの落とし物命中効果音 |
+| `assets/games/inutaro-mushi/bgm.mp3` | ループBGM |
 | `assets/html2canvas.min.js` | 旧リザルトモーダル保存実装で使用していたDOMキャプチャライブラリ。現在のリザルト保存はCanvasで専用カードを生成 |
-| `data/news.json` | ホームのおしらせカード用データ |
+| `data/news.json` | 旧おしらせカード検討用データ。現在のトップ表示はHTML内カードとYouTube静的JSONを使用 |
 
 ## 12. 公開・運用
 
@@ -503,7 +503,7 @@ GitHub Pagesで公開しています。
 
 ### 更新手順
 
-1. ローカルで `index.html`、`home.css`、`games/`、`pages/`、`style.css`、`game.js`、`assets/`、`docs/` を変更
+1. ローカルで `index.html`、`home.css`、`games/`、`pages/`、`assets/`、`docs/` を変更
 2. ローカルで表示確認
 3. GitHubリポジトリへ反映
 4. GitHub Pagesのデプロイ成功を確認
