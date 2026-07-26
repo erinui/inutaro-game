@@ -1,6 +1,6 @@
 # erinui サイト階層整理
 
-最終更新: 2026-07-05
+最終更新: 2026-07-26
 
 ## 1. 基本方針
 
@@ -19,6 +19,8 @@ https://erinui.github.io/inutaro-game/
 ```text
 https://erinui.github.io/
 ```
+
+現在のリポジトリでは `main` のルートをGitHub Pagesの公開元として扱います。将来的に `https://erinui.github.io/` 直下へ移行するまでは、外部共有用の絶対URLは `https://erinui.github.io/inutaro-game/` を基準にします。
 
 ## 2. 現在の階層
 
@@ -41,6 +43,8 @@ https://erinui.github.io/
 ├── pages/
 │   ├── characters.html
 │   │   └── キャラクター紹介
+│   ├── illustrations.html
+│   │   └── イラスト
 │   ├── blog.html
 │   │   └── おしらせ・ブログ
 │   ├── terms.html
@@ -75,6 +79,7 @@ https://erinui.github.io/
 | `/games/` | `games/index.html` | ゲーム一覧 |
 | `/games/inutaro-mushi/` | `games/inutaro-mushi/index.html` | ゲーム本体 |
 | `/pages/characters.html` | `pages/characters.html` | キャラクター紹介 |
+| `/pages/illustrations.html` | `pages/illustrations.html` | イラスト |
 | `/pages/blog.html` | `pages/blog.html` | おしらせ・ブログ |
 | `/pages/terms.html` | `pages/terms.html` | 利用規約 |
 | `/pages/privacy.html` | `pages/privacy.html` | プライバシーポリシー |
@@ -91,20 +96,20 @@ https://erinui.github.io/
 | ゲーム | `games/` | サイト内 |
 | グッズ | `https://suzuri.jp/erikanuinui` | 外部、別タブ |
 | ブログ | `https://note.com/erinui` | 外部、別タブ |
-| イラスト | `#` | 未設定 |
+| イラスト | `pages/illustrations.html` | 仮ページ |
 | YouTube | YouTubeチャンネル | 外部、別タブ |
 
 YouTube看板は、最新3本のサムネイルと登録者数を10秒周期で切り替えます。
 
 ## 5. 共通ヘッダー
 
-トップページと下層ページではHTMLクラス名が異なりますが、見た目と挙動は統一しています。
+トップページと下層ページでは、共通ヘッダーの基本クラス名を統一しています。
 
-| 種類 | トップ | 下層 |
-| --- | --- | --- |
-| ヘッダー | `.draft-header` | `.site-header` |
-| ブランド | `.site-brand` | `.brand` |
-| ナビ | `.nav-links` | `.site-nav` |
+| 種類 | クラス |
+| --- | --- |
+| ヘッダー | `.site-header` |
+| ブランド | `.brand` |
+| ナビ | `.site-nav` |
 
 ルール:
 
@@ -201,6 +206,8 @@ pages/privacy.html
 | `games/inutaro-3d-prototype/` | 3D試作。ゲーム一覧には未掲載 |
 | `docs/server-migration-plan.md` | サーバー移行検討メモ |
 
+上記のほか、旧マップ素材 `assets/home-city/city_*.png` と `assets/home-city/youtube-latest-thumb.jpg` は未追跡の旧素材候補です。削除、アーカイブ、正式管理のいずれにするかは `docs/site-improvement-plan.md` の方針に従って判断します。
+
 ## 8. 拡張ルール
 
 ### ゲーム追加
@@ -238,3 +245,18 @@ assets/
 - フッター
 - 固定ページ
 - 本資料
+
+## 9. 直近の整理対象
+
+2026-07-26時点で、次に整理する対象は以下です。
+
+| 対象 | 方針 |
+| --- | --- |
+| OGP・共有URL | 現在の公開URL `https://erinui.github.io/inutaro-game/` に合わせる |
+| イラスト導線 | 仮ページ `pages/illustrations.html` に接続済み |
+| トップのクラス名 | `site-*` / `.brand` / `.site-nav` 系へ変更済み |
+| 固定ページOGP | キャラクター、ブログ、規約、ポリシー、イラストに基本OGP追加済み |
+| YouTubeリンク | ユーザー向けリンクをハンドルURLへ統一済み |
+| 未追跡ファイル | 旧素材、検討用、試作を分類して扱いを決める |
+
+具体的な実装順序と確認項目は `docs/site-improvement-plan.md` を参照します。

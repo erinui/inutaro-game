@@ -38,16 +38,33 @@ async function hydrateYoutubeCard(card) {
 }
 
 async function fetchYoutubeData() {
+  const useStaticFirst =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.hostname.endsWith(".github.io");
+
+  if (!useStaticFirst) {
+    const apiData = await fetchYoutubeApiData();
+    if (apiData) return apiData;
+  }
+
+  const staticData = await fetchYoutubeStaticData();
+  if (staticData) return staticData;
+
+  return useStaticFirst ? fetchYoutubeApiData() : null;
+}
+
+async function fetchYoutubeApiData() {
   const apiResponse = await fetch("/api/latest-youtube?maxResults=3", {
     headers: {
       Accept: "application/json",
     },
   });
 
-  if (apiResponse.ok) {
-    return apiResponse.json();
-  }
+  return apiResponse.ok ? apiResponse.json() : null;
+}
 
+async function fetchYoutubeStaticData() {
   const staticResponse = await fetch("assets/home-city/youtube-latest.json", {
     cache: "no-store",
     headers: {

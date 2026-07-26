@@ -1,6 +1,6 @@
 # フォルダ構成・画像素材整理レビュー
 
-最終更新: 2026-07-05
+最終更新: 2026-07-26
 
 ## 1. 目的
 
@@ -405,3 +405,81 @@ game.js / style.css を games/inutaro-mushi/ に移動
 games/{game-slug}/
 assets/games/{game-slug}/
 ```
+
+## 11. 2026-07-26時点の追加確認
+
+サイト全体のページ拡張後に、改めてフォルダ構成と素材管理を確認しました。
+
+主要ページは以下の構成で維持します。
+
+```text
+/                         えりぬいシティ トップ
+/games/                   ゲーム一覧
+/games/inutaro-mushi/     犬タローの虫さんまってまって
+/pages/characters.html    キャラクター紹介
+/pages/blog.html          おしらせ・ブログ
+/pages/terms.html         利用規約
+/pages/privacy.html       プライバシーポリシー
+```
+
+ゲーム本体ファイルとゲーム素材はすでに以下へ整理済みです。
+
+```text
+games/inutaro-mushi/
+assets/games/inutaro-mushi/
+```
+
+この部分は現時点で大きな追加整理は不要です。
+
+## 12. 現在の未追跡ファイル
+
+2026-07-26時点で、以下の未追跡ファイルがあります。
+
+```text
+assets/home-city/city_blog1.png
+assets/home-city/city_character.png
+assets/home-city/city_game.png
+assets/home-city/city_linestamp.png
+assets/home-city/city_shop.png
+assets/home-city/city_sns1.png
+assets/home-city/city_sns2.png
+assets/home-city/city_youtube.png
+assets/home-city/youtube-latest-thumb.jpg
+docs/server-migration-plan.md
+drafts/
+games/inutaro-3d-prototype/
+```
+
+これらは、現在の本番トップで使っている `map_*` 素材や、ゲーム本体の素材とは別の扱いです。
+
+## 13. 未追跡ファイルの整理方針
+
+| 対象 | 現状 | 方針 |
+| --- | --- | --- |
+| `assets/home-city/city_*.png` | 旧マップ素材候補 | 本番参照がなければ削除、または `drafts/` へ移動 |
+| `assets/home-city/youtube-latest-thumb.jpg` | 旧YouTubeサムネ候補 | `youtube-thumb-1..3.jpg` 運用へ統一し、未使用なら削除 |
+| `drafts/` | 検討用ホームワイヤー | Git管理しない検討用として残すか、必要ならREADMEを付けて正式管理 |
+| `games/inutaro-3d-prototype/` | 3Dゲーム試作 | 本番ゲーム一覧に載せない限り公開対象外。残すなら試作用と明記 |
+| `docs/server-migration-plan.md` | サーバー移行メモ | Cloudflare移管資料として正式化するか削除候補にする |
+
+削除または移動の前に、以下で参照がないことを確認します。
+
+```text
+rg "city_" .
+rg "youtube-latest-thumb" .
+rg "inutaro-3d-prototype" .
+rg "server-migration-plan" docs .
+```
+
+## 14. 次回実装時の注意点
+
+未追跡ファイル整理は、本番ページの見た目変更とは分けて行います。
+
+推奨順序:
+
+1. OGP・共有URLなど公開情報の整合性修正
+2. トップページの `draft-*` クラス名整理
+3. イラスト導線の未設定解消
+4. 未追跡ファイルの分類と削除・アーカイブ判断
+
+これにより、公開ページの表示確認とファイル整理の影響範囲を分けて確認できます。

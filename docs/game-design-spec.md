@@ -1,6 +1,6 @@
 # 犬タローの虫さんまってまって 仕様・設計資料
 
-最終更新: 2026-07-05
+最終更新: 2026-07-26
 
 ## 1. 概要
 
@@ -494,12 +494,15 @@ GitHub Pagesで公開しています。
 | --- | --- |
 | リポジトリ | `erinui/inutaro-game` |
 | ソース管理 | `main` ブランチ |
-| GitHub Pages公開 | `gh-pages` ブランチ |
-| 公開ディレクトリ | `gh-pages` の `/ (root)` |
-| 最終想定URL | https://erinui.github.io/ |
-| ゲームURL | https://erinui.github.io/games/inutaro-mushi/ |
+| GitHub Pages公開 | `main` のルートを前提 |
+| 現在の公開URL | https://erinui.github.io/inutaro-game/ |
+| 現在のゲームURL | https://erinui.github.io/inutaro-game/games/inutaro-mushi/ |
+| 将来的な最終想定URL | https://erinui.github.io/ |
+| 将来的なゲームURL | https://erinui.github.io/games/inutaro-mushi/ |
 
 現在の作業リポジトリは `erinui/inutaro-game` です。最終的に `https://erinui.github.io/` を親サイトにする場合は、`erinui/erinui.github.io` への反映またはリポジトリ構成の移行が必要です。
+
+現時点ではプロジェクトページ配下で公開しているため、ゲーム内共有URLやOGPで絶対URLを使う場合は `/inutaro-game/` を含めます。
 
 ### 更新手順
 

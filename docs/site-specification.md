@@ -1,6 +1,6 @@
 # erinuiサイト全体 仕様・設計資料
 
-最終更新: 2026-07-05
+最終更新: 2026-07-26
 
 ## 1. この資料の目的
 
@@ -44,9 +44,11 @@
 | 現在の公開URL | `https://erinui.github.io/inutaro-game/` |
 | 将来的な親ホーム想定 | `https://erinui.github.io/` |
 | 開発元ブランチ | `main` |
-| GitHub Pages公開ブランチ | `gh-pages` |
+| GitHub Pages公開元 | `main` のルートを前提 |
 
 将来的に `https://erinui.github.io/` を親ホームとして運用する場合は、`erinui.github.io` 用のリポジトリへ移行、または現在の構成を同期する必要があります。
+
+現在はプロジェクトページ配下の `https://erinui.github.io/inutaro-game/` で公開しているため、OGP、Twitterカード、ゲーム内共有など外部サービスから直接参照される絶対URLは、原則として `/inutaro-game/` を含めます。通常のHTML内画像、CSS、JS、フォントは相対パスを使います。
 
 ## 4. ページ階層
 
@@ -69,6 +71,8 @@
 ├── pages/
 │   ├── characters.html
 │   │   └── キャラクター紹介
+│   ├── illustrations.html
+│   │   └── イラスト
 │   ├── blog.html
 │   │   └── おしらせ・ブログ
 │   ├── terms.html
@@ -140,7 +144,7 @@ site-nav.js
 | ゲーム | `.map-link-game` | `games/` | 設定済み |
 | グッズ | `.map-link-goods` | `https://suzuri.jp/erikanuinui` | 別タブ |
 | ブログ | `.map-link-blog` | `https://note.com/erinui` | 別タブ |
-| イラスト | `.map-link-illustrate` | `#` | 未設定 |
+| イラスト | `.map-link-illustrate` | `pages/illustrations.html` | 仮ページ |
 | YouTube | `.map-link-youtube` | YouTubeチャンネル | 別タブ |
 
 外部リンクは `target="_blank"` と `rel="noopener noreferrer"` を付けます。
@@ -166,11 +170,12 @@ YouTube看板は、看板画像 `map_youtube.png` の内側に最新動画サム
 - チャンネル登録者数
 - 10秒ごとに `サムネ1 -> サムネ2 -> サムネ3 -> 登録者数` の順で切り替え
 
-取得優先順:
+取得方針:
 
-1. `/api/latest-youtube?maxResults=3`
-2. `assets/home-city/youtube-latest.json`
-3. HTMLに埋め込まれた初期画像・初期値
+- GitHub Pagesとローカル確認では、`assets/home-city/youtube-latest.json` を優先して読み込む
+- CloudflareなどAPIが使える環境では、`/api/latest-youtube?maxResults=3` を利用できる
+- JSON取得前の登録者数表示は `取得中`
+- 取得に失敗した場合はHTMLに埋め込まれた初期画像を表示する
 
 GitHub Pagesではサーバー処理が使えないため、GitHub Actionsで静的JSONとサムネイル画像を更新します。
 
@@ -292,7 +297,19 @@ https://note.com/erinui
 
 今後、サイト内に記事一覧を持たせる場合は、`pages/blog.html` に記事カードを追加するか、`/blog/` 配下へ個別記事を分離します。
 
-### 5.9 利用規約・プライバシーポリシー
+### 5.9 イラスト
+
+対象ファイル:
+
+```text
+pages/illustrations.html
+```
+
+現在は準備中の仮ページです。
+
+トップマップ上のイラスト導線から遷移できるようにし、`href="#"` の未設定リンクを解消しています。今後、作品を掲載する場合はこのページに作品カードやカテゴリを追加します。
+
+### 5.10 利用規約・プライバシーポリシー
 
 対象ファイル:
 
@@ -312,14 +329,17 @@ pages/privacy.html
 
 ## 6. 共通ヘッダー・ナビゲーション
 
-共通ヘッダーはトップページと下層ページでHTMLクラス名が異なります。
+共通ヘッダーはトップページと下層ページで基本クラス名を統一しています。
 
-| ページ | ヘッダークラス | ブランドクラス | ナビクラス |
-| --- | --- | --- | --- |
-| トップ | `.draft-header` | `.site-brand` | `.nav-links` |
-| 下層ページ | `.site-header` | `.brand` | `.site-nav` |
+| 種類 | クラス |
+| --- | --- |
+| ヘッダー | `.site-header` |
+| ブランド | `.brand` |
+| ナビ | `.site-nav` |
 
 見た目は `home.css` で統一しています。
+
+トップページでは、本文ラッパーに `.site-page`、ヒーロー補助ラベルに `.hero-label` を使用します。検討用由来の `draft-*` クラスは本番HTML/CSSから撤去済みです。
 
 ルール:
 
@@ -413,7 +433,7 @@ assets/fonts/keinann-pop-readme.pdf
 | `assets/home-city/map_game.png` | ゲームリンク |
 | `assets/home-city/map_goods.png` | グッズリンク |
 | `assets/home-city/map_blog.png` | ブログリンク |
-| `assets/home-city/map_illastrate.png` | イラストリンク（未設定） |
+| `assets/home-city/map_illastrate.png` | イラストリンク |
 | `assets/home-city/map_youtube.png` | YouTube看板 |
 | `assets/home-city/map_decoration_*.png` | 非リンク装飾 |
 | `assets/home-city/youtube-latest.json` | YouTube最新情報の静的フォールバック |
@@ -469,9 +489,11 @@ GitHub Pages運用時は、`.github/workflows/update-youtube-latest.yml` が定�
 | APIキー | Repository Secret `YOUTUBE_API_KEY` |
 | チャンネルID | Repository Variable `YOUTUBE_CHANNEL_ID`、未設定時は `UCdnf6zMzSdZuvUxS-CS2REQ` |
 | 更新対象 | `youtube-latest.json`、`youtube-thumb-1.jpg`、`youtube-thumb-2.jpg`、`youtube-thumb-3.jpg` |
-| 更新先 | `gh-pages` ブランチ |
+| 更新先 | `main` ブランチ |
 
 Cloudflareへ移管した場合は、`functions/api/latest-youtube.js` を使って `/api/latest-youtube` を動的に返す想定です。
+
+`functions/api/latest-youtube.js` はGitHub Pagesでは実行されません。現時点ではCloudflare移管時の将来用実装として扱い、GitHub Pagesでは `.github/workflows/update-youtube-latest.yml` と `scripts/update-youtube-latest.mjs` による静的JSON・画像更新を正とします。
 
 注意:
 
@@ -516,20 +538,38 @@ http://127.0.0.1:8780/
 - YouTube看板のフォールバック表示
 - 外部リンクの別タブ遷移
 
-GitHub Pages反映時は、`main` へコミットした後、公開用 `gh-pages` へ反映します。
+GitHub Pages反映時は、`main` へコミットして公開反映します。YouTube最新情報もGitHub Actionsから `main` へコミットされます。
 
 ## 13. 現在の未設定・検討中項目
 
 | 項目 | 状態 |
 | --- | --- |
-| イラストページ | マップ画像はあるが遷移先は `#` のまま |
 | ブログ内製化 | 現在はnoteへの導線 |
 | Cloudflare移管 | `functions/api/latest-youtube.js` は準備済み。移管時に環境変数設定が必要 |
 | ルートドメイン運用 | 現在は `erinui/inutaro-game` 配下。将来的に `erinui.github.io` 直下運用を検討 |
 | 3Dプロトタイプ | `games/inutaro-3d-prototype/` は試作扱い |
 | 検討用ワイヤー | `drafts/home-wireframe/` は検討用で、本番導線とは分離 |
+| イラストページ | 仮ページ設置済み。内容は今後追加 |
+| OGP・共有URL | 現在の公開URL `https://erinui.github.io/inutaro-game/` に合わせて更新済み |
+| 固定ページOGP | キャラクター、ブログ、規約、ポリシー、イラストに基本OGP追加済み |
+| トップのクラス名 | `draft-*` 命名を本番用へ整理済み |
+| 未追跡ファイル | 旧素材、検討用、試作の扱いを分類して整理予定 |
 
-## 14. 今後の更新ルール
+## 14. 改善対応計画
+
+2026-07-26時点のサイト全体確認に基づく改善設計と実装手順は、`docs/site-improvement-plan.md` にまとめます。
+
+実装時は以下の順で進めます。
+
+| Phase | 内容 | 主な確認 |
+| --- | --- | --- |
+| 1 | OGP、共有URL、YouTubeリンク、固定ページOGPの整理 | 実装済み。主要ページHTTP 200、共有URL、外部リンクを確認 |
+| 2 | トップページの `draft-*` クラス名整理 | 実装済み。PC/SPヘッダー、メニュー開閉、トップ見た目を確認 |
+| 3 | イラスト導線の未設定解消 | 実装済み。`href="#"` が本番導線に残らないことを確認 |
+| 4 | 未追跡ファイル、旧素材、検討用ファイルの分類整理 | `git status --short`、画像欠けなし |
+| 5 | ブログ内製化、Cloudflare移管など中長期拡張 | 追加仕様ごとの確認 |
+
+## 15. 今後の更新ルール
 
 ### 外部リンクを追加・変更する場合
 
