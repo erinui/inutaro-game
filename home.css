@@ -1191,12 +1191,7 @@ body.city-home .site-footer {
   .site-menu-toggle,
   .site-menu-toggle span,
   body.city-home .site-nav,
-  body:not(.city-home) .site-nav,
-  .map-decoration-bird,
-  .map-decoration-sasuke.is-walking,
-  .map-decoration-sasuke.is-walking .map-decoration-image,
-  .map-decoration-bukurochan.is-questioning::after {
-    animation: none;
+  body:not(.city-home) .site-nav {
     transition: none;
   }
 }
