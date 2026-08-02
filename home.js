@@ -43,6 +43,7 @@ function bindContentCarousel(carousel) {
   const updateButtons = () => {
     const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
     const canScroll = maxScroll > 8;
+    carousel.classList.toggle("is-scrollable", canScroll);
     prevButton.disabled = !canScroll || track.scrollLeft <= 1;
     nextButton.disabled = !canScroll || track.scrollLeft >= maxScroll - 1;
   };
@@ -72,7 +73,7 @@ async function hydrateYoutubeContent(card) {
         moreTitle: "まだまだあるよ",
         moreDescription: "えりぬいの動画をもっとみよう。",
         getThumbnail: (video) => video.thumbnail?.url || "",
-        getDescription: (video) => formatPublishedDate(video.publishedAt),
+        getMeta: (video) => formatPublishedDate(video.publishedAt),
       });
     }
   } catch (_error) {
@@ -87,7 +88,11 @@ async function hydrateStaticContent() {
       moreUrl: "https://note.com/erinui",
       moreTitle: "まだまだあるよ",
       moreDescription: "えりぬいのブログをもっとよもう。",
+      getThumbnail: () => "assets/home-city/map_blog.png",
+      mediaMode: "contain",
+      mediaClass: "content-card-media-note",
       getDescription: (article) => article.excerpt || formatPublishedDate(article.publishedAt),
+      getMeta: (article) => formatPublishedDate(article.publishedAt),
     }),
     hydrateLatestCards(suzuriCardsTrack, "assets/home-city/suzuri-latest.json", {
       category: "SUZURI",
@@ -95,8 +100,9 @@ async function hydrateStaticContent() {
       moreTitle: "まだまだあるよ",
       moreDescription: "えりぬいのグッズをもっとみよう。",
       getThumbnail: (product) => product.thumbnailUrl || "",
-      getDescription: (product) =>
+      getMeta: (product) =>
         product.priceWithTax ? `${formatCount(product.priceWithTax)}円（税込）` : "SUZURIでみる",
+      metaKind: "price",
     }),
     hydrateLatestCards(lineStampCardsTrack, "assets/home-city/line-stamps.json", {
       category: "LINE STAMP",
@@ -105,7 +111,7 @@ async function hydrateStaticContent() {
       moreDescription: "犬タローたちの作品をもっとみよう。",
       getThumbnail: (item) => item.thumbnailUrl || "",
       getCategory: (item) => item.kind || "LINE STAMP",
-      getDescription: () => "LINE STOREでみる",
+      getMeta: () => "LINE STOREでみる",
     }),
   ]);
 }
@@ -202,6 +208,10 @@ function renderLatestCards(track, items, options) {
         category: options.getCategory?.(item) || options.category,
         thumbnailUrl: options.getThumbnail?.(item) || "",
         description: options.getDescription?.(item) || "",
+        meta: options.getMeta?.(item) || "",
+        metaKind: options.metaKind || "",
+        mediaMode: options.mediaMode || "cover",
+        mediaClass: options.mediaClass || "",
       }),
     );
   });
@@ -212,6 +222,7 @@ function renderLatestCards(track, items, options) {
         item: { title: options.moreTitle, url: options.moreUrl },
         category: "AND MORE",
         description: options.moreDescription,
+        mediaMode: options.mediaMode || "cover",
         isMore: true,
       }),
     );
@@ -221,7 +232,7 @@ function renderLatestCards(track, items, options) {
   window.dispatchEvent(new Event("resize"));
 }
 
-function createLatestCard({ item, category, thumbnailUrl, description, isMore = false }) {
+function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false }) {
   const card = document.createElement("a");
   card.className = `content-carousel-card content-card-with-media${isMore ? " content-card-more" : ""}`;
   card.href = item.url;
@@ -230,9 +241,9 @@ function createLatestCard({ item, category, thumbnailUrl, description, isMore = 
 
   if (thumbnailUrl) {
     const image = document.createElement("img");
-    image.className = "content-card-media content-card-media-cover";
+    image.className = `content-card-media${mediaMode === "contain" ? "" : " content-card-media-cover"}${mediaClass ? ` ${mediaClass}` : ""}`;
     image.src = thumbnailUrl;
-    image.alt = "";
+    image.alt = `${item.title || category}の画像`;
     card.append(image);
   } else {
     const placeholder = document.createElement("div");
@@ -253,8 +264,16 @@ function createLatestCard({ item, category, thumbnailUrl, description, isMore = 
 
   if (description) {
     const copy = document.createElement("p");
+    copy.className = "content-card-description";
     copy.textContent = description;
     card.append(copy);
+  }
+
+  if (meta) {
+    const metaText = document.createElement("p");
+    metaText.className = `content-card-meta${metaKind ? ` content-card-meta-${metaKind}` : ""}`;
+    metaText.textContent = meta;
+    card.append(metaText);
   }
 
   card.setAttribute("aria-label", `${item.title || "最新情報"}を開く`);

@@ -928,6 +928,7 @@ body.city-home .site-nav a:focus-visible {
 
 .content-carousel-card {
   display: flex;
+  box-sizing: border-box;
   min-height: 300px;
   /* Reserve a small end margin so the final card border is never clipped by subpixel rounding. */
   flex: 0 0 calc((100% - 48px) / 3);
@@ -939,11 +940,14 @@ body.city-home .site-nav a:focus-visible {
 }
 
 .content-card-with-media {
-  min-height: 340px;
+  min-height: 420px;
+  height: 420px;
 }
 
 .content-card-media {
   display: block;
+  box-sizing: border-box;
+  flex: 0 0 148px;
   width: 100%;
   height: 148px;
   border-radius: 10px;
@@ -953,6 +957,13 @@ body.city-home .site-nav a:focus-visible {
 
 .content-card-media-cover {
   object-fit: cover;
+}
+
+.content-card-media-note {
+  padding: 12px;
+  background:
+    radial-gradient(circle at 22% 28%, rgba(255, 255, 255, 0.78) 0 22px, transparent 23px),
+    #f7dff0;
 }
 
 .content-card-media-placeholder {
@@ -974,6 +985,42 @@ body.city-home .site-nav a:focus-visible {
 .content-card-more .content-card-media-placeholder {
   background: #ffe65b;
   font-size: clamp(58px, 7vw, 82px);
+}
+
+.content-card-with-media h3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.content-card-with-media > p:not(.content-card-kicker):not(.content-card-meta) {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.content-card-with-media > p:not(.content-card-kicker):not(.content-card-meta):last-child {
+  margin-top: auto;
+}
+
+.content-card-meta {
+  margin-top: auto !important;
+  color: #474747;
+  font-size: 15px !important;
+  font-weight: 700;
+}
+
+.content-card-meta-price {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 3px 9px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #fff0a7;
+  color: #111;
 }
 
 .character-card {
@@ -1009,10 +1056,14 @@ body.city-home .site-nav a:focus-visible {
   top: 50%;
   right: -22px;
   left: -22px;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   pointer-events: none;
+}
+
+.content-carousel.is-scrollable .content-carousel-controls {
+  display: flex;
 }
 
 .content-carousel-button {
@@ -1290,6 +1341,10 @@ body.city-home .site-footer {
   }
 
   .content-carousel-controls {
+    display: none;
+  }
+
+  .content-carousel.is-scrollable .content-carousel-controls {
     display: none;
   }
 
