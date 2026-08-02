@@ -974,9 +974,9 @@ body.city-home .site-nav a:focus-visible {
 .content-carousel-card {
   display: flex;
   box-sizing: border-box;
-  min-height: 300px;
-  /* Reserve a small end margin so the final card border is never clipped by subpixel rounding. */
-  flex: 0 0 calc((100% - 48px) / 3);
+  min-height: 470px;
+  /* 16:9の動画サムネイルを切らずに見せる、共通の推薦カード幅。 */
+  flex: 0 0 min(400px, calc((100% - 36px) / 2.5));
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
@@ -985,16 +985,17 @@ body.city-home .site-nav a:focus-visible {
 }
 
 .content-card-with-media {
-  min-height: 420px;
-  height: 420px;
+  min-height: 470px;
+  height: 470px;
 }
 
 .content-card-media {
   display: block;
   box-sizing: border-box;
-  flex: 0 0 148px;
+  flex: 0 0 auto;
   width: 100%;
-  height: 148px;
+  height: auto;
+  aspect-ratio: 16 / 9;
   border-radius: 10px;
   background: #dff5f0;
   object-fit: contain;
@@ -1014,8 +1015,9 @@ body.city-home .site-nav a:focus-visible {
 .content-card-media-line {
   align-self: stretch;
   width: 100%;
-  height: 148px;
-  flex-basis: 148px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  flex-basis: auto;
   background: #fff4f8;
 }
 
@@ -1394,7 +1396,7 @@ body.city-home .site-footer {
 
   .content-carousel-card,
   .character-card {
-    flex-basis: min(76vw, 270px);
+    flex-basis: min(84vw, 330px);
   }
 
   .content-carousel-controls {
