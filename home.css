@@ -966,6 +966,14 @@ body.city-home .site-nav a:focus-visible {
     #f7dff0;
 }
 
+.content-card-media-line {
+  align-self: stretch;
+  width: 100%;
+  height: 148px;
+  flex-basis: 148px;
+  background: #fff4f8;
+}
+
 .content-card-media-placeholder {
   display: grid;
   place-items: center;
@@ -992,6 +1000,10 @@ body.city-home .site-nav a:focus-visible {
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.youtube-section .content-card-with-media h3 {
+  -webkit-line-clamp: 3;
 }
 
 .content-card-with-media > p:not(.content-card-kicker):not(.content-card-meta) {

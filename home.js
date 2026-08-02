@@ -111,6 +111,8 @@ async function hydrateStaticContent() {
       moreDescription: "犬タローたちの作品をもっとみよう。",
       getThumbnail: (item) => item.thumbnailUrl || "",
       getCategory: (item) => item.kind || "LINE STAMP",
+      mediaMode: "contain",
+      mediaClass: "content-card-media-line",
       getMeta: () => "LINE STOREでみる",
     }),
   ]);
