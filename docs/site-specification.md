@@ -13,11 +13,11 @@
 - ゲーム「犬タローの虫さんまってまって」
 - キャラクター紹介ページ
 - おしらせ・ブログ、利用規約、プライバシーポリシー
-- YouTube最新情報取得
+- YouTube、note、SUZURI、LINEスタンプの最新情報表示
 - 共通ヘッダー、レスポンシブ、デザインルール
 - 開発・公開・更新フロー
 
-ゲーム本体の詳細仕様は `docs/game-design-spec.md`、YouTube取得の詳細は `docs/youtube-latest-api.md` を参照します。
+ゲーム本体の詳細仕様は `docs/game-design-spec.md`、YouTube取得の詳細は `docs/youtube-latest-api.md`、トップの最新情報表示は `docs/home-latest-content.md` を参照します。
 
 ## 2. サイトの基本コンセプト
 
@@ -128,8 +128,13 @@ site-nav.js
 | 共通ヘッダー | ロゴ付きブランド、ゲーム、キャラクター、おしらせ |
 | ヒーロー | `えりぬいシティ` とサイト説明 |
 | まちを歩く | 縦長マップと説明カード |
-| おしらせ | ゲーム、ブログ、YouTubeの導線カード |
-| なかまたち | キャラクター紹介ページへの導線 |
+| キャラクター紹介 | キャラクター紹介ページへの導線。PCは3枚表示、SPは横スクロール |
+| おしらせ | サイト内導線カード |
+| ゲーム | ゲーム導線カード |
+| YouTube | 最新5本と、6件目がある場合の `and more` カード |
+| ブログ | note RSSから最新5記事と、6件目がある場合の `and more` カード |
+| グッズ | SUZURI APIから最新5商品と、6件目がある場合の `and more` カード |
+| LINEスタンプ | 販売中作品を全件表示。6件目がある場合のみ `and more` カード |
 | フッター | 外部リンク、規約、ポリシー |
 
 ### 5.2 トップページのマップ導線
@@ -173,7 +178,7 @@ YouTube看板は、看板画像 `map_youtube.png` の内側に最新動画サム
 取得方針:
 
 - GitHub Pagesとローカル確認では、`assets/home-city/youtube-latest.json` を優先して読み込む
-- CloudflareなどAPIが使える環境では、`/api/latest-youtube?maxResults=3` を利用できる
+- CloudflareなどAPIが使える環境では、`/api/latest-youtube?maxResults=6` を利用できる
 - JSON取得前の登録者数表示は `取得中`
 - 取得に失敗した場合はHTMLに埋め込まれた初期画像を表示する
 
@@ -427,7 +432,7 @@ assets/fonts/keinann-pop-readme.pdf
 | パス | 用途 |
 | --- | --- |
 | `assets/home-city/map_bg.svg` | マップ背景 |
-| `assets/home-city/map_character.png` | キャラクター紹介リンク |
+| `assets/home-city/map_character.svg` | キャラクター紹介リンク |
 | `assets/home-city/map_sns.png` | Xリンク |
 | `assets/home-city/map_linestamp.png` | LINEスタンプリンク |
 | `assets/home-city/map_game.png` | ゲームリンク |
@@ -437,7 +442,10 @@ assets/fonts/keinann-pop-readme.pdf
 | `assets/home-city/map_youtube.png` | YouTube看板 |
 | `assets/home-city/map_decoration_*.png` | 非リンク装飾 |
 | `assets/home-city/youtube-latest.json` | YouTube最新情報の静的フォールバック |
-| `assets/home-city/youtube-thumb-*.jpg` | YouTube最新サムネイル |
+| `assets/home-city/youtube-thumb-1..5.jpg` | YouTubeカルーセル用最新サムネイル |
+| `assets/home-city/note-latest.json` | note RSSから取得した最新記事 |
+| `assets/home-city/suzuri-latest.json` | SUZURI APIから取得した最新商品 |
+| `assets/home-city/line-stamps.json` | 現在販売中のLINEスタンプ・絵文字 |
 
 ### 8.3 キャラクター紹介
 
@@ -472,12 +480,14 @@ assets/fonts/keinann-pop-readme.pdf
 | ファイル | 役割 |
 | --- | --- |
 | `site-nav.js` | 共通ヘッダーのSPメニュー開閉 |
-| `home.js` | YouTube看板のデータ反映、10秒ローテーション、装飾クリック演出 |
+| `home.js` | YouTube看板のデータ反映、最新コンテンツカルーセル、装飾クリック演出 |
 | `games/inutaro-mushi/game.js` | ゲームロジック、描画、音声、保存・共有 |
 | `functions/api/latest-youtube.js` | Cloudflare Pages Functions用YouTube API |
 | `scripts/update-youtube-latest.mjs` | GitHub Actions用YouTube静的データ更新 |
+| `scripts/update-note-latest.mjs` | GitHub Actions用note RSS静的データ更新 |
+| `scripts/update-suzuri-latest.mjs` | GitHub Actions用SUZURI静的データ更新 |
 
-## 10. YouTube最新情報更新
+## 10. 最新コンテンツ更新
 
 GitHub Pages運用時は、`.github/workflows/update-youtube-latest.yml` が定期実行します。
 
@@ -486,9 +496,10 @@ GitHub Pages運用時は、`.github/workflows/update-youtube-latest.yml` が定�
 | 実行タイミング | 4時間ごとの10分 |
 | Cron | `10 */4 * * *` |
 | 手動実行 | `workflow_dispatch` 対応 |
-| APIキー | Repository Secret `YOUTUBE_API_KEY` |
+| YouTube APIキー | Repository Secret `YOUTUBE_API_KEY` |
+| SUZURIトークン | Repository Secret `SUZURI_ACCESS_TOKEN`。未設定時はSUZURI取得をスキップ |
 | チャンネルID | Repository Variable `YOUTUBE_CHANNEL_ID`、未設定時は `UCdnf6zMzSdZuvUxS-CS2REQ` |
-| 更新対象 | `youtube-latest.json`、`youtube-thumb-1.jpg`、`youtube-thumb-2.jpg`、`youtube-thumb-3.jpg` |
+| 更新対象 | `youtube-latest.json`、`youtube-thumb-1..5.jpg`、`note-latest.json`、`suzuri-latest.json` |
 | 更新先 | `main` ブランチ |
 
 Cloudflareへ移管した場合は、`functions/api/latest-youtube.js` を使って `/api/latest-youtube` を動的に返す想定です。
@@ -497,9 +508,10 @@ Cloudflareへ移管した場合は、`functions/api/latest-youtube.js` を使っ
 
 注意:
 
-- APIキーはフロントエンドに書かない
+- YouTube APIキーとSUZURIトークンはフロントエンドに書かない
 - 公開統計のみ扱う
 - 総再生時間はYouTube Analytics APIとOAuthが必要なため対象外
+- LINEスタンプは公開APIを使わず、`line-stamps.json` を手動で更新する
 
 ## 11. ゲーム仕様要約
 

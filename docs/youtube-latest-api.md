@@ -1,6 +1,6 @@
 # YouTube最新動画取得API 設計メモ
 
-最終更新: 2026-07-05
+最終更新: 2026-08-02
 
 ## 目的
 
@@ -44,6 +44,8 @@ assets/home-city/youtube-latest.json
 assets/home-city/youtube-thumb-1.jpg
 assets/home-city/youtube-thumb-2.jpg
 assets/home-city/youtube-thumb-3.jpg
+assets/home-city/youtube-thumb-4.jpg
+assets/home-city/youtube-thumb-5.jpg
 ```
 
 ## 取得フロー
@@ -72,7 +74,8 @@ GitHub Actions
 ブラウザ
   -> /api/latest-youtube を試す
   -> 404等の場合 assets/home-city/youtube-latest.json を読む
-  -> 最新3本のサムネイルと登録者数を表示
+  -> マップ看板では最新3本のサムネイルと登録者数を表示
+  -> YouTubeカルーセルでは最新5本を表示し、6本目がある場合はand moreカードを追加
 ```
 
 ## Cloudflare環境変数
@@ -82,7 +85,7 @@ GitHub Actions
 | `YOUTUBE_API_KEY` | 必須 | YouTube Data API v3 のAPIキー。Secretとして登録する |
 | `YOUTUBE_CHANNEL_ID` | 任意 | チャンネルID。指定するとハンドル解決を省略できる |
 | `YOUTUBE_HANDLE` | 任意 | 省略時は `@えりぬい` |
-| `YOUTUBE_MAX_RESULTS` | 任意 | 省略時は `3` |
+| `YOUTUBE_MAX_RESULTS` | 任意 | 省略時は `6` |
 | `YOUTUBE_CACHE_SECONDS` | 任意 | 省略時は `3600` 秒 |
 
 推奨は `YOUTUBE_CHANNEL_ID=UCdnf6zMzSdZuvUxS-CS2REQ` も設定しておくこと。これにより、ハンドル変更時も取得が安定する。
@@ -135,6 +138,8 @@ Workflowは4時間ごとの10分に実行し、GitHub画面から手動実行も
 ## フロント表示方針
 
 ホームのマップ内では、YouTube掲示板イラストを前面に置き、画面部分の背面に直近3本の動画サムネイルとチャンネル公開統計を10秒ごとに切り替えて表示する。
+
+ホーム下部のYouTubeカルーセルは最新最大6件を取得する。実データは最大5件まで表示し、6件目が存在するときだけ、チャンネル一覧へ遷移する `and more` カードを6枚目として表示する。
 
 公開統計は YouTube Data API の `channels.list?part=statistics` で取得できる範囲に限定する。総再生時間は YouTube Analytics API とチャンネル所有者のOAuth認証が必要なため、この表示対象には含めない。
 

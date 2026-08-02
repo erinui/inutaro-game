@@ -15,6 +15,7 @@
 | `docs/site-improvement-plan.md` | 未着手項目、改善設計、実装手順 |
 | `docs/game-design-spec.md` | ゲーム「犬タローの虫さんまってまって」の詳細仕様 |
 | `docs/youtube-latest-api.md` | YouTube最新情報取得の設計 |
+| `docs/home-latest-content.md` | トップのYouTube、note、SUZURI、LINEスタンプ最新情報表示 |
 | `docs/performance-optimization-review.md` | ゲームパフォーマンス改善検討 |
 | `docs/directory-structure-review.md` | フォルダ構成、素材整理、公開対象の確認 |
 
@@ -81,7 +82,8 @@ https://erinui.github.io/
 | キャラクター紹介 | 画像込みプロフィールカード、左右交互配置、犬タローのはみ出し演出 |
 | イラスト | 将来のイラスト掲載用ページ。現在は準備中表示 |
 | 外部リンク | X、YouTube、note、SUZURI、LINEスタンプ |
-| YouTube | 最新3本のサムネイルと登録者数を10秒ごとに切り替え |
+| YouTube | マップ看板では最新3本と登録者数を10秒ごとに切り替え、カルーセルでは最新5本とand moreを表示 |
+| ブログ・グッズ・LINEスタンプ | note、SUZURI、LINE STOREの最新導線をカルーセルで表示 |
 
 ## 5. デザイン方針
 
@@ -98,7 +100,7 @@ https://erinui.github.io/
 | --- | --- |
 | `index.html` | トップページ |
 | `home.css` | トップ、下層ページ、共通ヘッダーのスタイル |
-| `home.js` | YouTube看板、マップ装飾 |
+| `home.js` | YouTube看板、マップ装飾、最新コンテンツカルーセル |
 | `site-nav.js` | SPメニュー |
 | `games/index.html` | ゲーム一覧 |
 | `games/inutaro-mushi/index.html` | ゲーム本体HTML |
@@ -106,6 +108,8 @@ https://erinui.github.io/
 | `games/inutaro-mushi/game.js` | ゲームロジック |
 | `functions/api/latest-youtube.js` | Cloudflare Pages Functions用YouTube API |
 | `scripts/update-youtube-latest.mjs` | GitHub Actions用YouTube更新 |
+| `scripts/update-note-latest.mjs` | GitHub Actions用note RSS更新 |
+| `scripts/update-suzuri-latest.mjs` | GitHub Actions用SUZURI商品更新 |
 
 ## 7. 公開・更新
 

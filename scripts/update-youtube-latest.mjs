@@ -5,7 +5,7 @@ const API_BASE = "https://www.googleapis.com/youtube/v3";
 const OUT_DIR = path.join("assets", "home-city");
 const DEFAULT_CHANNEL_ID = "UCdnf6zMzSdZuvUxS-CS2REQ";
 const DEFAULT_HANDLE = "@えりぬい";
-const MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 3), 1, 10);
+const MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 6), 1, 10);
 
 const apiKey = process.env.YOUTUBE_API_KEY;
 const channelId = process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
@@ -39,7 +39,7 @@ await writeFile(
 );
 
 await Promise.all(
-  videos.slice(0, 3).map(async (video, index) => {
+  videos.slice(0, 5).map(async (video, index) => {
     if (!video.thumbnail?.url) return;
     const response = await fetch(video.thumbnail.url);
     if (!response.ok) {

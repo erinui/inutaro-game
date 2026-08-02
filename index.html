@@ -28,7 +28,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=20260616-icon" />
     <link rel="preload" href="assets/fonts/keinann-pop.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="home.css?v=20260802-character-carousel-links" />
+    <link rel="stylesheet" href="home.css?v=20260802-latest-content" />
   </head>
   <body class="city-home">
     <header class="site-header" aria-label="サイトヘッダー">
@@ -76,7 +76,7 @@
               <img class="map-decoration-image" src="assets/home-city/map_decoration_bukurochan.png" alt="" aria-hidden="true" />
             </button>
             <a class="map-card map-link-character" href="pages/characters.html" aria-label="キャラクター紹介へ">
-              <img class="map-image" src="assets/home-city/map_character.png" alt="" />
+              <img class="map-image" src="assets/home-city/map_character.svg" alt="" />
             </a>
             <a class="map-card map-link-sns" href="https://x.com/erikanuinui" target="_blank" rel="noopener noreferrer" aria-label="Xへ">
               <img class="map-image" src="assets/home-city/map_sns.png" alt="" />
@@ -126,34 +126,13 @@
         </div>
       </section>
 
-      <section class="news-section" aria-labelledby="news-title">
-        <h2 id="news-title" class="section-title">おしらせ</h2>
-        <div class="news-grid">
-          <a class="news-card" href="games/inutaro-mushi/">
-            <p class="news-date">GAME</p>
-            <h3>犬タローの虫さんまってまって</h3>
-            <p>犬タローを操作して虫さんを捕まえるブラウザゲームを公開中です。</p>
-          </a>
-          <a class="news-card" href="https://note.com/erinui" target="_blank" rel="noopener noreferrer">
-            <p class="news-date">BLOG</p>
-            <h3>おしらせ・ブログ</h3>
-            <p>制作メモや更新情報はnoteにもまとめていきます。</p>
-          </a>
-          <a class="news-card" href="https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84" target="_blank" rel="noopener noreferrer">
-            <p class="news-date">YOUTUBE</p>
-            <h3>最新動画を看板に表示</h3>
-            <p>マップ内のYouTube看板に、最新サムネイルを表示する想定です。</p>
-          </a>
-        </div>
-      </section>
-
       <section class="character-section" aria-labelledby="character-title">
         <div class="section-heading-row">
           <h2 id="character-title" class="section-title">キャラクター紹介</h2>
         </div>
-        <div class="character-carousel">
-          <div class="character-carousel-track">
-            <a class="character-card" href="pages/characters.html#character-inutaro-origin">
+        <div class="content-carousel">
+          <div class="content-carousel-track">
+            <a class="character-card" href="pages/characters.html">
               <img src="assets/characters/chara_inutaro_origin.png" alt="" />
               <h3>犬タロー</h3>
             </a>
@@ -174,9 +153,159 @@
               <h3>ぶくろちゃん</h3>
             </a>
           </div>
-          <div class="character-carousel-controls" aria-label="キャラクター紹介の表示切り替え">
-            <button class="character-carousel-button character-carousel-prev" type="button" aria-label="前のキャラクターを表示"><span class="character-carousel-icon" aria-hidden="true"></span></button>
-            <button class="character-carousel-button character-carousel-next" type="button" aria-label="次のキャラクターを表示"><span class="character-carousel-icon" aria-hidden="true"></span></button>
+          <div class="content-carousel-controls" aria-label="キャラクター紹介の表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前のキャラクターを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次のキャラクターを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="news-section carousel-section" aria-labelledby="news-title">
+        <div class="section-heading-row">
+          <h2 id="news-title" class="section-title">おしらせ</h2>
+        </div>
+        <div class="content-carousel">
+          <div class="content-carousel-track">
+            <a class="content-carousel-card" href="games/inutaro-mushi/">
+              <p class="content-card-kicker">GAME</p>
+              <h3>犬タローの虫さんまってまって</h3>
+              <p>犬タローを操作して、虫さんを捕まえるブラウザゲームを公開中です。</p>
+            </a>
+            <a class="content-carousel-card" href="https://note.com/erinui" target="_blank" rel="noopener noreferrer">
+              <p class="content-card-kicker">BLOG</p>
+              <h3>おしらせ・ブログ</h3>
+              <p>制作メモや更新情報はnoteにもまとめていきます。</p>
+            </a>
+            <a class="content-carousel-card" href="https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84" target="_blank" rel="noopener noreferrer">
+              <p class="content-card-kicker">YOUTUBE</p>
+              <h3>最新動画を公開中</h3>
+              <p>マップのYouTube看板にも、最新動画を表示しています。</p>
+            </a>
+          </div>
+          <div class="content-carousel-controls" aria-label="おしらせの表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前のおしらせを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次のおしらせを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="game-section carousel-section" aria-labelledby="game-title">
+        <div class="section-heading-row">
+          <h2 id="game-title" class="section-title">ゲーム</h2>
+        </div>
+        <div class="content-carousel">
+          <div class="content-carousel-track">
+            <a class="content-carousel-card content-card-with-media" href="games/inutaro-mushi/">
+              <img class="content-card-media content-card-media-cover" src="assets/games/inutaro-mushi/bg.jpg" alt="犬タローの虫さんまってまっての背景" />
+              <p class="content-card-kicker">PLAY NOW</p>
+              <h3>犬タローの虫さんまってまって</h3>
+              <p>40秒間で虫さんをたくさん捕まえよう。</p>
+            </a>
+            <a class="content-carousel-card content-card-with-media" href="games/">
+              <img class="content-card-media" src="assets/home-city/map_game.png" alt="ゲームセンターのイラスト" />
+              <p class="content-card-kicker">GAME LIST</p>
+              <h3>ゲームをえらぶ</h3>
+              <p>えりぬいのゲーム一覧はこちら。</p>
+            </a>
+            <div class="content-carousel-card content-card-with-media content-card-coming" aria-label="次のゲームは準備中です">
+              <div class="content-card-media content-card-media-placeholder" aria-hidden="true">NEXT</div>
+              <p class="content-card-kicker">COMING SOON</p>
+              <h3>次のゲームを準備中</h3>
+              <p>新しい遊び場も、少しずつ増えていきます。</p>
+            </div>
+          </div>
+          <div class="content-carousel-controls" aria-label="ゲームの表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前のゲームを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次のゲームを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="youtube-section carousel-section" aria-labelledby="youtube-title">
+        <div class="section-heading-row">
+          <h2 id="youtube-title" class="section-title">YouTube</h2>
+        </div>
+        <div class="content-carousel">
+          <div class="content-carousel-track" data-youtube-cards>
+            <a class="content-carousel-card content-card-with-media youtube-content-card" data-youtube-video-card href="https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84" target="_blank" rel="noopener noreferrer">
+              <img class="content-card-media content-card-media-cover" data-youtube-thumbnail src="assets/home-city/youtube-thumb-1.jpg" alt="YouTubeの最新動画サムネイル" />
+              <p class="content-card-kicker">LATEST VIDEO</p>
+              <h3 data-youtube-title>最新動画</h3>
+            </a>
+            <a class="content-carousel-card content-card-with-media youtube-content-card" data-youtube-video-card href="https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84" target="_blank" rel="noopener noreferrer">
+              <img class="content-card-media content-card-media-cover" data-youtube-thumbnail src="assets/home-city/youtube-thumb-2.jpg" alt="YouTubeの動画サムネイル" />
+              <p class="content-card-kicker">RECENT VIDEO</p>
+              <h3 data-youtube-title>動画をみる</h3>
+            </a>
+            <a class="content-carousel-card content-card-with-media youtube-content-card" data-youtube-video-card href="https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84" target="_blank" rel="noopener noreferrer">
+              <img class="content-card-media content-card-media-cover" data-youtube-thumbnail src="assets/home-city/youtube-thumb-3.jpg" alt="YouTubeの動画サムネイル" />
+              <p class="content-card-kicker">RECENT VIDEO</p>
+              <h3 data-youtube-title>動画をみる</h3>
+            </a>
+          </div>
+          <div class="content-carousel-controls" aria-label="YouTube動画の表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前の動画を表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次の動画を表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="blog-section carousel-section" aria-labelledby="blog-title">
+        <div class="section-heading-row">
+          <h2 id="blog-title" class="section-title">ブログ</h2>
+        </div>
+        <div class="content-carousel">
+          <div class="content-carousel-track" data-note-cards>
+            <a class="content-carousel-card content-card-with-media" href="https://note.com/erinui" target="_blank" rel="noopener noreferrer">
+              <img class="content-card-media" src="assets/home-city/map_blog.png" alt="ブログの建物イラスト" />
+              <p class="content-card-kicker">NOTE</p>
+              <h3>えりぬいのブログ</h3>
+              <p>制作メモや日々のおしらせを更新しています。</p>
+            </a>
+          </div>
+          <div class="content-carousel-controls" aria-label="ブログの表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前のブログ導線を表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次のブログ導線を表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="goods-section carousel-section" aria-labelledby="goods-title">
+        <div class="section-heading-row">
+          <h2 id="goods-title" class="section-title">グッズ</h2>
+        </div>
+        <div class="content-carousel">
+          <div class="content-carousel-track" data-suzuri-cards>
+            <a class="content-carousel-card content-card-with-media" href="https://suzuri.jp/erikanuinui" target="_blank" rel="noopener noreferrer">
+              <img class="content-card-media" src="assets/home-city/map_goods.png" alt="SUZURIの建物イラスト" />
+              <p class="content-card-kicker">SUZURI</p>
+              <h3>えりぬいのグッズ</h3>
+              <p>グッズショップで、えりぬいアイテムをみつけよう。</p>
+            </a>
+          </div>
+          <div class="content-carousel-controls" aria-label="グッズの表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前のグッズを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次のグッズを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="line-stamp-section carousel-section" aria-labelledby="line-stamp-title">
+        <div class="section-heading-row">
+          <h2 id="line-stamp-title" class="section-title">LINEスタンプ</h2>
+        </div>
+        <div class="content-carousel">
+          <div class="content-carousel-track" data-line-stamp-cards>
+            <a class="content-carousel-card content-card-with-media" href="https://store.line.me/emojishop/author/2919902/ja" target="_blank" rel="noopener noreferrer">
+              <img class="content-card-media" src="assets/home-city/map_linestamp.png" alt="LINEスタンプのイラスト" />
+              <p class="content-card-kicker">LINE STAMP</p>
+              <h3>犬タローたちのLINEスタンプ</h3>
+              <p>犬タローたちのスタンプをつかってみてね。</p>
+            </a>
+          </div>
+          <div class="content-carousel-controls" aria-label="LINEスタンプの表示切り替え">
+            <button class="content-carousel-button content-carousel-prev" type="button" aria-label="前のLINEスタンプを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
+            <button class="content-carousel-button content-carousel-next" type="button" aria-label="次のLINEスタンプを表示"><span class="content-carousel-icon" aria-hidden="true"></span></button>
           </div>
         </div>
       </section>
@@ -197,6 +326,6 @@
       </div>
     </footer>
     <script src="site-nav.js?v=20260726-site-polish"></script>
-    <script src="home.js?v=20260802-character-carousel"></script>
+    <script src="home.js?v=20260802-latest-content"></script>
   </body>
 </html>

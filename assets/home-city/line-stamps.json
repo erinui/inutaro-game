@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "fetchedAt": "2026-08-02T07:40:00.000Z",
+  "authorName": "チェリーカ",
+  "sourceUrl": "https://store.line.me/emojishop/author/2919902/ja",
+  "items": [
+    {
+      "title": "犬タローのおふとん",
+      "kind": "LINEスタンプ",
+      "url": "https://store.line.me/stickershop/product/19153327/ja",
+      "thumbnailUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/19153327/LINEStorePC/main.png?v=1"
+    },
+    {
+      "title": "わりと使いやすいよ、犬タロー！",
+      "kind": "LINEスタンプ",
+      "url": "https://store.line.me/stickershop/product/13782162/ja",
+      "thumbnailUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/13782162/LINEStorePC/main.png?v=1"
+    },
+    {
+      "title": "犬タローとメニメニマネィ",
+      "kind": "LINEスタンプ",
+      "url": "https://store.line.me/stickershop/product/12803212/ja",
+      "thumbnailUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/12803212/LINEStorePC/main.png?v=2"
+    },
+    {
+      "title": "犬タローはがんばってる",
+      "kind": "LINE絵文字",
+      "url": "https://store.line.me/emojishop/product/5f1e4153d1d2673eb07b470d/ja",
+      "thumbnailUrl": "https://stickershop.line-scdn.net/sticonshop/v1/product/5f1e4153d1d2673eb07b470d/iPhone/main.png?v=2"
+    }
+  ]
+}

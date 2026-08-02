@@ -1,16 +1,21 @@
 const youtubeCard = document.querySelector(".map-link-youtube");
 const sasukeButton = document.querySelector(".map-decoration-sasuke");
 const bukuroButton = document.querySelector(".map-decoration-bukurochan");
-const characterCarousel = document.querySelector(".character-carousel");
+const contentCarousels = document.querySelectorAll(".content-carousel");
+const youtubeCardsTrack = document.querySelector("[data-youtube-cards]");
+const noteCardsTrack = document.querySelector("[data-note-cards]");
+const suzuriCardsTrack = document.querySelector("[data-suzuri-cards]");
+const lineStampCardsTrack = document.querySelector("[data-line-stamp-cards]");
 
 if (youtubeCard) {
-  hydrateYoutubeCard(youtubeCard);
+  hydrateYoutubeContent(youtubeCard);
   startYoutubeDisplayCycle(youtubeCard);
 }
 
 bindDecorationAction(sasukeButton, "is-walking", 1600);
 bindDecorationAction(bukuroButton, "is-questioning", 1100);
-bindCharacterCarousel(characterCarousel);
+contentCarousels.forEach(bindContentCarousel);
+hydrateStaticContent();
 
 function bindDecorationAction(element, className, duration) {
   if (!element) return;
@@ -28,20 +33,18 @@ function bindDecorationAction(element, className, duration) {
   });
 }
 
-function bindCharacterCarousel(carousel) {
-  if (!carousel) return;
-
-  const track = carousel.querySelector(".character-carousel-track");
-  const section = carousel.closest(".character-section");
-  const prevButton = section?.querySelector(".character-carousel-prev");
-  const nextButton = section?.querySelector(".character-carousel-next");
+function bindContentCarousel(carousel) {
+  const track = carousel.querySelector(".content-carousel-track");
+  const prevButton = carousel.querySelector(".content-carousel-prev");
+  const nextButton = carousel.querySelector(".content-carousel-next");
 
   if (!track || !prevButton || !nextButton) return;
 
   const updateButtons = () => {
     const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-    prevButton.disabled = track.scrollLeft <= 1;
-    nextButton.disabled = track.scrollLeft >= maxScroll - 1;
+    const canScroll = maxScroll > 8;
+    prevButton.disabled = !canScroll || track.scrollLeft <= 1;
+    nextButton.disabled = !canScroll || track.scrollLeft >= maxScroll - 1;
   };
 
   const scrollPage = (direction) => {
@@ -58,14 +61,65 @@ function bindCharacterCarousel(carousel) {
   updateButtons();
 }
 
-async function hydrateYoutubeCard(card) {
+async function hydrateYoutubeContent(card) {
   try {
     const data = await fetchYoutubeData();
     if (data?.ok) {
-      applyYoutubeData(card, data);
+      applyYoutubeMapData(card, data);
+      renderLatestCards(youtubeCardsTrack, data.videos, {
+        category: "YOUTUBE",
+        moreUrl: "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+        moreTitle: "まだまだあるよ",
+        moreDescription: "えりぬいの動画をもっとみよう。",
+        getThumbnail: (video) => video.thumbnail?.url || "",
+        getDescription: (video) => formatPublishedDate(video.publishedAt),
+      });
     }
   } catch (_error) {
     // Local static preview keeps the fallback values.
+  }
+}
+
+async function hydrateStaticContent() {
+  await Promise.all([
+    hydrateLatestCards(noteCardsTrack, "assets/home-city/note-latest.json", {
+      category: "NOTE",
+      moreUrl: "https://note.com/erinui",
+      moreTitle: "まだまだあるよ",
+      moreDescription: "えりぬいのブログをもっとよもう。",
+      getDescription: (article) => article.excerpt || formatPublishedDate(article.publishedAt),
+    }),
+    hydrateLatestCards(suzuriCardsTrack, "assets/home-city/suzuri-latest.json", {
+      category: "SUZURI",
+      moreUrl: "https://suzuri.jp/erikanuinui",
+      moreTitle: "まだまだあるよ",
+      moreDescription: "えりぬいのグッズをもっとみよう。",
+      getThumbnail: (product) => product.thumbnailUrl || "",
+      getDescription: (product) =>
+        product.priceWithTax ? `${formatCount(product.priceWithTax)}円（税込）` : "SUZURIでみる",
+    }),
+    hydrateLatestCards(lineStampCardsTrack, "assets/home-city/line-stamps.json", {
+      category: "LINE STAMP",
+      moreUrl: "https://store.line.me/emojishop/author/2919902/ja",
+      moreTitle: "まだまだあるよ",
+      moreDescription: "犬タローたちの作品をもっとみよう。",
+      getThumbnail: (item) => item.thumbnailUrl || "",
+      getCategory: (item) => item.kind || "LINE STAMP",
+      getDescription: () => "LINE STOREでみる",
+    }),
+  ]);
+}
+
+async function hydrateLatestCards(track, url, options) {
+  if (!track) return;
+
+  try {
+    const data = await fetchStaticData(url);
+    if (data?.ok && Array.isArray(data.items) && data.items.length > 0) {
+      renderLatestCards(track, data.items, options);
+    }
+  } catch (_error) {
+    // The static fallback card remains available.
   }
 }
 
@@ -87,7 +141,7 @@ async function fetchYoutubeData() {
 }
 
 async function fetchYoutubeApiData() {
-  const apiResponse = await fetch("/api/latest-youtube?maxResults=3", {
+  const apiResponse = await fetch("/api/latest-youtube?maxResults=6", {
     headers: {
       Accept: "application/json",
     },
@@ -97,7 +151,11 @@ async function fetchYoutubeApiData() {
 }
 
 async function fetchYoutubeStaticData() {
-  const staticResponse = await fetch("assets/home-city/youtube-latest.json", {
+  return fetchStaticData("assets/home-city/youtube-latest.json");
+}
+
+async function fetchStaticData(url) {
+  const staticResponse = await fetch(url, {
     cache: "no-store",
     headers: {
       Accept: "application/json",
@@ -111,7 +169,7 @@ async function fetchYoutubeStaticData() {
   return null;
 }
 
-function applyYoutubeData(card, data) {
+function applyYoutubeMapData(card, data) {
   const thumbnails = card.querySelectorAll(".youtube-thumb");
   data.videos?.slice(0, thumbnails.length).forEach((video, index) => {
     const thumbnailUrl = video?.thumbnail?.url;
@@ -129,6 +187,78 @@ function applyYoutubeData(card, data) {
   if (videos) {
     videos.textContent = `動画：${formatCount(stats.videoCount)}本`;
   }
+
+}
+
+function renderLatestCards(track, items, options) {
+  if (!track || !Array.isArray(items) || items.length === 0) return;
+
+  const visibleItems = items.slice(0, 5);
+  const fragment = document.createDocumentFragment();
+  visibleItems.forEach((item) => {
+    fragment.append(
+      createLatestCard({
+        item,
+        category: options.getCategory?.(item) || options.category,
+        thumbnailUrl: options.getThumbnail?.(item) || "",
+        description: options.getDescription?.(item) || "",
+      }),
+    );
+  });
+
+  if (items.length > visibleItems.length) {
+    fragment.append(
+      createLatestCard({
+        item: { title: options.moreTitle, url: options.moreUrl },
+        category: "AND MORE",
+        description: options.moreDescription,
+        isMore: true,
+      }),
+    );
+  }
+
+  track.replaceChildren(fragment);
+  window.dispatchEvent(new Event("resize"));
+}
+
+function createLatestCard({ item, category, thumbnailUrl, description, isMore = false }) {
+  const card = document.createElement("a");
+  card.className = `content-carousel-card content-card-with-media${isMore ? " content-card-more" : ""}`;
+  card.href = item.url;
+  card.target = "_blank";
+  card.rel = "noopener noreferrer";
+
+  if (thumbnailUrl) {
+    const image = document.createElement("img");
+    image.className = "content-card-media content-card-media-cover";
+    image.src = thumbnailUrl;
+    image.alt = "";
+    card.append(image);
+  } else {
+    const placeholder = document.createElement("div");
+    placeholder.className = "content-card-media content-card-media-placeholder";
+    placeholder.textContent = isMore ? "+" : category;
+    placeholder.setAttribute("aria-hidden", "true");
+    card.append(placeholder);
+  }
+
+  const kicker = document.createElement("p");
+  kicker.className = "content-card-kicker";
+  kicker.textContent = category;
+  card.append(kicker);
+
+  const title = document.createElement("h3");
+  title.textContent = item.title || "最新情報";
+  card.append(title);
+
+  if (description) {
+    const copy = document.createElement("p");
+    copy.textContent = description;
+    card.append(copy);
+  }
+
+  card.setAttribute("aria-label", `${item.title || "最新情報"}を開く`);
+  return card;
 }
 
 function formatSubscribers(count, isHidden) {
@@ -143,6 +273,13 @@ function formatCount(count) {
     return "0";
   }
   return new Intl.NumberFormat("ja-JP").format(Number(count));
+}
+
+function formatPublishedDate(value) {
+  if (!value) return "YouTubeでみる";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "YouTubeでみる";
+  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
 }
 
 function startYoutubeDisplayCycle(card) {

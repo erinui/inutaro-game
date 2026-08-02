@@ -1,5 +1,5 @@
 const DEFAULT_HANDLE = "@えりぬい";
-const DEFAULT_MAX_RESULTS = 3;
+const DEFAULT_MAX_RESULTS = 6;
 const DEFAULT_CACHE_SECONDS = 60 * 60;
 const YOUTUBE_API_BASE = "https://www.googleapis.com/youtube/v3";
 
