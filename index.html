@@ -28,7 +28,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png?v=20260616-icon" />
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png?v=20260616-icon" />
     <link rel="preload" href="assets/fonts/keinann-pop.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="home.css?v=20260726-decor-motion" />
+    <link rel="stylesheet" href="home.css?v=20260802-character-carousel-links" />
   </head>
   <body class="city-home">
     <header class="site-header" aria-label="サイトヘッダー">
@@ -148,33 +148,36 @@
       </section>
 
       <section class="character-section" aria-labelledby="character-title">
-        <h2 id="character-title" class="section-title">なかまたち</h2>
-        <div class="character-grid">
-          <a class="character-card" href="pages/characters.html">
-            <img src="assets/characters/chara_inutaro_origin.png" alt="" />
-            <h3>犬タロー</h3>
-            <p>犬のようだけど、犬ではない。やさしく熱いハートを持っています。</p>
-          </a>
-          <a class="character-card" href="pages/characters.html">
-            <img src="assets/characters/chara_inutaro_nuigurumi.png" alt="" />
-            <h3>犬タロー</h3>
-            <p>えりかがつくったぬいぐるみの犬タロー。ぬいちゃんです。</p>
-          </a>
-          <a class="character-card" href="pages/characters.html">
-            <img src="assets/characters/chara_erika-san.png" alt="" />
-            <h3>えりか</h3>
-            <p>人間の姿、ぬいぐるみの姿、二次元の姿などで人生を楽しんでいます。</p>
-          </a>
-          <a class="character-card" href="pages/characters.html">
-            <img src="assets/characters/chara_sasuke.png" alt="" />
-            <h3>さすけ</h3>
-            <p>ハムスターの男の子。おっとりしているけれど元気いっぱいです。</p>
-          </a>
-          <a class="character-card" href="pages/characters.html">
-            <img src="assets/characters/chara_bukuro.png" alt="" />
-            <h3>ぶくろちゃん</h3>
-            <p>さすらいのネコ。いろんな場所を転々としてきたようです。</p>
-          </a>
+        <div class="section-heading-row">
+          <h2 id="character-title" class="section-title">キャラクター紹介</h2>
+        </div>
+        <div class="character-carousel">
+          <div class="character-carousel-track">
+            <a class="character-card" href="pages/characters.html#character-inutaro-origin">
+              <img src="assets/characters/chara_inutaro_origin.png" alt="" />
+              <h3>犬タロー</h3>
+            </a>
+            <a class="character-card" href="pages/characters.html#character-inutaro-nuigurumi">
+              <img src="assets/characters/chara_inutaro_nuigurumi.png" alt="" />
+              <h3>犬タロー</h3>
+            </a>
+            <a class="character-card" href="pages/characters.html#character-erika">
+              <img src="assets/characters/chara_erika-san.png" alt="" />
+              <h3>えりか</h3>
+            </a>
+            <a class="character-card" href="pages/characters.html#character-sasuke">
+              <img src="assets/characters/chara_sasuke.png" alt="" />
+              <h3>さすけ</h3>
+            </a>
+            <a class="character-card" href="pages/characters.html#character-bukuro">
+              <img src="assets/characters/chara_bukuro.png" alt="" />
+              <h3>ぶくろちゃん</h3>
+            </a>
+          </div>
+          <div class="character-carousel-controls" aria-label="キャラクター紹介の表示切り替え">
+            <button class="character-carousel-button character-carousel-prev" type="button" aria-label="前のキャラクターを表示"><span class="character-carousel-icon" aria-hidden="true"></span></button>
+            <button class="character-carousel-button character-carousel-next" type="button" aria-label="次のキャラクターを表示"><span class="character-carousel-icon" aria-hidden="true"></span></button>
+          </div>
         </div>
       </section>
     </main>
@@ -194,6 +197,6 @@
       </div>
     </footer>
     <script src="site-nav.js?v=20260726-site-polish"></script>
-    <script src="home.js?v=20260726-site-polish"></script>
+    <script src="home.js?v=20260802-character-carousel"></script>
   </body>
 </html>

@@ -1,6 +1,7 @@
 const youtubeCard = document.querySelector(".map-link-youtube");
 const sasukeButton = document.querySelector(".map-decoration-sasuke");
 const bukuroButton = document.querySelector(".map-decoration-bukurochan");
+const characterCarousel = document.querySelector(".character-carousel");
 
 if (youtubeCard) {
   hydrateYoutubeCard(youtubeCard);
@@ -9,6 +10,7 @@ if (youtubeCard) {
 
 bindDecorationAction(sasukeButton, "is-walking", 1600);
 bindDecorationAction(bukuroButton, "is-questioning", 1100);
+bindCharacterCarousel(characterCarousel);
 
 function bindDecorationAction(element, className, duration) {
   if (!element) return;
@@ -24,6 +26,36 @@ function bindDecorationAction(element, className, duration) {
       }, duration);
     });
   });
+}
+
+function bindCharacterCarousel(carousel) {
+  if (!carousel) return;
+
+  const track = carousel.querySelector(".character-carousel-track");
+  const section = carousel.closest(".character-section");
+  const prevButton = section?.querySelector(".character-carousel-prev");
+  const nextButton = section?.querySelector(".character-carousel-next");
+
+  if (!track || !prevButton || !nextButton) return;
+
+  const updateButtons = () => {
+    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+    prevButton.disabled = track.scrollLeft <= 1;
+    nextButton.disabled = track.scrollLeft >= maxScroll - 1;
+  };
+
+  const scrollPage = (direction) => {
+    track.scrollBy({
+      left: direction * track.clientWidth,
+      behavior: "smooth",
+    });
+  };
+
+  prevButton.addEventListener("click", () => scrollPage(-1));
+  nextButton.addEventListener("click", () => scrollPage(1));
+  track.addEventListener("scroll", updateButtons, { passive: true });
+  window.addEventListener("resize", updateButtons);
+  updateButtons();
 }
 
 async function hydrateYoutubeCard(card) {
