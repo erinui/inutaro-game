@@ -1,6 +1,23 @@
 {
-  "ok": false,
-  "fetchedAt": null,
+  "ok": true,
+  "fetchedAt": "2026-08-02T08:27:18.888Z",
   "shopUrl": "https://suzuri.jp/erikanuinui",
-  "items": []
+  "items": [
+    {
+      "id": 26955057,
+      "title": "犬タローインラインスケート ステッカー",
+      "url": "https://suzuri.jp/erikanuinui/10016386/sticker/m/white",
+      "thumbnailUrl": "https://lens.suzuri.jp/v3/500x500/sticker/m/white/10016386/1653220060-1575x1575.png.webp?h=f334a7fc6f7348f2abe6d9475fe963c10b0ddc05&printed=true",
+      "priceWithTax": 512,
+      "publishedAt": "2022-05-22T20:49:41.759+09:00"
+    },
+    {
+      "id": 8338689,
+      "title": "ホットケーキシェフ！犬タロー ミニクリアマルチケース",
+      "url": "https://suzuri.jp/erikanuinui/3678101/mini-clear-multi-case/m/clear",
+      "thumbnailUrl": "https://lens.suzuri.jp/v3/500x500/mini-clear-multi-case/m/clear/3678101/1590409653-1200x1200.png.1.8554+0.0-0.0036.webp?h=f1fd6ee6efa7f185631a87918fb4ff4b3f0812a5&printed=true",
+      "priceWithTax": 1639,
+      "publishedAt": "2020-05-25T21:29:07.352+09:00"
+    }
+  ]
 }
