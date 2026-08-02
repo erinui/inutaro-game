@@ -6,6 +6,8 @@ const youtubeCardsTrack = document.querySelector("[data-youtube-cards]");
 const noteCardsTrack = document.querySelector("[data-note-cards]");
 const suzuriCardsTrack = document.querySelector("[data-suzuri-cards]");
 const lineStampCardsTrack = document.querySelector("[data-line-stamp-cards]");
+const newsCardsTrack = document.querySelector("[data-news-cards]");
+const latestNewsContent = {};
 
 if (youtubeCard) {
   hydrateYoutubeContent(youtubeCard);
@@ -75,6 +77,7 @@ async function hydrateYoutubeContent(card) {
         getThumbnail: (video) => video.thumbnail?.url || "",
         getMeta: (video) => formatPublishedDate(video.publishedAt),
       });
+      renderLatestNews({ youtube: data });
     }
   } catch (_error) {
     // Local static preview keeps the fallback values.
@@ -82,7 +85,7 @@ async function hydrateYoutubeContent(card) {
 }
 
 async function hydrateStaticContent() {
-  await Promise.all([
+  const [noteData, suzuriData, lineStampData] = await Promise.all([
     hydrateLatestCards(noteCardsTrack, "assets/home-city/note-latest.json", {
       category: "NOTE",
       moreUrl: "https://note.com/erinui",
@@ -116,19 +119,24 @@ async function hydrateStaticContent() {
       getMeta: () => "LINE STOREでみる",
     }),
   ]);
+
+  renderLatestNews({ note: noteData, suzuri: suzuriData, lineStamp: lineStampData });
 }
 
 async function hydrateLatestCards(track, url, options) {
-  if (!track) return;
+  if (!track) return null;
 
   try {
     const data = await fetchStaticData(url);
     if (data?.ok && Array.isArray(data.items) && data.items.length > 0) {
       renderLatestCards(track, data.items, options);
+      return data;
     }
   } catch (_error) {
     // The static fallback card remains available.
   }
+
+  return null;
 }
 
 async function fetchYoutubeData() {
@@ -234,12 +242,85 @@ function renderLatestCards(track, items, options) {
   window.dispatchEvent(new Event("resize"));
 }
 
-function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false }) {
+function renderLatestNews(content) {
+  if (!newsCardsTrack) return;
+
+  Object.assign(latestNewsContent, content);
+
+  const cards = [
+    {
+      item: {
+        title: "犬タローの虫さんまってまって",
+        url: "games/inutaro-mushi/",
+      },
+      category: "GAME",
+      thumbnailUrl: "assets/games/inutaro-mushi/bg.jpg",
+      description: "40秒間で虫さんをたくさん捕まえよう。",
+      mediaMode: "cover",
+      openInNewTab: false,
+    },
+  ];
+
+  const latestVideo = latestNewsContent.youtube?.videos?.[0];
+  if (latestVideo) {
+    cards.push({
+      item: latestVideo,
+      category: "YOUTUBE",
+      thumbnailUrl: latestVideo.thumbnail?.url || "",
+      meta: formatPublishedDate(latestVideo.publishedAt),
+      mediaMode: "cover",
+    });
+  }
+
+  const latestArticle = latestNewsContent.note?.items?.[0];
+  if (latestArticle) {
+    cards.push({
+      item: latestArticle,
+      category: "NOTE",
+      thumbnailUrl: "assets/home-city/map_blog.png",
+      description: latestArticle.excerpt || "",
+      meta: formatPublishedDate(latestArticle.publishedAt),
+      mediaMode: "contain",
+      mediaClass: "content-card-media-note",
+    });
+  }
+
+  const latestProduct = latestNewsContent.suzuri?.items?.[0];
+  if (latestProduct) {
+    cards.push({
+      item: latestProduct,
+      category: "SUZURI",
+      thumbnailUrl: latestProduct.thumbnailUrl || "",
+      meta: latestProduct.priceWithTax ? `${formatCount(latestProduct.priceWithTax)}円（税込）` : "SUZURIでみる",
+      metaKind: "price",
+      mediaMode: "cover",
+    });
+  }
+
+  const latestLineStamp = latestNewsContent.lineStamp?.items?.[0];
+  if (latestLineStamp) {
+    cards.push({
+      item: latestLineStamp,
+      category: latestLineStamp.kind || "LINE STAMP",
+      thumbnailUrl: latestLineStamp.thumbnailUrl || "",
+      meta: "LINE STOREでみる",
+      mediaMode: "contain",
+      mediaClass: "content-card-media-line",
+    });
+  }
+
+  newsCardsTrack.replaceChildren(...cards.map((card) => createLatestCard(card)));
+  window.dispatchEvent(new Event("resize"));
+}
+
+function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false, openInNewTab = true }) {
   const card = document.createElement("a");
   card.className = `content-carousel-card content-card-with-media${isMore ? " content-card-more" : ""}`;
   card.href = item.url;
-  card.target = "_blank";
-  card.rel = "noopener noreferrer";
+  if (openInNewTab) {
+    card.target = "_blank";
+    card.rel = "noopener noreferrer";
+  }
 
   if (thumbnailUrl) {
     const image = document.createElement("img");

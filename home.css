@@ -424,6 +424,36 @@ body.city-home .site-nav a:focus-visible {
   backface-visibility: hidden;
 }
 
+/* SVG素材の透明余白を、旧PNGの実際の描画領域に合わせて補正する。 */
+.map-image-svg {
+  transform: scale(var(--map-svg-scale, 1));
+  transform-origin: center;
+}
+
+.map-link-linestamp {
+  --map-svg-scale: 1.2;
+}
+
+.map-link-game {
+  --map-svg-scale: 1.05;
+}
+
+.map-link-goods {
+  --map-svg-scale: 1.04;
+}
+
+.map-link-blog {
+  --map-svg-scale: 1.24;
+}
+
+.map-link-illustrate {
+  --map-svg-scale: 1.3;
+}
+
+.map-link-youtube {
+  --map-svg-scale: 1.3;
+}
+
 .map-decoration {
   position: absolute;
   z-index: 4;
@@ -699,26 +729,41 @@ body.city-home .site-nav a:focus-visible {
   z-index: 1;
   display: block;
   overflow: hidden;
-  /* background: #e1ea82; */
-  clip-path: polygon(8% 16%, 90% 45%, 90% 76%, 8% 56%);
+  transform: scale(var(--map-svg-scale, 1));
+  transform-origin: center;
+  clip-path: polygon(-12% 2%, 75% 49%, 75% 79%, 25% 70%);
+  pointer-events: none;
+}
+
+.youtube-screen-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: translate(-4%, 1%) scale(var(--map-svg-scale, 1));
+  transform-origin: center;
   pointer-events: none;
 }
 
 .youtube-thumb,
 .youtube-stats {
   position: absolute;
-  top: 30%;
-  right: 4%;
-  width: 86%;
-  height: 40%;
+  top: 25%;
+  left: 0%;
+  width: 90%;
+  height: 50%;
   transform:
     skewY(30deg)
-    scale(0.78);
+    scale(0.65);
+  transform-origin: center;
   clip-path: inset(0 round 4px);
+  z-index: 1;
 }
 
 .youtube-thumb {
-  object-fit: contain;
+  object-fit: cover;
   opacity: 0;
   transition: opacity 420ms ease;
 }
@@ -765,10 +810,10 @@ body.city-home .site-nav a:focus-visible {
 }
 
 .map-link-character {
-  left: 2%;
-  top: 45%;
+  left: 5%;
+  top: 48%;
   z-index: 10;
-  width: 34%;
+  width: 32%;
 }
 
 .map-link-sns {
@@ -779,16 +824,16 @@ body.city-home .site-nav a:focus-visible {
 }
 
 .map-link-linestamp {
-  left: 0%;
-  top: 75%;
+  left: 2%;
+  top: 80%;
   z-index: 9;
-  width: 34%;
+  width: 32%;
 }
 
 .map-link-game {
   left: 22%;
   top: 15%;
-  width: 54%;
+  width: 48%;
   z-index: 6;
 }
 
@@ -806,16 +851,16 @@ body.city-home .site-nav a:focus-visible {
 
 .map-link-illustrate {
   left: 0%;
-  bottom: 66%;
+  bottom: 73%;
   z-index: 8;
-  width: 34%;
+  width: 30%;
 }
 
 .map-link-youtube {
-  right: 2%;
-  top: 0%;
+  right: 0%;
+  top: 8%;
   z-index: 10;
-  width: 37%;
+  width: 32%;
 }
 
 .carousel-section,
