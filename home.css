@@ -974,9 +974,9 @@ body.city-home .site-nav a:focus-visible {
 .content-carousel-card {
   display: flex;
   box-sizing: border-box;
-  min-height: 470px;
-  /* 16:9の動画サムネイルを切らずに見せる、共通の推薦カード幅。 */
-  flex: 0 0 min(400px, calc((100% - 36px) / 2.5));
+  min-height: 435px;
+  /* 3枚を並べつつ、16:9の動画サムネイルを切らずに見せる共通カード幅。 */
+  flex: 0 0 calc((100% - 48px) / 3);
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
@@ -985,8 +985,8 @@ body.city-home .site-nav a:focus-visible {
 }
 
 .content-card-with-media {
-  min-height: 470px;
-  height: 470px;
+  min-height: 435px;
+  height: 435px;
 }
 
 .content-card-media {

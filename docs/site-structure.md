@@ -34,7 +34,7 @@ https://erinui.github.io/
 │   │   └── ゲーム一覧
 │   └── inutaro-mushi/
 │       ├── index.html
-│       │   └── 犬タローの虫さんまってまって
+│       │   └── 犬タローの虫さんまって×2
 │       ├── game.js
 │       │   └── ゲームロジック
 │       └── style.css

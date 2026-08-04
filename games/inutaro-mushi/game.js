@@ -383,10 +383,10 @@ function survivedSeconds() {
 function resultText() {
   const total = `${state.score}ひき`;
   if (state.endReason === "hazard") {
-    return `犬タローの虫さんまってまってで虫さんを${total}捕まえたよ！${survivedSeconds().toFixed(1)}秒でゲームオーバー…もう一回！`;
+    return `犬タローの虫さんまって×2で虫さんを${total}捕まえたよ！${survivedSeconds().toFixed(1)}秒でゲームオーバー…もう一回！`;
   }
 
-  return `犬タローの虫さんまってまってで虫さんを${total}捕まえたよ！`;
+  return `犬タローの虫さんまって×2で虫さんを${total}捕まえたよ！`;
 }
 
 function spawnItem(now) {
@@ -1201,7 +1201,7 @@ function createResultCardCanvas() {
   card.textAlign = "left";
   card.textBaseline = "alphabetic";
   card.font = canvasFont(800, 52);
-  card.fillText("犬タローの虫さんまってまって", 102, 130);
+  card.fillText("犬タローの虫さんまって×2", 102, 130);
 
   card.font = canvasFont(900, 82);
   card.fillText(state.endReason === "hazard" ? "ゲームオーバー" : "クリア！", 102, 230);
@@ -1273,8 +1273,8 @@ async function saveImageBlob(blob, filename, successText) {
   const file = new File([blob], filename, { type: "image/png" });
   if (mobileControlsEnabled() && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
     await navigator.share({
-      title: "犬タローの虫さんまってまって",
-      text: "犬タローの虫さんまってまっての画像です",
+      title: "犬タローの虫さんまって×2",
+      text: "犬タローの虫さんまって×2の画像です",
       files: [file],
     });
     setShareStatus("保存先を選びました");
@@ -1303,7 +1303,7 @@ async function shareResult() {
     new File([resultBlob], "inutaro-result.png", { type: "image/png" }),
   ];
   const shareData = {
-    title: "犬タローの虫さんまってまって",
+    title: "犬タローの虫さんまって×2",
     text: resultText(),
     url: gameUrl,
     files,

@@ -250,11 +250,11 @@ function renderLatestNews(content) {
   const cards = [
     {
       item: {
-        title: "犬タローの虫さんまってまって",
+        title: "犬タローの虫さんまって×2",
         url: "games/inutaro-mushi/",
       },
       category: "GAME",
-      thumbnailUrl: "assets/games/inutaro-mushi/bg.jpg",
+      thumbnailUrl: "assets/games/inutaro-mushi/gameplay-preview.png?v=20260804-gameplay",
       description: "40秒間で虫さんをたくさん捕まえよう。",
       mediaMode: "cover",
       openInNewTab: false,

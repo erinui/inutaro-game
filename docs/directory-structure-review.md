@@ -50,7 +50,7 @@
 ```text
 /                         トップページ
 /games/                   ゲーム一覧
-/games/inutaro-mushi/     犬タローの虫さんまってまって
+/games/inutaro-mushi/     犬タローの虫さんまって×2
 /pages/characters.html    キャラクター紹介
 /pages/blog.html          ブログ導線
 /pages/terms.html         利用規約
@@ -415,7 +415,7 @@ assets/games/{game-slug}/
 ```text
 /                         えりぬいシティ トップ
 /games/                   ゲーム一覧
-/games/inutaro-mushi/     犬タローの虫さんまってまって
+/games/inutaro-mushi/     犬タローの虫さんまって×2
 /pages/characters.html    キャラクター紹介
 /pages/blog.html          おしらせ・ブログ
 /pages/terms.html         利用規約

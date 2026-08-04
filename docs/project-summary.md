@@ -13,7 +13,7 @@
 | `docs/site-specification.md` | サイト全体の構成、仕様、技術設計、デザインルール |
 | `docs/site-structure.md` | ページ階層と導線 |
 | `docs/site-improvement-plan.md` | 未着手項目、改善設計、実装手順 |
-| `docs/game-design-spec.md` | ゲーム「犬タローの虫さんまってまって」の詳細仕様 |
+| `docs/game-design-spec.md` | ゲーム「犬タローの虫さんまって×2」の詳細仕様 |
 | `docs/youtube-latest-api.md` | YouTube最新情報取得の設計 |
 | `docs/home-latest-content.md` | トップのYouTube、note、SUZURI、LINEスタンプ最新情報表示 |
 | `docs/performance-optimization-review.md` | ゲームパフォーマンス改善検討 |
@@ -25,7 +25,7 @@
 
 - えりぬいシティ トップ
 - ゲーム一覧
-- ゲーム「犬タローの虫さんまってまって」
+- ゲーム「犬タローの虫さんまって×2」
 - キャラクター紹介
 - イラスト
 - おしらせ・ブログ
