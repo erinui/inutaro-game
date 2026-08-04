@@ -83,7 +83,7 @@ https://erinui.github.io/
 | イラスト | 将来のイラスト掲載用ページ。現在は準備中表示 |
 | 外部リンク | X、YouTube、note、SUZURI、LINEスタンプ |
 | YouTube | マップ看板では最新3本と登録者数を10秒ごとに切り替え、カルーセルでは最新5本とand moreを表示 |
-| ブログ・グッズ・LINEスタンプ | note、SUZURI、LINE STOREの最新導線をカルーセルで表示 |
+| ブログ・グッズ・LINEスタンプ | note、SUZURI、LINE STOREの最新導線をカルーセルで表示。noteはRSSと記事OGP画像を定期取得し、サイト内へ保存したサムネイルを使用 |
 
 ## 5. デザイン方針
 
@@ -115,7 +115,7 @@ https://erinui.github.io/
 
 - 開発元は `main`
 - GitHub Pages公開は `main` のルートを前提
-- YouTube最新情報は GitHub Actions で4時間ごとの10分に自動更新
+- YouTube、note、SUZURIの最新情報は GitHub Actions で4時間ごとの10分に自動更新
 - GitHub Pagesでは静的JSONとサムネイル画像を配信
 - Cloudflare移管時は `/api/latest-youtube` を動的APIとして利用可能
 

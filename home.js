@@ -91,9 +91,9 @@ async function hydrateStaticContent() {
       moreUrl: "https://note.com/erinui",
       moreTitle: "まだまだあるよ",
       moreDescription: "えりぬいのブログをもっとよもう。",
-      getThumbnail: () => "assets/home-city/map_blog.png",
-      mediaMode: "contain",
-      mediaClass: "content-card-media-note",
+      getThumbnail: (article) => article.thumbnailUrl || "assets/home-city/map_blog.png",
+      getMediaMode: (article) => (article.thumbnailUrl ? "cover" : "contain"),
+      getMediaClass: (article) => (article.thumbnailUrl ? "" : "content-card-media-note"),
       getDescription: (article) => article.excerpt || formatPublishedDate(article.publishedAt),
       getMeta: (article) => formatPublishedDate(article.publishedAt),
     }),
@@ -220,8 +220,8 @@ function renderLatestCards(track, items, options) {
         description: options.getDescription?.(item) || "",
         meta: options.getMeta?.(item) || "",
         metaKind: options.metaKind || "",
-        mediaMode: options.mediaMode || "cover",
-        mediaClass: options.mediaClass || "",
+        mediaMode: options.getMediaMode?.(item) || options.mediaMode || "cover",
+        mediaClass: options.getMediaClass?.(item) || options.mediaClass || "",
       }),
     );
   });
@@ -277,11 +277,11 @@ function renderLatestNews(content) {
     cards.push({
       item: latestArticle,
       category: "NOTE",
-      thumbnailUrl: "assets/home-city/map_blog.png",
+      thumbnailUrl: latestArticle.thumbnailUrl || "assets/home-city/map_blog.png",
       description: latestArticle.excerpt || "",
       meta: formatPublishedDate(latestArticle.publishedAt),
-      mediaMode: "contain",
-      mediaClass: "content-card-media-note",
+      mediaMode: latestArticle.thumbnailUrl ? "cover" : "contain",
+      mediaClass: latestArticle.thumbnailUrl ? "" : "content-card-media-note",
     });
   }
 

@@ -132,7 +132,7 @@ site-nav.js
 | おしらせ | サイト内導線カード |
 | ゲーム | ゲーム導線カード |
 | YouTube | 最新5本と、6件目がある場合の `and more` カード |
-| ブログ | note RSSから最新5記事と、6件目がある場合の `and more` カード |
+| ブログ | note RSSと記事OGP画像から最新5記事と、6件目がある場合の `and more` カード |
 | グッズ | SUZURI APIから最新5商品と、6件目がある場合の `and more` カード |
 | LINEスタンプ | 販売中作品を全件表示。6件目がある場合のみ `and more` カード |
 | フッター | 外部リンク、規約、ポリシー |
@@ -443,7 +443,8 @@ assets/fonts/keinann-pop-readme.pdf
 | `assets/home-city/map_decoration_*.png` | 非リンク装飾 |
 | `assets/home-city/youtube-latest.json` | YouTube最新情報の静的フォールバック |
 | `assets/home-city/youtube-thumb-1..5.jpg` | YouTubeカルーセル用最新サムネイル |
-| `assets/home-city/note-latest.json` | note RSSから取得した最新記事 |
+| `assets/home-city/note-latest.json` | note RSSから取得した最新記事と保存済みサムネイルの参照 |
+| `assets/home-city/note-thumb-1..6.(png/jpg/webp)` | note記事ページのOGP画像を保存したブログカルーセル用サムネイル |
 | `assets/home-city/suzuri-latest.json` | SUZURI APIから取得した最新商品 |
 | `assets/home-city/line-stamps.json` | 現在販売中のLINEスタンプ・絵文字 |
 
@@ -499,7 +500,7 @@ GitHub Pages運用時は、`.github/workflows/update-youtube-latest.yml` が定�
 | YouTube APIキー | Repository Secret `YOUTUBE_API_KEY` |
 | SUZURIトークン | Repository Secret `SUZURI_ACCESS_TOKEN`。未設定時はSUZURI取得をスキップ |
 | チャンネルID | Repository Variable `YOUTUBE_CHANNEL_ID`、未設定時は `UCdnf6zMzSdZuvUxS-CS2REQ` |
-| 更新対象 | `youtube-latest.json`、`youtube-thumb-1..5.jpg`、`note-latest.json`、`suzuri-latest.json` |
+| 更新対象 | `youtube-latest.json`、`youtube-thumb-1..5.jpg`、`note-latest.json`、`note-thumb-1..6.(png/jpg/webp)`、`suzuri-latest.json` |
 | 更新先 | `main` ブランチ |
 
 Cloudflareへ移管した場合は、`functions/api/latest-youtube.js` を使って `/api/latest-youtube` を動的に返す想定です。

@@ -51,12 +51,12 @@ jobs:
 
       - name: Commit updated home data
         run: |
-          if git diff --quiet -- assets/home-city/youtube-latest.json assets/home-city/youtube-thumb-1.jpg assets/home-city/youtube-thumb-2.jpg assets/home-city/youtube-thumb-3.jpg assets/home-city/youtube-thumb-4.jpg assets/home-city/youtube-thumb-5.jpg assets/home-city/note-latest.json assets/home-city/suzuri-latest.json; then
+          if git diff --quiet -- assets/home-city; then
             echo "No home data updates."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/home-city/youtube-latest.json assets/home-city/youtube-thumb-1.jpg assets/home-city/youtube-thumb-2.jpg assets/home-city/youtube-thumb-3.jpg assets/home-city/youtube-thumb-4.jpg assets/home-city/youtube-thumb-5.jpg assets/home-city/note-latest.json assets/home-city/suzuri-latest.json
+          git add -A -- assets/home-city
           git commit -m "Update home latest data"
           git push origin HEAD:main

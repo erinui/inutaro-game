@@ -1,6 +1,6 @@
 # トップページ最新コンテンツ表示
 
-最終更新: 2026-08-02
+最終更新: 2026-08-04
 
 ## 目的
 
@@ -19,7 +19,7 @@
 | ジャンル | データ元 | 更新方法 | 表示ファイル |
 | --- | --- | --- | --- |
 | YouTube | YouTube Data API v3 | GitHub Actionsで4時間ごとの10分 | `youtube-latest.json`、`youtube-thumb-1..5.jpg` |
-| ブログ | `https://note.com/erinui/rss` | GitHub Actionsで4時間ごとの10分 | `note-latest.json` |
+| ブログ | note RSSと記事ページのOGP画像 | GitHub Actionsで4時間ごとの10分 | `note-latest.json`、`note-thumb-1..6.(png/jpg/webp)` |
 | グッズ | SUZURI API v1 | `SUZURI_ACCESS_TOKEN` 登録後、GitHub Actionsで4時間ごとの10分 | `suzuri-latest.json` |
 | LINEスタンプ | LINE STORE作者ページの公開情報 | 現在は静的JSONを手動更新 | `line-stamps.json` |
 
@@ -28,6 +28,15 @@
 SUZURI APIはアクセストークンを必要とする。GitHub Repository Secretとして `SUZURI_ACCESS_TOKEN` を登録する。未登録でもワークフローは失敗せず、既存の `suzuri-latest.json` とHTML内の案内カードをそのまま使う。
 
 取得対象は商品名、商品URL、商品画像、税込価格、公開日時。トークンはブラウザ側のJavaScriptやJSONへ書き出さない。
+
+## Noteの運用
+
+`scripts/update-note-latest.mjs` は、note RSSから最新6記事のタイトル、概要、URL、公開日を取得する。その後、各記事ページの `og:image` を取得し、上下の黒帯をトリミングしてサイト内の `assets/home-city/note-thumb-*` として保存する。
+
+- ブログ枠とおしらせ枠は、保存済みの見出し画像を `16:9` のカード画像として表示する。
+- 画像が未設定、取得失敗、形式未対応の場合は、既存のブログ建物イラストを表示する。
+- 以前の取得結果に含まれなくなったサムネイルは更新時に削除する。
+- ブラウザからnoteを直接取得しないため、CORSや外部画像の一時的な表示失敗の影響を受けにくい。
 
 ## LINEスタンプの運用
 
