@@ -1,37 +1,42 @@
 {
   "ok": true,
-  "fetchedAt": "2026-08-10T02:31:09.370Z",
+  "fetchedAt": "2026-08-10T05:41:27.540Z",
   "sourceUrl": "https://note.com/erinui/rss",
   "items": [
     {
       "title": "過去の日記７",
       "excerpt": "過去の日記、いよいよ最終回です。 このブログが更新されなくなった理由は… 多分、仕事が本格的に始まって忘れた。",
       "url": "https://note.com/erinui/n/nb9a25e8f99a6",
-      "publishedAt": "Sun, 05 Jul 2026 20:06:15 +0900"
+      "publishedAt": "Sun, 05 Jul 2026 20:06:15 +0900",
+      "thumbnailUrl": "assets/home-city/note-thumb-1.png"
     },
     {
       "title": "過去の日記６",
       "excerpt": "覚悟はいいですか？ ぬいちゃんが登場します。 『チェリーカ』が描く以外の 楽しさに気づき始めた頃です。",
       "url": "https://note.com/erinui/n/n880be914e91d",
-      "publishedAt": "Sun, 05 Jul 2026 20:01:55 +0900"
+      "publishedAt": "Sun, 05 Jul 2026 20:01:55 +0900",
+      "thumbnailUrl": "assets/home-city/note-thumb-2.png"
     },
     {
       "title": "過去の日記５",
       "excerpt": "そういえば『チェリーカ』というのは、 イラストレーターに憧れてた時の ペンネームです。",
       "url": "https://note.com/erinui/n/n2cd1f13e1752",
-      "publishedAt": "Sun, 05 Jul 2026 19:51:03 +0900"
+      "publishedAt": "Sun, 05 Jul 2026 19:51:03 +0900",
+      "thumbnailUrl": "assets/home-city/note-thumb-3.png"
     },
     {
       "title": "過去の日記４",
       "excerpt": "私が『チェリーカ』だった頃の日記。 楽しく過ごしているようですが…",
       "url": "https://note.com/erinui/n/n4e967614ee72",
-      "publishedAt": "Sun, 05 Jul 2026 19:34:55 +0900"
+      "publishedAt": "Sun, 05 Jul 2026 19:34:55 +0900",
+      "thumbnailUrl": "assets/home-city/note-thumb-4.png"
     },
     {
       "title": "過去の日記３",
       "excerpt": "『チェリーカ』というえりかの過去 ダイエットやってみた時期です…",
       "url": "https://note.com/erinui/n/n52f6e6c3d3c4",
-      "publishedAt": "Sun, 05 Jul 2026 19:31:33 +0900"
+      "publishedAt": "Sun, 05 Jul 2026 19:31:33 +0900",
+      "thumbnailUrl": "assets/home-city/note-thumb-5.png"
     },
     {
       "title": "過去の日記２",
