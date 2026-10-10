@@ -29,7 +29,9 @@ assert.ok(embedded, "Expected one PNG embedded in X SVG");
 const attribute = embedded.attributes["xlink:href"] ? "xlink:href" : "href";
 const beforeUri = embedded.attributes[attribute];
 const png = Buffer.from(beforeUri.split(",")[1], "base64");
-const webp = await sharp(png).webp({ lossless: true, effort: 6 }).toBuffer();
+const webp = process.env.SEO_IMAGE_CANDIDATE_WEBP
+  ? await readFile(process.env.SEO_IMAGE_CANDIDATE_WEBP)
+  : await sharp(png).webp({ lossless: true, effort: 6 }).toBuffer();
 const afterUri = `data:image/webp;base64,${webp.toString("base64")}`;
 assert.equal(original.split(beforeUri).length - 1, 1);
 const candidate = original.replace(beforeUri, afterUri);
@@ -76,7 +78,7 @@ try {
       const context = await browser.newContext({ viewport: { width, height: 900 }, deviceScaleFactor: dpr, javaScriptEnabled: false });
       const page = await context.newPage();
       const proofs = [];
-      for (const mode of ["original", "image"]) {
+      for (const [iteration, mode] of ["original", "original", "image"].entries()) {
         console.log(`Compare ${width}/${dpr}/${mode}`);
         await page.goto(`${url}/?youtubePanel=0&candidate=${mode}`, { waitUntil: "domcontentloaded", timeout: 30000 });
         await page.evaluate(() => document.fonts.ready);
@@ -86,6 +88,7 @@ try {
           document.head.append(style);
         });
         const link = page.locator(".map-link-sns");
+        await page.mouse.move(0, 0);
         await link.scrollIntoViewIfNeeded();
         await link.locator("img").evaluate(image => image.decode());
         const box = await link.boundingBox();
@@ -95,15 +98,16 @@ try {
         await link.hover();
         const hover = await page.screenshot({ clip });
         proofs.push({ normal, hover });
-        await writeFile(path.join(output, `${mode}-${width}-${dpr}-normal.png`), normal);
-        await writeFile(path.join(output, `${mode}-${width}-${dpr}-hover.png`), hover);
+        await writeFile(path.join(output, `${mode}-${iteration}-${width}-${dpr}-normal.png`), normal);
+        await writeFile(path.join(output, `${mode}-${iteration}-${width}-${dpr}-hover.png`), hover);
       }
       for (const state of ["normal", "hover"]) {
-        const before = await sharp(proofs[0][state]).raw().toBuffer();
-        const after = await sharp(proofs[1][state]).raw().toBuffer();
-        let differences = 0;
-        for (let i = 0; i < before.length; i++) if (before[i] !== after[i]) differences++;
-        report.browser.push({ width, dpr, state, differentBytes: differences, sameDimensions: before.length === after.length });
+        const before = await sharp(proofs[1][state]).raw().toBuffer();
+        const after = await sharp(proofs[2][state]).raw().toBuffer();
+        const control = await sharp(proofs[0][state]).raw().toBuffer();
+        let differences = 0, controlDifferences = 0;
+        for (let i = 0; i < before.length; i++) { if (before[i] !== after[i]) differences++; if (before[i] !== control[i]) controlDifferences++; }
+        report.browser.push({ width, dpr, state, differentBytes: differences, controlDifferentBytes: controlDifferences, sameDimensions: before.length === after.length });
       }
       await context.close();
     }

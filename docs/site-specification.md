@@ -1,6 +1,6 @@
 # エリカッテシティ サイト全体 仕様・設計資料
 
-最終更新: 2026-10-11（新本番ドメインとSEO・読み込み改善Aのローカル実装を反映）
+最終更新: 2026-10-11（SEO・読み込み改善Aの本番公開と検証を反映）
 
 2026-09-12資料追加: 現行ソースの画面をFigmaへ再現する作業は、[作成方法](figma-reproduction-method.md) → [下層画面デザイン設計書](screen-design-specification.md) → [Figma作成計画書](figma-screen-production-plan.md)の順に参照する。下層6ページのPC/SP実測と、ゲーム本体の未実証項目を区別している。本資料の既存本文は2026-07-26時点の総合仕様として保持する。
 
@@ -10,7 +10,7 @@
 
 同日SEO改修追記: 本番ドメインは `https://erinui.com/`。公開8ページのcanonical・OGP/Twitter URL、ゲーム共有URL、sitemap・robots、旧GitHub Pagesの移転案内、Workersの公開出力限定を実装した。HTTP→HTTPS転送はCloudflareで有効化済み。公開確認・検索登録・紹介内容・軽量化の適用状態は[SEO改善計画の実施記録](seo-improvement-plan.md#実施記録-2026-10-10)で区別する。旧工程のURL保持条件は今回の承認済みURL変更には適用しない。
 
-2026-10-11実装追記: [SEOと読み込み改善 SDD実施仕様](seo-performance-sdd.md)に従い、metadata8ページ、TOPだけの静的WebSite JSON-LD、静的JSON優先・no-cache再検証・TOPカード画像lazy/asyncをローカル実装した。新しい画面内原稿・ページ・CSS変更はない。53件のテスト、84画面、Safari実機、性能比較を確認済み。画像/フォント圧縮は候補比較後に保留し、全素材・書体を維持する。GitHub・本番への公開はまだ行っていない。
+2026-10-11実装追記: [SEOと読み込み改善 SDD実施仕様](seo-performance-sdd.md)に従い、metadata8ページ、TOPだけの静的WebSite JSON-LD、静的JSON優先・no-cache再検証・TOPカード画像lazy/asyncを実装し、コミット `d789296` でGitHub・本番へ公開した。新しい画面内原稿・ページ・CSS変更はない。53件のテスト、84画面、Safari実機、クリーンコピー53件・85ファイル、本番14画面・Googleライブ検査・性能を確認済み。画像/フォント圧縮は候補比較後に保留し、全素材・書体を維持する。自動更新のnote画像取得失敗による既存イラストへの代替は従来仕様であり、Aで元画像を削除したものではない。
 
 ## 1. この資料の目的
 

@@ -26,7 +26,7 @@ const server = http.createServer(async (req, res) => {
   res.end(await readFile(path.join(snapshot, relative)));
 });
 await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
-const url = `http://127.0.0.1:${server.address().port}`;
+const url = process.env.SEO_PERFORMANCE_URL || `http://127.0.0.1:${server.address().port}`;
 let browser;
 const results = [];
 try {
@@ -76,7 +76,7 @@ try {
         await page.waitForTimeout(200);
         await page.screenshot({ path: path.join(output, `full-${viewport.width}.png`), fullPage: true });
       }
-      results.push({ viewport, run, browser: browser.version(), initial });
+      results.push({ url, viewport, run, browser: browser.version(), initial });
       console.log(JSON.stringify(results.at(-1)));
       await context.close();
     }

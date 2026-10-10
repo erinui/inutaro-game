@@ -1,8 +1,8 @@
 # SEOと読み込み改善 SDD実施仕様
 
-作成日: 2026-10-10 / 最終更新: 2026-10-11 / 状態: Aをローカル実装・検証済み。B・Cは候補比較後に保留。コミット・公開は未実施。
+作成日: 2026-10-10 / 最終更新: 2026-10-11 / 状態: Aを本番公開・検証済み。B・Cは候補比較後に保留。公開結果は14章。
 
-対象は既存8ページのmetadata、TOPのWebSite構造化データ、読み込み制御、条件付きの資産軽量化。ページ追加・画面内原稿・デザイン編集は行わない。12章は準備時点の記録として保持し、実装と候補の採否は13章に記録する。公開サイトへの反映は別途の指示後に行う。
+対象は既存8ページのmetadata、TOPのWebSite構造化データ、読み込み制御、条件付きの資産軽量化。ページ追加・画面内原稿・デザイン編集は行わない。12章は準備、13章は初回ローカル実装、14章は公開指示後の確認として保持する。
 
 ## 1. 正本と開始条件
 
@@ -215,7 +215,7 @@ env NODE_PATH=/Users/ishiharajunpei/.cache/codex-runtimes/codex-primary-runtime/
 
 | スクリプト | 用途・環境変数 |
 | --- | --- |
-| `scripts/check-seo-performance.mjs` | `SEO_PERFORMANCE_OUTPUT`。公開ファイルのスナップショット、3回ずつの初期性能、ハッシュ、PC/SP画像 |
+| `scripts/check-seo-performance.mjs` | `SEO_PERFORMANCE_OUTPUT`。公開ファイルのスナップショット、3回ずつの初期性能、ハッシュ、PC/SP画像。`SEO_PERFORMANCE_URL` を省略するとローカル、指定すると当該URLを測定し結果にもURLを記録 |
 | `scripts/check-seo-runtime.mjs` | `SEO_RUNTIME_OUTPUT`。同一オリジンの通信重複、API要求、ゲーム開始・ジャンプ入力・canvasの画素確認 |
 | `scripts/check-seo-assets.mjs` | `SEO_ASSET_OUTPUT`。Xの変換・XML/画素比較・Chrome通常/hover。`SEO_KEEP_CANDIDATE_SERVER=1` は比較用サーバーを終了まで保持 |
 | `scripts/check-seo-font.py` | 元TTF、候補WOFF2、報告JSONを引数に指定。fontToolsとBrotliが必要。ソースTTFは編集しない |
@@ -223,7 +223,7 @@ env NODE_PATH=/Users/ishiharajunpei/.cache/codex-runtimes/codex-primary-runtime/
 | `scripts/check-seo-safari.mjs` | `SEO_CANDIDATE_URL` / `SEO_SAFARI_OUTPUT` / `SAFARI_DRIVER_URL`。Safari実機で画像と見出しの比較 |
 | `scripts/check-seo-safari-interactions.mjs` | 同上。Safari実機でAのPC/SPとゲームを確認 |
 
-フォント候補を比較用サーバーへ渡す場合は `SEO_FONT_CANDIDATE` に候補ファイルを指定する。候補URLの `candidate=original/image/font` は静的画面の比較のためページJSを無効化し、`candidate=interaction` は実際のJSを動かす。WebDriverが実行する検査用JSとは区別する。Safari設定の一時変更は利用者の許可・本人の認証後に限り、セッション削除と検証終了後のOFF復元まで行う。
+フォント候補を比較用サーバーへ渡す場合は `SEO_FONT_CANDIDATE` に候補ファイルを指定する。画像用 `SEO_IMAGE_CANDIDATE_WEBP` は事前に生成したWebPを指定でき、省略時はSharpで候補を生成する。画像比較も同一原本の再撮影を対照に含める。候補URLの `candidate=original/image/font` は静的画面の比較のためページJSを無効化し、`candidate=interaction` は実際のJSを動かす。WebDriverが実行する検査用JSとは区別する。Safari設定の一時変更は利用者の許可・本人の認証後に限り、セッション削除と検証終了後のOFF復元まで行う。
 
 ビルドの既存CLI `node scripts/build-site.mjs` はdistが存在すると拒否する。既存distを削除せず、検証用にはexport済みのbuildSiteへ新しい出力パスを渡せる。
 
@@ -252,9 +252,9 @@ A/B/Cを別のレビュー可能な変更単位で保持する。公開は別途
 - [x] 新受入テストを作成し、仕様不足によるRedを記録。
 - [x] A実装・Green・回帰・性能比較を完了。
 - [x] B・Cの採用可否を比較結果で決定（今回は保留、元資産を保持）。
-- [ ] 公開指示後のビルド・GitHub反映・本番確認を完了。
+- [x] 公開指示後のビルド・GitHub反映・本番確認を完了。
 
-Aはローカルで完了。B・Cの候補は本番ソースへ採用しない。GitHub公開は未着手である。
+Aは本番公開・検証済み。B・Cの候補は本番ソースへ採用しない。
 
 ## 12. 準備段階の検証記録
 
@@ -314,8 +314,43 @@ B・Cは比較段階でゲートを通らず、ソースの変換・承認資産
 
 Safari 26.6.2実機のリモートオートメーションは、利用者の明示許可と本人のMac認証後に一時ON。全WebDriverセッションを削除し、終了後にチェックボックスOFF（Value:0）を確認して設定を閉じた。検証用サーバー・safaridriverを停止済み。Search Console/DNS/GitHub/本番配信には変更を行っていない。
 
-## 14. 公開準備記録 2026-10-11
+## 14. 公開・検証記録 2026-10-11
 
 公開指示を受け、直前の53件を再実行して成功。GitHubの自動更新 `253959ef15fe915f5e61f5f8418ed2391f83d8e7` をfast-forwardで取り込んだ。変更は最新JSON3件とnoteの1件目サムネ削除の4ファイルで、Aのソースとは競合しない。noteの画像取得失敗時は既存の建物イラストを表示する仕様を保持し、過去のサムネを復元しない。
 
-旧baselineのハッシュを上書きせず、`seo-performance-changes.json` に取り込んだコミット・旧SHA・採用SHA（削除はnull）を追加し、元baselineとの対応と削除状態を保持試験で検査する。この自動更新はAの圧縮・本文変更として扱わない。取り込み後に全受入試験、公開ビルド、レイアウトを再実行し、クリーンなコミットの内容も検査する。公開結果は検証後に追記する。
+旧baselineのハッシュを上書きせず、`seo-performance-changes.json` に取り込んだコミット・旧SHA・採用SHA（削除はnull）を追加し、元baselineとの対応と削除状態を保持試験で検査した。この自動更新はAの圧縮・本文変更として扱わない。取り込み後の53件・84画面・操作試験が成功。実装コミットだけのクリーンなコピーでも53件が成功し、85公開ファイルをビルドした。86→85の差は上記note画像1件の自動更新による削除である。
+
+### 14.1 公開結果
+
+- 実装コミット `d789296` を `erinui/inutaro-game` のmainへ反映。既定GitHubログインは変更せず、erinui認証を操作時だけ指定した。未追跡の旧素材・drafts・3D試作・移行資料・秘密ファイルはコミットへ入れない。
+- [Workers Builds](https://dash.cloudflare.com/4b0c107033ce4f72efdc42b6dc0bac2e/workers/services/view/inutaro-game/production/builds/e5b591a1-827a-4103-ab5f-553e995bd5a5)成功、[GitHub Pages build/deploy](https://github.com/erinui/inutaro-game/actions/runs/38066935232)成功。
+- 本番8URLの200、title/description/OGP/Twitter完全一致、canonical、TOPだけのWebSite JSON-LDを確認。本文は既知のCloudflare Analytics末尾スクリプトだけを除いてソースとSHA一致。CSS・レイアウト・画像・書体・ゲーム処理はAで変更していない。
+- 390/1440px×7主ページ=14ケース成功。ローカル画像欠落0、ページ横溢れ0、未捕捉JS例外0、正常データ時のAPI要求0。SPメニュー、PC3カードを確認。ゲーム開始・残り時間39・ジャンプ入力・非空canvasを確認。
+- robots/sitemap8正規URL、HTTP8URLの301、workers.devのnoindex、資料/更新スクリプト/テスト/秘密/Git/Functions/3D試作7パスの404を確認。旧GitHub Pagesの移転案内とキャラクターアンカーを維持。
+- 本番4JSONは200・ETag・`public, max-age=0, must-revalidate`、同じETagの条件付きGETは304・本文0 bytesを確認。これはサーバーHTTPの確認で、ブラウザ再訪・更新後200の振る舞いはC01の実ブラウザ試験と区別する。
+- 公開検証の初回は検証スクリプトのfixtureキー誤り、次回は非同期ニュース再描画中のDOM参照で停止した。canonicalPath参照と4ジャンルの描画完了待機へ修正して全ケースを再実行した。サイト実装の変更で隠していない。
+
+証跡はローカル `seo-publish-20261011/` に公開前84画面、公開8HTMLと14画面の検査結果、条件付きGET、PC/SPスクリーンショット、本番性能を保存。公開した本文・コードは `d789296` のまま、結果資料と検証ツールの改善は別の記録コミットで反映する。
+
+### 14.2 本番性能と検索確認
+
+`https://erinui.com/` をChrome 155.0.8059.39で測定。390×844/1440×900、DPR1、下り6Mbps・上り1.5Mbps・遅延150ms・CPU4倍、新context、初期30秒、各3回の中央値。全測定で未完了の非lazy画像0。
+
+| 幅 | LCP | CLS | 観測できた同一オリジン本文量 |
+| --- | --- | --- | --- |
+| 390 | 844ms | 0.04944 | 7,344,263 bytes |
+| 1440 | 880ms | 0.08493 | 9,045,056 bytes |
+
+本番は圧縮配信・外部通信・Analyticsがあり、13章の圧縮なしローカル値から削減率を算出しない。SUZURI/LINE外部画像とAnalyticsのTiming情報は不明（SP2/PC3URL）であり、上表は総通信量ではない。ラボのLCP/CLSで実ユーザーCWV・INP・検索順位を保証しない。画像による通信量は依然大きいため、安全な画像最適化は継続検討対象。
+
+Search Consoleを再読み込みしてTOPの登録済み状態を確認。2026-10-11 01:17:36 JSTのライブURL検査はGoogle検査ツール（スマートフォン）の取得成功、クロール許可はい、インデックス登録許可はい、ユーザー指定canonical `https://erinui.com/`。テスト済みHTMLに新title/descriptionとWebSite JSON-LDを確認した。ライブ検査の登録可能は、今回のmetadataが検索結果へ採用済みという意味ではない。WebSiteはリッチリザルト対象ではないため「拡張機能なし」を失敗に数えない。再登録リクエスト・サイトマップ再送・DNS変更は行わない。
+
+今後の管理確認は主要語の表示回数/クリック/検索順位、下層の登録状況、実ユーザー性能。公開直後の観測では新metadataの検索採用や順位改善は判定できない。自動監視や通知の新設は別の指示がある場合だけ行う。
+
+### 14.3 圧縮候補の追加切り分け
+
+本番公開後、X画像の代替案を非公開の候補で検査した。PNGの再エンコード候補はalphaと可視画素に差が出たため不採用。WebPは既存のcwebpで `-lossless -exact -q 100 -m 6 -metadata all` を試し、透明RGBとEXIF/XMPも保持した。[cwebpの公式仕様](https://developers.google.com/speed/webp/docs/cwebp)に基づく、透明画素の保持条件の切り分けであり、設定だけで描画一致を仮定しない。
+
+WebP候補906,160 bytes、SVG gzip 921,148 bytes。2048×2048、alpha・可視RGB・透明RGBの全差0。Chromeの同一原本再撮影は8比較すべて差0だが、候補は通常/hoverでSP DPR1=10、SP DPR2=75、PC DPR1=21、PC DPR2=100チャンネル差が残った。したがって今回の微小差は透明RGBの破棄や単なる再撮影の揺れだけでは説明できず、ブラウザの形式別描画経路は未確定の調査項目として残す。
+
+この代替案も採用ゲートを通らないためSafari再有効化・本番素材変更へ進まない。BとCの保留を継続し、全マップ・キャラ素材への圧縮展開、フォント分割、画質/許容差の緩和は行わない。
