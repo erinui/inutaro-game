@@ -1,6 +1,6 @@
 # トップページ最新コンテンツ表示
 
-最終更新: 2026-08-04
+最終更新: 2026-10-11（SEO・読み込み改善Aはローカル実装、未公開）
 
 ## 目的
 
@@ -22,6 +22,12 @@
 | ブログ | note RSSと記事ページのOGP画像 | GitHub Actionsで4時間ごとの10分 | `note-latest.json`、`note-thumb-1..6.(png/jpg/webp)` |
 | グッズ | SUZURI API v1 | `SUZURI_ACCESS_TOKEN` 登録後、GitHub Actionsで4時間ごとの10分 | `suzuri-latest.json` |
 | LINEスタンプ | LINE STORE作者ページの公開情報 | 現在は静的JSONを手動更新 | `line-stamps.json` |
+
+## ブラウザでの読み込み
+
+本番 `erinui.com`、ローカルlocalhost/127.0.0.1、GitHub PagesではYouTubeの静的JSONを先に読み、正常応答ならAPIへアクセスしない。その他のHTTPホストでは既存APIを先に試す。HTTP失敗・ネットワーク例外・JSON解析失敗・無効データの場合は次候補を1回試し、両方失敗時はHTMLの初期表示を保持する。
+
+4ジャンルのJSONは `cache: no-cache` で再検証し、未変更時は保存された本文を再利用する。カード画像はsrc設定前にlazy/asyncを指定し、画面内に入るタイミングで表示する。マップの看板サムネは遅延読み込みにしない。取得件数・10秒表示切替・生成周期・URLは従来どおり。詳細と検証結果は[SEO・読み込みSDD](seo-performance-sdd.md)を参照。
 
 ## SUZURIの運用
 

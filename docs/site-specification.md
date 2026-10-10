@@ -1,6 +1,6 @@
 # エリカッテシティ サイト全体 仕様・設計資料
 
-最終更新: 2026-10-10（名称・確定原稿・JP書体の実装、新本番ドメインとSEO計画を反映）
+最終更新: 2026-10-11（新本番ドメインとSEO・読み込み改善Aのローカル実装を反映）
 
 2026-09-12資料追加: 現行ソースの画面をFigmaへ再現する作業は、[作成方法](figma-reproduction-method.md) → [下層画面デザイン設計書](screen-design-specification.md) → [Figma作成計画書](figma-screen-production-plan.md)の順に参照する。下層6ページのPC/SP実測と、ゲーム本体の未実証項目を区別している。本資料の既存本文は2026-07-26時点の総合仕様として保持する。
 
@@ -9,6 +9,8 @@
 同日実装・公開追記: S00〜S06の共通名称・メタデータ、TOP/ゲーム一覧の確定文言、背景道路文字、Web主7ページのJP書体をSDD/TDDで反映し、GitHub mainから公開済み。公開7ページのPC/SP、14ケース成功。[実施仕様・公開検証記録](site-design-implementation.md)を参照。問い合わせ/ファンアートの用途変更は保留。既存URL・外部取得データ・ゲームロジックは保持する。
 
 同日SEO改修追記: 本番ドメインは `https://erinui.com/`。公開8ページのcanonical・OGP/Twitter URL、ゲーム共有URL、sitemap・robots、旧GitHub Pagesの移転案内、Workersの公開出力限定を実装した。HTTP→HTTPS転送はCloudflareで有効化済み。公開確認・検索登録・紹介内容・軽量化の適用状態は[SEO改善計画の実施記録](seo-improvement-plan.md#実施記録-2026-10-10)で区別する。旧工程のURL保持条件は今回の承認済みURL変更には適用しない。
+
+2026-10-11実装追記: [SEOと読み込み改善 SDD実施仕様](seo-performance-sdd.md)に従い、metadata8ページ、TOPだけの静的WebSite JSON-LD、静的JSON優先・no-cache再検証・TOPカード画像lazy/asyncをローカル実装した。新しい画面内原稿・ページ・CSS変更はない。53件のテスト、84画面、Safari実機、性能比較を確認済み。画像/フォント圧縮は候補比較後に保留し、全素材・書体を維持する。GitHub・本番への公開はまだ行っていない。
 
 ## 1. この資料の目的
 
@@ -73,7 +75,7 @@ Figma反映状態: 2026-10-10、「デザイン改修案」のTOP・S01〜S06主
 | リポジトリの反映先 | `main` |
 | 旧GitHub Pages公開元 | `main` のルート |
 
-2026-10-10時点のソースではOGP・共有URLが旧GitHub Pagesを指しており、公開8ページにcanonicalはありません。配信されているドメインと、ソースが示しているURLを区別します。
+SEO工程0の改修前ソースではOGP・共有URLが旧GitHub Pagesを指し、公開8ページにcanonicalはありませんでした。2026-10-10の工程1・2の公開後は次段落の本番URL設計を適用済みです。改修前の調査と現在の配信を区別します。
 
 正規URL・OGP・ゲーム共有は `https://erinui.com/` を使用します。本番の下層は `.html` から拡張子なしURLへ転送されるため、正規URLはその最終URLを採用します。通常のHTML内画像、CSS、JS、フォントと既存の内部リンクは相対パスを維持します。対応表と変更範囲は[SEO改善計画3章](seo-improvement-plan.md#3-本番url設計)を参照してください。公開用distは `scripts/build-site.mjs` で生成し、資料・サーバー用コード・秘密・試作を配信しません。外部データはGitHub Actions生成の静的JSONを使用し、Pages Functionsは現行Workerでは実行されません。
 
@@ -204,12 +206,14 @@ YouTube看板は、看板画像 `map_youtube.png` の内側に最新動画サム
 
 取得方針:
 
-- GitHub Pagesとローカル確認では、`assets/home-city/youtube-latest.json` を優先して読み込む
-- CloudflareなどAPIが使える環境では、`/api/latest-youtube?maxResults=6` を利用できる
+- 本番 `erinui.com`、GitHub Pages、localhost/127.0.0.1では、`assets/home-city/youtube-latest.json` を優先し、正常ならAPIへ要求しない
+- その他のHTTPホストでは既存 `/api/latest-youtube?maxResults=6` を先に試す。両経路で取得失敗・無効JSONの場合だけ次候補を1回試す。本番WorkersではAPIは稼働していない
 - JSON取得前の登録者数表示は `取得中`
 - 取得に失敗した場合はHTMLに埋め込まれた初期画像を表示する
 
 GitHub Pagesではサーバー処理が使えないため、GitHub Actionsで静的JSONとサムネイル画像を更新します。
+
+既存4JSONは `cache: no-cache` で毎回再検証し、未変更ならHTTPキャッシュの本文を再利用します。TOPの初期・生成カード画像はlazy/async、ヘッダー・マップ・看板サムネと下層画像は従来の読み込みのままです。URL・表示件数・更新周期・カルーセル寸法は変更しません。
 
 ### 5.5 ゲーム一覧ページ
 

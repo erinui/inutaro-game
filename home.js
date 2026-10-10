@@ -141,19 +141,23 @@ async function hydrateLatestCards(track, url, options) {
 
 async function fetchYoutubeData() {
   const useStaticFirst =
+    window.location.hostname === "erinui.com" ||
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1" ||
     window.location.hostname.endsWith(".github.io");
+  const candidates = useStaticFirst
+    ? [fetchYoutubeStaticData, fetchYoutubeApiData]
+    : [fetchYoutubeApiData, fetchYoutubeStaticData];
 
-  if (!useStaticFirst) {
-    const apiData = await fetchYoutubeApiData();
-    if (apiData) return apiData;
+  for (const load of candidates) {
+    try {
+      const data = await load();
+      if (data?.ok === true && Array.isArray(data.videos)) return data;
+    } catch (_error) {
+      // A failed candidate must not prevent the fallback from being attempted.
+    }
   }
-
-  const staticData = await fetchYoutubeStaticData();
-  if (staticData) return staticData;
-
-  return useStaticFirst ? fetchYoutubeApiData() : null;
+  return null;
 }
 
 async function fetchYoutubeApiData() {
@@ -172,7 +176,7 @@ async function fetchYoutubeStaticData() {
 
 async function fetchStaticData(url) {
   const staticResponse = await fetch(url, {
-    cache: "no-store",
+    cache: "no-cache",
     headers: {
       Accept: "application/json",
     },
@@ -325,6 +329,8 @@ function createLatestCard({ item, category, thumbnailUrl, description, meta, met
   if (thumbnailUrl) {
     const image = document.createElement("img");
     image.className = `content-card-media${mediaMode === "contain" ? "" : " content-card-media-cover"}${mediaClass ? ` ${mediaClass}` : ""}`;
+    image.loading = "lazy";
+    image.decoding = "async";
     image.src = thumbnailUrl;
     image.alt = `${item.title || category}の画像`;
     card.append(image);

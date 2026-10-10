@@ -24,6 +24,13 @@ try {
       page.on("pageerror", error => errors.push(error.message));
       await page.setViewportSize({ width, height: 900 });
       await page.goto(`${server.url}${item.url}?youtubePanel=0`, { waitUntil: "domcontentloaded" });
+      // Visit lazy images before full-layout proof; decode alone does not start deferred fetches.
+      for (const image of await page.locator('img[loading="lazy"]').all()) await image.scrollIntoViewIfNeeded();
+      await page.evaluate(() => {
+        for (const track of document.querySelectorAll(".content-carousel-track")) track.scrollLeft = 0;
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(100);
       await page.evaluate(async () => {
         await document.fonts.ready;
         await Promise.all([...document.images].filter(image => new URL(image.src).origin === location.origin).map(image => image.decode().catch(() => {})));

@@ -5,13 +5,77 @@
   "image": "https://erinui.com/assets/icon-192.png?v=20260616-icon",
   "gameCodeBefore": "7aac1529599e9260a27412bf40754720c05d60152fe85b17a0110f715ce8a7f2",
   "pages": [
-    { "file": "index.html", "previewPath": "/", "canonicalPath": "/", "bodySha256": "cf367882d75a926329e2beb9ee5de40f5de89c311f233ce7da6271d088c08588" },
-    { "file": "games/index.html", "previewPath": "/games/", "canonicalPath": "/games/", "bodySha256": "cace49106b5bfa0fa4d52b6d911d7d0e8d0ad3d5e42c8bc3571e1178327ea52e" },
-    { "file": "games/inutaro-mushi/index.html", "previewPath": "/games/inutaro-mushi/", "canonicalPath": "/games/inutaro-mushi/", "bodySha256": "f237b5352074feba41074a0628a392f04f7d724481a527e7a1a01c6624901348" },
-    { "file": "pages/characters.html", "previewPath": "/pages/characters.html", "canonicalPath": "/pages/characters", "bodySha256": "6dde09a8608f90e024517d234a588ad2436eae4d66df5bfacb62edd7e551211a" },
-    { "file": "pages/blog.html", "previewPath": "/pages/blog.html", "canonicalPath": "/pages/blog", "bodySha256": "601ed96ac776aa8924dec81324b42db2d8b9d0f02f0411f16993875f2a4776f9" },
-    { "file": "pages/illustrations.html", "previewPath": "/pages/illustrations.html", "canonicalPath": "/pages/illustrations", "bodySha256": "c01646c48d2ba40d097706fa7d73c71527e4aa714599c8fe870210abef4a6d41" },
-    { "file": "pages/terms.html", "previewPath": "/pages/terms.html", "canonicalPath": "/pages/terms", "bodySha256": "4c3781adf7817c2c86a52aeb080ca361a49bfbcd915bde467dba562f5454cc06" },
-    { "file": "pages/privacy.html", "previewPath": "/pages/privacy.html", "canonicalPath": "/pages/privacy", "bodySha256": "e9a3165036de8f9f8087e09a14d4c9ebfc0bbd910bbc426ff5611731f63f3d28" }
-  ]
+    {
+      "file": "index.html",
+      "previewPath": "/",
+      "canonicalPath": "/",
+      "bodySha256": "cf367882d75a926329e2beb9ee5de40f5de89c311f233ce7da6271d088c08588",
+      "title": "エリカッテシティ | えりぬい・犬タローの公式サイト",
+      "description": "えりぬいの公式サイト「エリカッテシティ」。犬タローたちのキャラクター紹介、ブラウザゲーム、YouTube動画、noteのブログ、グッズ、LINEスタンプへの入口をまとめています。"
+    },
+    {
+      "file": "games/index.html",
+      "previewPath": "/games/",
+      "canonicalPath": "/games/",
+      "bodySha256": "cace49106b5bfa0fa4d52b6d911d7d0e8d0ad3d5e42c8bc3571e1178327ea52e",
+      "title": "ぬいんてんどう ブラウザゲーム一覧 | エリカッテシティ",
+      "description": "えりぬいのブラウザゲーム一覧「ぬいんてんどう」。犬タローの虫さんまって×2をPC・スマートフォンで遊べます。公開中のゲームと準備中のタイトルをご紹介します。"
+    },
+    {
+      "file": "games/inutaro-mushi/index.html",
+      "previewPath": "/games/inutaro-mushi/",
+      "canonicalPath": "/games/inutaro-mushi/",
+      "bodySha256": "f237b5352074feba41074a0628a392f04f7d724481a527e7a1a01c6624901348",
+      "title": "犬タローの虫さんまって×2 | エリカッテシティ",
+      "description": "犬タローを操作し、40秒間で虫さんを捕まえる無料ブラウザゲーム。カラスの落とし物をよけながら遊びます。PC・スマートフォン対応、インストール不要。"
+    },
+    {
+      "file": "pages/characters.html",
+      "previewPath": "/pages/characters.html",
+      "canonicalPath": "/pages/characters",
+      "bodySha256": "6dde09a8608f90e024517d234a588ad2436eae4d66df5bfacb62edd7e551211a",
+      "title": "犬タローたちのキャラクター紹介 | エリカッテシティ",
+      "description": "犬タローのオリジンとぬいちゃん、えりか、さすけ、ぶくろちゃんを紹介。エリカッテシティの仲間たちの姿や性格をご覧いただけます。"
+    },
+    {
+      "file": "pages/blog.html",
+      "previewPath": "/pages/blog.html",
+      "canonicalPath": "/pages/blog",
+      "bodySha256": "601ed96ac776aa8924dec81324b42db2d8b9d0f02f0411f16993875f2a4776f9",
+      "title": "おしらせ・ブログ | エリカッテシティ",
+      "description": "えりぬいの制作メモや更新情報を読むための案内ページです。ブログを更新しているnoteへのリンクを掲載しています。"
+    },
+    {
+      "file": "pages/illustrations.html",
+      "previewPath": "/pages/illustrations.html",
+      "canonicalPath": "/pages/illustrations",
+      "bodySha256": "c01646c48d2ba40d097706fa7d73c71527e4aa714599c8fe870210abef4a6d41",
+      "title": "イラスト | エリカッテシティ",
+      "description": "えりぬいのイラスト紹介ページ。現在は公開準備中です。公開まで、エリカッテシティのほかのページをお楽しみください。"
+    },
+    {
+      "file": "pages/terms.html",
+      "previewPath": "/pages/terms.html",
+      "canonicalPath": "/pages/terms",
+      "bodySha256": "4c3781adf7817c2c86a52aeb080ca361a49bfbcd915bde467dba562f5454cc06",
+      "title": "利用規約 | エリカッテシティ",
+      "description": "エリカッテシティの利用規約です。ゲームの利用、キャラクターや画像・音声などの素材の取り扱い、サービス変更についての基本ルールをご確認いただけます。"
+    },
+    {
+      "file": "pages/privacy.html",
+      "previewPath": "/pages/privacy.html",
+      "canonicalPath": "/pages/privacy",
+      "bodySha256": "e9a3165036de8f9f8087e09a14d4c9ebfc0bbd910bbc426ff5611731f63f3d28",
+      "title": "プライバシーポリシー | エリカッテシティ",
+      "description": "エリカッテシティにおける情報の取り扱いについて。ユーザー登録や個人情報入力、ゲーム結果の保存・共有、外部サービス利用時の方針を掲載しています。"
+    }
+  ],
+  "website": {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://erinui.com/#website",
+    "name": "エリカッテシティ",
+    "url": "https://erinui.com/",
+    "inLanguage": "ja"
+  }
 }

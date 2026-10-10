@@ -1,0 +1,41 @@
+import assert from "node:assert/strict";
+import { createRequire } from "node:module";
+import { mkdir, writeFile } from "node:fs/promises";
+import { startSiteServer } from "../tests/helpers/site-server.mjs";
+const require = createRequire(import.meta.url);
+const { chromium } = require("playwright");
+const output = process.env.SEO_RUNTIME_OUTPUT;
+assert.ok(output, "Set SEO_RUNTIME_OUTPUT");
+await mkdir(output, { recursive: true });
+const server = await startSiteServer();
+const browser = await chromium.launch({ executablePath: process.env.CHROME_EXECUTABLE });
+const errors = [], requests = [], report = {};
+try {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  page.on("pageerror", e => errors.push(e.message));
+  page.on("request", r => { if (r.url().startsWith(server.url)) requests.push({ url: r.url().slice(server.url.length), type: r.resourceType() }); });
+  await page.goto(`${server.url}/?youtubePanel=0`, { waitUntil: "domcontentloaded" });
+  await page.waitForFunction(() => document.querySelector('[data-youtube-cards] h3').textContent !== "最新動画");
+  for (const image of await page.locator('img[loading="lazy"]').all()) await image.scrollIntoViewIfNeeded();
+  await page.evaluate(async () => { await Promise.all([...document.images].filter(i => new URL(i.src).origin === location.origin).map(i => i.decode().catch(() => {}))); });
+  const counts = {};
+  for (const request of requests) counts[request.url] = (counts[request.url] || 0) + 1;
+  report.resources = { requests, repeatedUrls: Object.entries(counts).filter(([, n]) => n > 1), apiRequests: requests.filter(r => r.url.startsWith("/api/")) };
+  assert.deepEqual(report.resources.apiRequests, []);
+  await page.goto(`${server.url}/games/inutaro-mushi/`, { waitUntil: "domcontentloaded" });
+  await page.locator("#sound-toggle").click();
+  await page.locator("#start").click();
+  await page.waitForFunction(() => document.querySelector(".game-shell").classList.contains("is-playing") && Number(document.querySelector("#time").textContent) < 40);
+  await page.keyboard.press("Space");
+  await page.waitForTimeout(150);
+  report.game = await page.locator("canvas").evaluate(c => { const data = c.getContext("2d").getImageData(0, 0, c.width, c.height).data; let opaquePixels = 0; for (let i = 3; i < data.length; i += 4) if (data[i]) opaquePixels++; return { width: c.width, height: c.height, opaquePixels, time: Number(document.querySelector("#time").textContent) }; });
+  assert.ok(report.game.opaquePixels > 10000);
+  assert.deepEqual(errors, []);
+  report.errors = errors;
+  await page.screenshot({ path: `${output}/game-chrome.png` });
+  await writeFile(`${output}/runtime.json`, JSON.stringify(report, null, 2));
+  console.log(JSON.stringify({ game: report.game, errors, repeatedUrls: report.resources.repeatedUrls, apiRequests: report.resources.apiRequests }));
+} finally {
+  await browser.close();
+  await server.close();
+}

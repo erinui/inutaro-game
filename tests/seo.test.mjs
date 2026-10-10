@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { root, startSiteServer } from "./helpers/site-server.mjs";
+import { restoreApprovedSeoChanges } from "./helpers/approved-seo-changes.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
@@ -20,6 +21,45 @@ before(async () => {
 after(async () => { await browser?.close(); await server?.close(); });
 
 for (const item of spec.pages) {
+  test(`SEO-META-01/OGP-02: approved metadata in initial HTML: ${item.file}`, async () => {
+    const page = await browser.newPage({ javaScriptEnabled: false });
+    try {
+      await page.goto(server.url + item.previewPath + "?youtubePanel=0#metadata");
+      const values = {
+        "title": item.title,
+        'meta[name="description"]': item.description,
+        'meta[property="og:title"]': item.title,
+        'meta[name="twitter:title"]': item.title,
+        'meta[property="og:description"]': item.description,
+        'meta[name="twitter:description"]': item.description,
+        'meta[property="og:site_name"]': spec.website.name,
+        'meta[name="twitter:card"]': "summary",
+      };
+      for (const [selector, expected] of Object.entries(values)) {
+        const node = page.locator(selector);
+        assert.equal(await node.count(), 1, selector);
+        assert.equal(selector === "title" ? await node.textContent() : await node.getAttribute("content"), expected, selector);
+      }
+    } finally { await page.close(); }
+  });
+}
+
+test("SEO-DATA-01: one static WebSite on TOP only", async () => {
+  for (const item of spec.pages) {
+    const page = await browser.newPage({ javaScriptEnabled: false });
+    try {
+      await page.goto(server.url + item.previewPath);
+      const nodes = page.locator('script[type="application/ld+json"]');
+      assert.equal(await nodes.count(), item.file === "index.html" ? 1 : 0, item.file);
+      if (item.file === "index.html") {
+        assert.equal(await page.locator('head script[type="application/ld+json"]').count(), 1);
+        assert.deepEqual(JSON.parse(await nodes.textContent()), spec.website);
+      }
+    } finally { await page.close(); }
+  }
+});
+
+for (const item of spec.pages) {
   test(`SEO-URL-01/02: canonical and sharing metadata without visible changes: ${item.file}`, async () => {
     const page = await browser.newPage({ javaScriptEnabled: false });
     try {
@@ -33,7 +73,8 @@ for (const item of spec.pages) {
       }
       assert.ok(await page.locator('meta[name="robots"]').evaluateAll(nodes => nodes.every(node => !/noindex/i.test(node.content))));
       const source = await readFile(path.join(root, item.file), "utf8");
-      assert.equal(hash(source.slice(source.indexOf("<body"))), item.bodySha256, "Existing visible markup and navigation must stay unchanged");
+      const preserved = item.file === "index.html" ? restoreApprovedSeoChanges(item.file, source) : source;
+      assert.equal(hash(preserved.slice(preserved.indexOf("<body"))), item.bodySha256, "Existing visible markup and navigation must stay unchanged");
       assert.ok(!source.slice(0, source.indexOf("<body")).includes(spec.oldOrigin));
       assert.equal(await page.locator('script[src$="site-migration.js"]').count(), 1);
     } finally { await page.close(); }

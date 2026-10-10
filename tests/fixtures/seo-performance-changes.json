@@ -1,0 +1,209 @@
+{
+  "baseCommit": "6a0ee12",
+  "changes": [
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<title>犬タローの虫さんまって×2</title>",
+      "after": "<title>犬タローの虫さんまって×2 | エリカッテシティ</title>",
+      "count": 1
+    },
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<meta\n      name=\"description\"\n      content=\"犬タローを操作して、制限時間内に虫さんを集めるブラウザゲームです。カラスの落とし物に当たるとゲームオーバー。\"\n    />",
+      "after": "<meta\n      name=\"description\"\n      content=\"犬タローを操作し、40秒間で虫さんを捕まえる無料ブラウザゲーム。カラスの落とし物をよけながら遊びます。PC・スマートフォン対応、インストール不要。\"\n    />",
+      "count": 1
+    },
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<meta property=\"og:site_name\" content=\"犬タローの虫さんまって×2\" />",
+      "after": "<meta property=\"og:site_name\" content=\"エリカッテシティ\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<meta property=\"og:title\" content=\"犬タローの虫さんまって×2\" />",
+      "after": "<meta property=\"og:title\" content=\"犬タローの虫さんまって×2 | エリカッテシティ\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<meta\n      property=\"og:description\"\n      content=\"犬タローを操作して虫さんを捕まえるブラウザゲーム。カラスの落とし物をよけながら、制限時間内に何びき捕まえられるかな？\"\n    />",
+      "after": "<meta\n      property=\"og:description\"\n      content=\"犬タローを操作し、40秒間で虫さんを捕まえる無料ブラウザゲーム。カラスの落とし物をよけながら遊びます。PC・スマートフォン対応、インストール不要。\"\n    />",
+      "count": 1
+    },
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<meta name=\"twitter:title\" content=\"犬タローの虫さんまって×2\" />",
+      "after": "<meta name=\"twitter:title\" content=\"犬タローの虫さんまって×2 | エリカッテシティ\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-META-01/SEO-OGP-02",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "<meta\n      name=\"twitter:description\"\n      content=\"犬タローを操作して虫さんを捕まえるブラウザゲーム。カラスの落とし物をよけながら、制限時間内に何びき捕まえられるかな？\"\n    />",
+      "after": "<meta\n      name=\"twitter:description\"\n      content=\"犬タローを操作し、40秒間で虫さんを捕まえる無料ブラウザゲーム。カラスの落とし物をよけながら遊びます。PC・スマートフォン対応、インストール不要。\"\n    />",
+      "count": 1
+    },
+    {
+      "id": "PERF-DATA-01",
+      "file": "home.js",
+      "before": "async function fetchYoutubeData() {\n  const useStaticFirst =\n    window.location.hostname === \"localhost\" ||\n    window.location.hostname === \"127.0.0.1\" ||\n    window.location.hostname.endsWith(\".github.io\");\n\n  if (!useStaticFirst) {\n    const apiData = await fetchYoutubeApiData();\n    if (apiData) return apiData;\n  }\n\n  const staticData = await fetchYoutubeStaticData();\n  if (staticData) return staticData;\n\n  return useStaticFirst ? fetchYoutubeApiData() : null;\n}",
+      "after": "async function fetchYoutubeData() {\n  const useStaticFirst =\n    window.location.hostname === \"erinui.com\" ||\n    window.location.hostname === \"localhost\" ||\n    window.location.hostname === \"127.0.0.1\" ||\n    window.location.hostname.endsWith(\".github.io\");\n  const candidates = useStaticFirst\n    ? [fetchYoutubeStaticData, fetchYoutubeApiData]\n    : [fetchYoutubeApiData, fetchYoutubeStaticData];\n\n  for (const load of candidates) {\n    try {\n      const data = await load();\n      if (data?.ok === true && Array.isArray(data.videos)) return data;\n    } catch (_error) {\n      // A failed candidate must not prevent the fallback from being attempted.\n    }\n  }\n  return null;\n}",
+      "count": 1
+    },
+    {
+      "id": "PERF-CACHE-01",
+      "file": "home.js",
+      "before": "    cache: \"no-store\",",
+      "after": "    cache: \"no-cache\",",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "home.js",
+      "before": "    image.src = thumbnailUrl;",
+      "after": "    image.loading = \"lazy\";\n    image.decoding = \"async\";\n    image.src = thumbnailUrl;",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media content-card-media-cover\" src=\"assets/games/inutaro-mushi/gameplay-preview.png?v=20260804-gameplay\" alt=\"犬タローが虫さんを捕まえようとジャンプしているゲーム画面\" />",
+      "after": "<img class=\"content-card-media content-card-media-cover\" src=\"assets/games/inutaro-mushi/gameplay-preview.png?v=20260804-gameplay\" alt=\"犬タローが虫さんを捕まえようとジャンプしているゲーム画面\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 2
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media content-card-media-cover\" src=\"assets/home-city/youtube-thumb-1.jpg\" alt=\"YouTubeの最新動画サムネイル\" />",
+      "after": "<img class=\"content-card-media content-card-media-cover\" src=\"assets/home-city/youtube-thumb-1.jpg\" alt=\"YouTubeの最新動画サムネイル\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media content-card-media-note\" src=\"assets/home-city/map_blog.png\" alt=\"ブログの建物イラスト\" />",
+      "after": "<img class=\"content-card-media content-card-media-note\" src=\"assets/home-city/map_blog.png\" alt=\"ブログの建物イラスト\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img src=\"assets/characters/chara_inutaro_origin.png\" alt=\"\" />",
+      "after": "<img src=\"assets/characters/chara_inutaro_origin.png\" alt=\"\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img src=\"assets/characters/chara_inutaro_nuigurumi.png\" alt=\"\" />",
+      "after": "<img src=\"assets/characters/chara_inutaro_nuigurumi.png\" alt=\"\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img src=\"assets/characters/chara_erika-san.png\" alt=\"\" />",
+      "after": "<img src=\"assets/characters/chara_erika-san.png\" alt=\"\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img src=\"assets/characters/chara_sasuke.png\" alt=\"\" />",
+      "after": "<img src=\"assets/characters/chara_sasuke.png\" alt=\"\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img src=\"assets/characters/chara_bukuro.png\" alt=\"\" />",
+      "after": "<img src=\"assets/characters/chara_bukuro.png\" alt=\"\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media\" src=\"assets/home-city/map_game.png\" alt=\"ゲームセンターのイラスト\" />",
+      "after": "<img class=\"content-card-media\" src=\"assets/home-city/map_game.png\" alt=\"ゲームセンターのイラスト\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media content-card-media-cover\" data-youtube-thumbnail src=\"assets/home-city/youtube-thumb-1.jpg\" alt=\"YouTubeの最新動画サムネイル\" />",
+      "after": "<img class=\"content-card-media content-card-media-cover\" data-youtube-thumbnail src=\"assets/home-city/youtube-thumb-1.jpg\" alt=\"YouTubeの最新動画サムネイル\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media content-card-media-cover\" data-youtube-thumbnail src=\"assets/home-city/youtube-thumb-2.jpg\" alt=\"YouTubeの動画サムネイル\" />",
+      "after": "<img class=\"content-card-media content-card-media-cover\" data-youtube-thumbnail src=\"assets/home-city/youtube-thumb-2.jpg\" alt=\"YouTubeの動画サムネイル\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media content-card-media-cover\" data-youtube-thumbnail src=\"assets/home-city/youtube-thumb-3.jpg\" alt=\"YouTubeの動画サムネイル\" />",
+      "after": "<img class=\"content-card-media content-card-media-cover\" data-youtube-thumbnail src=\"assets/home-city/youtube-thumb-3.jpg\" alt=\"YouTubeの動画サムネイル\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media\" src=\"assets/home-city/map_blog.png\" alt=\"ブログの建物イラスト\" />",
+      "after": "<img class=\"content-card-media\" src=\"assets/home-city/map_blog.png\" alt=\"ブログの建物イラスト\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media\" src=\"assets/home-city/map_goods.png\" alt=\"SUZURIの建物イラスト\" />",
+      "after": "<img class=\"content-card-media\" src=\"assets/home-city/map_goods.png\" alt=\"SUZURIの建物イラスト\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-IMG-01",
+      "file": "index.html",
+      "before": "<img class=\"content-card-media\" src=\"assets/home-city/map_linestamp.png\" alt=\"LINEスタンプのイラスト\" />",
+      "after": "<img class=\"content-card-media\" src=\"assets/home-city/map_linestamp.png\" alt=\"LINEスタンプのイラスト\" loading=\"lazy\" decoding=\"async\" />",
+      "count": 1
+    },
+    {
+      "id": "PERF-DATA-01",
+      "file": "index.html",
+      "before": "home.js?v=20260802-latest-content",
+      "after": "home.js?v=20261011-seo-loading",
+      "count": 1
+    }
+  ],
+  "acceptedUpstreamData": {
+    "commit": "253959ef15fe915f5e61f5f8418ed2391f83d8e7",
+    "previousCommit": "6a0ee12",
+    "files": {
+      "assets/home-city/note-latest.json": {
+        "previous": "d4b7aa91c7fdb9681f93aeae92fef1bad5c3932a9d910e252175fb4001aa89f7",
+        "accepted": "72d4f80fba5c4d35b24849999d328572ba69dcab989a99318bbc99ba9d588afb"
+      },
+      "assets/home-city/note-thumb-1.png": {
+        "previous": "d9a1624977b13d4a88a78f4e86e768b798a979f00b605fe617601bf50188409b",
+        "accepted": null
+      },
+      "assets/home-city/suzuri-latest.json": {
+        "previous": "f6fa7c67f9ade99fc816008540f7088f890bc9441e703177a2b1b20394d75b34",
+        "accepted": "9763556a29b737f26e3ffed939b43ca01f2687015443d5b0f8704ebe7eb4d168"
+      },
+      "assets/home-city/youtube-latest.json": {
+        "previous": "c2d4d4787c7f95af84ad9595285d6df4b8f76ce444b6cbb1c63d894a7b377d6e",
+        "accepted": "b154743887747a72056f71d430bba8fb8715dbc52bbcfc42a92a542078162bea"
+      }
+    }
+  }
+}

@@ -5,11 +5,13 @@ import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { root, startSiteServer } from "./helpers/site-server.mjs";
+import { restoreApprovedSeoChanges, approvedUpstreamHash } from "./helpers/approved-seo-changes.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
 const xml = require("xml-js");
 const spec = JSON.parse(await readFile(new URL("./fixtures/site-design.json", import.meta.url)));
+const seo = JSON.parse(await readFile(new URL("./fixtures/seo.json", import.meta.url)));
 const baseline = JSON.parse(await readFile(new URL("./fixtures/site-design-baseline.json", import.meta.url)));
 const normalize = text => text.replace(/\s/g, "");
 let server, browser;
@@ -25,12 +27,13 @@ for (const item of spec.pages) {
     const page = await browser.newPage({ javaScriptEnabled: false });
     try {
       await page.goto(server.url + item.url, { waitUntil: "domcontentloaded" });
-      assert.equal(await page.title(), item.title);
+      const metadata = seo.pages.find(node => node.file === item.path);
+      assert.equal(await page.title(), metadata.title);
       assert.equal(await page.locator("h1").innerText(), item.h1);
       assert.equal(await page.locator(".brand span").innerText(), spec.siteName);
       assert.equal(await page.locator(".brand").getAttribute("aria-label"), `${spec.siteName} トップへ`);
       assert.equal(await page.locator('meta[property="og:site_name"]').getAttribute("content"), spec.siteName);
-      const shareTitle = item.path === "index.html" ? spec.siteName : item.title;
+      const shareTitle = metadata.title;
       for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) assert.equal(await page.locator(selector).getAttribute("content"), shareTitle);
       assert.ok((await page.locator('link[rel="preload"][as="font"]').getAttribute("href")).endsWith(spec.fontFile));
       assert.ok((await page.locator('link[rel="stylesheet"]').getAttribute("href")).endsWith(`?v=${spec.cssVersion}`));
@@ -122,14 +125,20 @@ test("FNT-01: original JP TTF is distributed without alterations", async () => {
 
 test("Preserve dynamic data, map assets, scripts and game implementation", async () => {
   for (const [file, expected] of Object.entries(baseline.hashes)) {
+    const accepted = approvedUpstreamHash(file, expected);
+    if (accepted === null) {
+      await assert.rejects(readFile(path.join(root, file)), { code: "ENOENT" }, `${file}: approved upstream deletion`);
+      continue;
+    }
     let bytes = await readFile(path.join(root, file));
+    if (file === "home.js") bytes = Buffer.from(restoreApprovedSeoChanges(file, bytes.toString()));
     // SEO-SHARE-01 allows only the public URL constant; retain the original game baseline.
     if (file === "games/inutaro-mushi/game.js") {
       bytes = Buffer.from(bytes.toString().replace('const siteUrl = "https://erinui.com/games/inutaro-mushi/";', 'const siteUrl = "https://erinui.github.io/inutaro-game/games/inutaro-mushi/";'));
     }
     // SEO-URL-01/02 and SEO-MOVE-01 change only the game's head metadata.
     if (file === "games/inutaro-mushi/index.html") {
-      const source = bytes.toString();
+      const source = restoreApprovedSeoChanges(file, bytes.toString());
       const boundary = source.indexOf("<body");
       const oldHead = source.slice(0, boundary)
         .replace('    <link rel="canonical" href="https://erinui.com/games/inutaro-mushi/" />\n', "")
@@ -137,7 +146,7 @@ test("Preserve dynamic data, map assets, scripts and game implementation", async
         .replace('    <script src="../../site-migration.js" defer></script>\n', "");
       bytes = Buffer.from(oldHead + source.slice(boundary));
     }
-    assert.equal(createHash("sha256").update(bytes).digest("hex"), expected, file);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), accepted, file);
   }
   for (const [file, expected] of Object.entries(baseline.localOnlyHashes || {})) {
     try {
