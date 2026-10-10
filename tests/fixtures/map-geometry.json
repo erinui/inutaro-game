@@ -1,0 +1,486 @@
+{
+  "320": [
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-1",
+      "left": 93.625,
+      "top": 36.921875,
+      "w": 33.265625,
+      "h": 46.4375
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-2",
+      "left": 21.9375,
+      "top": 316.84375,
+      "w": 33.265625,
+      "h": 46.4375
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-3",
+      "left": 4,
+      "top": 250.984375,
+      "w": 33.265625,
+      "h": 46.4375
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-4",
+      "left": 196.015625,
+      "top": 278.65625,
+      "w": 33.265625,
+      "h": 46.4375
+    },
+    {
+      "class": "map-decoration map-decoration-bird",
+      "left": -29.622135162353516,
+      "top": 12.21875,
+      "w": 46.078125,
+      "h": 46.078125
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-sasuke",
+      "left": 193.453125,
+      "top": 102.78125,
+      "w": 25.59375,
+      "h": 32.4375
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-bukurochan",
+      "left": 108.953125,
+      "top": 365.671875,
+      "w": 35.828125,
+      "h": 33.515625
+    },
+    {
+      "class": "map-card map-link-character",
+      "left": 16.796875,
+      "top": 201.578125,
+      "w": 81.90625,
+      "h": 102.8125
+    },
+    {
+      "class": "map-card map-link-sns",
+      "left": 178.078125,
+      "top": 315.265625,
+      "w": 92.15625,
+      "h": 92.15625
+    },
+    {
+      "class": "map-card map-link-linestamp",
+      "left": 9.109375,
+      "top": 333.3125,
+      "w": 81.90625,
+      "h": 81.90625
+    },
+    {
+      "class": "map-card map-link-game",
+      "left": 60.3125,
+      "top": 65.734375,
+      "w": 122.875,
+      "h": 122.875
+    },
+    {
+      "class": "map-card map-link-goods",
+      "left": 75.671875,
+      "top": 238.25,
+      "w": 128,
+      "h": 128
+    },
+    {
+      "class": "map-card map-link-blog",
+      "left": 165.296875,
+      "top": 143.953125,
+      "w": 89.59375,
+      "h": 89.59375
+    },
+    {
+      "class": "map-card map-link-illustrate",
+      "left": 4,
+      "top": 38.359375,
+      "w": 76.796875,
+      "h": 76.796875
+    },
+    {
+      "class": "map-card map-link-youtube",
+      "left": 178.09375,
+      "top": 36.921875,
+      "w": 81.90625,
+      "h": 81.90625
+    },
+    {
+      "class": "youtube-screen-background",
+      "left": 162.5315704345703,
+      "top": 25.45501708984375,
+      "w": 106.47813415527344,
+      "h": 106.47808837890625
+    },
+    {
+      "class": "youtube-screen",
+      "left": 165.8078155517578,
+      "top": 24.63592529296875,
+      "w": 106.47813415527344,
+      "h": 106.4781494140625
+    }
+  ],
+  "390": [
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-1",
+      "left": 118.109375,
+      "top": 45.828125,
+      "w": 42.375,
+      "h": 59.15625
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-2",
+      "left": 26.828125,
+      "top": 401.40625,
+      "w": 42.375,
+      "h": 59.15625
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-3",
+      "left": 4,
+      "top": 317.734375,
+      "w": 42.375,
+      "h": 59.15625
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-4",
+      "left": 248.515625,
+      "top": 352.71875,
+      "w": 42.375,
+      "h": 59.15625
+    },
+    {
+      "class": "map-decoration map-decoration-bird",
+      "left": -60.5390625,
+      "top": 14.453125,
+      "w": 58.671875,
+      "h": 58.671875
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-sasuke",
+      "left": 245.25,
+      "top": 129.484375,
+      "w": 32.59375,
+      "h": 41.3125
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-bukurochan",
+      "left": 137.65625,
+      "top": 463.328125,
+      "w": 45.625,
+      "h": 42.671875
+    },
+    {
+      "class": "map-card map-link-character",
+      "left": 20.296875,
+      "top": 254.984375,
+      "w": 104.3125,
+      "h": 130.9375
+    },
+    {
+      "class": "map-card map-link-sns",
+      "left": 225.671875,
+      "top": 399.09375,
+      "w": 117.359375,
+      "h": 117.359375
+    },
+    {
+      "class": "map-card map-link-linestamp",
+      "left": 10.515625,
+      "top": 422.3125,
+      "w": 104.3125,
+      "h": 104.3125
+    },
+    {
+      "class": "map-card map-link-game",
+      "left": 75.71875,
+      "top": 82.421875,
+      "w": 156.46875,
+      "h": 156.46875
+    },
+    {
+      "class": "map-card map-link-goods",
+      "left": 95.265625,
+      "top": 301.171875,
+      "w": 163,
+      "h": 163
+    },
+    {
+      "class": "map-card map-link-blog",
+      "left": 209.390625,
+      "top": 181.78125,
+      "w": 114.09375,
+      "h": 114.09375
+    },
+    {
+      "class": "map-card map-link-illustrate",
+      "left": 4,
+      "top": 47.390625,
+      "w": 97.796875,
+      "h": 97.796875
+    },
+    {
+      "class": "map-card map-link-youtube",
+      "left": 225.6875,
+      "top": 45.828125,
+      "w": 104.3125,
+      "h": 104.3125
+    },
+    {
+      "class": "youtube-screen-background",
+      "left": 205.86813354492188,
+      "top": 31.224365234375,
+      "w": 135.60623168945312,
+      "h": 135.60626220703125
+    },
+    {
+      "class": "youtube-screen",
+      "left": 210.04061889648438,
+      "top": 30.181243896484375,
+      "w": 135.60626220703125,
+      "h": 135.60623168945312
+    }
+  ],
+  "1024": [
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-1",
+      "left": 141.90625,
+      "top": 54.46875,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-2",
+      "left": 31.59375,
+      "top": 483.546875,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-3",
+      "left": 4,
+      "top": 382.59375,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-4",
+      "left": 299.515625,
+      "top": 424.6875,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-bird",
+      "left": -73.99687194824219,
+      "top": 16.609375,
+      "w": 70.90625,
+      "h": 70.90625
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-sasuke",
+      "left": 295.578125,
+      "top": 155.4375,
+      "w": 39.390625,
+      "h": 49.921875
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-bukurochan",
+      "left": 165.53125,
+      "top": 558.171875,
+      "w": 55.15625,
+      "h": 51.59375
+    },
+    {
+      "class": "map-card map-link-character",
+      "left": 23.6875,
+      "top": 306.875,
+      "w": 126.078125,
+      "h": 158.265625
+    },
+    {
+      "class": "map-card map-link-sns",
+      "left": 271.90625,
+      "top": 480.5625,
+      "w": 141.828125,
+      "h": 141.828125
+    },
+    {
+      "class": "map-card map-link-linestamp",
+      "left": 11.875,
+      "top": 508.796875,
+      "w": 126.078125,
+      "h": 126.078125
+    },
+    {
+      "class": "map-card map-link-game",
+      "left": 90.671875,
+      "top": 98.640625,
+      "w": 189.109375,
+      "h": 189.109375
+    },
+    {
+      "class": "map-card map-link-goods",
+      "left": 114.3125,
+      "top": 362.28125,
+      "w": 197,
+      "h": 197
+    },
+    {
+      "class": "map-card map-link-blog",
+      "left": 252.234375,
+      "top": 218.53125,
+      "w": 137.890625,
+      "h": 137.890625
+    },
+    {
+      "class": "map-card map-link-illustrate",
+      "left": 4,
+      "top": 56.1875,
+      "w": 118.1875,
+      "h": 118.1875
+    },
+    {
+      "class": "map-card map-link-youtube",
+      "left": 271.921875,
+      "top": 54.46875,
+      "w": 126.078125,
+      "h": 126.078125
+    },
+    {
+      "class": "youtube-screen-background",
+      "left": 247.967041015625,
+      "top": 36.81781005859375,
+      "w": 163.90155029296875,
+      "h": 163.90155029296875
+    },
+    {
+      "class": "youtube-screen",
+      "left": 253.01016235351562,
+      "top": 35.557037353515625,
+      "w": 163.90155029296875,
+      "h": 163.90158081054688
+    }
+  ],
+  "1440": [
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-1",
+      "left": 141.90625,
+      "top": 54.46875,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-2",
+      "left": 31.59375,
+      "top": 483.546875,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-3",
+      "left": 4,
+      "top": 382.59375,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-tree map-decoration-tree-4",
+      "left": 299.515625,
+      "top": 424.6875,
+      "w": 51.21875,
+      "h": 71.5
+    },
+    {
+      "class": "map-decoration map-decoration-bird",
+      "left": -73.99687194824219,
+      "top": 16.609375,
+      "w": 70.90625,
+      "h": 70.90625
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-sasuke",
+      "left": 295.578125,
+      "top": 155.4375,
+      "w": 39.390625,
+      "h": 49.921875
+    },
+    {
+      "class": "map-decoration map-decoration-control map-decoration-bukurochan",
+      "left": 165.53125,
+      "top": 558.171875,
+      "w": 55.15625,
+      "h": 51.59375
+    },
+    {
+      "class": "map-card map-link-character",
+      "left": 23.6875,
+      "top": 306.875,
+      "w": 126.078125,
+      "h": 158.265625
+    },
+    {
+      "class": "map-card map-link-sns",
+      "left": 271.90625,
+      "top": 480.5625,
+      "w": 141.828125,
+      "h": 141.828125
+    },
+    {
+      "class": "map-card map-link-linestamp",
+      "left": 11.875,
+      "top": 508.796875,
+      "w": 126.078125,
+      "h": 126.078125
+    },
+    {
+      "class": "map-card map-link-game",
+      "left": 90.671875,
+      "top": 98.640625,
+      "w": 189.109375,
+      "h": 189.109375
+    },
+    {
+      "class": "map-card map-link-goods",
+      "left": 114.3125,
+      "top": 362.28125,
+      "w": 197,
+      "h": 197
+    },
+    {
+      "class": "map-card map-link-blog",
+      "left": 252.234375,
+      "top": 218.53125,
+      "w": 137.890625,
+      "h": 137.890625
+    },
+    {
+      "class": "map-card map-link-illustrate",
+      "left": 4,
+      "top": 56.1875,
+      "w": 118.1875,
+      "h": 118.1875
+    },
+    {
+      "class": "map-card map-link-youtube",
+      "left": 271.921875,
+      "top": 54.46875,
+      "w": 126.078125,
+      "h": 126.078125
+    },
+    {
+      "class": "youtube-screen-background",
+      "left": 247.967041015625,
+      "top": 36.81781005859375,
+      "w": 163.90155029296875,
+      "h": 163.90155029296875
+    },
+    {
+      "class": "youtube-screen",
+      "left": 253.01016235351562,
+      "top": 35.557037353515625,
+      "w": 163.90158081054688,
+      "h": 163.90158081054688
+    }
+  ]
+}

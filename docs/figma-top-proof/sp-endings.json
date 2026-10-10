@@ -1,0 +1,51 @@
+[
+  {
+    "section": "news-title",
+    "scrollLeft": 1366,
+    "max": 1382,
+    "lastVisible": true,
+    "nextDisabled": false
+  },
+  {
+    "section": "character-title",
+    "scrollLeft": 1366,
+    "max": 1382,
+    "lastVisible": true,
+    "nextDisabled": false
+  },
+  {
+    "section": "game-title",
+    "scrollLeft": 683,
+    "max": 699,
+    "lastVisible": true,
+    "nextDisabled": false
+  },
+  {
+    "section": "youtube-title",
+    "scrollLeft": 1708,
+    "max": 1724,
+    "lastVisible": true,
+    "nextDisabled": false
+  },
+  {
+    "section": "blog-title",
+    "scrollLeft": 1708,
+    "max": 1724,
+    "lastVisible": true,
+    "nextDisabled": false
+  },
+  {
+    "section": "goods-title",
+    "scrollLeft": 342,
+    "max": 357,
+    "lastVisible": true,
+    "nextDisabled": false
+  },
+  {
+    "section": "line-stamp-title",
+    "scrollLeft": 1025,
+    "max": 1040,
+    "lastVisible": true,
+    "nextDisabled": false
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "siteName": "エリカッテシティ",
+  "cssVersion": "20261010-city-copy",
+  "fontFile": "keinann-pop-jp.woff2",
+  "widths": [320, 375, 390, 430, 620, 621, 760, 761, 900, 901, 1024, 1440],
+  "pages": [
+    { "path": "index.html", "url": "/", "title": "エリカッテシティ | erinui", "h1": "エリカッテシティ", "copy": { ".map-guide-card h3": "潮風のかおりエリカッテシティ", ".map-guide-card > p:not(.map-guide-kicker)": "みんながのびのびすごしてるよ。みなさまもぜひぜひ気になる場所をレッツてぇけら★", "#news-title": "ニュース" } },
+    { "path": "games/index.html", "url": "/games/", "title": "ぬいんてんどう ゲーム一覧 | エリカッテシティ", "h1": "ぬいんてんどう", "copy": { ".eyebrow": "ゲーム開発会社", ".games-hero > p:not(.eyebrow)": "エリカッテシティにあるゲームの会社だよ。WEBであそべるブラウザゲームをつくっているよ。ぜひ遊んでみてね！", "#game-list-title": "ゲームいちらん" } },
+    { "path": "pages/characters.html", "url": "/pages/characters.html", "title": "キャラクター紹介 | エリカッテシティ", "h1": "キャラクター紹介", "copy": { ".page-hero > p:not(.eyebrow)": "エリカッテシティに登場する、ちょっと不思議でかわいい仲間たちです。" } },
+    { "path": "pages/blog.html", "url": "/pages/blog.html", "title": "おしらせ・ブログ | エリカッテシティ", "h1": "おしらせ・ブログ", "copy": { ".content-panel h2": "noteで更新中", ".content-panel .card-button": "noteを見る" } },
+    { "path": "pages/illustrations.html", "url": "/pages/illustrations.html", "title": "イラスト | エリカッテシティ", "h1": "イラスト", "copy": { ".content-panel h2": "準備中です" } },
+    { "path": "pages/terms.html", "url": "/pages/terms.html", "title": "利用規約 | エリカッテシティ", "h1": "利用規約", "copy": { ".page-hero > p:not(.eyebrow)": "エリカッテシティのコンテンツを楽しむ際の基本的なルールです。" } },
+    { "path": "pages/privacy.html", "url": "/pages/privacy.html", "title": "プライバシーポリシー | エリカッテシティ", "h1": "プライバシーポリシー", "copy": { ".page-hero > p:not(.eyebrow)": "erinuiにおける情報の扱いについて記載します。" } }
+  ]
+}

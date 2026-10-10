@@ -1,0 +1,37 @@
+[
+  {
+    "width": 375,
+    "scrollWidth": 375,
+    "mapWidth": 319,
+    "columns": "319px",
+    "toggle": "flex"
+  },
+  {
+    "width": 430,
+    "scrollWidth": 430,
+    "mapWidth": 374,
+    "columns": "374px",
+    "toggle": "flex"
+  },
+  {
+    "width": 760,
+    "scrollWidth": 760,
+    "mapWidth": 704,
+    "columns": "704px",
+    "toggle": "flex"
+  },
+  {
+    "width": 761,
+    "scrollWidth": 761,
+    "mapWidth": 390.0625,
+    "columns": "390.062px 260px",
+    "toggle": "none"
+  },
+  {
+    "width": 1280,
+    "scrollWidth": 1280,
+    "mapWidth": 402,
+    "columns": "402px 574.812px",
+    "toggle": "none"
+  }
+]

@@ -1,6 +1,8 @@
-# erinui / 犬タローゲーム 開発まとめ
+# エリカッテシティ / 犬タローゲーム 開発まとめ
 
-最終更新: 2026-07-26
+最終更新: 2026-10-10（名称改訂。その他は既存の概要を維持）
+
+正式なサイト・まちの名称は「エリカッテシティ」。旧名称「えりぬいシティ」からの変更を確定した。外部アカウント名・URL・ゲーム名は維持する。名称ルールは[総合仕様2.1](site-specification.md#21-サイト名称の設計ルール)、反映設計と残作業は[文言反映設計](figma-copy-change-plan.md)を参照。今回の資料更新はWebソース変更・GitHub公開を含まない。
 
 ## 1. 目的
 
@@ -18,12 +20,14 @@
 | `docs/home-latest-content.md` | トップのYouTube、note、SUZURI、LINEスタンプ最新情報表示 |
 | `docs/performance-optimization-review.md` | ゲームパフォーマンス改善検討 |
 | `docs/directory-structure-review.md` | フォルダ構成、素材整理、公開対象の確認 |
+| `docs/screen-design-specification.md` | Figma画面のデザイン仕様と名称改訂ルール |
+| `docs/figma-copy-change-plan.md` | 改修案の文言差分、確定事項、未確定事項、反映・検証手順 |
 
 ## 2. 現在の全体像
 
 現在は `erinui/inutaro-game` リポジトリで、以下をまとめて管理しています。
 
-- えりぬいシティ トップ
+- エリカッテシティ トップ
 - ゲーム一覧
 - ゲーム「犬タローの虫さんまって×2」
 - キャラクター紹介
@@ -50,7 +54,7 @@ https://erinui.github.io/
 ```text
 /
 ├── index.html
-│   └── えりぬいシティ トップ
+│   └── エリカッテシティ トップ
 ├── games/
 │   ├── index.html
 │   └── inutaro-mushi/

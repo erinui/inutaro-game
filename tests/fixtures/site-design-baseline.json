@@ -1,0 +1,315 @@
+{
+  "links": {
+    "index.html": [
+      "./",
+      "games/",
+      "pages/characters.html",
+      "pages/blog.html",
+      "pages/characters.html",
+      "https://x.com/erikanuinui",
+      "https://store.line.me/emojishop/author/2919902/ja",
+      "games/",
+      "https://suzuri.jp/erikanuinui",
+      "https://note.com/erinui",
+      "pages/illustrations.html",
+      "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "games/inutaro-mushi/",
+      "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "https://note.com/erinui",
+      "pages/characters.html",
+      "pages/characters.html#character-inutaro-nuigurumi",
+      "pages/characters.html#character-erika",
+      "pages/characters.html#character-sasuke",
+      "pages/characters.html#character-bukuro",
+      "games/inutaro-mushi/",
+      "games/",
+      "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "https://note.com/erinui",
+      "https://suzuri.jp/erikanuinui",
+      "https://store.line.me/emojishop/author/2919902/ja",
+      "https://x.com/erikanuinui",
+      "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "https://note.com/erinui",
+      "https://suzuri.jp/erikanuinui",
+      "https://store.line.me/emojishop/author/2919902/ja",
+      "pages/terms.html",
+      "pages/privacy.html"
+    ],
+    "games/index.html": [
+      "../",
+      "../",
+      "../pages/characters.html",
+      "../pages/blog.html",
+      "inutaro-mushi/",
+      "inutaro-mushi/"
+    ],
+    "pages/characters.html": [
+      "../",
+      "../",
+      "../games/",
+      "./blog.html"
+    ],
+    "pages/blog.html": [
+      "../",
+      "../",
+      "../games/",
+      "./characters.html",
+      "https://note.com/erinui"
+    ],
+    "pages/illustrations.html": [
+      "../",
+      "../",
+      "../games/",
+      "./characters.html",
+      "./blog.html",
+      "../"
+    ],
+    "pages/terms.html": [
+      "../",
+      "../",
+      "../games/",
+      "./characters.html",
+      "./blog.html"
+    ],
+    "pages/privacy.html": [
+      "../",
+      "../",
+      "../games/",
+      "./characters.html",
+      "./blog.html"
+    ]
+  },
+  "hashes": {
+    "home.js": "faf9e8a63949ed74029e94b7684a45facf298558413d31048223f24eaff8d1ee",
+    "site-nav.js": "a5519f1dd9d139cbf6532baf55ed2dcbdd8a2a84e46fcd50fb08199638c686ad",
+    ".github/workflows/update-youtube-latest.yml": "84d268484c64f8113690f2e29d6ad19a779f500bfc8b6eb75968736ab32df6cd",
+    "games/inutaro-mushi/index.html": "5f32cdcbca7ce532f29688bfbdc015c9cdff6ab66ebbd9f7888a0f9172e7b30f",
+    "games/inutaro-mushi/style.css": "3926b41775c0293b90ae8792ade2d1830a992271b68e7a55e53611527390ce2c",
+    "games/inutaro-mushi/game.js": "7aac1529599e9260a27412bf40754720c05d60152fe85b17a0110f715ce8a7f2",
+    "assets/home-city/line-stamps.json": "c28f712ffc780ab0a5bed40eaa19f0b6eb39a1c159ff18c059c8b6fc411bb7c0",
+    "assets/home-city/map_blog.png": "c60d9c1c9cd7646af5e5f855cf3168c9c46a37f46f6d0741c2c79f6c4bbfcf73",
+    "assets/home-city/map_character.png": "dc94d93acd7fc9992b321a98c13ddf04e7d2347cdb6b9be0918f9b18a9570629",
+    "assets/home-city/map_character.svg": "3ddb399affa34565c5d028ae6fe0813cc3095db7fbf2b6bf0e915b8507ac2a7f",
+    "assets/home-city/map_decoration_bird.png": "a0d400f4886156ef9e8950f68b0cb9c0dc1804c93a7c3d64d9f1898ffe475d62",
+    "assets/home-city/map_decoration_bukurochan.png": "ce9c4777a0056a5c883a2ea1148857e69bb31ea1f393c2ce6d36383e183947cc",
+    "assets/home-city/map_decoration_sasuke.png": "7568fc46a9f32766bf0f884dc0a44478bf8d8902cf7a1c43d81a7488f69864ff",
+    "assets/home-city/map_decoration_tree.png": "c500487fd9f93575a0d41e9199c43ee3cdc443178f45f7c2fc95779c9882f678",
+    "assets/home-city/map_game.png": "527d375a77e6d5a9eaa24e61c3d38aa1460bfcf2fe148d6cc2c75a7a64e8a0da",
+    "assets/home-city/map_game.svg": "d66536c2beac25a0eb0c0881d26b691fa4389dd4bbd6c0a2cf5244aabf42aeb5",
+    "assets/home-city/map_goods.png": "132a137725d5d310fe3faa7918aff01179e07f0094b67181326289ef7d2c1660",
+    "assets/home-city/map_goods.svg": "ba2b8ddf431578823c3b157e64cc88bfe38f5a44ea09ebd7a20aa17447f8531a",
+    "assets/home-city/map_illast.svg": "1f903a44d635ce4a40a60db442767dded2e54b5d7e72da539a393a092d584d0d",
+    "assets/home-city/map_illastrate.png": "663ba3aece625b1e5fda4e7ff65ddac823cabe2eae6f3ffb41167be2d8dbbbd8",
+    "assets/home-city/map_linestamp.png": "77347005402b40906b55b302401867e23ccd5f125299cc6eb1ede817273976ac",
+    "assets/home-city/map_linestamp.svg": "153b91fe8e9da05684311074b1d14ab9f4fb572219644e0796f4833754c52055",
+    "assets/home-city/map_note.svg": "fb86e05427bdd00032af488ea2c4201d7e72f1bd82400dc1407480a7edd95cfe",
+    "assets/home-city/map_sns.png": "a9b692c28c12511ea0a6761afb16d9c152fb719290007af6a8685cb8112ecf41",
+    "assets/home-city/map_sns2.svg": "0eb159641ebbf8743cb8ffedd1cc8f5fca6c35de0af3dd211437a9988c263db2",
+    "assets/home-city/map_youtube.png": "55e32d51e45d0c5edb9833fcd408e408e638c3f5684e41c0ac91a527b977bc43",
+    "assets/home-city/map_youtube.svg": "5c2a47883d580a0869e7071fc8ddd606375923244c4a85468919d3e53e685a7e",
+    "assets/home-city/map_youtube_bg.svg": "c7818fcee1d8af84703bf33b4dc7a24fd0c10ec0ecf27c21f057e1d081b1fb56",
+    "assets/home-city/note-latest.json": "d4b7aa91c7fdb9681f93aeae92fef1bad5c3932a9d910e252175fb4001aa89f7",
+    "assets/home-city/note-thumb-1.png": "d9a1624977b13d4a88a78f4e86e768b798a979f00b605fe617601bf50188409b",
+    "assets/home-city/note-thumb-2.png": "ba1db7d944dc2bd391acd66ba9ef7a267706078cecf28e7d46c8ada31e7c1c96",
+    "assets/home-city/note-thumb-3.png": "8ae2871511a7a3548c7a9f0d04423df65b337b2759246ec2593ffbda34084245",
+    "assets/home-city/note-thumb-4.png": "5fa2b36756aa6cebe341276479361307d3756adda3b35a8e8fdddf00f7f02fe9",
+    "assets/home-city/note-thumb-5.png": "206bdbcebb91bbfb61482b43397538d55be7f9305dc8f74692de865d090c6d7d",
+    "assets/home-city/note-thumb-6.png": "9d30b30ef2b637705eeb9974475818b94045f597a7eee99bfd6c28bf2e291931",
+    "assets/home-city/ribbon.svg": "5027abc3d7caaddeeca5007721d2fc2521cece126e8531ca7e08c08cf192d562",
+    "assets/home-city/suzuri-latest.json": "f6fa7c67f9ade99fc816008540f7088f890bc9441e703177a2b1b20394d75b34",
+    "assets/home-city/youtube-latest.json": "c2d4d4787c7f95af84ad9595285d6df4b8f76ce444b6cbb1c63d894a7b377d6e",
+    "assets/home-city/youtube-thumb-1.jpg": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b",
+    "assets/home-city/youtube-thumb-2.jpg": "f3dc84abb879f1304004acca113090ae2694562814b6bfe13c573ce5f612e01c",
+    "assets/home-city/youtube-thumb-3.jpg": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014",
+    "assets/home-city/youtube-thumb-4.jpg": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411",
+    "assets/home-city/youtube-thumb-5.jpg": "524ef7457e43946fd3e3d520f5804443c3bd160cd8ce24f3aae7c945e47120ac",
+    "assets/characters/chara_bukuro.png": "4d210c888bfb5606e871f12a63740041d9735eb1aa3e97798b3877d57add64d2",
+    "assets/characters/chara_erika-san.png": "ec979880d70485e1244656cabb950c2f2bd2362aa7e76a3d31951e1205b8e763",
+    "assets/characters/chara_inutaro_nuigurumi.png": "faf529ab0867054ea47cb54bc041dca16ab93e3b9842d4ca600fa524078a8945",
+    "assets/characters/chara_inutaro_origin.png": "020f78666aafadef8085292f6ca156747b25661d5d2f5a71e09e2aa8008fe8ff",
+    "assets/characters/chara_sasuke.png": "a7b7a56c726374d658bf28ea21bc40e63ec51c134172a3c412db3ed301943368",
+    "assets/games/inutaro-mushi/bg.jpg": "db571f42e75b066afb1831542767c849c5c41ad17c8b5124ab0ba044023587b2",
+    "assets/games/inutaro-mushi/bgm.mp3": "8a4e48fb491d7b15085fec83f2d2e2cbcc7fcd3c8693ecebbe811c315c22f1fc",
+    "assets/games/inutaro-mushi/enemy_idle.png": "1fadb127c73d5db143f15ea5583532fe8b8e56681de72fbbaba8fc2b3733c949",
+    "assets/games/inutaro-mushi/gameplay-preview.png": "bfd74ed0fa36671bd9f5e31e411faab05b3ab6b2527753c717963dd00d630da9",
+    "assets/games/inutaro-mushi/hazard_1.png": "0902405b90775293ca03d189a37a300f1c17a81400f0a918f37d5ae71fe02207",
+    "assets/games/inutaro-mushi/hazard_2.png": "e559b97313979544a8938fd5d8eb632f8c6c23b3fde5749c7d55968bcdf9aa2c",
+    "assets/games/inutaro-mushi/item_a.png": "784d53c3c2db0ace936dce8ed4bc1987a89cf17f7c8493ad3d4607c904946989",
+    "assets/games/inutaro-mushi/item_b.png": "580d0d726e52ac5143704d12fdc8c1c8b228485c58f7bdd16623314422a26996",
+    "assets/games/inutaro-mushi/item_c.png": "66f5c37c29f6f6f4a29c3b1df0a81cf9bec409d87633ca108ab94468dacb8c28",
+    "assets/games/inutaro-mushi/player_idle.png": "20222a83cd18d9041feb7e6496d1832741f58be4e6fc2d7953a9f343bff8281e",
+    "assets/games/inutaro-mushi/player_jump.png": "6f9335f5d8cdfb75f3b81bec5a022897bfd2c706c7af665bbde826a639ac55f1",
+    "assets/games/inutaro-mushi/sound_hazard-hit.mp3": "97fcc58de6ab80292a478dac2bf47d2bb0737e1e4c02157d04185819db4849fb",
+    "assets/games/inutaro-mushi/sound_itemget.mp3": "eb582ceb1756250d9c1b326cb0654a1751f910579989a36397f17f7a1a2f0ef7",
+    "assets/games/inutaro-mushi/sound_jump.mp3": "915df6fbf2e0e57df94e036ed5f6e6dca7726e922739b57261620f610ad99bba"
+  },
+  "mapAttributes": {
+    "width": "402",
+    "height": "639",
+    "viewBox": "0 0 402 639",
+    "fill": "none",
+    "xmlns": "http://www.w3.org/2000/svg"
+  },
+  "mapGround": [
+    {
+      "type": "element",
+      "name": "path",
+      "attributes": {
+        "d": "M0 0H402V639H0V0Z",
+        "fill": "#00CA51"
+      }
+    },
+    {
+      "type": "element",
+      "name": "mask",
+      "attributes": {
+        "id": "mask0_2060_178",
+        "style": "mask-type:alpha",
+        "maskUnits": "userSpaceOnUse",
+        "x": "0",
+        "y": "0",
+        "width": "402",
+        "height": "639"
+      },
+      "elements": [
+        {
+          "type": "element",
+          "name": "path",
+          "attributes": {
+            "d": "M0 0H402V639H0V0Z",
+            "fill": "#00CA51"
+          }
+        }
+      ]
+    },
+    {
+      "type": "element",
+      "name": "g",
+      "attributes": {
+        "mask": "url(#mask0_2060_178)"
+      },
+      "elements": [
+        {
+          "type": "element",
+          "name": "path",
+          "attributes": {
+            "d": "M-174 610.346L212.3 327.992L241.19 367.518L-145.11 649.871L-174 610.346Z",
+            "fill": "#BD812C"
+          }
+        },
+        {
+          "type": "element",
+          "name": "rect",
+          "attributes": {
+            "x": "16",
+            "y": "219.483",
+            "width": "478.489",
+            "height": "36.1227",
+            "transform": "rotate(-31.5664 16 219.483)",
+            "fill": "#BD812C"
+          }
+        },
+        {
+          "type": "element",
+          "name": "rect",
+          "attributes": {
+            "x": "206.247",
+            "y": "118.511",
+            "width": "296.932",
+            "height": "20.6011",
+            "transform": "rotate(31.7896 206.247 118.511)",
+            "fill": "#BD812C"
+          }
+        },
+        {
+          "type": "element",
+          "name": "rect",
+          "attributes": {
+            "x": "-34.1685",
+            "y": "166",
+            "width": "567",
+            "height": "81.663",
+            "transform": "rotate(30 -34.1685 166)",
+            "fill": "#BD812C"
+          }
+        }
+      ]
+    }
+  ],
+  "localOnlyHashes": {
+    "assets/home-city/city_blog1.png": "02be7c139d3d13bac0c0736198db5c5a5d651afa31177931ca6b988516f5f909",
+    "assets/home-city/city_character.png": "f58dcb0e9b23b31b7b5f3e7013c1a2e106a19397fff85e8d321a0f23df2bf640",
+    "assets/home-city/city_game.png": "41625378894ab31275c4cb30969a113c3f8ae240d721a55adc3828a6ef4e5022",
+    "assets/home-city/city_linestamp.png": "cf859e831003daa311c3bea877497fd2029de7a83271570f35a8eb986cde2b4d",
+    "assets/home-city/city_shop.png": "d6e6c91ddcd71f6dde9025be9ee54f0f30632287cafa7f3318b70edadb2f3615",
+    "assets/home-city/city_sns1.png": "5c4f51c56c837c810e1bc1f247942897a58908b934032048f4b311e9ce0a4b32",
+    "assets/home-city/city_sns2.png": "18cab4c7bf916bb1990f5709eb465f53b68a0e903416c47e826a2c62352ab94e",
+    "assets/home-city/city_youtube.png": "2ff4c91775139c88dd728e4d6bdbbb79c7b4864c4aadcfaf204708788e302701",
+    "assets/home-city/map_sns.svg": "fe45f03b75de1fed2906fc4429e8d445db9493348e8caefd9cdb271b47944fd4",
+    "assets/home-city/youtube-latest-thumb.jpg": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411"
+  },
+  "acceptedUpstreamData": {
+    "commit": "bae106f40ee77a5da3e4f908db623365fccfed5a",
+    "previousCommit": "baafc5e",
+    "files": {
+      "assets/home-city/note-latest.json": {
+        "previous": "0b115a2dde2b593d2010def61ba13fb744ec53d77478582cb11234df21e78d9b",
+        "accepted": "d4b7aa91c7fdb9681f93aeae92fef1bad5c3932a9d910e252175fb4001aa89f7"
+      },
+      "assets/home-city/note-thumb-1.png": {
+        "previous": "5080bf3f00e30c7d394f7e26851dc2910519a5df58cc5807424cd6be14a41350",
+        "accepted": "d9a1624977b13d4a88a78f4e86e768b798a979f00b605fe617601bf50188409b"
+      },
+      "assets/home-city/note-thumb-2.png": {
+        "previous": "1dc66cc7f92d8b404d30c26048afd834ab4a3825e0a21612cd4c54f8eb929777",
+        "accepted": "ba1db7d944dc2bd391acd66ba9ef7a267706078cecf28e7d46c8ada31e7c1c96"
+      },
+      "assets/home-city/note-thumb-3.png": {
+        "previous": "347bb9e6e5d4296d78cb6595e4dc74a3a504ab7416878f51f2c8f268df5c5ed8",
+        "accepted": "8ae2871511a7a3548c7a9f0d04423df65b337b2759246ec2593ffbda34084245"
+      },
+      "assets/home-city/note-thumb-4.png": {
+        "previous": "a537a47466707eccc32005d07847a5cfb56df6f6b005703f8850e4ca18e70988",
+        "accepted": "5fa2b36756aa6cebe341276479361307d3756adda3b35a8e8fdddf00f7f02fe9"
+      },
+      "assets/home-city/note-thumb-5.png": {
+        "previous": "30edbdba525204f6abf3f8b942004f5e568c10c45f2bde0dd78c40271221f795",
+        "accepted": "206bdbcebb91bbfb61482b43397538d55be7f9305dc8f74692de865d090c6d7d"
+      },
+      "assets/home-city/note-thumb-6.png": {
+        "previous": "61ec492838578cb41bd53d23376baf1019894f7817b16b9fb7af6ccd15253809",
+        "accepted": "9d30b30ef2b637705eeb9974475818b94045f597a7eee99bfd6c28bf2e291931"
+      },
+      "assets/home-city/suzuri-latest.json": {
+        "previous": "98889d59bf3f37d8203dc9cb6c6c45c5e1b8da70b7cc7d64eb6782c3186fd0b2",
+        "accepted": "f6fa7c67f9ade99fc816008540f7088f890bc9441e703177a2b1b20394d75b34"
+      },
+      "assets/home-city/youtube-latest.json": {
+        "previous": "d782cfe344fbd6f0460c2a6bd4ccd45044971f03d20a875892c2164966ee8529",
+        "accepted": "c2d4d4787c7f95af84ad9595285d6df4b8f76ce444b6cbb1c63d894a7b377d6e"
+      },
+      "assets/home-city/youtube-thumb-1.jpg": {
+        "previous": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014",
+        "accepted": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b"
+      },
+      "assets/home-city/youtube-thumb-2.jpg": {
+        "previous": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411",
+        "accepted": "f3dc84abb879f1304004acca113090ae2694562814b6bfe13c573ce5f612e01c"
+      },
+      "assets/home-city/youtube-thumb-3.jpg": {
+        "previous": "524ef7457e43946fd3e3d520f5804443c3bd160cd8ce24f3aae7c945e47120ac",
+        "accepted": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014"
+      },
+      "assets/home-city/youtube-thumb-4.jpg": {
+        "previous": "57da5ae05640cc2646ce0e4afd7dc90135387749587c2567bebce22b7a947a2e",
+        "accepted": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411"
+      },
+      "assets/home-city/youtube-thumb-5.jpg": {
+        "previous": "f09e34d97471939875a7f78f0dd9f5113c144770b54ca25ae1ddf1f4ba5bb8d7",
+        "accepted": "524ef7457e43946fd3e3d520f5804443c3bd160cd8ce24f3aae7c945e47120ac"
+      }
+    }
+  }
+}

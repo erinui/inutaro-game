@@ -1,0 +1,686 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "touch": false
+  },
+  "body": {
+    "width": 1440,
+    "height": 5648
+  },
+  "fontLoaded": true,
+  "fontFamily": "KeinannPop, \"Hiragino Maru Gothic ProN\", \"Yu Gothic\", sans-serif",
+  "images": [
+    {
+      "src": "assets/icon-192.png?v=20260616-icon",
+      "loaded": true,
+      "width": 192,
+      "height": 192
+    },
+    {
+      "src": "assets/home-city/map_decoration_tree.png",
+      "loaded": true,
+      "width": 101,
+      "height": 141
+    },
+    {
+      "src": "assets/home-city/map_decoration_tree.png",
+      "loaded": true,
+      "width": 101,
+      "height": 141
+    },
+    {
+      "src": "assets/home-city/map_decoration_tree.png",
+      "loaded": true,
+      "width": 101,
+      "height": 141
+    },
+    {
+      "src": "assets/home-city/map_decoration_tree.png",
+      "loaded": true,
+      "width": 101,
+      "height": 141
+    },
+    {
+      "src": "assets/home-city/map_decoration_bird.png",
+      "loaded": true,
+      "width": 144,
+      "height": 144
+    },
+    {
+      "src": "assets/home-city/map_decoration_sasuke.png",
+      "loaded": true,
+      "width": 71,
+      "height": 90
+    },
+    {
+      "src": "assets/home-city/map_decoration_bukurochan.png",
+      "loaded": true,
+      "width": 93,
+      "height": 87
+    },
+    {
+      "src": "assets/home-city/map_character.svg",
+      "loaded": true,
+      "width": 650,
+      "height": 816
+    },
+    {
+      "src": "assets/home-city/map_sns2.svg?v=20260809-map-sns2",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/home-city/map_linestamp.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/home-city/map_game.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/home-city/map_goods.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/home-city/map_note.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/home-city/map_illast.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/home-city/map_youtube_bg.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "assets/home-city/map_youtube.svg?v=20260802-map-svg",
+      "loaded": true,
+      "width": 1000,
+      "height": 1000
+    },
+    {
+      "src": "assets/games/inutaro-mushi/gameplay-preview.png?v=20260804-gameplay",
+      "loaded": true,
+      "width": 1200,
+      "height": 675
+    },
+    {
+      "src": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "assets/home-city/note-thumb-1.png",
+      "loaded": true,
+      "width": 1280,
+      "height": 638
+    },
+    {
+      "src": "https://lens.suzuri.jp/v3/500x500/sticker/m/white/10016386/1653220060-1575x1575.png.webp?h=f334a7fc6f7348f2abe6d9475fe963c10b0ddc05&printed=true",
+      "loaded": true,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "src": "https://stickershop.line-scdn.net/stickershop/v1/product/19153327/LINEStorePC/main.png?v=1",
+      "loaded": true,
+      "width": 240,
+      "height": 240
+    },
+    {
+      "src": "assets/characters/chara_inutaro_origin.png",
+      "loaded": true,
+      "width": 482,
+      "height": 896
+    },
+    {
+      "src": "assets/characters/chara_inutaro_nuigurumi.png",
+      "loaded": true,
+      "width": 690,
+      "height": 656
+    },
+    {
+      "src": "assets/characters/chara_erika-san.png",
+      "loaded": true,
+      "width": 606,
+      "height": 694
+    },
+    {
+      "src": "assets/characters/chara_sasuke.png",
+      "loaded": true,
+      "width": 463,
+      "height": 594
+    },
+    {
+      "src": "assets/characters/chara_bukuro.png",
+      "loaded": true,
+      "width": 454,
+      "height": 619
+    },
+    {
+      "src": "assets/games/inutaro-mushi/gameplay-preview.png?v=20260804-gameplay",
+      "loaded": true,
+      "width": 1200,
+      "height": 675
+    },
+    {
+      "src": "assets/home-city/map_game.png",
+      "loaded": true,
+      "width": 211,
+      "height": 205
+    },
+    {
+      "src": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "https://i.ytimg.com/vi/CZvxgnKnYuw/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "https://i.ytimg.com/vi/8GlUZMheIPY/maxresdefault.jpg",
+      "loaded": true,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "src": "assets/home-city/note-thumb-1.png",
+      "loaded": true,
+      "width": 1280,
+      "height": 638
+    },
+    {
+      "src": "assets/home-city/note-thumb-2.png",
+      "loaded": true,
+      "width": 1280,
+      "height": 638
+    },
+    {
+      "src": "assets/home-city/note-thumb-3.png",
+      "loaded": true,
+      "width": 1280,
+      "height": 638
+    },
+    {
+      "src": "assets/home-city/note-thumb-4.png",
+      "loaded": true,
+      "width": 1280,
+      "height": 638
+    },
+    {
+      "src": "assets/home-city/note-thumb-5.png",
+      "loaded": true,
+      "width": 1280,
+      "height": 638
+    },
+    {
+      "src": "https://lens.suzuri.jp/v3/500x500/sticker/m/white/10016386/1653220060-1575x1575.png.webp?h=f334a7fc6f7348f2abe6d9475fe963c10b0ddc05&printed=true",
+      "loaded": true,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "src": "https://lens.suzuri.jp/v3/500x500/mini-clear-multi-case/m/clear/3678101/1590409653-1200x1200.png.1.8554+0.0-0.0036.webp?h=f1fd6ee6efa7f185631a87918fb4ff4b3f0812a5&printed=true",
+      "loaded": true,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "src": "https://stickershop.line-scdn.net/stickershop/v1/product/19153327/LINEStorePC/main.png?v=1",
+      "loaded": true,
+      "width": 240,
+      "height": 240
+    },
+    {
+      "src": "https://stickershop.line-scdn.net/stickershop/v1/product/13782162/LINEStorePC/main.png?v=1",
+      "loaded": true,
+      "width": 240,
+      "height": 240
+    },
+    {
+      "src": "https://stickershop.line-scdn.net/stickershop/v1/product/12803212/LINEStorePC/main.png?v=2",
+      "loaded": true,
+      "width": 240,
+      "height": 240
+    },
+    {
+      "src": "https://stickershop.line-scdn.net/sticonshop/v1/product/5f1e4153d1d2673eb07b470d/iPhone/main.png?v=2",
+      "loaded": true,
+      "width": 240,
+      "height": 240
+    }
+  ],
+  "map": {
+    "x": 206,
+    "y": 461.78125,
+    "width": 402,
+    "height": 639
+  },
+  "guide": {
+    "x": 659.6998291015625,
+    "y": 479.3013610839844,
+    "width": 576.600341796875,
+    "height": 387.0066223144531
+  },
+  "youtube": [
+    {
+      "class": "youtube-screen-background",
+      "rect": {
+        "x": 453.967041015625,
+        "y": 498.59906005859375,
+        "width": 163.90155029296875,
+        "height": 163.90155029296875
+      },
+      "transform": "matrix(1.3, 0, 0, 1.3, -5.04313, 1.26078)"
+    },
+    {
+      "class": "youtube-screen",
+      "rect": {
+        "x": 459.0101623535156,
+        "y": 497.3382873535156,
+        "width": 163.90158081054688,
+        "height": 163.90158081054688
+      },
+      "transform": "matrix(1.3, 0, 0, 1.3, 0, 0)"
+    },
+    {
+      "class": "map-image map-image-svg youtube-frame",
+      "rect": {
+        "x": 459.0101623535156,
+        "y": 497.3382873535156,
+        "width": 163.90158081054688,
+        "height": 163.90158081054688
+      },
+      "transform": "matrix(1.3, 0, 0, 1.3, 0, 0)"
+    }
+  ],
+  "carousels": [
+    {
+      "section": "news-title",
+      "count": 5,
+      "titles": [
+        "犬タローの虫さんまって×2",
+        "【犬タローごめん】もっちゅりんをご機嫌に食す！！可愛すぎておかしくなっちゃうっ",
+        "過去の日記７",
+        "犬タローインラインスケート ステッカー",
+        "犬タローのおふとん"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 1279.78125,
+        "width": 1024,
+        "height": 447
+      },
+      "scrollWidth": 1696,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 1279.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 549.984375,
+          "y": 1279.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 891.96875,
+          "y": 1279.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1233.953125,
+          "y": 1279.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1575.9375,
+          "y": 1279.78125,
+          "width": 323.984375,
+          "height": 435
+        }
+      ],
+      "controls": "flex"
+    },
+    {
+      "section": "character-title",
+      "count": 5,
+      "titles": [
+        "犬タロー",
+        "犬タロー",
+        "えりか",
+        "さすけ",
+        "ぶくろちゃん"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 1915.78125,
+        "width": 1024,
+        "height": 322
+      },
+      "scrollWidth": 1716,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 1915.78125,
+          "width": 327.984375,
+          "height": 310
+        },
+        {
+          "x": 553.984375,
+          "y": 1915.78125,
+          "width": 327.984375,
+          "height": 310
+        },
+        {
+          "x": 899.96875,
+          "y": 1915.78125,
+          "width": 327.984375,
+          "height": 310
+        },
+        {
+          "x": 1245.953125,
+          "y": 1915.78125,
+          "width": 327.984375,
+          "height": 310
+        },
+        {
+          "x": 1591.9375,
+          "y": 1915.78125,
+          "width": 327.984375,
+          "height": 310
+        }
+      ],
+      "controls": "flex"
+    },
+    {
+      "section": "game-title",
+      "count": 3,
+      "titles": [
+        "犬タローの虫さんまって×2",
+        "ゲームをえらぶ",
+        "次のゲームを準備中"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 2426.78125,
+        "width": 1024,
+        "height": 447
+      },
+      "scrollWidth": 1024,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 2426.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 549.984375,
+          "y": 2426.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 891.96875,
+          "y": 2426.78125,
+          "width": 323.984375,
+          "height": 435
+        }
+      ],
+      "controls": "none"
+    },
+    {
+      "section": "youtube-title",
+      "count": 6,
+      "titles": [
+        "【犬タローごめん】もっちゅりんをご機嫌に食す！！可愛すぎておかしくなっちゃうっ",
+        "バタピーコーラvsみそピーコーラ|行け千葉県民の魂(ソウル)！熱き闘いがここに🥜",
+        "【IKEA】ぽこポケコラボがてんこもりすぎる",
+        "[おひさ！]４月の振り返りぬいlog",
+        "【ぬいぐるみと一緒】勝浦BIGひな祭り2026【千葉県っていいよね】",
+        "まだまだあるよ"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 3062.78125,
+        "width": 1024,
+        "height": 447
+      },
+      "scrollWidth": 2038,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 3062.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 549.984375,
+          "y": 3062.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 891.96875,
+          "y": 3062.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1233.953125,
+          "y": 3062.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1575.9375,
+          "y": 3062.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1917.921875,
+          "y": 3062.78125,
+          "width": 323.984375,
+          "height": 435
+        }
+      ],
+      "controls": "flex"
+    },
+    {
+      "section": "blog-title",
+      "count": 6,
+      "titles": [
+        "過去の日記７",
+        "過去の日記６",
+        "過去の日記５",
+        "過去の日記４",
+        "過去の日記３",
+        "まだまだあるよ"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 3698.78125,
+        "width": 1024,
+        "height": 447
+      },
+      "scrollWidth": 2038,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 3698.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 549.984375,
+          "y": 3698.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 891.96875,
+          "y": 3698.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1233.953125,
+          "y": 3698.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1575.9375,
+          "y": 3698.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1917.921875,
+          "y": 3698.78125,
+          "width": 323.984375,
+          "height": 435
+        }
+      ],
+      "controls": "flex"
+    },
+    {
+      "section": "goods-title",
+      "count": 2,
+      "titles": [
+        "犬タローインラインスケート ステッカー",
+        "ホットケーキシェフ！犬タロー ミニクリアマルチケース"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 4334.78125,
+        "width": 1024,
+        "height": 447
+      },
+      "scrollWidth": 1024,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 4334.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 549.984375,
+          "y": 4334.78125,
+          "width": 323.984375,
+          "height": 435
+        }
+      ],
+      "controls": "none"
+    },
+    {
+      "section": "line-stamp-title",
+      "count": 4,
+      "titles": [
+        "犬タローのおふとん",
+        "わりと使いやすいよ、犬タロー！",
+        "犬タローとメニメニマネィ",
+        "犬タローはがんばってる"
+      ],
+      "rect": {
+        "x": 208,
+        "y": 4970.78125,
+        "width": 1024,
+        "height": 447
+      },
+      "scrollWidth": 1354,
+      "clientWidth": 1024,
+      "cards": [
+        {
+          "x": 208,
+          "y": 4970.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 549.984375,
+          "y": 4970.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 891.96875,
+          "y": 4970.78125,
+          "width": 323.984375,
+          "height": 435
+        },
+        {
+          "x": 1233.953125,
+          "y": 4970.78125,
+          "width": 323.984375,
+          "height": 435
+        }
+      ],
+      "controls": "flex"
+    }
+  ],
+  "failures": []
+}
