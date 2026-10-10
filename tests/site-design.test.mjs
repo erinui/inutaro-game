@@ -122,7 +122,21 @@ test("FNT-01: original JP TTF is distributed without alterations", async () => {
 
 test("Preserve dynamic data, map assets, scripts and game implementation", async () => {
   for (const [file, expected] of Object.entries(baseline.hashes)) {
-    const bytes = await readFile(path.join(root, file));
+    let bytes = await readFile(path.join(root, file));
+    // SEO-SHARE-01 allows only the public URL constant; retain the original game baseline.
+    if (file === "games/inutaro-mushi/game.js") {
+      bytes = Buffer.from(bytes.toString().replace('const siteUrl = "https://erinui.com/games/inutaro-mushi/";', 'const siteUrl = "https://erinui.github.io/inutaro-game/games/inutaro-mushi/";'));
+    }
+    // SEO-URL-01/02 and SEO-MOVE-01 change only the game's head metadata.
+    if (file === "games/inutaro-mushi/index.html") {
+      const source = bytes.toString();
+      const boundary = source.indexOf("<body");
+      const oldHead = source.slice(0, boundary)
+        .replace('    <link rel="canonical" href="https://erinui.com/games/inutaro-mushi/" />\n', "")
+        .replaceAll("https://erinui.com/", "https://erinui.github.io/inutaro-game/")
+        .replace('    <script src="../../site-migration.js" defer></script>\n', "");
+      bytes = Buffer.from(oldHead + source.slice(boundary));
+    }
     assert.equal(createHash("sha256").update(bytes).digest("hex"), expected, file);
   }
   for (const [file, expected] of Object.entries(baseline.localOnlyHashes || {})) {

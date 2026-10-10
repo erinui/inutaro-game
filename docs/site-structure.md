@@ -1,28 +1,32 @@
 # エリカッテシティ サイト階層整理
 
-最終更新: 2026-10-10（名称のみ更新。その他の構成は既存記録を維持）
+最終更新: 2026-10-10（名称・本番ドメインとSEO計画への参照を更新）
 
-サイト名称は「エリカッテシティ」に確定。名称の設計ルールは[総合仕様2.1](site-specification.md#21-サイト名称の設計ルール)を参照する。以下の名称は採用仕様であり、Web・Figma・公開サイトの全箇所が更新済みという意味ではない。URL、ディレクトリ、リポジトリ名、外部アカウント名は変更しない。
+サイト名称は「エリカッテシティ」に確定。名称の設計ルールは[総合仕様2.1](site-specification.md#21-サイト名称の設計ルール)を参照する。以下の名称は採用仕様であり、Web・Figma・公開サイトの全箇所が更新済みという意味ではない。名称変更の工程ではURL、ディレクトリ、リポジトリ名、外部アカウント名は変更しない。新本番ドメインに合わせるURL改修は別のSEO計画で扱う。
 
 ## 1. 基本方針
 
-GitHub Pagesのルートは、ゲーム単体ではなく「エリカッテシティ」という親ホームとして扱います。
+本番ドメインのルートは、ゲーム単体ではなく「エリカッテシティ」という親ホームとして扱います。
 
 親ホームから、ゲーム一覧、キャラクター紹介、ブログ、SNS、YouTube、グッズ、LINEスタンプ、規約ページへ移動できる構成です。
 
-現在の公開確認URL:
+本番URL:
+
+```text
+https://erinui.com/
+```
+
+旧公開URL（現在も公開）:
 
 ```text
 https://erinui.github.io/inutaro-game/
 ```
 
-将来的な想定URL:
+リポジトリの反映先は `main`。本番はCloudflare Workersの静的アセット配信で、Workers Buildsが `npx wrangler deploy` を実行します。`wrangler.jsonc` のcustom buildで `scripts/build-site.mjs` を実行し、公開対象だけをdistへ複製します。ソースの移動や参照パス変更はありません。旧GitHub Pagesはmainのルート公開を維持し、8HTMLの正規URL・外部共有は本番ドメインを指定します。旧ホスト限定の移転案内を `site-migration.js` で表示します。公開・検証状態は[SEO改善計画](seo-improvement-plan.md)を参照します。
 
-```text
-https://erinui.github.io/
-```
+SEO追加ファイル: `robots.txt`、`sitemap.xml`、`site-migration.js`、`_headers`、`wrangler.jsonc`、`scripts/build-site.mjs`、`tests/seo.test.mjs`、`tests/site-build.test.mjs`、`tests/fixtures/seo.json`。生成物distとWrangler作業領域はGit対象外。公開ビルドは8HTML、クライアントCSS/JS、版管理されたassets、`data/news.json`と検索/ヘッダー設定だけを含み、docs・tests・scripts・functions・drafts・試作・秘密は含みません。
 
-現在のリポジトリでは `main` のルートをGitHub Pagesの公開元として扱います。将来的に `https://erinui.github.io/` 直下へ移行するまでは、外部共有用の絶対URLは `https://erinui.github.io/inutaro-game/` を基準にします。
+以下の階層とファイル一覧は既存構成です。`.html`はソースのファイル名で、本番では拡張子なしURLへ転送されます。過去のOGP方針は旧公開時の記録として扱い、新しい改修ではSEO改善計画のURL対応表を優先します。ゲーム紹介の新設案は計画段階で、まだファイルや階層を追加していません。
 
 ## 2. 現在の階層
 

@@ -4,14 +4,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const root = path.resolve(fileURLToPath(new URL("../../", import.meta.url)));
-const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2", ".ttf": "font/ttf" };
+const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".xml": "application/xml; charset=utf-8", ".txt": "text/plain; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2", ".ttf": "font/ttf" };
 
 export async function startSiteServer() {
   const server = http.createServer(async (req, res) => {
     try {
       let relative = decodeURIComponent(new URL(req.url, "http://localhost").pathname).replace(/^\/+/, "");
       if (!relative || relative.endsWith("/")) relative += "index.html";
-      if (!/^(index\.html$|home\.(css|js)$|site-nav\.js$|pages\/[\w-]+\.html$|games\/(index\.html$|inutaro-mushi\/(index\.html|style\.css|game\.js)$)|assets\/)/.test(relative)) {
+      if (!/^(index\.html$|home\.(css|js)$|site-(nav|migration)\.js$|robots\.txt$|sitemap\.xml$|pages\/[\w-]+\.html$|games\/(index\.html$|inutaro-mushi\/(index\.html|style\.css|game\.js)$)|assets\/)/.test(relative)) {
         res.writeHead(404).end();
         return;
       }

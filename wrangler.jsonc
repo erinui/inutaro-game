@@ -1,0 +1,12 @@
+{
+  "name": "inutaro-game",
+  "compatibility_date": "2026-10-06",
+  "workers_dev": true,
+  "routes": [{ "pattern": "erinui.com", "custom_domain": true }],
+  "build": { "command": "node scripts/build-site.mjs" },
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  }
+}

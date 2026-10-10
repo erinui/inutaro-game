@@ -1,0 +1,17 @@
+{
+  "origin": "https://erinui.com",
+  "oldOrigin": "https://erinui.github.io",
+  "oldBasePath": "/inutaro-game",
+  "image": "https://erinui.com/assets/icon-192.png?v=20260616-icon",
+  "gameCodeBefore": "7aac1529599e9260a27412bf40754720c05d60152fe85b17a0110f715ce8a7f2",
+  "pages": [
+    { "file": "index.html", "previewPath": "/", "canonicalPath": "/", "bodySha256": "cf367882d75a926329e2beb9ee5de40f5de89c311f233ce7da6271d088c08588" },
+    { "file": "games/index.html", "previewPath": "/games/", "canonicalPath": "/games/", "bodySha256": "cace49106b5bfa0fa4d52b6d911d7d0e8d0ad3d5e42c8bc3571e1178327ea52e" },
+    { "file": "games/inutaro-mushi/index.html", "previewPath": "/games/inutaro-mushi/", "canonicalPath": "/games/inutaro-mushi/", "bodySha256": "f237b5352074feba41074a0628a392f04f7d724481a527e7a1a01c6624901348" },
+    { "file": "pages/characters.html", "previewPath": "/pages/characters.html", "canonicalPath": "/pages/characters", "bodySha256": "6dde09a8608f90e024517d234a588ad2436eae4d66df5bfacb62edd7e551211a" },
+    { "file": "pages/blog.html", "previewPath": "/pages/blog.html", "canonicalPath": "/pages/blog", "bodySha256": "601ed96ac776aa8924dec81324b42db2d8b9d0f02f0411f16993875f2a4776f9" },
+    { "file": "pages/illustrations.html", "previewPath": "/pages/illustrations.html", "canonicalPath": "/pages/illustrations", "bodySha256": "c01646c48d2ba40d097706fa7d73c71527e4aa714599c8fe870210abef4a6d41" },
+    { "file": "pages/terms.html", "previewPath": "/pages/terms.html", "canonicalPath": "/pages/terms", "bodySha256": "4c3781adf7817c2c86a52aeb080ca361a49bfbcd915bde467dba562f5454cc06" },
+    { "file": "pages/privacy.html", "previewPath": "/pages/privacy.html", "canonicalPath": "/pages/privacy", "bodySha256": "e9a3165036de8f9f8087e09a14d4c9ebfc0bbd910bbc426ff5611731f63f3d28" }
+  ]
+}

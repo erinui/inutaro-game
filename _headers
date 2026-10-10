@@ -1,0 +1,7 @@
+# The primary workers.dev host is for verification, not the production search URL.
+https://inutaro-game.erikanuinui.workers.dev/*
+  X-Robots-Tag: noindex
+
+# Version preview URLs have an additional hostname component.
+https://:version.inutaro-game.erikanuinui.workers.dev/*
+  X-Robots-Tag: noindex

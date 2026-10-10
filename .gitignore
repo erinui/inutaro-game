@@ -1,3 +1,5 @@
 .env.local
 .dev.vars
 .DS_Store
+/dist/
+/.wrangler/

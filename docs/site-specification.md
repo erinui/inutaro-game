@@ -1,12 +1,14 @@
 # エリカッテシティ サイト全体 仕様・設計資料
 
-最終更新: 2026-10-10（名称・確定原稿・JP書体のローカル実装を反映）
+最終更新: 2026-10-10（名称・確定原稿・JP書体の実装、新本番ドメインとSEO計画を反映）
 
 2026-09-12資料追加: 現行ソースの画面をFigmaへ再現する作業は、[作成方法](figma-reproduction-method.md) → [下層画面デザイン設計書](screen-design-specification.md) → [Figma作成計画書](figma-screen-production-plan.md)の順に参照する。下層6ページのPC/SP実測と、ゲーム本体の未実証項目を区別している。本資料の既存本文は2026-07-26時点の総合仕様として保持する。
 
 2026-10-10名称改訂: サイト・まちの正式な表示名称を「エリカッテシティ」に確定した。本文中のサイト名称は新名称へ更新したが、その他の実装仕様・測定値は既存の記録を維持する。本改訂は資料更新であり、Webソース・全Figma画面・公開サイトへの反映完了を意味しない。適用範囲は2.1、未反映箇所と手順は[文言反映設計](figma-copy-change-plan.md)を参照。
 
 同日実装・公開追記: S00〜S06の共通名称・メタデータ、TOP/ゲーム一覧の確定文言、背景道路文字、Web主7ページのJP書体をSDD/TDDで反映し、GitHub mainから公開済み。公開7ページのPC/SP、14ケース成功。[実施仕様・公開検証記録](site-design-implementation.md)を参照。問い合わせ/ファンアートの用途変更は保留。既存URL・外部取得データ・ゲームロジックは保持する。
+
+同日SEO改修追記: 本番ドメインは `https://erinui.com/`。公開8ページのcanonical・OGP/Twitter URL、ゲーム共有URL、sitemap・robots、旧GitHub Pagesの移転案内、Workersの公開出力限定を実装した。HTTP→HTTPS転送はCloudflareで有効化済み。公開確認・検索登録・紹介内容・軽量化の適用状態は[SEO改善計画の実施記録](seo-improvement-plan.md#実施記録-2026-10-10)で区別する。旧工程のURL保持条件は今回の承認済みURL変更には適用しない。
 
 ## 1. この資料の目的
 
@@ -64,15 +66,16 @@ Figma反映状態: 2026-10-10、「デザイン改修案」のTOP・S01〜S06主
 
 | 種類 | URL / ブランチ |
 | --- | --- |
-| ローカル確認 | `http://127.0.0.1:8780/` |
-| 現在の公開URL | `https://erinui.github.io/inutaro-game/` |
-| 将来的な親ホーム想定 | `https://erinui.github.io/` |
-| 開発元ブランチ | `main` |
-| GitHub Pages公開元 | `main` のルートを前提 |
+| ローカル確認 | `scripts/preview-site.mjs` が表示する127.0.0.1のURL |
+| 本番URL | `https://erinui.com/` |
+| 旧公開URL | `https://erinui.github.io/inutaro-game/`（現在も公開） |
+| 配信基盤 | Cloudflare Workersの静的アセット専用Worker。Workers BuildsがGitHub mainから `npx wrangler deploy` を実行 |
+| リポジトリの反映先 | `main` |
+| 旧GitHub Pages公開元 | `main` のルート |
 
-将来的に `https://erinui.github.io/` を親ホームとして運用する場合は、`erinui.github.io` 用のリポジトリへ移行、または現在の構成を同期する必要があります。
+2026-10-10時点のソースではOGP・共有URLが旧GitHub Pagesを指しており、公開8ページにcanonicalはありません。配信されているドメインと、ソースが示しているURLを区別します。
 
-現在はプロジェクトページ配下の `https://erinui.github.io/inutaro-game/` で公開しているため、OGP、Twitterカード、ゲーム内共有など外部サービスから直接参照される絶対URLは、原則として `/inutaro-game/` を含めます。通常のHTML内画像、CSS、JS、フォントは相対パスを使います。
+正規URL・OGP・ゲーム共有は `https://erinui.com/` を使用します。本番の下層は `.html` から拡張子なしURLへ転送されるため、正規URLはその最終URLを採用します。通常のHTML内画像、CSS、JS、フォントと既存の内部リンクは相対パスを維持します。対応表と変更範囲は[SEO改善計画3章](seo-improvement-plan.md#3-本番url設計)を参照してください。公開用distは `scripts/build-site.mjs` で生成し、資料・サーバー用コード・秘密・試作を配信しません。外部データはGitHub Actions生成の静的JSONを使用し、Pages Functionsは現行Workerでは実行されません。
 
 ## 4. ページ階層
 
