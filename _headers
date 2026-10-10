@@ -2,6 +2,6 @@
 https://inutaro-game.erikanuinui.workers.dev/*
   X-Robots-Tag: noindex
 
-# Version preview URLs have an additional hostname component.
-https://:version.inutaro-game.erikanuinui.workers.dev/*
+# Version preview URLs prefix the Worker name in the same hostname component.
+https://:version-inutaro-game.erikanuinui.workers.dev/*
   X-Robots-Tag: noindex

@@ -26,7 +26,7 @@ test("SEO-PUBLISH-01: deploy output contains only approved public files", async 
 test("SEO-PREVIEW-01: preview headers are host-scoped, not global noindex", async () => {
   const headers = await readFile(path.join(root, "_headers"), "utf8");
   assert.match(headers, /https:\/\/inutaro-game\.erikanuinui\.workers\.dev\/\*\s+X-Robots-Tag: noindex/);
-  assert.match(headers, /https:\/\/:version\.inutaro-game\.erikanuinui\.workers\.dev\/\*\s+X-Robots-Tag: noindex/);
+  assert.match(headers, /https:\/\/:version-inutaro-game\.erikanuinui\.workers\.dev\/\*\s+X-Robots-Tag: noindex/);
   assert.ok(!headers.includes("erinui.com"));
   assert.ok(!/^\/\*\s+X-Robots-Tag:\s*noindex/m.test(headers));
 });

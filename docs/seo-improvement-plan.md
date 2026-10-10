@@ -14,9 +14,14 @@
 - 追加課題 SEO-PUBLISH-01: 変更前はルート全体をアセットとして扱い、`/docs/site-specification.md` が200だった。`scripts/build-site.mjs` と `wrangler.jsonc` で公開8ページ・クライアントコード・版管理されたassets・ニュースJSON・検索設定のみを `dist/` に出力する。ソース配置は移動せず、参照URLとファイル内容も維持。docs・tests・scripts・functions・drafts・試作・秘密ファイルを出力しない。ローカル未追跡の素材も含めない。
 - `dist/` と `.wrangler/` はGit対象外。ビルドは既存の出力ディレクトリを無断削除・上書きしない。繰り返す場合は新しいチェックアウトを使うか、自分で生成したdistであることを確認してから取り除く。Cloudflareの新規チェックアウトではWranglerのcustom buildが自動実行される。
 - Workersの `_headers` で確認済みworkers.devホストとそのバージョンプレビューにのみ `X-Robots-Tag: noindex` を指定。本番ドメインには指定しない。ファイルの存在だけで配信成功とは扱わず、公開後のHTTP応答を別途確認する。
+- バージョンURLは `version-inutaro-game.erikanuinui.workers.dev` の形式。ルールは `https://:version-inutaro-game.erikanuinui.workers.dev/*` とし、別Workerや本番ドメインへ広げない。既存のVersion URL有効/無効設定は変更しない。[Cloudflareの形式仕様](https://developers.cloudflare.com/workers/versions-and-deployments/version-urls/)
 - TDD: canonical・サイトマップ等は変更前13件中12件失敗を確認後、13件成功。既存13件も成功。公開ビルド・プレビュー設定2件は未実装時の失敗を確認後に成功。合計28件。元baselineは維持し、ゲームheadと共有URL定数だけを仕様ID付きの許容差分として検証。
 - 320〜1440pxの12幅×7ページ、84ケース、地図矩形、メニュー、カルーセル、装飾、フォント失敗時、YouTube切替を検証し成功。PC/SPの比較画像を目視。Wrangler 4.149.0のdry-runで86公開ファイルの出力と設定の受理を確認。公開前後のHTTP・検索登録結果は別記録とする。
-- Search Consoleでは本番ドメインのプロパティを追加し、DNS所有権確認を準備。確認用TXT追加と所有権確定の承認待ち。サイトマップ送信・URL検査・外部プロフィール編集・検索登録結果は未完了。
+- Search Consoleの本番ドメインプロパティで所有権確認が成功。管理者の承認を得てGoogle確認用TXTを1件追加し、DNS反映を確認した。既存Workerレコードを維持し、GoogleへのCloudflareアカウントアクセス権は付与していない。初回確認はDNS反映前のため失敗し、反映後の確認で成功。確認状態維持のためTXTを削除しない。
+- サイトマップ送信は受付済み。ただし初回のGoogle取得は「取得できませんでした／読み込めませんでした」、検出0件。本番XMLは通常UAとGooglebot名UAの双方で200、application/xml、URL表と一致を確認。UA名を使った取得は実Googleクロールの代用ではない。取得成功・登録完了とはまだ扱わず、後続の再処理結果を確認する。
+- TOPのURL検査では2026/10/10 19:48:13 JSTのスマートフォンGooglebot取得成功、クロール/インデックス登録許可あり、ユーザー指定canonicalは本番TOPと確認。一方、状態は「クロール済み - インデックス未登録」。TOPのインデックス登録リクエストは実行中。検索結果の表示は未完了。外部プロフィール編集は未実施。
+- 初回公開コミット `e43fe23` のWorkers BuildsとGitHub Pagesのbuild/deployが成功。Worker `1e26a7e2` を確認。本番8URLの最終200、canonical・OGP、公開画像、sitemap・robots、HTTP8パスの301、資料/更新スクリプト/テスト/Functions/試作/秘密の404、workers.devのnoindex、旧キャラクターページのアンカー付き移転案内、ゲーム起動・タイマー進行・canvas描画・JS例外なしを確認した。
+- 本番ブラウザ向けHTML末尾には既存Cloudflare Web Analyticsビーコンが付加される。本文保護検証ではその既知の末尾スクリプトだけを除外し、8ページの本文ハッシュが変更前と一致することを確認。解析設定は変更していない。
 
 今回の公開単位は工程1・2の技術整備と、配信範囲の限定。metadata原稿・WebSite・専用OGP・ゲーム紹介新設・画像/フォント軽量化は、計画どおり別の確認・公開単位とする。検索順位・登録完了を保証するものではない。
 
