@@ -1,13 +1,14 @@
 {
   "ok": true,
-  "fetchedAt": "2026-10-10T14:26:27.971Z",
+  "fetchedAt": "2026-10-10T20:02:14.947Z",
   "sourceUrl": "https://note.com/erinui/rss",
   "items": [
     {
       "title": "過去の日記７",
       "excerpt": "過去の日記、いよいよ最終回です。 このブログが更新されなくなった理由は… 多分、仕事が本格的に始まって忘れた。",
       "url": "https://note.com/erinui/n/nb9a25e8f99a6",
-      "publishedAt": "Sun, 05 Jul 2026 20:06:15 +0900"
+      "publishedAt": "Sun, 05 Jul 2026 20:06:15 +0900",
+      "thumbnailUrl": "assets/home-city/note-thumb-1.png"
     },
     {
       "title": "過去の日記６",
