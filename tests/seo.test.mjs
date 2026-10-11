@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { root, startSiteServer } from "./helpers/site-server.mjs";
 import { restoreApprovedSeoChanges } from "./helpers/approved-seo-changes.mjs";
+import { restoreReliabilityChanges } from "./helpers/approved-reliability-changes.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
@@ -73,7 +74,8 @@ for (const item of spec.pages) {
       }
       assert.ok(await page.locator('meta[name="robots"]').evaluateAll(nodes => nodes.every(node => !/noindex/i.test(node.content))));
       const source = await readFile(path.join(root, item.file), "utf8");
-      const preserved = item.file === "index.html" ? restoreApprovedSeoChanges(item.file, source) : source;
+      const original = restoreReliabilityChanges(item.file, source);
+      const preserved = item.file === "index.html" ? restoreApprovedSeoChanges(item.file, original) : original;
       assert.equal(hash(preserved.slice(preserved.indexOf("<body"))), item.bodySha256, "Existing visible markup and navigation must stay unchanged");
       assert.ok(!source.slice(0, source.indexOf("<body")).includes(spec.oldOrigin));
       assert.equal(await page.locator('script[src$="site-migration.js"]').count(), 1);
@@ -110,7 +112,7 @@ test("SEO-SHARE-01: only the game's public share URL changes", async () => {
   const newDeclaration = `const siteUrl = "${spec.origin}/games/inutaro-mushi/";`;
   const oldDeclaration = `const siteUrl = "${spec.oldOrigin}${spec.oldBasePath}/games/inutaro-mushi/";`;
   assert.ok(code.includes(newDeclaration));
-  assert.equal(hash(code.replace(newDeclaration, oldDeclaration)), spec.gameCodeBefore);
+  assert.equal(hash(restoreReliabilityChanges("games/inutaro-mushi/game.js", code).replace(newDeclaration, oldDeclaration)), spec.gameCodeBefore);
 });
 
 test("SEO-MOVE-01: notices use the matching canonical and preserve valid character anchors", async () => {

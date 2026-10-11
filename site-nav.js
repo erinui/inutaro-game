@@ -5,17 +5,21 @@ menuToggles.forEach((toggle) => {
   const menu = menuId ? document.getElementById(menuId) : null;
   const header = toggle.closest("header");
   if (!menu || !header) return;
+  const desktopQuery = window.matchMedia("(min-width: 761px)");
+  menu.inert = !desktopQuery.matches;
 
   const closeMenu = () => {
     header.classList.remove("is-menu-open");
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "メニューを開く");
+    menu.inert = !desktopQuery.matches;
   };
 
   const openMenu = () => {
     header.classList.add("is-menu-open");
     toggle.setAttribute("aria-expanded", "true");
     toggle.setAttribute("aria-label", "メニューを閉じる");
+    menu.inert = false;
   };
 
   toggle.addEventListener("click", () => {
@@ -31,15 +35,19 @@ menuToggles.forEach((toggle) => {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
+    const focusIsInside = document.activeElement === toggle || menu.contains(document.activeElement);
+    if (event.key === "Escape" && !event.defaultPrevented && !desktopQuery.matches && header.classList.contains("is-menu-open") && focusIsInside) {
+      event.preventDefault();
       closeMenu();
+      toggle.focus();
     }
   });
 
-  const desktopQuery = window.matchMedia("(min-width: 761px)");
   const handleDesktopChange = (event) => {
     if (event.matches) {
       closeMenu();
+    } else if (!header.classList.contains("is-menu-open")) {
+      menu.inert = true;
     }
   };
 

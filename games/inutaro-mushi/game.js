@@ -213,23 +213,35 @@ function view() {
   return renderState.view;
 }
 
+const howtoBackgroundState = new Map();
+
 function openHowto() {
-  if (!howtoPanel || !howtoOpenButton) {
+  if (!howtoPanel || !howtoOpenButton || !howtoPanel.hidden) {
     return;
   }
 
+  state.keys.clear();
+  for (const element of gameShell.children) {
+    if (element === howtoPanel) continue;
+    howtoBackgroundState.set(element, element.inert);
+    element.inert = true;
+  }
   howtoPanel.hidden = false;
   howtoOpenButton.setAttribute("aria-expanded", "true");
   howtoCloseButton?.focus();
 }
 
-function closeHowto() {
-  if (!howtoPanel || !howtoOpenButton) {
+function closeHowto({ restoreFocus = false } = {}) {
+  if (!howtoPanel || !howtoOpenButton || howtoPanel.hidden) {
     return;
   }
 
   howtoPanel.hidden = true;
   howtoOpenButton.setAttribute("aria-expanded", "false");
+  for (const [element, wasInert] of howtoBackgroundState) element.inert = wasInert;
+  howtoBackgroundState.clear();
+  state.keys.clear();
+  if (restoreFocus) howtoOpenButton.focus();
 }
 
 function resetGame() {
@@ -1898,14 +1910,20 @@ jumpButton.addEventListener("click", (event) => {
 window.addEventListener("keydown", (event) => {
   if (howtoPanel && !howtoPanel.hidden) {
     if (event.key === "Escape") {
-      closeHowto();
-      howtoOpenButton?.focus();
-      return;
-    }
-    if (event.key !== "Tab") {
       event.preventDefault();
+      closeHowto({ restoreFocus: true });
       return;
     }
+    if (event.key === "Tab") {
+      const focusable = [...howtoPanel.querySelectorAll("button, a[href], input, select, textarea, [tabindex]")]
+        .filter(element => element.tabIndex >= 0 && !element.disabled && !element.closest("[inert]") && element.getClientRects().length > 0);
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (event.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        event.preventDefault();
+        (event.shiftKey ? last : first)?.focus();
+      }
+    }
+    return;
   }
 
   state.keys.add(event.key);
@@ -1925,13 +1943,11 @@ document.addEventListener("keydown", unlockSounds, { once: true });
 
 howtoOpenButton?.addEventListener("click", openHowto);
 howtoCloseButton?.addEventListener("click", () => {
-  closeHowto();
-  howtoOpenButton?.focus();
+  closeHowto({ restoreFocus: true });
 });
 howtoPanel?.addEventListener("click", (event) => {
   if (event.target === howtoPanel) {
-    closeHowto();
-    howtoOpenButton?.focus();
+    closeHowto({ restoreFocus: true });
   }
 });
 soundToggleButton?.addEventListener("click", toggleSound);

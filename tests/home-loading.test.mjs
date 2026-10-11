@@ -101,7 +101,7 @@ test("C01: actual browser revalidates 304 then renders updated 200 JSON", async 
 test("I01: generated images receive lazy/async before src, placeholders stay intact", () => {
   const images = [];
   const document = { createElement: tag => {
-    const node = { tag, children: [], append(child) { this.children.push(child); }, setAttribute() {} };
+    const node = { tag, children: [], append(child) { this.children.push(child); }, setAttribute() {}, addEventListener() {} };
     if (tag === "img") {
       Object.defineProperty(node, "src", { set(value) { images.push({ value, loading: this.loading, decoding: this.decoding }); } });
     }
@@ -189,7 +189,8 @@ test("D04/I03: failed JSON and images preserve fallback links, geometry and file
     await page.goto(`${server.url}/?youtubePanel=0#youtube-title`);
     assert.equal(await page.locator("[data-youtube-cards] > a").count(), 3);
     assert.equal(await page.locator(".character-card").first().getAttribute("href"), "pages/characters.html");
-    const geometry = await page.locator("[data-youtube-cards] img").first().boundingBox();
+    await page.waitForFunction(() => document.querySelector("[data-youtube-cards] .content-card-media-placeholder"));
+    const geometry = await page.locator("[data-youtube-cards] .content-card-media").first().boundingBox();
     assert.ok(geometry.width > 100 && Math.abs(geometry.width / geometry.height - 16 / 9) < 0.01);
     await page.locator("[data-youtube-cards]").evaluate(track => {
       track.scrollLeft = track.scrollWidth - track.clientWidth;

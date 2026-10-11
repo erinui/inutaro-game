@@ -6,6 +6,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { root, startSiteServer } from "./helpers/site-server.mjs";
 import { restoreApprovedSeoChanges, approvedUpstreamHash } from "./helpers/approved-seo-changes.mjs";
+import { reliabilityChanges, restoreReliabilityChanges } from "./helpers/approved-reliability-changes.mjs";
 
 const require = createRequire(import.meta.url);
 const { chromium } = require("playwright");
@@ -131,6 +132,7 @@ test("Preserve dynamic data, map assets, scripts and game implementation", async
       continue;
     }
     let bytes = await readFile(path.join(root, file));
+    if (file in reliabilityChanges.beforeHashes) bytes = Buffer.from(restoreReliabilityChanges(file, bytes.toString()));
     if (file === "home.js") bytes = Buffer.from(restoreApprovedSeoChanges(file, bytes.toString()));
     // SEO-SHARE-01 allows only the public URL constant; retain the original game baseline.
     if (file === "games/inutaro-mushi/game.js") {

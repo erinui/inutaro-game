@@ -8,6 +8,9 @@ const suzuriCardsTrack = document.querySelector("[data-suzuri-cards]");
 const lineStampCardsTrack = document.querySelector("[data-line-stamp-cards]");
 const newsCardsTrack = document.querySelector("[data-news-cards]");
 const latestNewsContent = {};
+const boundCardImages = new WeakSet();
+
+document.querySelectorAll(".content-carousel-card img.content-card-media").forEach(image => bindCardImageFallback(image));
 
 if (youtubeCard) {
   hydrateYoutubeContent(youtubeCard);
@@ -331,6 +334,7 @@ function createLatestCard({ item, category, thumbnailUrl, description, meta, met
     image.className = `content-card-media${mediaMode === "contain" ? "" : " content-card-media-cover"}${mediaClass ? ` ${mediaClass}` : ""}`;
     image.loading = "lazy";
     image.decoding = "async";
+    bindCardImageFallback(image, category);
     image.src = thumbnailUrl;
     image.alt = `${item.title || category}の画像`;
     card.append(image);
@@ -367,6 +371,32 @@ function createLatestCard({ item, category, thumbnailUrl, description, meta, met
 
   card.setAttribute("aria-label", `${item.title || "最新情報"}を開く`);
   return card;
+}
+
+function bindCardImageFallback(image, category) {
+  if (boundCardImages.has(image)) return;
+  boundCardImages.add(image);
+  let triedNoteFallback = false;
+  const onError = () => {
+    const card = image.closest(".content-carousel-card");
+    if (!card || !image.isConnected) return;
+    const label = category || card.querySelector(".content-card-kicker")?.textContent.trim() || "";
+    const isNoteFallback = image.src.split(/[?#]/, 1)[0].endsWith("/assets/home-city/map_blog.png");
+    if (label === "NOTE" && !triedNoteFallback && !isNoteFallback) {
+      triedNoteFallback = true;
+      image.className = "content-card-media content-card-media-note";
+      image.src = "assets/home-city/map_blog.png";
+      return;
+    }
+    const placeholder = document.createElement("div");
+    placeholder.className = "content-card-media content-card-media-placeholder";
+    if (image.classList.contains("content-card-media-line")) placeholder.classList.add("content-card-media-line");
+    placeholder.textContent = label;
+    placeholder.setAttribute("aria-hidden", "true");
+    image.replaceWith(placeholder);
+  };
+  image.addEventListener("error", onError);
+  if (image.complete && image.naturalWidth === 0) onError();
 }
 
 function formatSubscribers(count, isHidden) {

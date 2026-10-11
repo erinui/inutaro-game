@@ -5,7 +5,7 @@ import { promisify } from "node:util";
 
 const FEED_URL = process.env.NOTE_RSS_URL || "https://note.com/erinui/rss";
 const MAX_RESULTS = clampNumber(Number(process.env.NOTE_MAX_RESULTS || 6), 1, 10);
-const OUT_DIR = path.join("assets", "home-city");
+const OUT_DIR = process.env.HOME_LATEST_OUTPUT_DIR || path.join("assets", "home-city");
 const OUT_FILE = path.join(OUT_DIR, "note-latest.json");
 const NOTE_ORIGIN = "https://note.com/";
 const execFileAsync = promisify(execFile);
@@ -21,6 +21,9 @@ if (!response.ok) {
 }
 
 const feed = await response.text();
+if (getTagValues(feed, "rss").length !== 1 || getTagValues(feed, "channel").length !== 1) {
+  throw new Error("Invalid note RSS response.");
+}
 const feedItems = getTagValues(feed, "item")
   .map(parseItem)
   .filter((item) => item.title && item.url)
@@ -168,13 +171,7 @@ async function removeStaleThumbnails(items) {
 }
 
 async function fetchWithTimeout(url, options, timeoutMs = 12_000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    return await fetch(url, { ...options, signal: controller.signal });
-  } finally {
-    clearTimeout(timer);
-  }
+  return fetch(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });
 }
 
 function getTagValues(xml, tagName) {

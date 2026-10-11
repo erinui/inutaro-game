@@ -1,0 +1,211 @@
+{
+  "baselineCommit": "ecf9af55da6af3bea347648d01c09fb5b3817d74",
+  "beforeHashes": {
+    "home.js": "9e0146e948803ed23e134ffb071a416cd7d74933917480b4d7ceb86580d1ea73",
+    "site-nav.js": "a5519f1dd9d139cbf6532baf55ed2dcbdd8a2a84e46fcd50fb08199638c686ad",
+    "games/inutaro-mushi/game.js": "248532cf75e5fafdb9a067a4e1dd1baebac58a01e2a26ed19cc43cfc998a66a4",
+    "index.html": "215bf78227e831a59161f16f34957ae9369843aebc083142dcac088805622284",
+    "games/index.html": "220252b7638826eb4d6f6b0536c9279d7c59666e67c9494f67ceda7f266bba47",
+    "games/inutaro-mushi/index.html": "e6692a6f3ccfd629a5c2bd75885c0c0b21098d3f488dee6aa372dc0d46adf56b",
+    "pages/characters.html": "76e301aae0bc6e94da9c8ee3f0895db6fd830f10187e643061fe18c3b99e9269",
+    "pages/blog.html": "808da32830692502d198be3e4aaf67aae8a9a511ca1567ca3c84286a124bb31f",
+    "pages/illustrations.html": "cc952e89b69a426bdd1e2c9b02b8c64f320077829d3da1197722fd0c3fd80419",
+    "pages/terms.html": "014be5755b7f6a3d52498846ed3d2657e89a265a0b8f66c45cb5a8f429f2f202",
+    "pages/privacy.html": "507b90f290420e4958745841d0a21daade00ad2267c05347acdc9538e9b76b06",
+    ".github/workflows/update-youtube-latest.yml": "84d268484c64f8113690f2e29d6ad19a779f500bfc8b6eb75968736ab32df6cd",
+    "scripts/update-youtube-latest.mjs": "b4000da53c03c7a492e599d225476adfb5c7a76f201a0f2045c5e6899cc5fafd",
+    "scripts/update-note-latest.mjs": "aa782b9820efaf22783a7a594c611a7343613e11ccc404b838aac2c41b11ab2b",
+    "scripts/update-suzuri-latest.mjs": "0ba479ac9d2cc90da226799825709173f95cc8d1e9be276211a392a0d7eaeb6a"
+  },
+  "changes": [
+    {
+      "id": "REL-IMAGE-01",
+      "file": "home.js",
+      "before": "const lineStampCardsTrack = document.querySelector(\"[data-line-stamp-cards]\");\nconst newsCardsTrack = document.querySelector(\"[data-news-cards]\");\nconst latestNewsContent = {};\n\nif (youtubeCard) {\n  hydrateYoutubeContent(youtubeCard);\n",
+      "after": "const lineStampCardsTrack = document.querySelector(\"[data-line-stamp-cards]\");\nconst newsCardsTrack = document.querySelector(\"[data-news-cards]\");\nconst latestNewsContent = {};\nconst boundCardImages = new WeakSet();\n\ndocument.querySelectorAll(\".content-carousel-card img.content-card-media\").forEach(image => bindCardImageFallback(image));\n\nif (youtubeCard) {\n  hydrateYoutubeContent(youtubeCard);\n",
+      "count": 1
+    },
+    {
+      "id": "REL-IMAGE-01",
+      "file": "home.js",
+      "before": "    image.className = `content-card-media${mediaMode === \"contain\" ? \"\" : \" content-card-media-cover\"}${mediaClass ? ` ${mediaClass}` : \"\"}`;\n    image.loading = \"lazy\";\n    image.decoding = \"async\";\n    image.src = thumbnailUrl;\n    image.alt = `${item.title || category}の画像`;\n    card.append(image);\n",
+      "after": "    image.className = `content-card-media${mediaMode === \"contain\" ? \"\" : \" content-card-media-cover\"}${mediaClass ? ` ${mediaClass}` : \"\"}`;\n    image.loading = \"lazy\";\n    image.decoding = \"async\";\n    bindCardImageFallback(image, category);\n    image.src = thumbnailUrl;\n    image.alt = `${item.title || category}の画像`;\n    card.append(image);\n",
+      "count": 1
+    },
+    {
+      "id": "REL-IMAGE-01",
+      "file": "home.js",
+      "before": "  return card;\n}\n\nfunction formatSubscribers(count, isHidden) {\n  if (isHidden || count === null || count === undefined) {\n    return \"公開まち\";\n",
+      "after": "  return card;\n}\n\nfunction bindCardImageFallback(image, category) {\n  if (boundCardImages.has(image)) return;\n  boundCardImages.add(image);\n  let triedNoteFallback = false;\n  const onError = () => {\n    const card = image.closest(\".content-carousel-card\");\n    if (!card || !image.isConnected) return;\n    const label = category || card.querySelector(\".content-card-kicker\")?.textContent.trim() || \"\";\n    const isNoteFallback = image.src.split(/[?#]/, 1)[0].endsWith(\"/assets/home-city/map_blog.png\");\n    if (label === \"NOTE\" && !triedNoteFallback && !isNoteFallback) {\n      triedNoteFallback = true;\n      image.className = \"content-card-media content-card-media-note\";\n      image.src = \"assets/home-city/map_blog.png\";\n      return;\n    }\n    const placeholder = document.createElement(\"div\");\n    placeholder.className = \"content-card-media content-card-media-placeholder\";\n    if (image.classList.contains(\"content-card-media-line\")) placeholder.classList.add(\"content-card-media-line\");\n    placeholder.textContent = label;\n    placeholder.setAttribute(\"aria-hidden\", \"true\");\n    image.replaceWith(placeholder);\n  };\n  image.addEventListener(\"error\", onError);\n  if (image.complete && image.naturalWidth === 0) onError();\n}\n\nfunction formatSubscribers(count, isHidden) {\n  if (isHidden || count === null || count === undefined) {\n    return \"公開まち\";\n",
+      "count": 1
+    },
+    {
+      "id": "REL-NAV-01",
+      "file": "site-nav.js",
+      "before": "  const menu = menuId ? document.getElementById(menuId) : null;\n  const header = toggle.closest(\"header\");\n  if (!menu || !header) return;\n\n  const closeMenu = () => {\n    header.classList.remove(\"is-menu-open\");\n    toggle.setAttribute(\"aria-expanded\", \"false\");\n    toggle.setAttribute(\"aria-label\", \"メニューを開く\");\n  };\n\n  const openMenu = () => {\n    header.classList.add(\"is-menu-open\");\n    toggle.setAttribute(\"aria-expanded\", \"true\");\n    toggle.setAttribute(\"aria-label\", \"メニューを閉じる\");\n  };\n\n  toggle.addEventListener(\"click\", () => {\n",
+      "after": "  const menu = menuId ? document.getElementById(menuId) : null;\n  const header = toggle.closest(\"header\");\n  if (!menu || !header) return;\n  const desktopQuery = window.matchMedia(\"(min-width: 761px)\");\n  menu.inert = !desktopQuery.matches;\n\n  const closeMenu = () => {\n    header.classList.remove(\"is-menu-open\");\n    toggle.setAttribute(\"aria-expanded\", \"false\");\n    toggle.setAttribute(\"aria-label\", \"メニューを開く\");\n    menu.inert = !desktopQuery.matches;\n  };\n\n  const openMenu = () => {\n    header.classList.add(\"is-menu-open\");\n    toggle.setAttribute(\"aria-expanded\", \"true\");\n    toggle.setAttribute(\"aria-label\", \"メニューを閉じる\");\n    menu.inert = false;\n  };\n\n  toggle.addEventListener(\"click\", () => {\n",
+      "count": 1
+    },
+    {
+      "id": "REL-NAV-01",
+      "file": "site-nav.js",
+      "before": "  });\n\n  document.addEventListener(\"keydown\", (event) => {\n    if (event.key === \"Escape\") {\n      closeMenu();\n    }\n  });\n\n  const desktopQuery = window.matchMedia(\"(min-width: 761px)\");\n  const handleDesktopChange = (event) => {\n    if (event.matches) {\n      closeMenu();\n    }\n  };\n\n",
+      "after": "  });\n\n  document.addEventListener(\"keydown\", (event) => {\n    const focusIsInside = document.activeElement === toggle || menu.contains(document.activeElement);\n    if (event.key === \"Escape\" && !event.defaultPrevented && !desktopQuery.matches && header.classList.contains(\"is-menu-open\") && focusIsInside) {\n      event.preventDefault();\n      closeMenu();\n      toggle.focus();\n    }\n  });\n\n  const handleDesktopChange = (event) => {\n    if (event.matches) {\n      closeMenu();\n    } else if (!header.classList.contains(\"is-menu-open\")) {\n      menu.inert = true;\n    }\n  };\n\n",
+      "count": 1
+    },
+    {
+      "id": "REL-GAME-01",
+      "file": "games/inutaro-mushi/game.js",
+      "before": "  return renderState.view;\n}\n\nfunction openHowto() {\n  if (!howtoPanel || !howtoOpenButton) {\n    return;\n  }\n\n  howtoPanel.hidden = false;\n  howtoOpenButton.setAttribute(\"aria-expanded\", \"true\");\n  howtoCloseButton?.focus();\n}\n\nfunction closeHowto() {\n  if (!howtoPanel || !howtoOpenButton) {\n    return;\n  }\n\n  howtoPanel.hidden = true;\n  howtoOpenButton.setAttribute(\"aria-expanded\", \"false\");\n}\n\nfunction resetGame() {\n",
+      "after": "  return renderState.view;\n}\n\nconst howtoBackgroundState = new Map();\n\nfunction openHowto() {\n  if (!howtoPanel || !howtoOpenButton || !howtoPanel.hidden) {\n    return;\n  }\n\n  state.keys.clear();\n  for (const element of gameShell.children) {\n    if (element === howtoPanel) continue;\n    howtoBackgroundState.set(element, element.inert);\n    element.inert = true;\n  }\n  howtoPanel.hidden = false;\n  howtoOpenButton.setAttribute(\"aria-expanded\", \"true\");\n  howtoCloseButton?.focus();\n}\n\nfunction closeHowto({ restoreFocus = false } = {}) {\n  if (!howtoPanel || !howtoOpenButton || howtoPanel.hidden) {\n    return;\n  }\n\n  howtoPanel.hidden = true;\n  howtoOpenButton.setAttribute(\"aria-expanded\", \"false\");\n  for (const [element, wasInert] of howtoBackgroundState) element.inert = wasInert;\n  howtoBackgroundState.clear();\n  state.keys.clear();\n  if (restoreFocus) howtoOpenButton.focus();\n}\n\nfunction resetGame() {\n",
+      "count": 1
+    },
+    {
+      "id": "REL-GAME-01",
+      "file": "games/inutaro-mushi/game.js",
+      "before": "window.addEventListener(\"keydown\", (event) => {\n  if (howtoPanel && !howtoPanel.hidden) {\n    if (event.key === \"Escape\") {\n      closeHowto();\n      howtoOpenButton?.focus();\n      return;\n    }\n    if (event.key !== \"Tab\") {\n      event.preventDefault();\n      return;\n    }\n  }\n\n  state.keys.add(event.key);\n",
+      "after": "window.addEventListener(\"keydown\", (event) => {\n  if (howtoPanel && !howtoPanel.hidden) {\n    if (event.key === \"Escape\") {\n      event.preventDefault();\n      closeHowto({ restoreFocus: true });\n      return;\n    }\n    if (event.key === \"Tab\") {\n      const focusable = [...howtoPanel.querySelectorAll(\"button, a[href], input, select, textarea, [tabindex]\")]\n        .filter(element => element.tabIndex >= 0 && !element.disabled && !element.closest(\"[inert]\") && element.getClientRects().length > 0);\n      const first = focusable[0], last = focusable[focusable.length - 1];\n      if (event.shiftKey ? document.activeElement === first : document.activeElement === last) {\n        event.preventDefault();\n        (event.shiftKey ? last : first)?.focus();\n      }\n    }\n    return;\n  }\n\n  state.keys.add(event.key);\n",
+      "count": 1
+    },
+    {
+      "id": "REL-GAME-01",
+      "file": "games/inutaro-mushi/game.js",
+      "before": "\nhowtoOpenButton?.addEventListener(\"click\", openHowto);\nhowtoCloseButton?.addEventListener(\"click\", () => {\n  closeHowto();\n  howtoOpenButton?.focus();\n});\nhowtoPanel?.addEventListener(\"click\", (event) => {\n  if (event.target === howtoPanel) {\n    closeHowto();\n    howtoOpenButton?.focus();\n  }\n});\nsoundToggleButton?.addEventListener(\"click\", toggleSound);\n",
+      "after": "\nhowtoOpenButton?.addEventListener(\"click\", openHowto);\nhowtoCloseButton?.addEventListener(\"click\", () => {\n  closeHowto({ restoreFocus: true });\n});\nhowtoPanel?.addEventListener(\"click\", (event) => {\n  if (event.target === howtoPanel) {\n    closeHowto({ restoreFocus: true });\n  }\n});\nsoundToggleButton?.addEventListener(\"click\", toggleSound);\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "index.html",
+      "before": "        </nav>\n      </div>\n    </footer>\n    <script src=\"site-nav.js?v=20260726-site-polish\"></script>\n    <script src=\"home.js?v=20261011-seo-loading\"></script>\n  </body>\n</html>\n",
+      "after": "        </nav>\n      </div>\n    </footer>\n    <script src=\"site-nav.js?v=20261011-reliability\"></script>\n    <script src=\"home.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "games/index.html",
+      "before": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20260726-site-polish\"></script>\n  </body>\n</html>\n",
+      "after": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "games/inutaro-mushi/index.html",
+      "before": "      </section>\n    </main>\n    <div class=\"browser-chrome-scroll-space\" aria-hidden=\"true\"></div>\n    <script src=\"./game.js?v=20260705-asset-refactor\"></script>\n  </body>\n</html>\n",
+      "after": "      </section>\n    </main>\n    <div class=\"browser-chrome-scroll-space\" aria-hidden=\"true\"></div>\n    <script src=\"./game.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "pages/characters.html",
+      "before": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20260726-site-polish\"></script>\n  </body>\n</html>\n",
+      "after": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "pages/blog.html",
+      "before": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20260726-site-polish\"></script>\n  </body>\n</html>\n",
+      "after": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "pages/illustrations.html",
+      "before": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20260726-site-polish\"></script>\n  </body>\n</html>\n",
+      "after": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "pages/terms.html",
+      "before": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20260726-site-polish\"></script>\n  </body>\n</html>\n",
+      "after": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-CACHE-01",
+      "file": "pages/privacy.html",
+      "before": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20260726-site-polish\"></script>\n  </body>\n</html>\n",
+      "after": "      <span>erinui</span>\n      <span>© erikanuinui</span>\n    </footer>\n    <script src=\"../site-nav.js?v=20261011-reliability\"></script>\n  </body>\n</html>\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "permissions:\n  contents: write\n\njobs:\n  update-youtube-latest:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n",
+      "after": "permissions:\n  contents: write\n\nconcurrency:\n  group: home-latest-update\n  cancel-in-progress: false\n\njobs:\n  update-youtube-latest:\n    runs-on: ubuntu-latest\n    timeout-minutes: 15\n    steps:\n      - name: Checkout\n        uses: actions/checkout@v4\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "        with:\n          node-version: \"20\"\n\n      - name: Fetch latest YouTube data\n        env:\n          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}\n          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID || 'UCdnf6zMzSdZuvUxS-CS2REQ' }}\n          YOUTUBE_HANDLE: ${{ vars.YOUTUBE_HANDLE || '@えりぬい' }}\n          YOUTUBE_MAX_RESULTS: \"6\"\n        run: node scripts/update-youtube-latest.mjs\n\n      - name: Fetch latest note articles\n        env:\n          NOTE_RSS_URL: \"https://note.com/erinui/rss\"\n          NOTE_MAX_RESULTS: \"6\"\n        run: node scripts/update-note-latest.mjs\n\n      - name: Fetch latest SUZURI products\n        env:\n          SUZURI_ACCESS_TOKEN: ${{ secrets.SUZURI_ACCESS_TOKEN }}\n          SUZURI_USER_NAME: \"erikanuinui\"\n          SUZURI_MAX_RESULTS: \"6\"\n        run: |\n          if [ -z \"$SUZURI_ACCESS_TOKEN\" ]; then\n            echo \"SUZURI_ACCESS_TOKEN is not configured. Keeping the current data.\"\n            exit 0\n          fi\n          node scripts/update-suzuri-latest.mjs\n\n      - name: Commit updated home data\n        run: |\n          if git diff --quiet -- assets/home-city; then\n            echo \"No home data updates.\"\n            exit 0\n          fi\n          git config user.name \"github-actions[bot]\"\n          git config user.email \"41898282+github-actions[bot]@users.noreply.github.com\"\n          git add -A -- assets/home-city\n          git commit -m \"Update home latest data\"\n          git push origin HEAD:main\n",
+      "after": "        with:\n          node-version: \"20\"\n\n      - name: Collect and validate isolated updates\n        id: collect\n        env:\n          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}\n          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID || 'UCdnf6zMzSdZuvUxS-CS2REQ' }}\n          YOUTUBE_HANDLE: ${{ vars.YOUTUBE_HANDLE || '@えりぬい' }}\n          YOUTUBE_MAX_RESULTS: \"6\"\n          NOTE_RSS_URL: \"https://note.com/erinui/rss\"\n          NOTE_MAX_RESULTS: \"6\"\n          SUZURI_ACCESS_TOKEN: ${{ secrets.SUZURI_ACCESS_TOKEN }}\n          SUZURI_USER_NAME: \"erikanuinui\"\n          SUZURI_MAX_RESULTS: \"6\"\n        run: node scripts/update-home-latest.mjs --report \"$RUNNER_TEMP/home-update-result.json\"\n\n      - name: Save validated home data\n        id: save\n        run: node scripts/update-home-latest.mjs --publish --report \"$RUNNER_TEMP/home-update-result.json\"\n\n      - name: Report final retrieval and save status\n        if: always()\n        run: node scripts/update-home-latest.mjs --finish --report \"$RUNNER_TEMP/home-update-result.json\" --saved \"${{ steps.save.outcome }}\"\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-youtube-latest.mjs",
+      "before": "import path from \"node:path\";\n\nconst API_BASE = \"https://www.googleapis.com/youtube/v3\";\nconst OUT_DIR = path.join(\"assets\", \"home-city\");\nconst DEFAULT_CHANNEL_ID = \"UCdnf6zMzSdZuvUxS-CS2REQ\";\nconst DEFAULT_HANDLE = \"@えりぬい\";\nconst MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 6), 1, 10);\n",
+      "after": "import path from \"node:path\";\n\nconst API_BASE = \"https://www.googleapis.com/youtube/v3\";\nconst OUT_DIR = process.env.HOME_LATEST_OUTPUT_DIR || path.join(\"assets\", \"home-city\");\nconst DEFAULT_CHANNEL_ID = \"UCdnf6zMzSdZuvUxS-CS2REQ\";\nconst DEFAULT_HANDLE = \"@えりぬい\";\nconst MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 6), 1, 10);\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-youtube-latest.mjs",
+      "before": "await Promise.all(\n  videos.slice(0, 5).map(async (video, index) => {\n    if (!video.thumbnail?.url) return;\n    const response = await fetch(video.thumbnail.url);\n    if (!response.ok) {\n      throw new Error(`Failed to download thumbnail ${index + 1}: ${response.status}`);\n    }\n",
+      "after": "await Promise.all(\n  videos.slice(0, 5).map(async (video, index) => {\n    if (!video.thumbnail?.url) return;\n    const response = await fetch(video.thumbnail.url, { signal: AbortSignal.timeout(12_000) });\n    if (!response.ok) {\n      throw new Error(`Failed to download thumbnail ${index + 1}: ${response.status}`);\n    }\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-youtube-latest.mjs",
+      "before": "  });\n\n  const data = await youtubeFetch(`/playlistItems?${params.toString()}`);\n  return (data.items || []).map(normalizeVideo).filter((video) => Boolean(video.id));\n}\n\nasync function youtubeFetch(pathname) {\n  const response = await fetch(`${API_BASE}${pathname}`, {\n    headers: {\n      Accept: \"application/json\",\n    },\n",
+      "after": "  });\n\n  const data = await youtubeFetch(`/playlistItems?${params.toString()}`);\n  if (!Array.isArray(data.items)) throw new Error(\"Invalid YouTube playlist response.\");\n  return data.items.map(normalizeVideo).filter((video) => Boolean(video.id));\n}\n\nasync function youtubeFetch(pathname) {\n  const response = await fetch(`${API_BASE}${pathname}`, {\n    signal: AbortSignal.timeout(12_000),\n    headers: {\n      Accept: \"application/json\",\n    },\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-note-latest.mjs",
+      "before": "\nconst FEED_URL = process.env.NOTE_RSS_URL || \"https://note.com/erinui/rss\";\nconst MAX_RESULTS = clampNumber(Number(process.env.NOTE_MAX_RESULTS || 6), 1, 10);\nconst OUT_DIR = path.join(\"assets\", \"home-city\");\nconst OUT_FILE = path.join(OUT_DIR, \"note-latest.json\");\nconst NOTE_ORIGIN = \"https://note.com/\";\nconst execFileAsync = promisify(execFile);\n",
+      "after": "\nconst FEED_URL = process.env.NOTE_RSS_URL || \"https://note.com/erinui/rss\";\nconst MAX_RESULTS = clampNumber(Number(process.env.NOTE_MAX_RESULTS || 6), 1, 10);\nconst OUT_DIR = process.env.HOME_LATEST_OUTPUT_DIR || path.join(\"assets\", \"home-city\");\nconst OUT_FILE = path.join(OUT_DIR, \"note-latest.json\");\nconst NOTE_ORIGIN = \"https://note.com/\";\nconst execFileAsync = promisify(execFile);\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-note-latest.mjs",
+      "before": "}\n\nconst feed = await response.text();\nconst feedItems = getTagValues(feed, \"item\")\n  .map(parseItem)\n  .filter((item) => item.title && item.url)\n",
+      "after": "}\n\nconst feed = await response.text();\nif (getTagValues(feed, \"rss\").length !== 1 || getTagValues(feed, \"channel\").length !== 1) {\n  throw new Error(\"Invalid note RSS response.\");\n}\nconst feedItems = getTagValues(feed, \"item\")\n  .map(parseItem)\n  .filter((item) => item.title && item.url)\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-note-latest.mjs",
+      "before": "}\n\nasync function fetchWithTimeout(url, options, timeoutMs = 12_000) {\n  const controller = new AbortController();\n  const timer = setTimeout(() => controller.abort(), timeoutMs);\n  try {\n    return await fetch(url, { ...options, signal: controller.signal });\n  } finally {\n    clearTimeout(timer);\n  }\n}\n\nfunction getTagValues(xml, tagName) {\n",
+      "after": "}\n\nasync function fetchWithTimeout(url, options, timeoutMs = 12_000) {\n  return fetch(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });\n}\n\nfunction getTagValues(xml, tagName) {\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-suzuri-latest.mjs",
+      "before": "const SHOP_URL = process.env.SUZURI_SHOP_URL || \"https://suzuri.jp/erikanuinui\";\nconst USER_NAME = process.env.SUZURI_USER_NAME || \"erikanuinui\";\nconst MAX_RESULTS = clampNumber(Number(process.env.SUZURI_MAX_RESULTS || 6), 1, 10);\nconst OUT_FILE = path.join(\"assets\", \"home-city\", \"suzuri-latest.json\");\nconst token = process.env.SUZURI_ACCESS_TOKEN;\n\nif (!token) {\n",
+      "after": "const SHOP_URL = process.env.SUZURI_SHOP_URL || \"https://suzuri.jp/erikanuinui\";\nconst USER_NAME = process.env.SUZURI_USER_NAME || \"erikanuinui\";\nconst MAX_RESULTS = clampNumber(Number(process.env.SUZURI_MAX_RESULTS || 6), 1, 10);\nconst OUT_FILE = path.join(process.env.HOME_LATEST_OUTPUT_DIR || path.join(\"assets\", \"home-city\"), \"suzuri-latest.json\");\nconst token = process.env.SUZURI_ACCESS_TOKEN;\n\nif (!token) {\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-suzuri-latest.mjs",
+      "before": "\nconst params = new URLSearchParams({ userName: USER_NAME, limit: String(MAX_RESULTS) });\nconst response = await fetch(`${API_URL}?${params.toString()}`, {\n  headers: {\n    Accept: \"application/json\",\n    Authorization: `Bearer ${token}`,\n",
+      "after": "\nconst params = new URLSearchParams({ userName: USER_NAME, limit: String(MAX_RESULTS) });\nconst response = await fetch(`${API_URL}?${params.toString()}`, {\n  signal: AbortSignal.timeout(12_000),\n  headers: {\n    Accept: \"application/json\",\n    Authorization: `Bearer ${token}`,\n",
+      "count": 1
+    },
+    {
+      "id": "REL-DATA-01",
+      "file": "scripts/update-suzuri-latest.mjs",
+      "before": "  throw new Error(data?.error?.message || `SUZURI API request failed: ${response.status}`);\n}\n\nconst items = (data.products || []).filter((product) => product.published !== false).map(normalizeProduct);\nawait mkdir(path.dirname(OUT_FILE), { recursive: true });\nawait writeFile(\n  OUT_FILE,\n",
+      "after": "  throw new Error(data?.error?.message || `SUZURI API request failed: ${response.status}`);\n}\n\nif (!Array.isArray(data.products)) throw new Error(\"Invalid SUZURI product response.\");\nconst items = data.products.filter((product) => product.published !== false).map(normalizeProduct);\nawait mkdir(path.dirname(OUT_FILE), { recursive: true });\nawait writeFile(\n  OUT_FILE,\n",
+      "count": 1
+    }
+  ]
+}

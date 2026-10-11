@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const API_BASE = "https://www.googleapis.com/youtube/v3";
-const OUT_DIR = path.join("assets", "home-city");
+const OUT_DIR = process.env.HOME_LATEST_OUTPUT_DIR || path.join("assets", "home-city");
 const DEFAULT_CHANNEL_ID = "UCdnf6zMzSdZuvUxS-CS2REQ";
 const DEFAULT_HANDLE = "@えりぬい";
 const MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 6), 1, 10);
@@ -41,7 +41,7 @@ await writeFile(
 await Promise.all(
   videos.slice(0, 5).map(async (video, index) => {
     if (!video.thumbnail?.url) return;
-    const response = await fetch(video.thumbnail.url);
+    const response = await fetch(video.thumbnail.url, { signal: AbortSignal.timeout(12_000) });
     if (!response.ok) {
       throw new Error(`Failed to download thumbnail ${index + 1}: ${response.status}`);
     }
@@ -105,11 +105,13 @@ async function fetchLatestVideos(playlistId) {
   });
 
   const data = await youtubeFetch(`/playlistItems?${params.toString()}`);
-  return (data.items || []).map(normalizeVideo).filter((video) => Boolean(video.id));
+  if (!Array.isArray(data.items)) throw new Error("Invalid YouTube playlist response.");
+  return data.items.map(normalizeVideo).filter((video) => Boolean(video.id));
 }
 
 async function youtubeFetch(pathname) {
   const response = await fetch(`${API_BASE}${pathname}`, {
+    signal: AbortSignal.timeout(12_000),
     headers: {
       Accept: "application/json",
     },

@@ -8,9 +8,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: home-latest-update
+  cancel-in-progress: false
+
 jobs:
   update-youtube-latest:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,40 +28,24 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Fetch latest YouTube data
+      - name: Collect and validate isolated updates
+        id: collect
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID || 'UCdnf6zMzSdZuvUxS-CS2REQ' }}
           YOUTUBE_HANDLE: ${{ vars.YOUTUBE_HANDLE || '@えりぬい' }}
           YOUTUBE_MAX_RESULTS: "6"
-        run: node scripts/update-youtube-latest.mjs
-
-      - name: Fetch latest note articles
-        env:
           NOTE_RSS_URL: "https://note.com/erinui/rss"
           NOTE_MAX_RESULTS: "6"
-        run: node scripts/update-note-latest.mjs
-
-      - name: Fetch latest SUZURI products
-        env:
           SUZURI_ACCESS_TOKEN: ${{ secrets.SUZURI_ACCESS_TOKEN }}
           SUZURI_USER_NAME: "erikanuinui"
           SUZURI_MAX_RESULTS: "6"
-        run: |
-          if [ -z "$SUZURI_ACCESS_TOKEN" ]; then
-            echo "SUZURI_ACCESS_TOKEN is not configured. Keeping the current data."
-            exit 0
-          fi
-          node scripts/update-suzuri-latest.mjs
+        run: node scripts/update-home-latest.mjs --report "$RUNNER_TEMP/home-update-result.json"
 
-      - name: Commit updated home data
-        run: |
-          if git diff --quiet -- assets/home-city; then
-            echo "No home data updates."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A -- assets/home-city
-          git commit -m "Update home latest data"
-          git push origin HEAD:main
+      - name: Save validated home data
+        id: save
+        run: node scripts/update-home-latest.mjs --publish --report "$RUNNER_TEMP/home-update-result.json"
+
+      - name: Report final retrieval and save status
+        if: always()
+        run: node scripts/update-home-latest.mjs --finish --report "$RUNNER_TEMP/home-update-result.json" --saved "${{ steps.save.outcome }}"
