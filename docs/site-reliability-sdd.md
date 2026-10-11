@@ -200,3 +200,4 @@ node --test --test-timeout=60000 tests/seo.test.mjs tests/site-design.test.mjs t
 - 証跡は公開ビルド外の `/Users/ishiharajunpei/.codex/visualizations/2026/06/14/019ec45c-b660-7d62-bd76-e50427b869e0/site-reliability-20261011/` に保存。`layout/`、`pixels/pixel-results.json`、`safari-reliability.json` と対応スクリーンショットを含む。
 - 公開直前の再試験95/95合格。最初の制限環境での試行はlocalhost待受のEPERMにより失敗したため、許可済みの制限外環境で再実行し合格した。製品不具合によるRedとは区別する。
 - クリーンビルドは新しい一時出力へ85ファイルを生成。docs/scripts/tests/draftsと利用者の未追跡素材を含まない。main反映、更新workflow手動実行、本番照合の結果は確定後に追記する。
+- 実装コミットは `c1de075`。公開前にmainの生成データ更新 `64f1ff7` / `7e896a4` を保持して取り込んだ。生成データ4ファイルのSHAは `acceptedUpstreamData` に生成コミットを明記して承認し、旧baselineのprevious値と通常素材・ソース保護は保持した。
