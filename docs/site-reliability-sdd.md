@@ -1,6 +1,6 @@
 # サイトの更新と操作の信頼性 SDD実施仕様
 
-作成日・最終更新: 2026-10-11 / 状態: 実装・TDD・統合検証済み、公開確認中
+作成日・最終更新: 2026-10-11 / 状態: 実装・TDD・統合検証・本番公開確認済み
 
 最新情報更新の障害分離、ゲーム説明のキーボード操作、SPメニューのフォーカス復帰、TOPカード画像の代替表示を定義する。[改修計画](site-reliability-plan.md)が実施順とフェーズの正本、本資料が設計・受け入れ条件の正本となる。
 
@@ -201,3 +201,12 @@ node --test --test-timeout=60000 tests/seo.test.mjs tests/site-design.test.mjs t
 - 公開直前の再試験95/95合格。最初の制限環境での試行はlocalhost待受のEPERMにより失敗したため、許可済みの制限外環境で再実行し合格した。製品不具合によるRedとは区別する。
 - クリーンビルドは新しい一時出力へ85ファイルを生成。docs/scripts/tests/draftsと利用者の未追跡素材を含まない。main反映、更新workflow手動実行、本番照合の結果は確定後に追記する。
 - 実装コミットは `c1de075`。公開前にmainの生成データ更新 `64f1ff7` / `7e896a4` を保持して取り込んだ。生成データ4ファイルのSHAは `acceptedUpstreamData` に生成コミットを明記して承認し、旧baselineのprevious値と通常素材・ソース保護は保持した。
+
+### 10.1 公開確認
+
+- `c1de075` と検証記録 `831f805` をmainへpushし、Cloudflare Workers BuildsとGitHub Pagesの成功を確認した。
+- [手動更新workflow 38107884084](https://github.com/erinui/inutaro-game/actions/runs/38107884084)は全ステップ成功。YouTube/note/SUZURIがすべてsuccess、保存はpushed。生成コミット `1fbd96c` は3JSONのfetchedAtだけを更新し、そのCloudflare/GitHub Pagesビルドも成功した。実secretの故障注入・force push・周期変更はしていない。
+- `1fbd96c` をローカルへfast-forwardし、生成データの承認SHAと生成コミットを記録した。更新後も統合95/95ケース合格。
+- 本番 `https://erinui.com/` のHTML・JS計11ファイルと最新JSON3ファイルはローカルとSHA一致。8公開ページのHTTP成功を確認した。
+- 本番Chromeは390/1440pxで計18ケース合格。7共通ヘッダーのEscape復帰/PC操作、横はみ出しなし、画像失敗時のplaceholder、ゲーム説明のTab/Shift+Tabと背面inert・閉鎖復帰・ゲーム再開を確認。ページ内JS例外なし。画像とフォントの読み込み、説明表示アニメーションの完了を待った画面を目視確認した。
+- 本番証跡は上記保存先の `production/production-results.json`、YouTubeとゲーム説明のPC/SP画像。VoiceOver音声内容は未確認のまま、承認済みの制約として保持する。

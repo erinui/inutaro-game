@@ -185,13 +185,13 @@
     }
   ],
   "acceptedUpstreamData": {
-    "commit": "7e896a402304cd67471b7f4d54f6ba01a0bc8eb8",
-    "previousAcceptedCommit": "253959ef15fe915f5e61f5f8418ed2391f83d8e7",
+    "commit": "1fbd96c0b2792b07ccd08d15b18bc6d9c71f26ae",
+    "previousAcceptedCommit": "7e896a402304cd67471b7f4d54f6ba01a0bc8eb8",
     "previousCommit": "6a0ee12",
     "files": {
       "assets/home-city/note-latest.json": {
         "previous": "d4b7aa91c7fdb9681f93aeae92fef1bad5c3932a9d910e252175fb4001aa89f7",
-        "accepted": "e2925e26e6fa837a774a9ed1ba3cf2757a2cf486b63b07f334d643a6ebc353ce"
+        "accepted": "2a762f3dad96e4f4f9fbd24ebffcd8bfffa9eef5c6b83a49f22ea8a373cbcfc1"
       },
       "assets/home-city/note-thumb-1.png": {
         "previous": "d9a1624977b13d4a88a78f4e86e768b798a979f00b605fe617601bf50188409b",
@@ -199,11 +199,11 @@
       },
       "assets/home-city/suzuri-latest.json": {
         "previous": "f6fa7c67f9ade99fc816008540f7088f890bc9441e703177a2b1b20394d75b34",
-        "accepted": "381652661abf6678cfcd17e8c3b171b07e46eebf64880d53f9a2c78028551f30"
+        "accepted": "34dced3cd7b023e3fa6bb8493f26690442515550d5913ccd310d2d9e9e2ca76a"
       },
       "assets/home-city/youtube-latest.json": {
         "previous": "c2d4d4787c7f95af84ad9595285d6df4b8f76ce444b6cbb1c63d894a7b377d6e",
-        "accepted": "6231423aa20e6010a9e8608b43273a579b5fa9fac881e08567c78b4d68c89c2e"
+        "accepted": "028f13dbb721be4d4f24c78f02db95d3e98cb2e9df91aedace94bfeadbd4c43e"
       }
     }
   }
