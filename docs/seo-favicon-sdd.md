@@ -71,3 +71,7 @@
 - 通常画面のソース完全一致とレイアウト試験を根拠に公開へ進む。ピクセル未確認点は保持し、公開後にPC/SPの通常表示を目視確認する。Safari自動化・VoiceOverの設定は変更していない。
 
 証跡: Codex作業フォルダの `seo-favicon-20261011/`（layout、pixels-final、control、control-final）。公開・Google受付の結果は次項へ追記する。
+
+### 最新mainの取り込み
+
+生成コミット `3ce24a43dc19a562b5432af6c2ce2157fd10e97b` を保持して取り込んだ。note/SUZURI/YouTubeのJSON各1行の取得時刻更新のみ。HTMLと画像は変更されていない。データ保護manifestの現在受け入れSHA・コミットだけを更新し、以前の基準SHAと承認コード片は保持した。
