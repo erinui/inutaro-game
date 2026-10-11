@@ -461,6 +461,8 @@ assets/fonts/keinann-pop-jp-source.md
 | `assets/apple-touch-icon.png` | iOS用アイコン |
 | `assets/fonts/` | サイトフォント |
 
+公開8ページのheadでは、犬タローゲームと共通の32×32 favicon、180×180 Apple用、192×192アイコンを指定します。既存PNGと固定クエリ `v=20260616-icon` を維持し、ページ階層ごとの相対パスを使います。検索結果のアイコン表示はGoogleの再クロール・判断に依存します。変更範囲と検証の正本は[検索用アイコンSDD](seo-favicon-sdd.md)です。
+
 ### 8.2 トップページマップ
 
 | パス | 用途 |

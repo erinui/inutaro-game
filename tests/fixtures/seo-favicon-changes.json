@@ -1,0 +1,55 @@
+{
+  "baselineCommit": "645f972c78e66f7df750566dd16416cac3da91a9",
+  "beforeHashes": {
+    "index.html": "b6110b8ffed7a4e604ef8d0ac2e9a42e44303e0eb481a33f19e6438ab3a8d3ba",
+    "games/index.html": "4576a84553f2d50d24617d9b6143195e2f71f9534f21b39f21e10aa0a9f3405f",
+    "games/inutaro-mushi/index.html": "bfc65cf88f257942f0f0d982d6b4b7fc7e81a4ce6602ead195370c0293b31bae",
+    "pages/characters.html": "047e7dfdcb6c8ab460fc151de4a8e6fccec89ee87a1f72730ed9b9c5e1239429",
+    "pages/blog.html": "b88421a4d068f0f1725fb9d9fbd4e1f4febb0e10069883f7e7f1608d60dd11c5",
+    "pages/illustrations.html": "d12913266239fb950a3142b80c58fd75292e5fa078c6654074d615e4108ff8e6",
+    "pages/terms.html": "b9433ca9f05a8f7469a4b8f06cb08a382f653e74cc31d5a91249cdcd811d2489",
+    "pages/privacy.html": "bc20bb47b443dfb9e88ddebf24ed28d4ff68d8857bb99abada46d5529b54a500"
+  },
+  "assetHashes": {
+    "assets/favicon.png": "8d74f17dae2560e6dceb8f61208a7ad0487b118cb19ec84754e13c7ed9434607",
+    "assets/icon-192.png": "00c787cade0d174fb9889889ea8be3bc8ef4abddf9ef3ff2bf4b61ca772802eb",
+    "assets/apple-touch-icon.png": "0e7959534183402a016dc35fc44c648510bb966c62c8c56fb38c7d93672138c6"
+  },
+  "changes": [
+    {
+      "id": "SEO-FAVICON-01",
+      "file": "pages/characters.html",
+      "before": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />",
+      "after": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"../assets/apple-touch-icon.png?v=20260616-icon\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"../assets/icon-192.png?v=20260616-icon\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-FAVICON-01",
+      "file": "pages/blog.html",
+      "before": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />",
+      "after": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"../assets/apple-touch-icon.png?v=20260616-icon\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"../assets/icon-192.png?v=20260616-icon\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-FAVICON-01",
+      "file": "pages/illustrations.html",
+      "before": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />",
+      "after": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"../assets/apple-touch-icon.png?v=20260616-icon\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"../assets/icon-192.png?v=20260616-icon\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-FAVICON-01",
+      "file": "pages/terms.html",
+      "before": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />",
+      "after": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"../assets/apple-touch-icon.png?v=20260616-icon\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"../assets/icon-192.png?v=20260616-icon\" />",
+      "count": 1
+    },
+    {
+      "id": "SEO-FAVICON-01",
+      "file": "pages/privacy.html",
+      "before": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />",
+      "after": "    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"../assets/favicon.png?v=20260616-icon\" />\n    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"../assets/apple-touch-icon.png?v=20260616-icon\" />\n    <link rel=\"icon\" type=\"image/png\" sizes=\"192x192\" href=\"../assets/icon-192.png?v=20260616-icon\" />",
+      "count": 1
+    }
+  ]
+}
