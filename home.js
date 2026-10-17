@@ -8,7 +8,16 @@ const suzuriCardsTrack = document.querySelector("[data-suzuri-cards]");
 const lineStampCardsTrack = document.querySelector("[data-line-stamp-cards]");
 const newsCardsTrack = document.querySelector("[data-news-cards]");
 const latestNewsContent = {};
+try {
+  const snapshot = JSON.parse(document.querySelector("#home-youtube-snapshot-data")?.textContent || "null");
+  if (snapshot?.ok && Array.isArray(snapshot.videos)) latestNewsContent.youtube = snapshot;
+} catch { /* A missing or invalid snapshot must not prevent live hydration. */ }
+const homeJsonRoutes = (() => {
+  try { return JSON.parse(document.querySelector("#home-data-routes")?.textContent || "{}"); }
+  catch { return {}; }
+})();
 const boundCardImages = new WeakSet();
+const youtubePanelStates = new WeakMap();
 
 document.querySelectorAll(".content-carousel-card img.content-card-media").forEach(image => bindCardImageFallback(image));
 
@@ -77,7 +86,7 @@ async function hydrateYoutubeContent(card) {
         moreUrl: "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
         moreTitle: "まだまだあるよ",
         moreDescription: "えりぬいの動画をもっとみよう。",
-        getThumbnail: (video) => video.thumbnail?.url || "",
+        getThumbnail: (video) => youtubeThumbnailUrl(video, data.schemaVersion),
         getMeta: (video) => formatPublishedDate(video.publishedAt),
       });
       renderLatestNews({ youtube: data });
@@ -178,7 +187,8 @@ async function fetchYoutubeStaticData() {
 }
 
 async function fetchStaticData(url) {
-  const staticResponse = await fetch(url, {
+  const activeUrl = Object.prototype.hasOwnProperty.call(homeJsonRoutes, url) ? homeJsonRoutes[url] : url;
+  const staticResponse = await fetch(activeUrl, {
     cache: "no-cache",
     headers: {
       Accept: "application/json",
@@ -193,13 +203,20 @@ async function fetchStaticData(url) {
 }
 
 function applyYoutubeMapData(card, data) {
-  const thumbnails = card.querySelectorAll(".youtube-thumb");
-  data.videos?.slice(0, thumbnails.length).forEach((video, index) => {
-    const thumbnailUrl = video?.thumbnail?.url;
-    if (thumbnailUrl && thumbnails[index]) {
-      thumbnails[index].src = thumbnailUrl;
-    }
+  const state = youtubePanelState(card);
+  state.generation++;
+  state.items = [...card.querySelectorAll(".youtube-thumb")].map((image, index) => {
+    const video = data.videos?.[index], url = youtubeThumbnailUrl(video, data.schemaVersion);
+    const previous = state.items[index];
+    const item = previous?.url === url && previous?.id === video?.id ? previous : {
+      id: video?.id, url, width: video?.localThumbnail?.width || 640, height: video?.localThumbnail?.height || 360,
+      status: url ? "idle" : "error", promise: null,
+    };
+    if (url) image.setAttribute("data-src", url); else image.removeAttribute("data-src");
+    if (index !== state.active && index !== state.desired) image.removeAttribute("src");
+    return item;
   });
+  showYoutubePanel(card, state.desired);
 
   const stats = data.channel?.statistics || {};
   const subscribers = card.querySelector(".youtube-stat-subscribers");
@@ -214,38 +231,68 @@ function applyYoutubeMapData(card, data) {
 }
 
 function renderLatestCards(track, items, options) {
-  if (!track || !Array.isArray(items) || items.length === 0) return;
-
-  const visibleItems = items.slice(0, 5);
-  const fragment = document.createDocumentFragment();
-  visibleItems.forEach((item) => {
-    fragment.append(
-      createLatestCard({
-        item,
-        category: options.getCategory?.(item) || options.category,
-        thumbnailUrl: options.getThumbnail?.(item) || "",
-        description: options.getDescription?.(item) || "",
-        meta: options.getMeta?.(item) || "",
-        metaKind: options.metaKind || "",
-        mediaMode: options.getMediaMode?.(item) || options.mediaMode || "cover",
-        mediaClass: options.getMediaClass?.(item) || options.mediaClass || "",
-      }),
-    );
-  });
-
-  if (items.length > visibleItems.length) {
-    fragment.append(
-      createLatestCard({
-        item: { title: options.moreTitle, url: options.moreUrl },
-        category: "AND MORE",
-        description: options.moreDescription,
-        mediaMode: options.mediaMode || "cover",
-        isMore: true,
-      }),
-    );
+  if (!track || !Array.isArray(items)) return;
+  if (items.length === 0) {
+    if (options.category === "YOUTUBE") reconcileCards(track, [{item: {title: "YouTubeでみる", url: options.moreUrl}, category: "YOUTUBE"}]);
+    return;
   }
+  const cards = items.slice(0, 5).map(item => ({
+    item,
+    category: options.getCategory?.(item) || options.category,
+    thumbnailUrl: options.getThumbnail?.(item) || "",
+    description: options.getDescription?.(item) || "",
+    meta: options.getMeta?.(item) || "",
+    metaKind: options.metaKind || "",
+    mediaMode: options.getMediaMode?.(item) || options.mediaMode || "cover",
+    mediaClass: options.getMediaClass?.(item) || options.mediaClass || "",
+  }));
+  if (items.length > 5) cards.push({item: {title: options.moreTitle, url: options.moreUrl}, category: "AND MORE", description: options.moreDescription, mediaMode: options.mediaMode || "cover", isMore: true});
+  reconcileCards(track, cards);
+}
 
-  track.replaceChildren(fragment);
+function youtubeThumbnailUrl(video, version) {
+  const image = video?.localThumbnail;
+  if (image) {
+    if (!/^[A-Za-z0-9_-]{1,80}$/.test(video.id || "") || !/^[a-f0-9]{64}$/.test(image.sha256 || "") ||
+        image.url !== `assets/home-city/youtube-thumb-${video.id}-${image.sha256.slice(0,16)}.webp` ||
+        !Number.isInteger(image.width) || !Number.isInteger(image.height) || image.width < 1 || image.height < 1) return "";
+    return image.url;
+  }
+  if (version === 2) return "";
+  const url = video?.thumbnail?.url || "";
+  return /^https?:\/\//.test(url) ? url : "";
+}
+
+function reconcileCards(track, specs) {
+  const scrollLeft = track.scrollLeft;
+  const old = [...track.children];
+  const desired = specs.map(spec => {
+    const key = `${spec.category}:${spec.item.id || spec.item.url}`;
+    const signature = JSON.stringify(spec);
+    const node = old.find(n => n.getAttribute("data-card-key") === key ||
+      (spec.item.id && n.getAttribute("data-video-id") === spec.item.id) ||
+      (!n.getAttribute("data-card-key") && n.getAttribute("href") === spec.item.url));
+    if (node?.getAttribute("data-render-signature") === signature) return node;
+    const image = node?.querySelector("img.content-card-media");
+    const reuseImage = image?.getAttribute("src") === spec.thumbnailUrl ? image : null;
+    const fresh = createLatestCard({...spec, reuseImage});
+    let card = fresh;
+    if (node) {
+      for (const name of ["class", "href", "target", "rel", "aria-label"]) {
+        const value = fresh.getAttribute(name);
+        if (value === null) node.removeAttribute(name); else node.setAttribute(name, value);
+      }
+      node.replaceChildren(...fresh.childNodes);
+      card = node;
+    }
+    card.setAttribute("data-card-key", key);
+    card.setAttribute("data-render-signature", signature);
+    return card;
+  });
+  desired.forEach((node, i) => { if (track.children[i] !== node) track.insertBefore(node, track.children[i] || null); });
+  for (const node of [...track.children]) if (!desired.includes(node)) node.remove();
+  // Inserting before fallback cards must not anchor the carousel at its end.
+  track.scrollTo({left: Math.min(scrollLeft, Math.max(0, track.scrollWidth - track.clientWidth)), behavior: "instant"});
   window.dispatchEvent(new Event("resize"));
 }
 
@@ -273,7 +320,7 @@ function renderLatestNews(content) {
     cards.push({
       item: latestVideo,
       category: "YOUTUBE",
-      thumbnailUrl: latestVideo.thumbnail?.url || "",
+      thumbnailUrl: youtubeThumbnailUrl(latestVideo, latestNewsContent.youtube?.schemaVersion),
       meta: formatPublishedDate(latestVideo.publishedAt),
       mediaMode: "cover",
     });
@@ -316,11 +363,11 @@ function renderLatestNews(content) {
     });
   }
 
-  newsCardsTrack.replaceChildren(...cards.map((card) => createLatestCard(card)));
+  reconcileCards(newsCardsTrack, cards);
   window.dispatchEvent(new Event("resize"));
 }
 
-function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false, openInNewTab = true }) {
+function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false, openInNewTab = true, reuseImage = null }) {
   const card = document.createElement("a");
   card.className = `content-carousel-card content-card-with-media${isMore ? " content-card-more" : ""}`;
   card.href = item.url;
@@ -330,12 +377,14 @@ function createLatestCard({ item, category, thumbnailUrl, description, meta, met
   }
 
   if (thumbnailUrl) {
-    const image = document.createElement("img");
+    const image = reuseImage || document.createElement("img");
     image.className = `content-card-media${mediaMode === "contain" ? "" : " content-card-media-cover"}${mediaClass ? ` ${mediaClass}` : ""}`;
     image.loading = "lazy";
     image.decoding = "async";
     bindCardImageFallback(image, category);
-    image.src = thumbnailUrl;
+    image.setAttribute("width", "640");
+    image.setAttribute("height", "360");
+    if (image.getAttribute?.("src") !== thumbnailUrl) image.src = thumbnailUrl;
     image.alt = `${item.title || category}の画像`;
     card.append(image);
   } else {
@@ -420,8 +469,42 @@ function formatPublishedDate(value) {
   return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
 }
 
+function youtubePanelState(card) {
+  if (!youtubePanelStates.has(card)) {
+    const items = [...card.querySelectorAll(".youtube-thumb")].map(image => ({
+      id: image.getAttribute("data-video-id"), url: image.getAttribute("data-src") || image.getAttribute("src") || "",
+      width: Number(image.getAttribute("width")) || 640, height: Number(image.getAttribute("height")) || 360,
+      status: image.complete && image.naturalWidth > 0 ? "ready" : "idle", promise: null,
+    }));
+    youtubePanelStates.set(card, {items, generation: 0, desired: 0, active: 0, preloadTimer: null});
+  }
+  return youtubePanelStates.get(card);
+}
+
+function prepareYoutubePanel(card, index) {
+  const state = youtubePanelState(card), item = state.items[index];
+  if (!item?.url || item.status === "error") return Promise.reject(new Error("Unavailable thumbnail"));
+  if (item.status === "ready") return Promise.resolve(item);
+  if (item.promise) return item.promise;
+  const image = card.querySelectorAll(".youtube-thumb")[index];
+  const keepPrevious = index === state.active && image.getAttribute("src") && image.getAttribute("src") !== item.url;
+  const loader = keepPrevious ? new Image() : image;
+  loader.decoding = "async";
+  if (loader.getAttribute("src") !== item.url) loader.src = item.url;
+  item.status = "loading";
+  item.promise = loader.decode().then(() => {
+    if (state.items[index] === item) item.status = "ready";
+    return item;
+  }).catch(error => {
+    if (state.items[index] === item) item.status = "error";
+    throw error;
+  });
+  return item.promise;
+}
+
 function startYoutubeDisplayCycle(card) {
   const params = new URLSearchParams(window.location.search);
+  const state = youtubePanelState(card);
   const panelParam = params.get("youtubePanel");
   if (panelParam !== null) {
     showYoutubePanel(card, Number(panelParam));
@@ -429,22 +512,47 @@ function startYoutubeDisplayCycle(card) {
   }
 
   if (params.get("showStats") === "1") {
-    showYoutubePanel(card, card.querySelectorAll(".youtube-thumb").length);
+    showYoutubePanel(card, state.items.length);
     return;
   }
 
-  let activeIndex = 0;
+  const schedule = () => {
+    window.clearTimeout(state.preloadTimer);
+    state.preloadTimer = window.setTimeout(() => {
+      const next = (state.desired + 1) % (state.items.length + 1);
+      if (next < state.items.length) prepareYoutubePanel(card, next).catch(() => {});
+    }, 8000);
+  };
+  showYoutubePanel(card, 0);
+  schedule();
   window.setInterval(() => {
-    const panelCount = card.querySelectorAll(".youtube-thumb").length + 1;
-    activeIndex = (activeIndex + 1) % panelCount;
-    showYoutubePanel(card, activeIndex);
+    showYoutubePanel(card, (state.desired + 1) % (state.items.length + 1));
+    schedule();
   }, 10000);
 }
 
 function showYoutubePanel(card, activeIndex) {
-  const thumbnails = card.querySelectorAll(".youtube-thumb");
-  thumbnails.forEach((thumbnail, index) => {
-    thumbnail.classList.toggle("is-active", index === activeIndex);
+  const state = youtubePanelState(card);
+  const index = Number.isInteger(activeIndex) && activeIndex >= 0 && activeIndex <= state.items.length ? activeIndex : 0;
+  const generation = state.generation;
+  state.desired = index;
+  const displayStats = () => {
+    card.querySelectorAll(".youtube-thumb").forEach(image => image.classList.remove("is-active"));
+    card.classList.add("is-showing-stats");
+    state.active = state.items.length;
+  };
+  if (index === state.items.length) return displayStats();
+  prepareYoutubePanel(card, index).then(item => {
+    if (state.generation !== generation || state.desired !== index || state.items[index] !== item) return;
+    const images = card.querySelectorAll(".youtube-thumb"), image = images[index];
+    if (image.getAttribute("src") !== item.url) image.src = item.url;
+    image.removeAttribute("data-src");
+    if (item.id) image.setAttribute("data-video-id", item.id);
+    image.setAttribute("width", item.width); image.setAttribute("height", item.height);
+    images.forEach((thumbnail, i) => thumbnail.classList.toggle("is-active", i === index));
+    card.classList.remove("is-showing-stats");
+    state.active = index;
+  }).catch(() => {
+    if (state.generation === generation && state.desired === index) displayStats();
   });
-  card.classList.toggle("is-showing-stats", activeIndex >= thumbnails.length);
 }

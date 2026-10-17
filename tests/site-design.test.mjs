@@ -1,3 +1,4 @@
+import {restoreHomePerformanceChanges} from './helpers/approved-home-performance-changes.mjs';
 import assert from "node:assert/strict";
 import { before, after, test } from "node:test";
 import { readFile } from "node:fs/promises";
@@ -132,6 +133,7 @@ test("Preserve dynamic data, map assets, scripts and game implementation", async
       continue;
     }
     let bytes = await readFile(path.join(root, file));
+    if(/\.(?:js|css|json|html)$/.test(file))bytes=Buffer.from(restoreHomePerformanceChanges(file,bytes.toString()));
     if (file in reliabilityChanges.beforeHashes) bytes = Buffer.from(restoreReliabilityChanges(file, bytes.toString()));
     if (file === "home.js") bytes = Buffer.from(restoreApprovedSeoChanges(file, bytes.toString()));
     // SEO-SHARE-01 allows only the public URL constant; retain the original game baseline.

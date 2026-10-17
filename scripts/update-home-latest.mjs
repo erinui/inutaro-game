@@ -5,11 +5,12 @@ import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import { spawn, execFile } from "node:child_process";
 import { promisify, parseArgs } from "node:util";
+import { validateYoutubeImage } from './lib/youtube-images.mjs';
 
 const rootDirectory = fileURLToPath(new URL("../", import.meta.url));
 const exec = promisify(execFile);
 const providers = [
-  { id: "youtube", script: "update-youtube-latest.mjs", secret: "YOUTUBE_API_KEY", json: "youtube-latest.json", pattern: /^(youtube-latest\.json|youtube-thumb-[1-5]\.jpg)$/ },
+  { id: "youtube", script: "update-youtube-latest.mjs", secret: "YOUTUBE_API_KEY", json: "youtube-latest.json", pattern: /^(youtube-latest\.json|youtube-thumb-[1-5]\.jpg|youtube-thumb-[A-Za-z0-9_-]{1,80}-[a-f0-9]{16}\.webp)$/ },
   { id: "note", script: "update-note-latest.mjs", json: "note-latest.json", pattern: /^(note-latest\.json|note-thumb-[1-6]\.(png|jpg|webp))$/ },
   { id: "suzuri", script: "update-suzuri-latest.mjs", secret: "SUZURI_ACCESS_TOKEN", json: "suzuri-latest.json", pattern: /^suzuri-latest\.json$/ },
 ];
@@ -37,6 +38,7 @@ export async function validateOutput(id, directory) {
   const files = await fileSet(directory, provider.pattern);
   ensure(files.has(provider.json));
   const data = JSON.parse(files.get(provider.json).toString());
+  if(id==='youtube')ensure(data.schemaVersion===undefined||data.schemaVersion===1||data.schemaVersion===2);
   ensure(data.ok === true && typeof data.fetchedAt === "string" && Number.isFinite(Date.parse(data.fetchedAt)));
   const items = id === "youtube" ? data.videos : data.items;
   ensure(Array.isArray(items) && items.length <= 6);
@@ -47,7 +49,12 @@ export async function validateOutput(id, directory) {
     if (id === "youtube" && item.thumbnail) {
       ensure(validUrl(item.thumbnail.url));
       if (index < 5) referenced.add(`youtube-thumb-${index + 1}.jpg`);
+      if(data.schemaVersion===2) {
+        await validateYoutubeImage(item.localThumbnail,item.id,directory);
+        referenced.add(path.basename(item.localThumbnail.url));
+      }
     }
+    if(id==='youtube'&&!item.thumbnail)ensure(!item.localThumbnail);
     if (id === "note" && item.thumbnailUrl) {
       ensure(/^assets\/home-city\/note-thumb-[1-6]\.(png|jpg|webp)$/.test(item.thumbnailUrl));
       referenced.add(path.basename(item.thumbnailUrl));
@@ -91,15 +98,17 @@ async function git(args, root) {
   try { const result = await exec("git", args, { cwd: root }); return { code: 0, stdout: result.stdout }; }
   catch (error) { return { code: typeof error.code === "number" ? error.code : -1, stdout: "" }; }
 }
-export async function updateHomeLatest({ root = rootDirectory, env = process.env, baseCommit, runCollector: collect = runCollector, write = writeFile } = {}) {
+export async function updateHomeLatest({ root = rootDirectory, env = process.env, baseCommit, runCollector: collect = runCollector, write = writeFile, only } = {}) {
+  if(only!==undefined)ensure(Array.isArray(only)&&only.length>0&&new Set(only).size===only.length&&only.every(id=>providers.some(p=>p.id===id)), 'invalid-provider-selection');
+  const selectedProviders=only===undefined?providers:providers.filter(p=>only.includes(p.id));
   const assets = path.join(root, "assets/home-city");
   const workspace = await mkdtemp(path.join(tmpdir(), "erinui-home-update-"));
   const result = { version: 1, baseCommit: baseCommit || (await git(["rev-parse", "HEAD"], root)).stdout.trim(), providers: [], changes: [], promoted: false };
   const snapshots = new Map();
   const replacements = new Map();
   try {
-    for (const provider of providers) snapshots.set(provider.id, await fileSet(assets, provider.pattern));
-    for (const provider of providers) {
+    for (const provider of selectedProviders) snapshots.set(provider.id, await fileSet(assets, provider.pattern));
+    for (const provider of selectedProviders) {
       const record = { id: provider.id, status: "failed", reason: "missing-secret", previousFiles: Object.fromEntries([...snapshots.get(provider.id)].map(([name, bytes]) => [name, hash(bytes)])) };
       result.providers.push(record);
       if (provider.secret && !env[provider.secret]) {
@@ -122,13 +131,16 @@ export async function updateHomeLatest({ root = rootDirectory, env = process.env
       const previous = snapshots.get(id);
       for (const name of new Set([...previous.keys(), ...next.keys()])) {
         const before = previous.get(name), after = next.get(name);
+        const retainingYoutubeImages=id==='youtube'&&JSON.parse(next.get('youtube-latest.json').toString()).schemaVersion===2;
+        const historicalHashedImage=id==='youtube'&&/^youtube-thumb-[A-Za-z0-9_-]{1,80}-[a-f0-9]{16}\.webp$/.test(name);
+        if(before&&!after&&(historicalHashedImage||(retainingYoutubeImages&&!name.endsWith('.json'))))continue;
         if (before && after && before.equals(after)) continue;
         operations.push({ name, before, after });
       }
     }
     const touched = [];
     try {
-      for (const operation of operations) {
+      for (const operation of operations.sort((a,b)=>Number(a.name.endsWith('.json'))-Number(b.name.endsWith('.json')))) {
         touched.push(operation);
         const target = path.join(assets, operation.name);
         if (operation.after) await write(target, operation.after);

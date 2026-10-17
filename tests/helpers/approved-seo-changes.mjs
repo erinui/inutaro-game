@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import {restoreHomePerformanceChanges} from './approved-home-performance-changes.mjs';
 
 const manifest = JSON.parse(await readFile(new URL("../fixtures/seo-performance-changes.json", import.meta.url)));
 
@@ -12,6 +13,7 @@ export function approvedUpstreamHash(file, previousHash) {
 }
 
 export function restoreApprovedSeoChanges(file, source) {
+  source=restoreHomePerformanceChanges(file,source);
   for (const change of manifest.changes.filter(item => item.file === file)) {
     const count = source.split(change.after).length - 1;
     assert.equal(count, change.count, `${file}: ${change.id} approved fragment count`);

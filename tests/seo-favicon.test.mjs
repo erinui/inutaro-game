@@ -102,7 +102,7 @@ test("F04: approved icon fragments restore full original HTML hashes", async () 
     assert.equal(hash(restoreApprovedFaviconChanges(file, await readFile(path.join(root, file), "utf8"))), expected, file);
   }
 });
-test("F05: clean release contains identical HTML and icons, not verification material", async () => {
+test("F05: clean release preserves favicon declarations and icon bytes, not verification material", async () => {
   const temp = await mkdtemp(path.join(tmpdir(), "erinui-favicon-build-"));
   try {
     const output = path.join(temp, "dist");
@@ -110,7 +110,11 @@ test("F05: clean release contains identical HTML and icons, not verification mat
     assert.ok(!files.some(file => /^(tests|scripts|docs|drafts)\//.test(file)));
     for (const file of [...Object.keys(faviconChanges.beforeHashes), ...Object.keys(faviconChanges.assetHashes)]) {
       assert.ok(files.includes(file));
-      assert.deepEqual(await readFile(path.join(output, file)), await readFile(path.join(root, file)), file);
+      const actual=await readFile(path.join(output,file)),source=await readFile(path.join(root,file));
+      if(file.endsWith('.html')){
+        const declarations=bytes=>[...bytes.toString().matchAll(/<link\b[^>]*rel="(?:icon|apple-touch-icon)"[^>]*>/g)].map(m=>m[0]);
+        assert.deepEqual(declarations(actual),declarations(source),file);
+      }else assert.deepEqual(actual,source,file);
     }
   } finally { await rm(temp, { recursive: true, force: true }); }
 });

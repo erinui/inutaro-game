@@ -1,11 +1,12 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { createYoutubeImage } from './lib/youtube-images.mjs';
 
 const API_BASE = "https://www.googleapis.com/youtube/v3";
 const OUT_DIR = process.env.HOME_LATEST_OUTPUT_DIR || path.join("assets", "home-city");
 const DEFAULT_CHANNEL_ID = "UCdnf6zMzSdZuvUxS-CS2REQ";
 const DEFAULT_HANDLE = "@えりぬい";
-const MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 6), 1, 10);
+const MAX_RESULTS = clampNumber(Number(process.env.YOUTUBE_MAX_RESULTS || 6), 1, 6);
 
 const apiKey = process.env.YOUTUBE_API_KEY;
 const channelId = process.env.YOUTUBE_CHANNEL_ID || DEFAULT_CHANNEL_ID;
@@ -21,6 +22,7 @@ const channel = await fetchChannel();
 const videos = await fetchLatestVideos(channel.uploadsPlaylistId);
 
 const data = {
+  schemaVersion: 2,
   ok: true,
   fetchedAt: new Date().toISOString(),
   channel: {
@@ -33,22 +35,22 @@ const data = {
   videos,
 };
 
-await writeFile(
-  path.join(OUT_DIR, "youtube-latest.json"),
-  `${JSON.stringify(data, null, 2)}\n`,
-);
-
 await Promise.all(
-  videos.slice(0, 5).map(async (video, index) => {
+  videos.map(async (video, index) => {
     if (!video.thumbnail?.url) return;
-    const response = await fetch(video.thumbnail.url, { signal: AbortSignal.timeout(12_000) });
+    const response = await fetch(video.thumbnail.url, { signal: AbortSignal.timeout(12_000), headers: {Accept:'image/jpeg'} });
     if (!response.ok) {
       throw new Error(`Failed to download thumbnail ${index + 1}: ${response.status}`);
     }
     const bytes = Buffer.from(await response.arrayBuffer());
-    await writeFile(path.join(OUT_DIR, `youtube-thumb-${index + 1}.jpg`), bytes);
+    video.localThumbnail = await createYoutubeImage({bytes,videoId:video.id,directory:OUT_DIR});
+    if(index<5) {
+      if(bytes[0]!==255||bytes[1]!==216)throw new Error('Legacy JPEG is unavailable; previous provider output retained');
+      await writeFile(path.join(OUT_DIR, `youtube-thumb-${index + 1}.jpg`), bytes);
+    }
   }),
 );
+await writeFile(path.join(OUT_DIR, 'youtube-latest.json'),`${JSON.stringify(data,null,2)}\n`);
 
 console.log(
   JSON.stringify(
@@ -128,13 +130,9 @@ function normalizeVideo(item) {
   const snippet = item.snippet || {};
   const videoId = item.contentDetails?.videoId || snippet.resourceId?.videoId || "";
   const thumbnails = snippet.thumbnails || {};
-  const thumbnail =
-    thumbnails.maxres ||
-    thumbnails.standard ||
-    thumbnails.high ||
-    thumbnails.medium ||
-    thumbnails.default ||
-    null;
+  const candidates=Object.values(thumbnails).filter(t=>t?.url&&t.width>0&&t.height>0);
+  const preferred=candidates.filter(t=>t.width>=640&&Math.abs(t.width/t.height-16/9)<.05).sort((a,b)=>a.width-b.width);
+  const thumbnail=preferred[0]||candidates.sort((a,b)=>b.width-a.width)[0]||null;
 
   return {
     id: videoId,

@@ -1,0 +1,52 @@
+name: Verify home performance candidate
+
+on:
+  push:
+    branches:
+      - 'codex/home-performance-verification-*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.20.2'
+      - name: Setup pinned WebP codecs
+        uses: ./.github/actions/setup-home-webp
+      - name: Install pinned test dependencies
+        run: |
+          npm install --prefix "$RUNNER_TEMP/home-test-deps" --no-save --ignore-scripts playwright@1.62.1 sharp@0.35.5 xml-js@1.6.11
+          echo "NODE_PATH=$RUNNER_TEMP/home-test-deps/node_modules" >> "$GITHUB_ENV"
+          node "$RUNNER_TEMP/home-test-deps/node_modules/playwright/cli.js" install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/home-test-deps/node_modules" node -e 'console.log("CHROME_EXECUTABLE="+require("playwright").chromium.executablePath())' >> "$GITHUB_ENV"
+      - name: Verify codecs and build
+        run: |
+          node --version
+          cwebp -version
+          dwebp -version
+          node scripts/build-site.mjs
+          node scripts/check-home-recovery.mjs capture dist "$RUNNER_TEMP/release-assets.json"
+          node scripts/check-home-recovery.mjs verify dist "$RUNNER_TEMP/release-assets.json"
+      - name: Run fixtures and browser regression tests without publishing data
+        run: |
+          node --test --test-concurrency=1 tests/*.test.mjs > "$RUNNER_TEMP/home-performance-tests.txt" 2>&1
+          cat "$RUNNER_TEMP/home-performance-tests.txt"
+          git diff --exit-code
+      - name: Save verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-performance-verification
+          path: |
+            ${{ runner.temp }}/home-performance-tests.txt
+            ${{ runner.temp }}/release-assets.json
+          if-no-files-found: ignore

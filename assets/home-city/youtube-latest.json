@@ -24,6 +24,12 @@
         "url": "https://i.ytimg.com/vi/TIhVy4qVlVE/maxresdefault.jpg",
         "width": 1280,
         "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-TIhVy4qVlVE-022d3fa08346307c.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "022d3fa08346307c7eb744c3e870e2a08c6619272df821f178038dfabb6fcf34"
       }
     },
     {
@@ -36,6 +42,12 @@
         "url": "https://i.ytimg.com/vi/eA9TRTuAcgI/maxresdefault.jpg",
         "width": 1280,
         "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-eA9TRTuAcgI-319732850841d139.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "319732850841d1395b9d17de457338ab2f098fbc253fd6d8800819876752ebac"
       }
     },
     {
@@ -48,6 +60,12 @@
         "url": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
         "width": 1280,
         "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-0SYZWyrYrKk-2fc235f4f126aebe.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "2fc235f4f126aebe95a54d95ae1d666a341c403211039f9a93286c61739b2d66"
       }
     },
     {
@@ -60,6 +78,12 @@
         "url": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
         "width": 1280,
         "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-v9yCQAbBghw-311b7cb6703c6398.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "311b7cb6703c6398b37310a50f5854c39ab0f7c31e938a9d57a07554ba194c47"
       }
     },
     {
@@ -72,6 +96,12 @@
         "url": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
         "width": 1280,
         "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-0mzRY_-7uvU-0e053d004d757385.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "0e053d004d75738599c3aa124c3bc050e5981c120d00276489f9e9f9e00709da"
       }
     },
     {
@@ -84,7 +114,14 @@
         "url": "https://i.ytimg.com/vi/CZvxgnKnYuw/maxresdefault.jpg",
         "width": 1280,
         "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-CZvxgnKnYuw-f1630464add3f9dd.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "f1630464add3f9dd5544b060895f7da6d02cce3594d70a0e0fe618a3a2bf5edf"
       }
     }
-  ]
+  ],
+  "schemaVersion": 2
 }

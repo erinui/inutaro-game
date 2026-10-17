@@ -5,3 +5,7 @@ https://inutaro-game.erikanuinui.workers.dev/*
 # Version preview URLs prefix the Worker name in the same hostname component.
 https://:version-inutaro-game.erikanuinui.workers.dev/*
   X-Robots-Tag: noindex
+
+# Only content-addressed immutable assets get a long browser cache lifetime.
+/assets/versioned/*
+  Cache-Control: public, max-age=31536000, immutable
