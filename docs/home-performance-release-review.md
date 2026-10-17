@@ -1,6 +1,6 @@
 # 表示速度改善 公開前レビュー・検証記録
 
-対象: ローカルHEAD `8f7563cfcefe7109a1e915fd3d0cf55eb6d34f61` を基準とする性能改修。N01〜N04を実行中。本番は未変更。
+対象: ローカルHEAD `8f7563cfcefe7109a1e915fd3d0cf55eb6d34f61` を基準とする性能改修。2026-10-18、本番反映と公開後確認を実施。過去の未公開表記は各工程実施時点の記録。
 
 ## N01: 差分レビュー
 
@@ -74,3 +74,16 @@ Lighthouse 13.5.0の同じ標準モバイル条件を前後各3回へ増やし�
 最新データの統合に伴い、固定データの保持試験2件がRedになったため、P0の基準ファイルは置き換えず、今回の差分を厳密な復元fragmentへ追加した。クリーンビルドは260公開ファイル、174保持資産の完全SHA検査合格。本番の変更前HTMLとヘッダーは非公開のローカル証跡へ保存した。
 
 本節は公開準備の記録であり、Cloudflareへのアップロード・本番切り替えの完了記録ではない。アカウント認証後、実サービス上のバージョンと復旧先を確認してから切り替え、公開結果を追記する。
+
+## 2026-10-18: 本番反映・公開後確認
+
+- 公開コミット: `d4d30134e1d802acfec1f09447dca6d4e47595d9`。macOS Node20と[Linux CI](https://github.com/erinui/inutaro-game/actions/runs/39044969997)で146/146合格。mainへfast-forwardで反映。
+- 保存済みWrangler OAuthは期限切れでrefreshも失敗したため、新しい認証情報を入力せず、既存のGitHub→Workers Builds連携で公開した。Cloudflare build `454ea660-b4d3-4c5a-89ca-2e281d8bd117` 成功、Worker version `716cf297-5e1a-4012-8c6c-abc6c00c101b`。
+- HTTPS本番の259配信ファイル（260出力のうち制御用 `_headers` を除く）が候補の完全SHAと一致。正規8ページ200、versioned資産immutable、HTML/JSON/旧JSは再検証、JSON/旧JSは条件付き304。config/docs/.env/欠落資産は404。本番にnoindexなし、workers.dev検証ホストにはnoindexあり。旧GitHub Pagesの公開処理も成功。
+- Chrome 155、390×844/DPR2、6Mbps/1.5Mbps/150ms/CPU4、空キャッシュ・初期30秒の本番単発測定: 36要求、失敗0・未完了0、CDP総転送量691,368 B、フォント84,792 B、最大画像66,458 B、LCP1,108ms、CLS0.049435。zstd/gzip応答8件はCDP dataReceivedの本文byteが0になるため、本文のみの611,183 Bを総量として使わない。各完了要求のencodedDataLength（ヘッダー込み）合計と、未確定本文をその転送量で上限評価した680,388 Bの両方で1MB未満を確認した。
+- 通常再訪では21件のversioned資産すべてtransferSize 0、ネットワーク転送なし。JS無効の静的表示で確認し、動画タイマーの追加取得と区別した。
+- 本番Lighthouse 13.5.0・標準モバイル・単発: Performance85、LCP3.927秒、CLS0.00468、runtime error/warningなし。低速条件のLCP2.5秒は未達で、別改善N08を継続する。公開前のローカル3回中央値88を本番スコアと置き換えない。
+- [既存の新着更新workflow](https://github.com/erinui/inutaro-game/actions/runs/39045269624)を公開後に1回手動実行し、YouTube/note/SUZURIすべてsuccess・保存成功。更新コミット `b4241b391ed4f9561f7aba67936bdcdefdf472ae`。動画のハッシュ画像・schema 2の契約と旧資産保持を確認し、更新後も174資産の完全SHA検査が合格。公開候補146試験と、その後の実データ更新検証は別記録とする。
+- 復旧版は旧consumer＋今回の最新正常データ＋174保持資産として再ビルドし、保持集合のSHA照合に合格。新ハッシュ資産のない過去Cloudflareバージョンへの単純rollbackは使用しない。
+
+証跡: `.performance-evidence/20261017/production/`（非公開）。実iOS/DPR1 Safari、PSIの実ユーザーCWV、低速条件LCPの追加改善は未完了。本番公開と、すべての性能目標達成を区別する。
