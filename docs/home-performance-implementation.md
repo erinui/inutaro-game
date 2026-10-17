@@ -136,3 +136,5 @@ inventory検査はハッシュ付き資産が対象。旧PNG/JPG・元フォン�
 - 公開後のLighthouse・PageSpeed Insightsと継続観測。今回のローカルLighthouseは上記のとおり実施済み。ラボ測定を実ユーザー指標と扱わない。
 
 本番公開・DNS/Cloudflare設定操作は実施していない。
+
+実装後の追加レビュー、Safari、Node20/Linuxの146件、Workersローカル配信・復旧演習・低速条件3回の最新結果は [公開前レビュー記録](home-performance-release-review.md) を参照。上記143件・Lighthouse各1回は当初の結果であり、後続の結果と区別する。
