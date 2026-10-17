@@ -1,6 +1,7 @@
 {
+  "schemaVersion": 2,
   "ok": true,
-  "fetchedAt": "2026-10-17T12:08:57.174Z",
+  "fetchedAt": "2026-10-17T15:30:14.046Z",
   "channel": {
     "id": "UCdnf6zMzSdZuvUxS-CS2REQ",
     "title": "erikaさんはぬいちゅーばぁ",
@@ -122,6 +123,5 @@
         "sha256": "f1630464add3f9dd5544b060895f7da6d02cce3594d70a0e0fe618a3a2bf5edf"
       }
     }
-  ],
-  "schemaVersion": 2
+  ]
 }
