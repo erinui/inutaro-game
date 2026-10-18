@@ -201,7 +201,7 @@ C2はニュースの画像直下。GAME #FFE49A、YOUTUBE #F9CCD4、NOTE #CCE7D7
 | 実行時更新 | home.jsのcreateLatestCard/renderLatestCards/renderLatestNews | カテゴリ名そのものと表示有無を分離し、ニュースだけ分類を表示。すべての通常画像をcontainにする |
 | 公開ビルド時 | scripts/lib/home-youtube-snapshot.mjs | 初期YouTubeカードとニュースの画像・分類・テキストを同じ契約に揃える |
 
-表示用の分類を省いても、安定キー `category:id/url` やデータ分類は消さない。署名・画像ノード再利用・scrollLeft維持を引き継ぐ。ニュースはゲーム＋最新YouTube/note/SUZURI/LINEの現行集約を維持し、Figmaの3枚に制限しない。通常枠は現行最大5件＋5件超の場合だけmore、初期YouTubeはJS無効時最大3件という取得・初期表示契約を変更しない。
+表示用の分類を省いても、安定キー `category:id/url` やデータ分類は消さない。署名・画像ノード再利用・scrollLeft維持を引き継ぐ。ニュースはゲームと取得済みYouTube/note/SUZURI/LINEの全件を候補にし、更新日時（なければ公開日時）の降順、重複URL除去後の最大12件とする。同日時は入力順を維持し、日時不明は末尾。取得日時fetchedAtを新着判定に使わず、架空の日付も付けない。カテゴリ別の1件制限、埋め草、ニュースのmoreカードは設けない。通常枠は現行最大5件＋5件超の場合だけmore、初期YouTubeはJS無効時最大3件という取得・初期表示契約を変更しない。ニュースの12件は取得済み候補からの表示上限であり、各サービスから12件ずつ取得する変更ではない。
 
 「すべて見る」はニュースを除く6枠に設ける。2列PCは見出し行の右でgap16、SPと幅不足による縦積み時は見出し下の右。第2.3節の必要幅判定を共有する。キャラクター→pages/characters.html、ゲーム→games/、YouTube→既存チャンネル、ブログ→note.com/erinui、グッズ→suzuri.jp/erikanuinui、LINE→既存作者ページ。moreカードとの重複があってもデータ契約としていったん保持し、整理はG05で判断する。
 

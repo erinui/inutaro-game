@@ -352,56 +352,75 @@ function renderLatestNews(content) {
     },
   ];
 
-  const latestVideo = latestNewsContent.youtube?.videos?.[0];
-  if (latestVideo) {
+  for (const video of latestNewsContent.youtube?.videos || []) {
     cards.push({
-      item: latestVideo,
+      item: video,
       category: "YOUTUBE",
-      thumbnailUrl: youtubeThumbnailUrl(latestVideo, latestNewsContent.youtube?.schemaVersion),
-      meta: formatPublishedDate(latestVideo.publishedAt),
+      thumbnailUrl: youtubeThumbnailUrl(video, latestNewsContent.youtube?.schemaVersion),
+      meta: formatPublishedDate(video.publishedAt),
       mediaMode: "cover",
     });
   }
 
-  const latestArticle = latestNewsContent.note?.items?.[0];
-  if (latestArticle) {
+  for (const article of latestNewsContent.note?.items || []) {
     cards.push({
-      item: latestArticle,
+      item: article,
       category: "NOTE",
-      thumbnailUrl: latestArticle.thumbnailUrl || "assets/home-city/map_blog.png",
-      description: latestArticle.excerpt || "",
-      meta: formatPublishedDate(latestArticle.publishedAt),
-      mediaMode: latestArticle.thumbnailUrl ? "cover" : "contain",
-      mediaClass: latestArticle.thumbnailUrl ? "" : "content-card-media-note",
+      thumbnailUrl: article.thumbnailUrl || "assets/home-city/map_blog.png",
+      description: article.excerpt || "",
+      meta: formatPublishedDate(article.publishedAt),
+      mediaMode: article.thumbnailUrl ? "cover" : "contain",
+      mediaClass: article.thumbnailUrl ? "" : "content-card-media-note",
     });
   }
 
-  const latestProduct = latestNewsContent.suzuri?.items?.[0];
-  if (latestProduct) {
+  for (const product of latestNewsContent.suzuri?.items || []) {
     cards.push({
-      item: latestProduct,
+      item: product,
       category: "SUZURI",
-      thumbnailUrl: latestProduct.thumbnailUrl || "",
-      meta: latestProduct.priceWithTax ? `${formatCount(latestProduct.priceWithTax)}円（税込）` : "SUZURIでみる",
+      thumbnailUrl: product.thumbnailUrl || "",
+      meta: product.priceWithTax ? `${formatCount(product.priceWithTax)}円（税込）` : "SUZURIでみる",
       metaKind: "price",
       mediaMode: "cover",
     });
   }
 
-  const latestLineStamp = latestNewsContent.lineStamp?.items?.[0];
-  if (latestLineStamp) {
+  for (const stamp of latestNewsContent.lineStamp?.items || []) {
     cards.push({
-      item: latestLineStamp,
-      category: latestLineStamp.kind || "LINE STAMP",
-      thumbnailUrl: latestLineStamp.thumbnailUrl || "",
+      item: stamp,
+      category: stamp.kind || "LINE STAMP",
+      thumbnailUrl: stamp.thumbnailUrl || "",
       meta: "LINE STOREでみる",
       mediaMode: "contain",
       mediaClass: "content-card-media-line",
     });
   }
 
-  reconcileCards(newsCardsTrack, cards.map(card => ({...card, showCategory:true})));
+  reconcileCards(newsCardsTrack, selectNewsCards(cards).map(card => ({...card, showCategory:true})));
   window.dispatchEvent(new Event("resize"));
+}
+
+function newsItemTime(item) {
+  for (const value of [item.updatedAt, item.publishedAt]) {
+    if (typeof value !== 'string' || !value.trim()) continue;
+    const time = Date.parse(value);
+    if (Number.isFinite(time)) return time;
+  }
+  return -Infinity;
+}
+
+function selectNewsCards(cards) {
+  const seen = new Set();
+  return cards.map((card, index) => ({card, index, time:newsItemTime(card.item)}))
+    .sort((a, b) => b.time - a.time || a.index - b.index)
+    .filter(({card}) => {
+      const key = card.item.url;
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 12)
+    .map(({card}) => card);
 }
 
 function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false, openInNewTab = true, reuseImage = null, showCategory = false }) {

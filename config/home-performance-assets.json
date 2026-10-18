@@ -9,7 +9,7 @@
     "assets/home-city/map_note.svg": "assets/versioned/map_note.9f871e44148a104a.webp",
     "assets/home-city/map_illast.svg": "assets/versioned/map_illast.cf46370fb36aea9a.webp",
     "assets/home-city/map_youtube.svg": "assets/versioned/map_youtube.9a98bed7644c0276.webp",
-    "home.js": "assets/versioned/home.c0f62f7392d78b70.js",
+    "home.js": "assets/versioned/home.d12312fd9391ad21.js",
     "site-nav.js": "assets/versioned/site-nav.d79a4edce5d01e04.js",
     "site-migration.js": "assets/versioned/site-migration.04f7e2c2720920f1.js",
     "home.css": "assets/versioned/home.f0e0ec9f21efc909.css",
@@ -2222,6 +2222,16 @@
       "bytes": 24108,
       "sources": {
         "home.js": "477181469973812644640ec27ce5181038502af88bf198ad604cc10e9b729df1"
+      },
+      "kind": "js",
+      "mime": "text/javascript"
+    },
+    {
+      "file": "assets/versioned/home.d12312fd9391ad21.js",
+      "sha256": "d12312fd9391ad214548d55acfc22c44e06de8120aefbfc5dedff25cb872e872",
+      "bytes": 24595,
+      "sources": {
+        "home.js": "3748819718c66f82f4af50de2864d73cc2fe6490c05158c458ad04965c45e486"
       },
       "kind": "js",
       "mime": "text/javascript"

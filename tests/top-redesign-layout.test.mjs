@@ -88,12 +88,12 @@ test('TOP-W04: cards share dimensions, contain media, and only news shows catego
   for (const width of [320,390,1440]) {
     const page = await open({width,height:900});
     try {
-      await page.waitForFunction(() => document.querySelector('[data-news-cards]')?.children.length === 5);
+      await page.waitForFunction(() => document.querySelector('[data-news-cards]')?.children.length === 12);
       const sizes = await page.locator('.content-carousel-card, .character-card').evaluateAll(nodes => nodes.map(n => {const r=n.getBoundingClientRect();return [r.width,r.height];}));
       const [w,h] = sizes[0];
       for (const size of sizes) { assert.ok(Math.abs(size[0]-w)<1); assert.ok(Math.abs(size[1]-h)<1); }
       if (width !== 320) { assert.equal(w,321); assert.equal(h,432); }
-      assert.equal(await page.locator('.news-section .content-card-kicker').count(), 5);
+      assert.equal(await page.locator('.news-section .content-card-kicker').count(), 12);
       assert.equal(await page.locator('section:not(.news-section) .content-card-kicker').count(), 0);
       for (const fit of await page.locator('.content-card-media').evaluateAll(nodes => nodes.filter(n=>n.tagName==='IMG').map(n=>getComputedStyle(n).objectFit))) assert.equal(fit,'contain');
       assert.equal(await page.locator('.section-more').count(), 6);
@@ -104,7 +104,7 @@ test('TOP-W04: cards share dimensions, contain media, and only news shows catego
 test('TOP-W04: category colors follow content rather than the card index when a provider is empty', async () => {
   const page = await open();
   try {
-    await page.waitForFunction(()=>document.querySelector('[data-news-cards]')?.children.length===5);
+    await page.waitForFunction(()=>document.querySelector('[data-news-cards]')?.children.length===12);
     await page.evaluate(()=>renderLatestNews({youtube:{ok:true,videos:[]}}));
     assert.equal(await page.locator('.news-section .content-card-kicker[data-category="NOTE"]').evaluate(n=>getComputedStyle(n).backgroundColor),'rgb(204, 231, 215)');
   } finally {await page.close();}
