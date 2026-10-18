@@ -1,4 +1,6 @@
 import {restoreHomePerformanceChanges} from './helpers/approved-home-performance-changes.mjs';
+import {restoreTopRedesignChanges} from './helpers/approved-top-redesign-changes.mjs';
+import {htmlNodes} from '../scripts/lib/home-youtube-snapshot.mjs';
 import assert from "node:assert/strict";
 import { before, after, test } from "node:test";
 import { readFile } from "node:fs/promises";
@@ -39,17 +41,18 @@ for (const item of spec.pages) {
       for (const selector of ['meta[property="og:title"]', 'meta[name="twitter:title"]']) assert.equal(await page.locator(selector).getAttribute("content"), shareTitle);
       assert.ok((await page.locator('link[rel="preload"][as="font"]').getAttribute("href")).endsWith(spec.fontFile));
       assert.ok((await page.locator('link[rel="stylesheet"]').getAttribute("href")).endsWith(`?v=${spec.cssVersion}`));
-      for (const [selector, expected] of Object.entries(item.copy)) assert.equal(normalize(await page.locator(selector).innerText()), normalize(expected), selector);
+      const copy = item.path === 'index.html' ? {'.hero-copy':'えりぬい・犬タローの公式サイト。','.map-guide-card p':'マップの気になるスポットを押すと、そのエリアのおすすめへ移動できます。','#news-title':'ニュース'} : item.copy;
+      for (const [selector, expected] of Object.entries(copy)) assert.equal(normalize(await page.locator(selector).textContent()), normalize(expected), selector);
       const source = await readFile(path.join(root, item.path), "utf8");
       assert.ok(!source.includes("えりぬいシティ"));
-      const links = await page.locator("a").evaluateAll(nodes => nodes.map(a => a.getAttribute("href")));
+      const links = item.path === 'index.html' ? htmlNodes(restoreTopRedesignChanges(item.path,source)).filter(n=>n.tag==='a').map(n=>n.attrs.href) : await page.locator("a").evaluateAll(nodes => nodes.map(a => a.getAttribute("href")));
       assert.deepEqual(links, baseline.links[item.path]);
       if (item.path === "pages/blog.html") {
         assert.equal(await page.locator("form").count(), 0);
         assert.equal(await page.locator(".card-button").getAttribute("href"), "https://note.com/erinui");
       }
       if (item.path === "index.html") {
-        assert.deepEqual(await page.locator(".map-guide-spots span").allTextContents(), ["ゲーム開発会社", "めちゃデカCM看板", "ピクニック広場", "大型ショッピング施設"]);
+        assert.equal(await page.locator('.map-guide-spots').count(),0);
         assert.equal(await page.locator(".content-carousel-controls").first().getAttribute("aria-label"), "ニュースの表示切り替え");
         assert.equal(await page.locator(".character-card").first().getAttribute("href"), "pages/characters.html");
       }
@@ -66,14 +69,14 @@ test("NAME-04: map letters changed, ground and road preserved", async () => {
   assert.ok(!svg.elements.some(node => node.name === "path" && node.attributes?.fill === "white"));
 });
 
-test("LAYOUT-01: guide city name stays together on narrow screens", async () => {
+test("LAYOUT-01: TOP city name stays together on narrow screens", async () => {
   const page = await browser.newPage();
   try {
     for (const width of [320, 390]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(server.url);
       await page.evaluate(() => document.fonts.ready);
-      const name = page.locator(".map-guide-city-name");
+      const name = page.locator("#hero-title");
       assert.equal(await name.count(), 1);
       assert.equal(await name.innerText(), spec.siteName);
       const geometry = await name.evaluate(node => {

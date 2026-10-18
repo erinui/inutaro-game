@@ -157,8 +157,12 @@ test("I02/I03: native lazy images load at anchors and on carousel page two", asy
     const track = page.locator("[data-youtube-cards]");
     await track.scrollIntoViewIfNeeded();
     await track.locator("img").first().evaluate(image => image.decode());
-    await page.locator(".youtube-section .content-carousel-next").click();
-    await page.waitForTimeout(700);
+    const next = page.locator(".youtube-section .content-carousel-next");
+    // TOP v2 advances one card rather than one former three-card page.
+    for (let index = 0; index < 6 && await next.isEnabled(); index++) {
+      await next.click();
+      await page.waitForTimeout(700);
+    }
     const more = track.locator(".content-card-more");
     assert.equal(await more.locator("h3").textContent(), "まだまだあるよ");
     await track.locator("img").nth(4).evaluate(image => image.decode());

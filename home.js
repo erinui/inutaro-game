@@ -29,7 +29,32 @@ if (youtubeCard) {
 bindDecorationAction(sasukeButton, "is-walking", 1600);
 bindDecorationAction(bukuroButton, "is-questioning", 1100);
 contentCarousels.forEach(bindContentCarousel);
+bindMapAnchors();
 hydrateStaticContent();
+
+function motionBehavior() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+}
+
+function bindMapAnchors() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  const measureHeader = () => document.body.style.setProperty('--top-header-height', `${header.getBoundingClientRect().height}px`);
+  new ResizeObserver(measureHeader).observe(header);
+  measureHeader();
+  document.querySelectorAll('.map-card[href^="#"]').forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const target = document.getElementById(link.hash.slice(1));
+      if (!target) return;
+      event.preventDefault();
+      if (window.location.hash !== link.hash) history.pushState(null, '', link.hash);
+      target.setAttribute('tabindex', '-1');
+      target.focus({preventScroll:true});
+      target.scrollIntoView({behavior:motionBehavior(), block:'start'});
+    });
+  });
+}
 
 function bindDecorationAction(element, className, duration) {
   if (!element) return;
@@ -63,9 +88,12 @@ function bindContentCarousel(carousel) {
   };
 
   const scrollPage = (direction) => {
+    const first = track.firstElementChild;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const step = first ? first.getBoundingClientRect().width + gap : track.clientWidth;
     track.scrollBy({
-      left: direction * track.clientWidth,
-      behavior: "smooth",
+      left: direction * step,
+      behavior: motionBehavior(),
     });
   };
 
@@ -73,6 +101,15 @@ function bindContentCarousel(carousel) {
   nextButton.addEventListener("click", () => scrollPage(1));
   track.addEventListener("scroll", updateButtons, { passive: true });
   window.addEventListener("resize", updateButtons);
+  new ResizeObserver(updateButtons).observe(track);
+  new MutationObserver(updateButtons).observe(track, {childList:true});
+  track.addEventListener('focusin', event => {
+    const card = event.target.closest('.content-carousel-card, .character-card');
+    if (!card) return;
+    const bounds = track.getBoundingClientRect(), item = card.getBoundingClientRect();
+    const delta = item.left < bounds.left ? item.left - bounds.left : item.right > bounds.right ? item.right - bounds.right : 0;
+    if (delta) track.scrollBy({left:delta, behavior:motionBehavior()});
+  });
   updateButtons();
 }
 
@@ -278,7 +315,7 @@ function reconcileCards(track, specs) {
     const fresh = createLatestCard({...spec, reuseImage});
     let card = fresh;
     if (node) {
-      for (const name of ["class", "href", "target", "rel", "aria-label"]) {
+      for (const name of ["class", "href", "target", "rel", "aria-label", "data-category"]) {
         const value = fresh.getAttribute(name);
         if (value === null) node.removeAttribute(name); else node.setAttribute(name, value);
       }
@@ -363,14 +400,15 @@ function renderLatestNews(content) {
     });
   }
 
-  reconcileCards(newsCardsTrack, cards);
+  reconcileCards(newsCardsTrack, cards.map(card => ({...card, showCategory:true})));
   window.dispatchEvent(new Event("resize"));
 }
 
-function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false, openInNewTab = true, reuseImage = null }) {
+function createLatestCard({ item, category, thumbnailUrl, description, meta, metaKind, mediaMode, mediaClass, isMore = false, openInNewTab = true, reuseImage = null, showCategory = false }) {
   const card = document.createElement("a");
   card.className = `content-carousel-card content-card-with-media${isMore ? " content-card-more" : ""}`;
   card.href = item.url;
+  card.setAttribute('data-category', category);
   if (openInNewTab) {
     card.target = "_blank";
     card.rel = "noopener noreferrer";
@@ -395,10 +433,13 @@ function createLatestCard({ item, category, thumbnailUrl, description, meta, met
     card.append(placeholder);
   }
 
-  const kicker = document.createElement("p");
-  kicker.className = "content-card-kicker";
-  kicker.textContent = category;
-  card.append(kicker);
+  if (showCategory) {
+    const kicker = document.createElement("p");
+    kicker.className = "content-card-kicker";
+    kicker.setAttribute('data-category', category);
+    kicker.textContent = category;
+    card.append(kicker);
+  }
 
   const title = document.createElement("h3");
   title.textContent = item.title || "最新情報";
@@ -429,7 +470,7 @@ function bindCardImageFallback(image, category) {
   const onError = () => {
     const card = image.closest(".content-carousel-card");
     if (!card || !image.isConnected) return;
-    const label = category || card.querySelector(".content-card-kicker")?.textContent.trim() || "";
+    const label = category || card.getAttribute('data-category') || card.querySelector(".content-card-kicker")?.textContent.trim() || (card.closest('.blog-section') ? 'NOTE' : '');
     const isNoteFallback = image.src.split(/[?#]/, 1)[0].endsWith("/assets/home-city/map_blog.png");
     if (label === "NOTE" && !triedNoteFallback && !isNoteFallback) {
       triedNoteFallback = true;

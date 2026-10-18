@@ -4,21 +4,22 @@
     "assets/home-city/map_sns2.svg": "assets/versioned/map_sns2.6d0e2b97c40f4dda.webp",
     "assets/home-city/map_character.svg": "assets/versioned/map_character.036804ef3e74eb66.webp",
     "assets/home-city/map_linestamp.svg": "assets/versioned/map_linestamp.d22eeccf79a3cb3f.webp",
-    "assets/home-city/map_game.svg": "assets/versioned/map_game.6a5a2d0dc9dedb92.webp",
-    "assets/home-city/map_goods.svg": "assets/versioned/map_goods.02538b1f23df70f2.webp",
+    "assets/home-city/map_game.svg": "assets/versioned/map_game.7767c1008d763cee.webp",
+    "assets/home-city/map_goods.svg": "assets/versioned/map_goods.e97799f2f2c2ec65.webp",
     "assets/home-city/map_note.svg": "assets/versioned/map_note.9f871e44148a104a.webp",
     "assets/home-city/map_illast.svg": "assets/versioned/map_illast.cf46370fb36aea9a.webp",
     "assets/home-city/map_youtube.svg": "assets/versioned/map_youtube.9a98bed7644c0276.webp",
-    "home.js": "assets/versioned/home.c2a6d211a860d84a.js",
+    "home.js": "assets/versioned/home.c0f62f7392d78b70.js",
     "site-nav.js": "assets/versioned/site-nav.d79a4edce5d01e04.js",
     "site-migration.js": "assets/versioned/site-migration.04f7e2c2720920f1.js",
-    "home.css": "assets/versioned/home.e72cc01e520d61be.css",
+    "home.css": "assets/versioned/home.aaafce3ebfd6f974.css",
     "assets/characters/chara_inutaro_origin.png": "assets/versioned/chara_inutaro_origin.ae856bd0e8728287.webp",
     "assets/characters/chara_inutaro_nuigurumi.png": "assets/versioned/chara_inutaro_nuigurumi.42fa624a81609db1.webp",
     "assets/characters/chara_erika-san.png": "assets/versioned/chara_erika-san.c663015a5d197a6e.webp",
     "assets/characters/chara_sasuke.png": "assets/versioned/chara_sasuke.1a9c973983eef9b1.webp",
     "assets/characters/chara_bukuro.png": "assets/versioned/chara_bukuro.6262eb1b22dbd3a3.webp",
-    "assets/games/inutaro-mushi/gameplay-preview.png": "assets/versioned/gameplay-preview.529ffff67ed0440d.webp"
+    "assets/games/inutaro-mushi/gameplay-preview.png": "assets/versioned/gameplay-preview.529ffff67ed0440d.webp",
+    "assets/home-city/city-checker-tile.svg": "assets/versioned/city-checker-tile.0b9020af57b40b45.webp"
   },
   "activeOutputs": [
     "assets/versioned/icon-192-header.f30f23e6c0699031.webp",
@@ -2052,6 +2053,170 @@
       "mime": "text/javascript"
     },
     {
+      "file": "assets/versioned/home.e72cc01e520d61be.css",
+      "sha256": "e72cc01e520d61bec645e1ccddd00004a8ae1a1b4b0052cc6e4ac1d7dabe9f83",
+      "bytes": 137533,
+      "sources": {
+        "home.css": "8f4b910f1fc72d675128b3cff6bf006ef4d51cefcb840c4432c43a1d48bba656"
+      },
+      "kind": "css",
+      "mime": "text/css"
+    },
+    {
+      "file": "assets/versioned/map_game.7767c1008d763cee.webp",
+      "sha256": "7767c1008d763cee2302c40aff2b8743cc05382afd4cb58213a39ba89a4ba0be",
+      "bytes": 27164,
+      "sources": {
+        "assets/home-city/map_game.svg": "d66536c2beac25a0eb0c0881d26b691fa4389dd4bbd6c0a2cf5244aabf42aeb5"
+      },
+      "width": 640,
+      "height": 640,
+      "mime": "image/webp",
+      "kind": "map",
+      "quality": 90,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/map_goods.e97799f2f2c2ec65.webp",
+      "sha256": "e97799f2f2c2ec654337da3733852f34b22f67122327bd78a08c29cfb86849ca",
+      "bytes": 41526,
+      "sources": {
+        "assets/home-city/map_goods.svg": "ba2b8ddf431578823c3b157e64cc88bfe38f5a44ea09ebd7a20aa17447f8531a"
+      },
+      "width": 640,
+      "height": 640,
+      "mime": "image/webp",
+      "kind": "map",
+      "quality": 90,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/city-checker-tile.0b9020af57b40b45.webp",
+      "sha256": "0b9020af57b40b45268fc83223a3e5314b414ec6722b13730b65bb7120648b82",
+      "bytes": 93228,
+      "sources": {
+        "assets/home-city/city-checker-tile.svg": "e838b97c659cc84a53aa49680ef35889ffdc86246695094388072914df1131e6"
+      },
+      "width": 1920,
+      "height": 768,
+      "mime": "image/webp",
+      "kind": "pattern",
+      "quality": 80,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/chara_inutaro_origin-top.4c4a802a705c3c2d.webp",
+      "sha256": "4c4a802a705c3c2da20f2938c42a1d039cb85758f5ba5d707d03aea1e7581d02",
+      "bytes": 34562,
+      "sources": {
+        "assets/characters/chara_inutaro_origin.png": "020f78666aafadef8085292f6ca156747b25661d5d2f5a71e09e2aa8008fe8ff"
+      },
+      "width": 282,
+      "height": 524,
+      "mime": "image/webp",
+      "kind": "top-character",
+      "quality": 90,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/chara_inutaro_nuigurumi-top.05a7d8d9b446891b.webp",
+      "sha256": "05a7d8d9b446891b22becff2585b049903a31237047ad077d6a65a8913b934c7",
+      "bytes": 82192,
+      "sources": {
+        "assets/characters/chara_inutaro_nuigurumi.png": "faf529ab0867054ea47cb54bc041dca16ab93e3b9842d4ca600fa524078a8945"
+      },
+      "width": 551,
+      "height": 524,
+      "mime": "image/webp",
+      "kind": "top-character",
+      "quality": 80,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/chara_erika-san-top.6b03166712d519db.webp",
+      "sha256": "6b03166712d519dbb7e44774af55bc1b8acdb8bbac9d5480e2225546efce1fd2",
+      "bytes": 76458,
+      "sources": {
+        "assets/characters/chara_erika-san.png": "ec979880d70485e1244656cabb950c2f2bd2362aa7e76a3d31951e1205b8e763"
+      },
+      "width": 458,
+      "height": 524,
+      "mime": "image/webp",
+      "kind": "top-character",
+      "quality": 90,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/chara_sasuke-top.e9b16ae4723393ef.webp",
+      "sha256": "e9b16ae4723393efec4891260620ae12b0a368699e117a0499b8a15b71e245ca",
+      "bytes": 42258,
+      "sources": {
+        "assets/characters/chara_sasuke.png": "a7b7a56c726374d658bf28ea21bc40e63ec51c134172a3c412db3ed301943368"
+      },
+      "width": 408,
+      "height": 524,
+      "mime": "image/webp",
+      "kind": "top-character",
+      "quality": 90,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/chara_bukuro-top.4e09e4b6f09ccf1d.webp",
+      "sha256": "4e09e4b6f09ccf1d5cf9b60357b1bb777f3228a3782a65d6515936225c936974",
+      "bytes": 54026,
+      "sources": {
+        "assets/characters/chara_bukuro.png": "4d210c888bfb5606e871f12a63740041d9735eb1aa3e97798b3877d57add64d2"
+      },
+      "width": 384,
+      "height": 524,
+      "mime": "image/webp",
+      "kind": "top-character",
+      "quality": 90,
+      "renderer": "155.0.8059.80",
+      "review": {
+        "method": "full SVG rendering; TOP PC/SP screenshot comparison",
+        "date": "2026-10-18"
+      }
+    },
+    {
+      "file": "assets/versioned/home.c0f62f7392d78b70.js",
+      "sha256": "c0f62f7392d78b7074e183a2ab1177b826285a044f4bc7eee928bf2fc9325e8c",
+      "bytes": 24108,
+      "sources": {
+        "home.js": "477181469973812644640ec27ce5181038502af88bf198ad604cc10e9b729df1"
+      },
+      "kind": "js",
+      "mime": "text/javascript"
+    },
+    {
       "file": "assets/versioned/site-nav.d79a4edce5d01e04.js",
       "sha256": "d79a4edce5d01e04d6fd72532267247a421e6ef41e97d167823185e236e6161c",
       "bytes": 1858,
@@ -2072,11 +2237,11 @@
       "mime": "text/javascript"
     },
     {
-      "file": "assets/versioned/home.e72cc01e520d61be.css",
-      "sha256": "e72cc01e520d61bec645e1ccddd00004a8ae1a1b4b0052cc6e4ac1d7dabe9f83",
-      "bytes": 137533,
+      "file": "assets/versioned/home.aaafce3ebfd6f974.css",
+      "sha256": "aaafce3ebfd6f974f9bcd881e3978edd8f6b4b0420e9eb484626a4b9e4a5b0ec",
+      "bytes": 153629,
       "sources": {
-        "home.css": "8f4b910f1fc72d675128b3cff6bf006ef4d51cefcb840c4432c43a1d48bba656"
+        "home.css": "86625c64c69a80675bcb48265206e9d925393bf8b738f50c97ab70298d0ff374"
       },
       "kind": "css",
       "mime": "text/css"
@@ -23484,5 +23649,12 @@
         ]
       }
     ]
+  },
+  "topImageBindings": {
+    "assets/characters/chara_inutaro_origin.png": "assets/versioned/chara_inutaro_origin-top.4c4a802a705c3c2d.webp",
+    "assets/characters/chara_inutaro_nuigurumi.png": "assets/versioned/chara_inutaro_nuigurumi-top.05a7d8d9b446891b.webp",
+    "assets/characters/chara_erika-san.png": "assets/versioned/chara_erika-san-top.6b03166712d519db.webp",
+    "assets/characters/chara_sasuke.png": "assets/versioned/chara_sasuke-top.e9b16ae4723393ef.webp",
+    "assets/characters/chara_bukuro.png": "assets/versioned/chara_bukuro-top.4e09e4b6f09ccf1d.webp"
   }
 }

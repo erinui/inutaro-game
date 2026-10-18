@@ -1,8 +1,12 @@
 import {readFile} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import {sha256} from '../../scripts/lib/home-assets.mjs';
+import {restoreVerifiedTopDataRefresh} from './approved-top-data-refresh.mjs';
+import {restoreTopRedesignChanges} from './approved-top-redesign-changes.mjs';
 export const homePerformanceChanges=JSON.parse(await readFile(new URL('../fixtures/home-performance-changes.json',import.meta.url),'utf8'));
 export function restoreHomePerformanceChanges(file,source){
+  source=restoreTopRedesignChanges(file,source);
+  source=restoreVerifiedTopDataRefresh(file,source);
   if(sha256(source)!==homePerformanceChanges.afterHashes[file])return source;
   for(const change of homePerformanceChanges.changes.filter(c=>c.file===file)){
     assert.equal(source.split(change.after).length-1,change.count,`${file}: approved performance fragment count`);

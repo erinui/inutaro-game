@@ -5,7 +5,7 @@ import { execFileSync } from "node:child_process";
 import path from "node:path";
 import os from "node:os";
 import { root } from "./helpers/site-server.mjs";
-import { sha256 } from '../scripts/lib/home-assets.mjs';
+import { sha256,bindingsForDocument } from '../scripts/lib/home-assets.mjs';
 import {htmlNodes,attrs} from '../scripts/lib/home-youtube-snapshot.mjs';
 
 function withoutSnapshotSlots(html) {
@@ -31,13 +31,15 @@ test("SEO-PUBLISH-01: deploy output contains only approved public files", async 
       const edits=htmlNodes(html).filter(n=>n.tag==='img').map(n=>({start:n.start,end:n.openEnd,value:'<img '+Object.entries(n.attrs).filter(([k])=>!['width','height','decoding'].includes(k)).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>k+'='+JSON.stringify(k==='src'&&/icon-192\.png/.test(v)?v.split('?')[0]:v)).join(' ')+' />'}));
       for(const e of edits.reverse())html=html.slice(0,e.start)+e.value+html.slice(e.end);
       html=html.replace(/\n    <link rel="preload" as="image" href="assets\/home-city\/map_bg\.svg\?v=20261010-city-name" fetchpriority="high" \/>/,'');
+      const pattern=manifest?.bindings['assets/home-city/city-checker-tile.svg'];
+      if(document==='index.html'&&pattern)html=html.replace(`\n    <link rel="preload" as="image" href="${pattern}" fetchpriority="high" />`,'');
       html=html.replace(/<link[^>]+href=["'][^"']*keinann-pop-jp\.woff2[^"']*["'][^>]*>\s*/g,'');
       if(manifest?.headerLogo)html=html.replaceAll(manifest.headerLogo.file,'assets/icon-192.png');
       return html.replace(/\b(src|href)=(["'])([^"'<>]+)\2/g,(original,name,q,url)=>{
       const resolved=new URL(url,new URL(document,'https://fixture.invalid/'));
       if(resolved.origin!=='https://fixture.invalid')return original;
       const pathname=resolved.pathname.slice(1);
-      const binding=Object.entries(manifest?.bindings||{}).find(([source,target])=>source===pathname||target===pathname);
+      const binding=Object.entries(manifest?bindingsForDocument(manifest,document):{}).find(([source,target])=>source===pathname||target===pathname);
       return binding?`${name}=${q}approved:${binding[0]}${q}`:original;
     });
     };

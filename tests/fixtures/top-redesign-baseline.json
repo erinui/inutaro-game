@@ -1,0 +1,595 @@
+{
+  "version": 1,
+  "recordedDate": "2026-10-18",
+  "baselineCommit": "8f7563cfcefe7109a1e915fd3d0cf55eb6d34f61",
+  "scope": "W01 local working tree including existing unpublished performance work. This is the pre-redesign baseline, not a reproduction of HEAD or a new layout approval.",
+  "sourceHashes": {
+    "config/home-performance-assets.json": "fd2047c3ff4138791efc64e7663e7f173cb753be21d6b0fb9981e6b13303e57a",
+    "home.css": "8f4b910f1fc72d675128b3cff6bf006ef4d51cefcb840c4432c43a1d48bba656",
+    "home.js": "67853a36e62792b837c8fe2c97e6b4e2446f7a9e652c12d688c4399b5670b61a",
+    "index.html": "79b66e29fa72d7d22695b50a3b10b87adc457d3dfea8e462d1c19558590985a7",
+    "scripts/build-site.mjs": "63b11e4792f4f4c843973c242e311062befd009868b95e9e7d833962b89be028",
+    "scripts/lib/generate-home-code.mjs": "b087ac24652cfbe60e188e60b131e5b355f32a9db391cb69655c2dfc9b62a413",
+    "scripts/lib/home-youtube-snapshot.mjs": "dfa7da7f3467ff8d67027236096eb09be9636af956eeb0a0395f653a4738825a",
+    "site-nav.js": "d79a4edce5d01e04d6fd72532267247a421e6ef41e97d167823185e236e6161c"
+  },
+  "protectedHashes": {
+    ".github/workflows/update-youtube-latest.yml": "3fc81156652f912b9ed3c102a5b18513d2310bb8a2003533734f9888ad8062d4",
+    "_headers": "11e7cfaca431d05f09a0bd71b77d46f8eb551e771c17cfa20fc85c331b105b2b",
+    "config/home-data-recovery.json": "08e4dda540834cc92a9098c864ff9f20fb70273733b768845558bc6cbfcbb19a",
+    "games/index.html": "4576a84553f2d50d24617d9b6143195e2f71f9534f21b39f21e10aa0a9f3405f",
+    "games/inutaro-mushi/game.js": "2d35c42f681f872cd119e8a7ed3de2f73da2144e14fbdca32256a418d2768b84",
+    "games/inutaro-mushi/index.html": "bfc65cf88f257942f0f0d982d6b4b7fc7e81a4ce6602ead195370c0293b31bae",
+    "games/inutaro-mushi/style.css": "3926b41775c0293b90ae8792ade2d1830a992271b68e7a55e53611527390ce2c",
+    "pages/blog.html": "ff84f6ad346023f520443816f6514618e96292cfabc3ea385b7964ba2d0d5dd0",
+    "pages/characters.html": "d4e264317fcad1f8fc9bf271bb7593d030c35fa5247ae61b4eb2ae310bb42d13",
+    "pages/illustrations.html": "3d8829aeeb0c5b549140fee71912ab785abf3d108ce42b8400a117528e0eb5af",
+    "pages/privacy.html": "f990a2322aadd92774d06592ef79c82eb30b09651457c664fbea7dc080087d06",
+    "pages/terms.html": "071b8ea316076f2dc4e56492c8e2f80c69ffc9f4a5be3edaccca1220d4f1438b",
+    "robots.txt": "7d67a110e52fd11a0fae2d5e0aa3c994f1d3e45380647cfb601312169eb8c6ea",
+    "scripts/update-home-latest.mjs": "f74d36f1c0c43b6eaec7833dc29167ff22a03ec236539d02bc7d7141d09a28b8",
+    "scripts/update-note-latest.mjs": "57470f06d37825f39e281dd7e5a5b3307e1c2652dfb4261152a4f808ef932f69",
+    "scripts/update-suzuri-latest.mjs": "2a5085850f085871b35a24075a4d4913e2b7bd5e922c79d007ee97f53a01aa00",
+    "scripts/update-youtube-latest.mjs": "2574ac3d5458a85d494e0ab7e71a90af8bca8515bd41a4dc2d659fa3317e9fbc",
+    "site-migration.js": "04f7e2c2720920f18b6d13ced4b763e55f586b23b7b082c1443d36254362eb7f",
+    "sitemap.xml": "0f629701a72bb01b1b6cb283285157fbda32e75c939abfad72079ac8db504316"
+  },
+  "originalAssetHashes": {
+    "assets/apple-touch-icon.png": "0e7959534183402a016dc35fc44c648510bb966c62c8c56fb38c7d93672138c6",
+    "assets/characters/chara_bukuro.png": "4d210c888bfb5606e871f12a63740041d9735eb1aa3e97798b3877d57add64d2",
+    "assets/characters/chara_erika-san.png": "ec979880d70485e1244656cabb950c2f2bd2362aa7e76a3d31951e1205b8e763",
+    "assets/characters/chara_inutaro_nuigurumi.png": "faf529ab0867054ea47cb54bc041dca16ab93e3b9842d4ca600fa524078a8945",
+    "assets/characters/chara_inutaro_origin.png": "020f78666aafadef8085292f6ca156747b25661d5d2f5a71e09e2aa8008fe8ff",
+    "assets/characters/chara_sasuke.png": "a7b7a56c726374d658bf28ea21bc40e63ec51c134172a3c412db3ed301943368",
+    "assets/favicon.png": "8d74f17dae2560e6dceb8f61208a7ad0487b118cb19ec84754e13c7ed9434607",
+    "assets/fonts/keinann-pop-jp.ttf": "b67ac7a23d5237b05cc5ffc2e5882bc3f49c02dea82ea0e7b9a17ae7169f3425",
+    "assets/games/inutaro-mushi/gameplay-preview.png": "bfd74ed0fa36671bd9f5e31e411faab05b3ab6b2527753c717963dd00d630da9",
+    "assets/home-city/map_bg.svg": "aff1954c78f2b12df6638bd78cd64ac70c01be4de625773e4f75a218a2374fce",
+    "assets/home-city/map_blog.png": "c60d9c1c9cd7646af5e5f855cf3168c9c46a37f46f6d0741c2c79f6c4bbfcf73",
+    "assets/home-city/map_character.svg": "3ddb399affa34565c5d028ae6fe0813cc3095db7fbf2b6bf0e915b8507ac2a7f",
+    "assets/home-city/map_decoration_bird.png": "a0d400f4886156ef9e8950f68b0cb9c0dc1804c93a7c3d64d9f1898ffe475d62",
+    "assets/home-city/map_decoration_bukurochan.png": "ce9c4777a0056a5c883a2ea1148857e69bb31ea1f393c2ce6d36383e183947cc",
+    "assets/home-city/map_decoration_sasuke.png": "7568fc46a9f32766bf0f884dc0a44478bf8d8902cf7a1c43d81a7488f69864ff",
+    "assets/home-city/map_decoration_tree.png": "c500487fd9f93575a0d41e9199c43ee3cdc443178f45f7c2fc95779c9882f678",
+    "assets/home-city/map_game.png": "527d375a77e6d5a9eaa24e61c3d38aa1460bfcf2fe148d6cc2c75a7a64e8a0da",
+    "assets/home-city/map_game.svg": "d66536c2beac25a0eb0c0881d26b691fa4389dd4bbd6c0a2cf5244aabf42aeb5",
+    "assets/home-city/map_goods.png": "132a137725d5d310fe3faa7918aff01179e07f0094b67181326289ef7d2c1660",
+    "assets/home-city/map_goods.svg": "ba2b8ddf431578823c3b157e64cc88bfe38f5a44ea09ebd7a20aa17447f8531a",
+    "assets/home-city/map_illast.svg": "1f903a44d635ce4a40a60db442767dded2e54b5d7e72da539a393a092d584d0d",
+    "assets/home-city/map_linestamp.png": "77347005402b40906b55b302401867e23ccd5f125299cc6eb1ede817273976ac",
+    "assets/home-city/map_linestamp.svg": "153b91fe8e9da05684311074b1d14ab9f4fb572219644e0796f4833754c52055",
+    "assets/home-city/map_note.svg": "fb86e05427bdd00032af488ea2c4201d7e72f1bd82400dc1407480a7edd95cfe",
+    "assets/home-city/map_sns2.svg": "0eb159641ebbf8743cb8ffedd1cc8f5fca6c35de0af3dd211437a9988c263db2",
+    "assets/home-city/map_youtube.svg": "5c2a47883d580a0869e7071fc8ddd606375923244c4a85468919d3e53e685a7e",
+    "assets/home-city/map_youtube_bg.svg": "c7818fcee1d8af84703bf33b4dc7a24fd0c10ec0ecf27c21f057e1d081b1fb56",
+    "assets/icon-192.png": "00c787cade0d174fb9889889ea8be3bc8ef4abddf9ef3ff2bf4b61ca772802eb"
+  },
+  "retainedOutputHashes": {
+    "assets/versioned/map_sns2.6d0e2b97c40f4dda.webp": "6d0e2b97c40f4ddaba5c54d58e17722bd671cfdc0bbc85f23985c64f415506c7",
+    "assets/versioned/map_character.036804ef3e74eb66.webp": "036804ef3e74eb6640fe5d54d66b3a4e4c3a3003fe52f493226dc03c8a17e6c6",
+    "assets/versioned/map_linestamp.d22eeccf79a3cb3f.webp": "d22eeccf79a3cb3f0cfe0e4deecce6fafd75c74dd30f85182869015e852b8a36",
+    "assets/versioned/map_game.6a5a2d0dc9dedb92.webp": "6a5a2d0dc9dedb92846b64482ed5ec456b1e65554ab61482201934f72b0ef48b",
+    "assets/versioned/map_goods.02538b1f23df70f2.webp": "02538b1f23df70f295b2d7e74ce7e14240d4699ddf49b345efd1e823a14afed3",
+    "assets/versioned/map_note.9f871e44148a104a.webp": "9f871e44148a104a002db8495ae1370370013bf51b46c3e969b660fe8b2b5926",
+    "assets/versioned/map_illast.cf46370fb36aea9a.webp": "cf46370fb36aea9ac8af6a40b3771680bf60ba1468e7c467cf72754267cda4a1",
+    "assets/versioned/map_youtube.9a98bed7644c0276.webp": "9a98bed7644c0276b4ae16d9cd101ceb109aa34a0236d93e41924b06a19845a3",
+    "assets/versioned/home.0a1f1a8bf48f474f.css": "0a1f1a8bf48f474fd358a2b48a88fccba25cb13bac8d5144fda48cb79a79973e",
+    "assets/versioned/home.199d6b14c5f95f25.js": "199d6b14c5f95f254868f839f9ea756959b5dc25a245f49ccea467d348f6749f",
+    "assets/versioned/home.53ff74c1cfa701bb.js": "53ff74c1cfa701bb891b72f51a7529a36e1c6ef99c4cf3ee0182c1a8c9ab29d7",
+    "assets/versioned/home.2f37aeb864ce34b8.js": "2f37aeb864ce34b8e31a46bbd3cce854ee76171a432af016314ae22e9758a6c6",
+    "assets/versioned/home.5b63e4012e79ba76.js": "5b63e4012e79ba762b84950d9fce12329fc94259afbc97f63cab556f31ac31f3",
+    "assets/versioned/home.67853a36e62792b8.js": "67853a36e62792b837c8fe2c97e6b4e2446f7a9e652c12d688c4399b5670b61a",
+    "assets/versioned/chara_inutaro_origin.ae856bd0e8728287.webp": "ae856bd0e8728287c8653362a17874c368c0e60b372771e73dc64566ead6d7f6",
+    "assets/versioned/chara_inutaro_nuigurumi.42fa624a81609db1.webp": "42fa624a81609db1246b9c282dcac27a487d9b2a8202407d78ebd5d91909d1ec",
+    "assets/versioned/chara_erika-san.c663015a5d197a6e.webp": "c663015a5d197a6ec69c5bc146c8c1d142e70b96d615fd83da1a4a478965a02d",
+    "assets/versioned/chara_sasuke.1a9c973983eef9b1.webp": "1a9c973983eef9b127aaed26bf746738a3653948a37cf6867cabb50effa205f2",
+    "assets/versioned/chara_bukuro.6262eb1b22dbd3a3.webp": "6262eb1b22dbd3a37c3ac280ae88f50d7778c0860898e87c1ee100136ca2e6a0",
+    "assets/versioned/gameplay-preview.529ffff67ed0440d.webp": "529ffff67ed0440da9f0ab2b0b2cab043412dc331fdfed057b0daca7dd3757ea",
+    "assets/versioned/icon-192-header.f30f23e6c0699031.webp": "f30f23e6c0699031f9ef215735df438d2079c4b9070f5a4075eea2f6aff8bb3f",
+    "assets/versioned/home.d8d1c4626fb02ad4.css": "d8d1c4626fb02ad40d1e13bdb4e386aa55c8887a4180aaead4c153a4d2078959",
+    "assets/versioned/keinann-pop-jp-core-top.398d277adc8b3f0f.woff2": "398d277adc8b3f0fa9a24aa5b4e47b4645ae2aec8263a923a27febd154744f4e",
+    "assets/versioned/keinann-pop-jp-common-000.7339f7ef2a13b19b.woff2": "7339f7ef2a13b19b60d3437c4b6b7241ddbe7db8a7ba82c2dd832b3fe5937745",
+    "assets/versioned/keinann-pop-jp-static-000.9112324c605b3ee3.woff2": "9112324c605b3ee33e08dcb9260a268413934ab48e3ef49887b2642f09bf9529",
+    "assets/versioned/keinann-pop-jp-static-001.409d5dc5c9c3c997.woff2": "409d5dc5c9c3c997da1a3cfffb309f6196d2ef744fd3adb531f127e0f1c97967",
+    "assets/versioned/keinann-pop-jp-other-000.556ab1d083fd3e6b.woff2": "556ab1d083fd3e6b6bb4037d843ca8a5a1364ef5701a0e00379f455d0e856194",
+    "assets/versioned/keinann-pop-jp-other-001.e8dafb8811b0717a.woff2": "e8dafb8811b0717afac28ba189389604dce05f47309d509e17a584ce32fc45a2",
+    "assets/versioned/keinann-pop-jp-other-002.542bc59241879eae.woff2": "542bc59241879eae4418e00dddb5f32c31a65b50f30d7cd0f29f9793fcae07d7",
+    "assets/versioned/keinann-pop-jp-other-003.a18bc8c58d8981c2.woff2": "a18bc8c58d8981c24716109c4685b3a22d3e933f90a16f7f4ee47fed94dec327",
+    "assets/versioned/keinann-pop-jp-other-004.590b515e734dc68b.woff2": "590b515e734dc68bf148ac83eee11ab6448fbc8b549a37f0e3a4fa331d7d6d7a",
+    "assets/versioned/keinann-pop-jp-other-005.dc2bb6ec950a5b6b.woff2": "dc2bb6ec950a5b6b6dcb116156b43da261bd72f5b93b98b9def40d6e06ebb8aa",
+    "assets/versioned/keinann-pop-jp-other-006.7cd4f2fe543b37de.woff2": "7cd4f2fe543b37def8551dc2ade4104969abc0e10193daf95ef3fd167e55b7a4",
+    "assets/versioned/keinann-pop-jp-other-007.a4443475a1384704.woff2": "a4443475a138470446ed4f6c052ddb4e4d0fc01f86c329682ae8fd2a0324db1b",
+    "assets/versioned/keinann-pop-jp-other-008.44f4a00b6eba7cde.woff2": "44f4a00b6eba7cdea3ae05201d57401397d2ccf856aba577aabd6e7038b02d70",
+    "assets/versioned/keinann-pop-jp-other-009.a02587c3c656372e.woff2": "a02587c3c656372e2638bef560c84984470444fdae654fa4d7f7a2e3f71e8860",
+    "assets/versioned/keinann-pop-jp-other-010.315c0316fb84551e.woff2": "315c0316fb84551e38cc5cee922b7d4da0254634bc36b81eda3a95e5a5d0bcd0",
+    "assets/versioned/keinann-pop-jp-other-011.81237dbe1fa0f2e0.woff2": "81237dbe1fa0f2e078596caf72f9bb8fa40e4c197e595289ce2975cea05bed7f",
+    "assets/versioned/keinann-pop-jp-other-012.ff3e4bd57c253e36.woff2": "ff3e4bd57c253e36d6929d0ec3f2ffb52fb8a404be324c77f64be2e1ad78e259",
+    "assets/versioned/keinann-pop-jp-other-013.6baf73da647ccd32.woff2": "6baf73da647ccd32ac3d1b2554eb976067f4edba572ec2e473d12484a36d16ab",
+    "assets/versioned/keinann-pop-jp-other-014.72545641742057a4.woff2": "72545641742057a41e93cbcb0fd4e09da5068f0536081a332dce2394bef0e331",
+    "assets/versioned/keinann-pop-jp-other-015.ffe686b1ce9a17ac.woff2": "ffe686b1ce9a17acdb69d6ea29c8e5b5c862500f802050ee271997b772e4af46",
+    "assets/versioned/keinann-pop-jp-other-016.20a19fb5f0819f19.woff2": "20a19fb5f0819f198b628c9454c77ed5c56c28e73103506d58559205cb9b805d",
+    "assets/versioned/keinann-pop-jp-other-017.066677f39e3a9a9b.woff2": "066677f39e3a9a9bf09aefb72232dc89c0404de1a0589056d5d2bf14993f13d1",
+    "assets/versioned/keinann-pop-jp-other-018.a1f6c966341259cb.woff2": "a1f6c966341259cb702bed83a5b656f334ce302476cac5dc214d86cc0ea21ac0",
+    "assets/versioned/keinann-pop-jp-other-019.c0ce0540c02d734e.woff2": "c0ce0540c02d734e583caefb2627f79b7e323e039521a76ca092697848afbc91",
+    "assets/versioned/keinann-pop-jp-other-020.e99b858ff89e0728.woff2": "e99b858ff89e07287bd22abb322814b9cff0cfadd5ef9842609dcb63603ee397",
+    "assets/versioned/keinann-pop-jp-other-021.e588ea6a310245f4.woff2": "e588ea6a310245f4e4b69d51e8f1e33ed02f4c8be13627f6c39c5bb93d69c879",
+    "assets/versioned/keinann-pop-jp-other-022.6999df17ac1224e6.woff2": "6999df17ac1224e63c8be3ef00fc3d8c7981d3f90e379240c75451e844e93b1f",
+    "assets/versioned/keinann-pop-jp-other-023.98925e21f0ce1ebe.woff2": "98925e21f0ce1ebe9139cd4e7489d783ca7de1b86dc4500a10a653a5e9ee9c81",
+    "assets/versioned/keinann-pop-jp-other-024.5e62debf8cc2f54d.woff2": "5e62debf8cc2f54d1dd4081b64ee9bed9cb336275a4ac263728378d64e650691",
+    "assets/versioned/keinann-pop-jp-other-025.2c481cd764c5427e.woff2": "2c481cd764c5427e529224a11f56dc0ca1b9ea7570a0d57222f1ccc7a4aa46ed",
+    "assets/versioned/keinann-pop-jp-other-026.bc1b14cb346adde3.woff2": "bc1b14cb346adde30955d62559e5bf5067c07114c38f1d8647c85889da076d11",
+    "assets/versioned/keinann-pop-jp-other-027.4cf0562012743ad5.woff2": "4cf0562012743ad5c4f16af7fcccf4706a50efccb07c2c69cac7071649dc0685",
+    "assets/versioned/keinann-pop-jp-other-028.6882e466f6683651.woff2": "6882e466f6683651e2e52570cfad35de05dbedc1f360c484faac9ca4b3eb35b4",
+    "assets/versioned/keinann-pop-jp-other-029.21be62fe9970409c.woff2": "21be62fe9970409c3b2551f44465197cf0abfe988153dc93f15189b769e689ec",
+    "assets/versioned/keinann-pop-jp-other-030.5f9fca2fbee59ebf.woff2": "5f9fca2fbee59ebff776df69f6c125fb922c59e4ec81de906f92c13aa8553cf9",
+    "assets/versioned/keinann-pop-jp-other-031.76b3e119a23df3c2.woff2": "76b3e119a23df3c2f52436c9f74fef1d69bde1a2a7490ac4bd4a77731374548c",
+    "assets/versioned/keinann-pop-jp-other-032.08a62a7c1977eebc.woff2": "08a62a7c1977eebc9887c1b9edd77e3c304a49a58bb9a9f49be0933f6169d658",
+    "assets/versioned/keinann-pop-jp-other-033.eed785c2e052ac0c.woff2": "eed785c2e052ac0cfd12b8a0984a225fd20a9144a55e3627eead42e70e0ad005",
+    "assets/versioned/keinann-pop-jp-other-034.4417ce26510ab242.woff2": "4417ce26510ab2426f13a13502c5a999bcf1d784b5c2fd542696b617174c2c2b",
+    "assets/versioned/keinann-pop-jp-other-035.fcbc4a2da39d1d48.woff2": "fcbc4a2da39d1d4817df33598ee6cd021bc4eea5729606a2643cb85f0b2f666b",
+    "assets/versioned/keinann-pop-jp-other-036.5362913093638575.woff2": "5362913093638575e6de738fa47a7fd23e409eacaa35467df44884563d1b09cf",
+    "assets/versioned/keinann-pop-jp-other-037.4c4df47d3a3634c5.woff2": "4c4df47d3a3634c569d91f5e6ce7eb30acaac95a9545fc05d97fb4c76ba3884d",
+    "assets/versioned/keinann-pop-jp-other-038.bdbdb135789b9c70.woff2": "bdbdb135789b9c709c7b9faad989614f2b269bc8120598e191ca26cf637d2289",
+    "assets/versioned/keinann-pop-jp-other-039.3b14afe11ee6ef17.woff2": "3b14afe11ee6ef17cf7ee51e982a2b0eb14a01d2199664b87169b1d5b76a0231",
+    "assets/versioned/keinann-pop-jp-other-040.d701912aee6d2f20.woff2": "d701912aee6d2f20f8df48641896fb1bd37fcad3a61aa6c2bd11f32fdb8952a0",
+    "assets/versioned/keinann-pop-jp-other-041.e2e55088c0b1299d.woff2": "e2e55088c0b1299d691dd362b1f5b3fe621030fe317b13fd8aef9228355aedb1",
+    "assets/versioned/keinann-pop-jp-other-042.e5b67f9d81489bf6.woff2": "e5b67f9d81489bf6d214c8ba9648e1919467763dbe2cf06dfb42547bd046b0c0",
+    "assets/versioned/keinann-pop-jp-other-043.dbe78424da9e522f.woff2": "dbe78424da9e522faf5320687f9dac98732cc50fb97bbb2bf3e5d8aec458cb31",
+    "assets/versioned/keinann-pop-jp-other-044.6fdd2c2efdec2b20.woff2": "6fdd2c2efdec2b205c86cfdd5c68d1fcaf00fddc2807c1b8b0ad15a83450a986",
+    "assets/versioned/keinann-pop-jp-other-045.e1bf3c5e62789e35.woff2": "e1bf3c5e62789e35bdb943b2912021bc736787d4daf84749466d7aa96ab0612a",
+    "assets/versioned/keinann-pop-jp-other-046.055480b19b84bf50.woff2": "055480b19b84bf50cd05e56952b8ab717a71fabd5a1c59b2e48da1d4d6daeedd",
+    "assets/versioned/keinann-pop-jp-other-047.85cec26ee1111805.woff2": "85cec26ee11118051bc6921e80e0a0e6e3b6096b9da638fb0218a79bb5799211",
+    "assets/versioned/keinann-pop-jp-other-048.9b08e68286bbaff4.woff2": "9b08e68286bbaff403e89519056a82e170eb5189ac4ad1c60c8e388499e04042",
+    "assets/versioned/keinann-pop-jp-other-049.521b7124656b3ea6.woff2": "521b7124656b3ea686d841416697fb42ea1542c6dabe11c74c90f806fc2bef0e",
+    "assets/versioned/keinann-pop-jp-other-050.7ec3eb5e92bceefc.woff2": "7ec3eb5e92bceefcbe8ff0fa82075a7210196ea12ecea21d8f7bdc9c3d9c7d87",
+    "assets/versioned/keinann-pop-jp-other-051.d37b4de97977b0ec.woff2": "d37b4de97977b0ecc15c5702a209ce3f7f2ff64cd2a6391fee16b9db03053d26",
+    "assets/versioned/keinann-pop-jp-other-052.b8bf958e933d48b1.woff2": "b8bf958e933d48b151ac103ae772c6708925f2638e9ec689cb17c14556d212d0",
+    "assets/versioned/keinann-pop-jp-other-053.bbd17eef2b6c51a5.woff2": "bbd17eef2b6c51a5c7daf31486d7adef06993b40e33cdcb9485065d2719eddc9",
+    "assets/versioned/keinann-pop-jp-other-054.8eeb276a793268e4.woff2": "8eeb276a793268e4d572849ebcdf21e667cfa51fd05b1413384459a99b9c1830",
+    "assets/versioned/keinann-pop-jp-other-055.0e4e9648b1bd905c.woff2": "0e4e9648b1bd905cd0a05a7af1b52f6603cd424ddb4255b4b2f42486e3adba22",
+    "assets/versioned/keinann-pop-jp-other-056.cc2143675fa22134.woff2": "cc2143675fa2213488173ec9f2e0e232d94f8358978aabd31cd08b2b564e9711",
+    "assets/versioned/keinann-pop-jp-other-057.d1de0c37095bd5de.woff2": "d1de0c37095bd5de17ed21c232a8c3ad80c3ed5e3f56a8082ac166e00d87efa2",
+    "assets/versioned/keinann-pop-jp-other-058.78633694cb7cceaf.woff2": "78633694cb7cceaf7d111e92825a2b8a77915a3627703a338fe9134721ce9e96",
+    "assets/versioned/keinann-pop-jp-other-059.61d4080a1cb29be2.woff2": "61d4080a1cb29be28801e403c7246e9cbd054416d9c2eb147f2672b0ffd5c800",
+    "assets/versioned/keinann-pop-jp-other-060.60a170fa0dcb8d47.woff2": "60a170fa0dcb8d479eb7466c5c3bc7a5601ebf9b6eb38358c37304aa4a667649",
+    "assets/versioned/keinann-pop-jp-other-061.426c725f09b3717a.woff2": "426c725f09b3717af65198dafe5b1c2312c5105f2ff738a38526d6d08d5fb2e0",
+    "assets/versioned/keinann-pop-jp-other-062.9657d43ac9fd09f8.woff2": "9657d43ac9fd09f8de91c05f3fb412e95b801ca7f0e766186fb6046e785cf9ec",
+    "assets/versioned/keinann-pop-jp-other-063.ab42815c5b00b373.woff2": "ab42815c5b00b3739ad2b8fa72bf6853ae0d497eebb967ef9a778ecd79d44ec9",
+    "assets/versioned/keinann-pop-jp-other-064.951ee583bc0fdf87.woff2": "951ee583bc0fdf875c5b62d51d786acc3343aa63694667207064c6f7448e3ef5",
+    "assets/versioned/keinann-pop-jp-other-065.ecea651510dfc6b0.woff2": "ecea651510dfc6b092ae2f547b87382b26e016845fece9f2ef365579bb313674",
+    "assets/versioned/keinann-pop-jp-other-066.41d849b23ca39dba.woff2": "41d849b23ca39dba6a43e6cddca93524bb8d0e7459e83c21514ca58a63f06ed1",
+    "assets/versioned/keinann-pop-jp-other-067.077083a6d19447d2.woff2": "077083a6d19447d2cdb838deeebcac6cf443e567b23635345dde3b6689754df7",
+    "assets/versioned/keinann-pop-jp-other-068.fcf79e80d6ea40fd.woff2": "fcf79e80d6ea40fd83b6fdf5fae30810e1c2456638afb418e25c1b4d684a9a07",
+    "assets/versioned/keinann-pop-jp-other-069.333627571021c3bf.woff2": "333627571021c3bfef668508ae84fb0d094b251673a707d67e0cf341e2964365",
+    "assets/versioned/keinann-pop-jp-other-070.c2f65e5c6eb82f59.woff2": "c2f65e5c6eb82f5959e221d167dde838d8158b976408f2caacbc112990fa3aaf",
+    "assets/versioned/keinann-pop-jp-other-071.7a91de88aa480b83.woff2": "7a91de88aa480b8333c283d9726d2e70970878600512bf8fe18090a569bad53c",
+    "assets/versioned/keinann-pop-jp-other-072.1781a67bf5766d85.woff2": "1781a67bf5766d8533666618d3f8ecc1fb741ec5f6406af97e5074f11d948703",
+    "assets/versioned/keinann-pop-jp-other-073.d2fbb2d79f543504.woff2": "d2fbb2d79f543504a2b8bc496ab533241bdf2f3256c591062bb3348ac21740f4",
+    "assets/versioned/keinann-pop-jp-other-074.e97876476635ab60.woff2": "e97876476635ab60f5bf8a93dd63e245f83b8c81b94d2d405a83ca202b985507",
+    "assets/versioned/keinann-pop-jp-other-075.bce8bc688012cc99.woff2": "bce8bc688012cc9939f48c16393bc5df45034875508c16020d784fbdda919e10",
+    "assets/versioned/keinann-pop-jp-other-076.a6e2eb917eede5c3.woff2": "a6e2eb917eede5c33788e72420b331c8866c47c34b3777be5796316051bc2be6",
+    "assets/versioned/keinann-pop-jp-other-077.25822d7175438b68.woff2": "25822d7175438b68a698769f7bce9bdafd5d41a21623c015c9dcc081a36d28f9",
+    "assets/versioned/keinann-pop-jp-other-078.157a5c9edbbbfcec.woff2": "157a5c9edbbbfcecba0d4b3ea4cc19b8bcf88d1be787af1d2989b9f16e3dee61",
+    "assets/versioned/keinann-pop-jp-other-079.9e950c488aff026d.woff2": "9e950c488aff026d6ba872e8556f7297503f1771fbbbad52e785dc1c0e88c6d9",
+    "assets/versioned/keinann-pop-jp-other-080.e079c68d96599c02.woff2": "e079c68d96599c028ed31a1679b509f8540c6729011c86c49d9d37de8dd0856c",
+    "assets/versioned/keinann-pop-jp-other-081.78b0620d717ce477.woff2": "78b0620d717ce477925227026c6bef482a9d82314ec9672a3e1aa895a86b0cbd",
+    "assets/versioned/keinann-pop-jp-other-082.f5a66972a87f947d.woff2": "f5a66972a87f947dbdaf15d5a47b8363b354fdfa7dd2595f2168f13092581795",
+    "assets/versioned/keinann-pop-jp-other-083.6cca5239acdaf747.woff2": "6cca5239acdaf74763e258fc86d5b2f9681df23739b5a28a729edb77baf5dd95",
+    "assets/versioned/keinann-pop-jp-other-084.f86d24292ea5505c.woff2": "f86d24292ea5505ce2000241f53cbcf2a45b82488fc4afc738ed94946309bcb3",
+    "assets/versioned/keinann-pop-jp-other-085.aacf5f6111b678b6.woff2": "aacf5f6111b678b69558b2992848ae3968ae4a250f51cb257d3ee92a876e62d2",
+    "assets/versioned/keinann-pop-jp-other-086.1253b8db64b3c0be.woff2": "1253b8db64b3c0be30f79683162ef97a0abf51aa088aa35925be7edc27b032ad",
+    "assets/versioned/keinann-pop-jp-other-087.30501af2fe93a991.woff2": "30501af2fe93a9911ad7d26d44533ea3ffa56e316859ed6d4cab5779f08e9e6b",
+    "assets/versioned/keinann-pop-jp-other-088.963d69f9870b32e0.woff2": "963d69f9870b32e0e22ff8b227786604348ed54b59694bf3071622a04134b3b6",
+    "assets/versioned/keinann-pop-jp-other-089.c249ff4466cb10d7.woff2": "c249ff4466cb10d73641cf83ffb805842f805a92d5d4b8509fdeb3b7349b2f56",
+    "assets/versioned/keinann-pop-jp-other-090.3b4c626b82ad72b3.woff2": "3b4c626b82ad72b39a37b057318468f3d191651ba0e8bf1baa2bc2f46b9cfe86",
+    "assets/versioned/keinann-pop-jp-other-091.c5c50dba1f49e6fa.woff2": "c5c50dba1f49e6faa608e3fb6843fa3bdbdd4c77282433749d4a102d6804278d",
+    "assets/versioned/keinann-pop-jp-other-092.de2809ad48c77124.woff2": "de2809ad48c7712462ef2a19508c8e6262470bcdaf91fae06ec5c044658c0d2f",
+    "assets/versioned/keinann-pop-jp-other-093.e8d249199473997b.woff2": "e8d249199473997bfb0ae8cef188ca7a537ee8dd1ffdbb7d999fee03dbf1addf",
+    "assets/versioned/keinann-pop-jp-other-094.17fd29ff3acdd8ec.woff2": "17fd29ff3acdd8ec588a6977c9a0b2a170e318c414b9e967119146edfa8fa597",
+    "assets/versioned/keinann-pop-jp-other-095.a8d81d0ff6c90832.woff2": "a8d81d0ff6c908324eedfa24799a7907e1f13a6e3166d04a42d479fd7404c14f",
+    "assets/versioned/keinann-pop-jp-other-096.6ae1fde6a674ada6.woff2": "6ae1fde6a674ada622ce0b3a8d3312f740921b22419261c72192b310d3a68d5b",
+    "assets/versioned/keinann-pop-jp-other-097.ee620ac884d431d4.woff2": "ee620ac884d431d437e6b2461118059621f3290412aad4e10542a2f86d736fe0",
+    "assets/versioned/keinann-pop-jp-other-098.59c3710197c058a0.woff2": "59c3710197c058a0eb14be43cfdadf63d55d8132e36167b5845c6ae4f14b6994",
+    "assets/versioned/keinann-pop-jp-other-099.7a548e425119d1cc.woff2": "7a548e425119d1cc152017884d54e9872e1e95ce3eed3e12a039217f524821d7",
+    "assets/versioned/keinann-pop-jp-other-100.a04b1ddfd934ee3e.woff2": "a04b1ddfd934ee3e7b96901e9630f6753ef3f33145252dee4fadc5a44d40638c",
+    "assets/versioned/keinann-pop-jp-other-101.550e32cb958b9d8d.woff2": "550e32cb958b9d8de577c7ad2c0c0d3ef81b7e5a174f40d7db70d38dc6839d73",
+    "assets/versioned/keinann-pop-jp-other-102.6d88e86c9818ca95.woff2": "6d88e86c9818ca959a049afe2d4b44cc10aeda688ddfe0620a050f2f43482fbc",
+    "assets/versioned/keinann-pop-jp-other-103.fc592940a85ce51f.woff2": "fc592940a85ce51f89307eaa2b09c64489e3910db238d3f23028a45fc416254a",
+    "assets/versioned/keinann-pop-jp-other-104.e6a04d374d6faeb1.woff2": "e6a04d374d6faeb1057f289e35420d00a63c6a90d91a40395068280664e4aad6",
+    "assets/versioned/keinann-pop-jp-other-105.9bd2cae0e53464bc.woff2": "9bd2cae0e53464bc6d54ed4fcf35e56e085c937f464a234a27f0d47a014438df",
+    "assets/versioned/keinann-pop-jp-other-106.240ed099131c98a5.woff2": "240ed099131c98a5fa35ddfe26fa59e914082d6d6cde12b8c9e781d42bcaa6ba",
+    "assets/versioned/keinann-pop-jp-other-107.8e3fea771f522b02.woff2": "8e3fea771f522b02b087ec45c3a67e40841126ac744550d0993a13cf2c0c7ac2",
+    "assets/versioned/keinann-pop-jp-other-108.ea06a4f79ab7e35c.woff2": "ea06a4f79ab7e35c32d270875be17b465f1de7bdcd6f28be96db6136d6e8765b",
+    "assets/versioned/keinann-pop-jp-other-109.ee26a84a6460f3f4.woff2": "ee26a84a6460f3f4dde2dbf73199513ac3f56e0fc61f0a5935a8e21d576f711b",
+    "assets/versioned/keinann-pop-jp-other-110.3c2673cc9e7167f7.woff2": "3c2673cc9e7167f7d77a2d2638c17a95d333c0dc89ac2af1737ca1e623b6d559",
+    "assets/versioned/keinann-pop-jp-other-111.21ec7c1d66de575b.woff2": "21ec7c1d66de575b3db99820136e7290d0e136d1e5bf42ce93f33d6dbcd0c939",
+    "assets/versioned/keinann-pop-jp-other-112.8bf1470ed205836f.woff2": "8bf1470ed205836f46e295f9e03342834cdf9f33efba205191300d63ecfd7068",
+    "assets/versioned/keinann-pop-jp-other-113.abf53c95967f1a1b.woff2": "abf53c95967f1a1b6e3fa22415ab074cfe9b3988ba2ff7212e5dad976cb29de7",
+    "assets/versioned/keinann-pop-jp-other-114.25f1e4156f43ea5f.woff2": "25f1e4156f43ea5fae80f8b58d9e009bcb8b1082fbc34d9e953609b42dacf42c",
+    "assets/versioned/keinann-pop-jp-other-115.e7796da0b0311528.woff2": "e7796da0b0311528063df4c7c92f85fa0a62ec11787f3461d1d89883b0b89767",
+    "assets/versioned/keinann-pop-jp-other-116.a175183bbd0f4eb0.woff2": "a175183bbd0f4eb0aa92f2d6fe1c414215e7fb469a9a92959e0a2931817aca99",
+    "assets/versioned/keinann-pop-jp-other-117.568b163f6f9a4709.woff2": "568b163f6f9a4709e98f391f8d8590cf5de112c9c7bd0b73c1b1c2dc0a255ba4",
+    "assets/versioned/keinann-pop-jp-other-118.743b1145df94d882.woff2": "743b1145df94d88288b8789e8f03ff3c481b45cbde342562ccb01ead0b85ea74",
+    "assets/versioned/keinann-pop-jp-other-119.f7e817d896d80346.woff2": "f7e817d896d8034665a260290b464705966077c6235c979aa24297fe832bcbc9",
+    "assets/versioned/keinann-pop-jp-other-120.944a57f2ab3209de.woff2": "944a57f2ab3209de2f89e30bfbda79228b0c799f85a398aa2a7cc5bff3fe3674",
+    "assets/versioned/keinann-pop-jp-other-121.8ca18915f4ef57c2.woff2": "8ca18915f4ef57c23af18105577d2ae40d3b694da46b3827eb649210b5e17144",
+    "assets/versioned/keinann-pop-jp-other-122.a677a28e148339bc.woff2": "a677a28e148339bca9e8d55d7c503c1aa2f4f8468e1c0cb518bbc08bbdbef7a2",
+    "assets/versioned/keinann-pop-jp-other-123.339f6a5080b70f25.woff2": "339f6a5080b70f257a97e32cc94297524c5642532254587381b1492d08cbf11b",
+    "assets/versioned/keinann-pop-jp-other-124.21994cc254413ea0.woff2": "21994cc254413ea0988bed57e99fd436eaa4e7651ce792cf688895b293b256d3",
+    "assets/versioned/keinann-pop-jp-other-125.bc0c468513d9f230.woff2": "bc0c468513d9f2302f03860ddffadefe0e3465ab4340200fac0f85db15a793b6",
+    "assets/versioned/keinann-pop-jp-other-126.602cee485d3372dd.woff2": "602cee485d3372ddba0e2faf3ded7e95febc5c9d95487f718e282d3c4bf2b6ac",
+    "assets/versioned/keinann-pop-jp-other-127.3e5f2c7d754d62e7.woff2": "3e5f2c7d754d62e78612f019e2ce5e0915ddf5e1b019ceefbd6a4598ee97389a",
+    "assets/versioned/keinann-pop-jp-other-128.7ec2ce816aae2863.woff2": "7ec2ce816aae2863c0100c9fbae8150c222637a42780034b7dd1737d02357152",
+    "assets/versioned/keinann-pop-jp-other-129.5294934429141844.woff2": "529493442914184480de96517337993546fc7461177aa5425aa91b9af82307d9",
+    "assets/versioned/keinann-pop-jp-other-130.0a53876cd5902447.woff2": "0a53876cd59024475f4692baefbfa76dda3babc9f9bc524a3dd2f2122b7da76f",
+    "assets/versioned/keinann-pop-jp-other-131.f4425fd08aad6f51.woff2": "f4425fd08aad6f513a89bea9e260bcf8e24be140540bbac9c760dc2d75a351e0",
+    "assets/versioned/keinann-pop-jp-other-132.461036861a1d78a7.woff2": "461036861a1d78a704ad9227bc6ece8efa9bebfa5a74539906d4c2fbb975d1f0",
+    "assets/versioned/keinann-pop-jp-other-133.09773508f511fa4d.woff2": "09773508f511fa4d5920193b341de73867a3a927b4d35a7f07bc0e1a6f5694f1",
+    "assets/versioned/keinann-pop-jp-other-134.8ef76f641db15740.woff2": "8ef76f641db15740e482349fd4e48796caf4e61b54589b588d7cc64818ffea45",
+    "assets/versioned/keinann-pop-jp-other-135.003eb8d3c2a56730.woff2": "003eb8d3c2a56730f680fbbd5d45d6923668415e1b44a1eeae8855750d140495",
+    "assets/versioned/keinann-pop-jp-other-136.93de19e9601db50d.woff2": "93de19e9601db50dd2cb6df13fb8ac1886ff661ff5e404e582e703cda17d7237",
+    "assets/versioned/keinann-pop-jp-other-137.d74615e402459eab.woff2": "d74615e402459eabbd2388a0676a6a5f8a1c6179f8cb6fbe3ad06fe66bc186a3",
+    "assets/versioned/home.c2a6d211a860d84a.js": "c2a6d211a860d84a99ae2262c939464f8c985f285faa304ba598fc6d181ed1c8",
+    "assets/versioned/site-nav.d79a4edce5d01e04.js": "d79a4edce5d01e04d6fd72532267247a421e6ef41e97d167823185e236e6161c",
+    "assets/versioned/site-migration.04f7e2c2720920f1.js": "04f7e2c2720920f18b6d13ced4b763e55f586b23b7b082c1443d36254362eb7f",
+    "assets/versioned/home.e72cc01e520d61be.css": "e72cc01e520d61bec645e1ccddd00004a8ae1a1b4b0052cc6e4ac1d7dabe9f83"
+  },
+  "dataFixtures": {
+    "assets/home-city/youtube-latest.json": {
+      "sourceSha256": "4ff626094c90cc1827b1a70f886864204874cc27e348cd71db7d628b5cc275c9",
+      "canonicalSha256": "110d83d12df0b2603414b5c0695de555c3ec2a8ac4f264e730c3774429d7d40c",
+      "data": {
+        "schemaVersion": 2,
+        "ok": true,
+        "fetchedAt": "2026-10-17T15:30:14.046Z",
+        "channel": {
+          "id": "UCdnf6zMzSdZuvUxS-CS2REQ",
+          "title": "erikaさんはぬいちゅーばぁ",
+          "handle": "@えりぬい",
+          "url": "https://www.youtube.com/channel/UCdnf6zMzSdZuvUxS-CS2REQ",
+          "statistics": {
+            "subscriberCount": 29,
+            "hiddenSubscriberCount": false,
+            "viewCount": 3129,
+            "videoCount": 30
+          }
+        },
+        "videos": [
+          {
+            "id": "TIhVy4qVlVE",
+            "title": "【へたくそ】ゲームセンターに行ったよ🕹️【タイミンほしい】",
+            "description": "タイミーでいただいたお給料を\nタイミンゲットのために溶かしてしまった\n情けないタイミーさんです🌼\n\n\n\n\n\n\n\n\n\n▼訪れた場所(訪問順)\n池袋東口/サンシャイン60通り/GiGO池袋総本店\n\n▼フォント\nけいなんポップ体JP修正版\nよっぱふでフォント(Yoppa-fude font)\n玉ねぎ楷書「激」無料版  ver.7.00\n\n▼使用した機器やソフトなど\niPhone 16 Pro/iPad(めっちゃ古い)\nOsmo Pocket 3/LARK M2S\nダビンチリゾルブ/プロクリエイト\n\n▼出演\nタイミン/えりぬい/人間えりか(手足)\n\n▼special Thanks\n何度も直してくれた【GiGOスタッフさんたち】\n楽しく働いた思い出ばっかり【タイミーさせてくれた企業】\nタイミーする勇気をくれた【最推しVtuber】\n\n\n休業期間中…\nタイミーなかったらやばかったくらい\n収入とメンタルを救われました。",
+            "publishedAt": "2026-09-27T13:01:10Z",
+            "url": "https://www.youtube.com/watch?v=TIhVy4qVlVE",
+            "thumbnail": {
+              "url": "https://i.ytimg.com/vi/TIhVy4qVlVE/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            },
+            "localThumbnail": {
+              "url": "assets/home-city/youtube-thumb-TIhVy4qVlVE-022d3fa08346307c.webp",
+              "width": 640,
+              "height": 360,
+              "sha256": "022d3fa08346307c7eb744c3e870e2a08c6619272df821f178038dfabb6fcf34"
+            }
+          },
+          {
+            "id": "eA9TRTuAcgI",
+            "title": "【ぬいlog】無計画な大阪観光【のんびり楽しい旅】",
+            "description": "全力で満喫するために、記録残すつもりなかったんだけど…気づいたら楽しくって動画を撮ってた。ので、それを切ったりつなげたりしたよ。\n\n[１日目]お友達とN響×ポケモンのオケコン、新世界\n[２日目]大阪港・新大阪らへんをぷらぷら\n\n\n\n\n\n\n\n▼訪れた場所(訪問順)\nホテル新大阪/FLINDERS LANE(フリンダースレーン)/ザ・シンフォニーホール/新世界串かつ 八重勝/串かつだるまジャンジャン店/スマートボールニュースター/スーパーナショナル築港店/喫茶ロマン/海遊館/たこ焼十八番西中島本店/スーパー玉出淀川/りくろーおじさんの店JR新大阪駅中央口/りくろーおじさんの店新幹線改札内店\n\n▼BGM\nDOVA-SYNDROMEから２曲使用させていただきました。\n作曲者様、運営者様、ありがとうございます。\n\n▼フォント\nけいなんポップ体JP修正版\nYDWあおさぎ\nboothからダウンロードさせていただきました。\n製作者様、関係者様、ありがとうございます。\n\n・ご都合の悪い点など、何かございましたらメールかXのDMでご連絡くださいませ。\n\n▼使用した機器やソフトなど\niPhone 16 Pro/iPad(めっちゃ古い)/Kodak Charmera MILLENNIUM\nダビンチリゾルブ/プロクリエイト\n\n▼出演\n犬タロー/ウソッキーちゃん/どこむいとる/えりぬい/人間えりか(手足)\n\n▼special Thanks\nコンサートに誘ってくれた【モクロートレーナー】\n案内と運転をしてくれた【トリトドントレーナー】\nマダコとユキちゃんの居所を教えてくれた【海遊館スタッフさん】\n太平洋水槽のお食事タイムで場所を分けてくれた【海外のファミリー】\n迂回経路を考えてくれた【駅員さん】\n誕プレでCharmeraをくれた【AちゃんRちゃん】\n\n\n全部が全部、私を活かしているんだな。\nチーズケーキも…全部ひとりで食べちゃったな…。",
+            "publishedAt": "2026-08-27T12:44:53Z",
+            "url": "https://www.youtube.com/watch?v=eA9TRTuAcgI",
+            "thumbnail": {
+              "url": "https://i.ytimg.com/vi/eA9TRTuAcgI/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            },
+            "localThumbnail": {
+              "url": "assets/home-city/youtube-thumb-eA9TRTuAcgI-319732850841d139.webp",
+              "width": 640,
+              "height": 360,
+              "sha256": "319732850841d1395b9d17de457338ab2f098fbc253fd6d8800819876752ebac"
+            }
+          },
+          {
+            "id": "0SYZWyrYrKk",
+            "title": "【犬タローごめん】もっちゅりんをご機嫌に食す！！可愛すぎておかしくなっちゃうっ",
+            "description": "やばいやばいやばい！\nネットオーダーしてからずっっっと\n楽しみに待ってたもっちゅりん！！！\n\n美味しい以前に可愛すぎて…\nこの可愛さは記録しておかねば…\n\n犬タローもいっぱい我慢したね！ごめんね！",
+            "publishedAt": "2026-07-02T09:33:28Z",
+            "url": "https://www.youtube.com/watch?v=0SYZWyrYrKk",
+            "thumbnail": {
+              "url": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            },
+            "localThumbnail": {
+              "url": "assets/home-city/youtube-thumb-0SYZWyrYrKk-2fc235f4f126aebe.webp",
+              "width": 640,
+              "height": 360,
+              "sha256": "2fc235f4f126aebe95a54d95ae1d666a341c403211039f9a93286c61739b2d66"
+            }
+          },
+          {
+            "id": "v9yCQAbBghw",
+            "title": "バタピーコーラvsみそピーコーラ|行け千葉県民の魂(ソウル)！熱き闘いがここに🥜",
+            "description": "ぬいちゅーばーたるもの\n流行ってるもんはとりあえずやっとこ🥜\nということで、今更のバタピーコーラです！！\n\nしかし私は千葉県民。\nピーナッツといったら、ピーナッツ味噌…\n\nみそピーでしょ？！？！\n\nピーナッツ界のW杯開催🏆\n🇺🇸アメリカ🆚千葉🇯🇵\n勝者はどちらだ。\n\n………という気持ちで編集してました。\n全然サッカーの話はしてません。",
+            "publishedAt": "2026-06-27T05:33:03Z",
+            "url": "https://www.youtube.com/watch?v=v9yCQAbBghw",
+            "thumbnail": {
+              "url": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            },
+            "localThumbnail": {
+              "url": "assets/home-city/youtube-thumb-v9yCQAbBghw-311b7cb6703c6398.webp",
+              "width": 640,
+              "height": 360,
+              "sha256": "311b7cb6703c6398b37310a50f5854c39ab0f7c31e938a9d57a07554ba194c47"
+            }
+          },
+          {
+            "id": "0mzRY_-7uvU",
+            "title": "【IKEA】ぽこポケコラボがてんこもりすぎる",
+            "description": "IKEAのコラボイベントが楽しい…っ！\nぽこあポケモンとコラボだよ。\n\nパピモッチも私も大はしゃぎでした。",
+            "publishedAt": "2026-05-05T05:06:52Z",
+            "url": "https://www.youtube.com/watch?v=0mzRY_-7uvU",
+            "thumbnail": {
+              "url": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            },
+            "localThumbnail": {
+              "url": "assets/home-city/youtube-thumb-0mzRY_-7uvU-0e053d004d757385.webp",
+              "width": 640,
+              "height": 360,
+              "sha256": "0e053d004d75738599c3aa124c3bc050e5981c120d00276489f9e9f9e00709da"
+            }
+          },
+          {
+            "id": "CZvxgnKnYuw",
+            "title": "[おひさ！]４月の振り返りぬいlog",
+            "description": "２月に職場がなくなってから\n結構くるしくひもじい３月を過ごし、\n必死に人間生活をこなしておりました。\n\nしかし！\n４月は新しい職場を紹介していただきましたー！\n\n……あれ、５月はどうなるの？",
+            "publishedAt": "2026-04-24T15:31:36Z",
+            "url": "https://www.youtube.com/watch?v=CZvxgnKnYuw",
+            "thumbnail": {
+              "url": "https://i.ytimg.com/vi/CZvxgnKnYuw/maxresdefault.jpg",
+              "width": 1280,
+              "height": 720
+            },
+            "localThumbnail": {
+              "url": "assets/home-city/youtube-thumb-CZvxgnKnYuw-f1630464add3f9dd.webp",
+              "width": 640,
+              "height": 360,
+              "sha256": "f1630464add3f9dd5544b060895f7da6d02cce3594d70a0e0fe618a3a2bf5edf"
+            }
+          }
+        ]
+      }
+    },
+    "assets/home-city/note-latest.json": {
+      "sourceSha256": "a4580c78451006c11277e64bb315cea1f83a0592e3907e8c5df1c8dce2567bdf",
+      "canonicalSha256": "084ad64d304348ebab3c82476c251e30b61647c01e9d9e9160589903224e2de3",
+      "data": {
+        "ok": true,
+        "fetchedAt": "2026-10-17T15:30:16.020Z",
+        "sourceUrl": "https://note.com/erinui/rss",
+        "items": [
+          {
+            "title": "過去の日記７",
+            "excerpt": "過去の日記、いよいよ最終回です。 このブログが更新されなくなった理由は… 多分、仕事が本格的に始まって忘れた。",
+            "url": "https://note.com/erinui/n/nb9a25e8f99a6",
+            "publishedAt": "Sun, 05 Jul 2026 20:06:15 +0900",
+            "thumbnailUrl": "assets/home-city/note-thumb-1.png"
+          },
+          {
+            "title": "過去の日記６",
+            "excerpt": "覚悟はいいですか？ ぬいちゃんが登場します。 『チェリーカ』が描く以外の 楽しさに気づき始めた頃です。",
+            "url": "https://note.com/erinui/n/n880be914e91d",
+            "publishedAt": "Sun, 05 Jul 2026 20:01:55 +0900",
+            "thumbnailUrl": "assets/home-city/note-thumb-2.png"
+          },
+          {
+            "title": "過去の日記５",
+            "excerpt": "そういえば『チェリーカ』というのは、 イラストレーターに憧れてた時の ペンネームです。",
+            "url": "https://note.com/erinui/n/n2cd1f13e1752",
+            "publishedAt": "Sun, 05 Jul 2026 19:51:03 +0900",
+            "thumbnailUrl": "assets/home-city/note-thumb-3.png"
+          },
+          {
+            "title": "過去の日記４",
+            "excerpt": "私が『チェリーカ』だった頃の日記。 楽しく過ごしているようですが…",
+            "url": "https://note.com/erinui/n/n4e967614ee72",
+            "publishedAt": "Sun, 05 Jul 2026 19:34:55 +0900",
+            "thumbnailUrl": "assets/home-city/note-thumb-4.png"
+          },
+          {
+            "title": "過去の日記３",
+            "excerpt": "『チェリーカ』というえりかの過去 ダイエットやってみた時期です…",
+            "url": "https://note.com/erinui/n/n52f6e6c3d3c4",
+            "publishedAt": "Sun, 05 Jul 2026 19:31:33 +0900",
+            "thumbnailUrl": "assets/home-city/note-thumb-5.png"
+          },
+          {
+            "title": "過去の日記２",
+            "excerpt": "過去の私『チェリーカ』が 今の私より明るくてまぶしいわ…。",
+            "url": "https://note.com/erinui/n/n71827461a517",
+            "publishedAt": "Sun, 05 Jul 2026 19:26:59 +0900",
+            "thumbnailUrl": "assets/home-city/note-thumb-6.png"
+          }
+        ]
+      }
+    },
+    "assets/home-city/suzuri-latest.json": {
+      "sourceSha256": "a0d831b272c091d3064926cd25999371186fac3e69fc295c317f968cba857dab",
+      "canonicalSha256": "a5579baef8feb81d81e86b74259d73cfab80be84398ff07cae883c249c2f0c45",
+      "data": {
+        "ok": true,
+        "fetchedAt": "2026-10-17T15:30:17.081Z",
+        "shopUrl": "https://suzuri.jp/erikanuinui",
+        "items": [
+          {
+            "id": 26955057,
+            "title": "犬タローインラインスケート ステッカー",
+            "url": "https://suzuri.jp/erikanuinui/10016386/sticker/m/white",
+            "thumbnailUrl": "https://lens.suzuri.jp/v3/500x500/sticker/m/white/10016386/1653220060-1575x1575.png.webp?h=f334a7fc6f7348f2abe6d9475fe963c10b0ddc05&printed=true",
+            "priceWithTax": 512,
+            "publishedAt": "2022-05-22T20:49:41.759+09:00"
+          },
+          {
+            "id": 8338689,
+            "title": "ホットケーキシェフ！犬タロー ミニクリアマルチケース",
+            "url": "https://suzuri.jp/erikanuinui/3678101/mini-clear-multi-case/m/clear",
+            "thumbnailUrl": "https://lens.suzuri.jp/v3/500x500/mini-clear-multi-case/m/clear/3678101/1590409653-1200x1200.png.1.8554+0.0-0.0036.webp?h=f1fd6ee6efa7f185631a87918fb4ff4b3f0812a5&printed=true",
+            "priceWithTax": 1639,
+            "publishedAt": "2020-05-25T21:29:07.352+09:00"
+          }
+        ]
+      }
+    },
+    "assets/home-city/line-stamps.json": {
+      "sourceSha256": "c28f712ffc780ab0a5bed40eaa19f0b6eb39a1c159ff18c059c8b6fc411bb7c0",
+      "canonicalSha256": "9d0daf7b140acb2328da25a23bfc6a760f627ac7cdc62fe6a34dcf68689cc06b",
+      "data": {
+        "ok": true,
+        "fetchedAt": "2026-08-02T07:40:00.000Z",
+        "authorName": "チェリーカ",
+        "sourceUrl": "https://store.line.me/emojishop/author/2919902/ja",
+        "items": [
+          {
+            "title": "犬タローのおふとん",
+            "kind": "LINEスタンプ",
+            "url": "https://store.line.me/stickershop/product/19153327/ja",
+            "thumbnailUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/19153327/LINEStorePC/main.png?v=1"
+          },
+          {
+            "title": "わりと使いやすいよ、犬タロー！",
+            "kind": "LINEスタンプ",
+            "url": "https://store.line.me/stickershop/product/13782162/ja",
+            "thumbnailUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/13782162/LINEStorePC/main.png?v=1"
+          },
+          {
+            "title": "犬タローとメニメニマネィ",
+            "kind": "LINEスタンプ",
+            "url": "https://store.line.me/stickershop/product/12803212/ja",
+            "thumbnailUrl": "https://stickershop.line-scdn.net/stickershop/v1/product/12803212/LINEStorePC/main.png?v=2"
+          },
+          {
+            "title": "犬タローはがんばってる",
+            "kind": "LINE絵文字",
+            "url": "https://store.line.me/emojishop/product/5f1e4153d1d2673eb07b470d/ja",
+            "thumbnailUrl": "https://stickershop.line-scdn.net/sticonshop/v1/product/5f1e4153d1d2673eb07b470d/iPhone/main.png?v=2"
+          }
+        ]
+      }
+    },
+    "data/news.json": {
+      "sourceSha256": "f2bc02e92a698bd5d979a9ddb6dbfe58e4b3fa2431bc246ce58f4006ec52b21b",
+      "canonicalSha256": "aa4790109e873d20437f0ae4dae6924e73c81b6e54f5e4b437b8ed54864e5b24",
+      "data": [
+        {
+          "id": "x-follow-erikanuinui",
+          "source": "x",
+          "sourceLabel": "X",
+          "date": "2026-06-19",
+          "title": "犬タローゲームの更新情報はXでもおしらせします",
+          "body": "制作メモやアップデート情報を投稿していきます。",
+          "url": "https://x.com/erikanuinui",
+          "cta": "Xで見る"
+        },
+        {
+          "id": "youtube-channel-erikanuinui",
+          "source": "youtube",
+          "sourceLabel": "YouTube",
+          "date": "2026-06-19",
+          "title": "YouTubeチャンネルへの導線を追加しました",
+          "body": "動画や活動情報を見られるように、チャンネルへのリンクをまとめています。",
+          "url": "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+          "cta": "YouTubeで見る"
+        },
+        {
+          "id": "home-page-start",
+          "source": "blog",
+          "sourceLabel": "Blog",
+          "date": "2026-06-19",
+          "title": "犬タローゲームのホームページを準備中です",
+          "body": "ゲーム選択、キャラクター紹介、ブログ、おしらせを見られるサイトに育てていきます。",
+          "url": "pages/blog.html",
+          "cta": "記事を見る"
+        }
+      ]
+    }
+  },
+  "originalMapLinks": [
+    {
+      "class": "map-card map-link-character",
+      "href": "pages/characters.html",
+      "target": "",
+      "rel": "",
+      "label": "キャラクター紹介へ"
+    },
+    {
+      "class": "map-card map-link-sns",
+      "href": "https://x.com/erikanuinui",
+      "target": "_blank",
+      "rel": "noopener noreferrer",
+      "label": "Xへ"
+    },
+    {
+      "class": "map-card map-link-linestamp",
+      "href": "https://store.line.me/emojishop/author/2919902/ja",
+      "target": "_blank",
+      "rel": "noopener noreferrer",
+      "label": "LINEスタンプページへ"
+    },
+    {
+      "class": "map-card map-link-game",
+      "href": "games/",
+      "target": "",
+      "rel": "",
+      "label": "ゲームページへ"
+    },
+    {
+      "class": "map-card map-link-goods",
+      "href": "https://suzuri.jp/erikanuinui",
+      "target": "_blank",
+      "rel": "noopener noreferrer",
+      "label": "SUZURIのグッズページへ"
+    },
+    {
+      "class": "map-card map-link-blog",
+      "href": "https://note.com/erinui",
+      "target": "_blank",
+      "rel": "noopener noreferrer",
+      "label": "noteのブログへ"
+    },
+    {
+      "class": "map-card map-link-illustrate",
+      "href": "pages/illustrations.html",
+      "target": "",
+      "rel": "",
+      "label": "イラストページへ"
+    },
+    {
+      "class": "map-card map-link-youtube",
+      "href": "https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84",
+      "target": "_blank",
+      "rel": "noopener noreferrer",
+      "label": "YouTubeチャンネルへ"
+    }
+  ],
+  "targetMapLinks": {
+    "map-link-game": "game-title",
+    "map-link-character": "character-title",
+    "map-link-youtube": "youtube-title",
+    "map-link-blog": "blog-title",
+    "map-link-goods": "goods-title",
+    "map-link-linestamp": "line-stamp-title"
+  },
+  "goodsPositionDecision": {
+    "date": "2026-10-18",
+    "humanChoice": "PC main frame",
+    "referenceSnapshot": "drafts/top-redesign-sdd-20261018/figma-current.json",
+    "figmaNode": "2449:21933",
+    "liveSynced": false
+  }
+}

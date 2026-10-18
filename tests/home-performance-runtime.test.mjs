@@ -127,7 +127,11 @@ test('HP-FONT-02/IMG-02/LOAD-01: compiled TOP loads subsets, reserves image size
  for(const url of fontRequests){assert.match(url,/\/assets\/versioned\/keinann-pop-jp-/);fontBytes+=(await readFile(path.join(directory,new URL(url).pathname))).length;}
  assert.ok(fontBytes<=100000,`font bytes ${fontBytes}`);
  assert.equal(seen.filter(u=>u.includes('/map_bg.svg?')).length,1);
- assert.equal(await page.locator('link[as="image"]').getAttribute('fetchpriority'),'high');
+ assert.equal(await page.locator('link[as="image"][href*="map_bg.svg"]').getAttribute('fetchpriority'),'high');
+ const pattern=page.locator('link[as="image"][href*="city-checker-tile."]');
+ assert.equal(await pattern.count(),1);
+ assert.equal(await pattern.getAttribute('fetchpriority'),'high');
+ assert.equal(seen.filter(u=>u.includes('/city-checker-tile.')).length,1);
  const missing=await page.locator('img').evaluateAll(nodes=>nodes.filter(n=>!n.hasAttribute('width')||!n.hasAttribute('height')).map(n=>n.outerHTML));assert.deepEqual(missing,[]);
  assert.equal(seen.some(u=>/gameplay-preview\.png/.test(u)),false);
 });

@@ -49,7 +49,11 @@ test('HP-CACHE-01: a normal built-site revisit serves immutable assets from the 
  const replacement=`assets/versioned/header.${sha256(bytes).slice(0,16)}.webp`;
  await writeFile(path.join(directory,replacement),bytes);files.push(replacement);
  const htmlFile=path.join(directory,'index.html'),html=await readFile(htmlFile,'utf8');
- await writeFile(htmlFile,html.replace(/assets\/versioned\/icon-192-header\.[a-f0-9]{16}\.webp/,replacement));
+ const {htmlNodes}=await import('../scripts/lib/home-youtube-snapshot.mjs');
+ const nodes=htmlNodes(html),brand=nodes.find(n=>n.tag==='a'&&(n.attrs.class||'').split(/\s/).includes('brand'));
+ const logo=nodes.find(n=>n.tag==='img'&&n.start>brand.start&&n.end<brand.end);
+ assert.ok(logo?.attrs.src.startsWith('assets/versioned/'));
+ await writeFile(htmlFile,html.slice(0,logo.start)+html.slice(logo.start,logo.end).replace(logo.attrs.src,replacement)+html.slice(logo.end));
  await page.goto('about:blank');const updateStart=server.requests.length;await page.goto(server.url,{waitUntil:'networkidle'});
  assert.ok(server.requests.slice(updateStart).includes('/'+replacement),'changed hash is fetched while unchanged immutable assets stay cached');
 

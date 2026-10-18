@@ -2,7 +2,7 @@ import { mkdir, copyFile, readFile, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { validateAssetManifest, applyAssetBindings, sha256 } from './lib/home-assets.mjs';
+import { validateAssetManifest, applyAssetBindings, bindingsForDocument, sha256 } from './lib/home-assets.mjs';
 import { createYoutubeSnapshot, youtubeThumbnail } from './lib/home-youtube-snapshot.mjs';
 import {validateCodeAssets} from './lib/generate-home-code.mjs';
 import {applyStaticImageMetadata} from './lib/home-image-html.mjs';
@@ -50,8 +50,10 @@ export async function buildSite(output, {recovery,copy=copyFile}={}) {
     await copy(path.join(root, file), target);
     if(file.endsWith('.html')) {
       const html=await readFile(target,'utf8');
-      let bound=manifest?applyStaticImageMetadata(applyAssetBindings(html,file,manifest.bindings),file,manifest):html;
+      let bound=manifest?applyStaticImageMetadata(applyAssetBindings(html,file,bindingsForDocument(manifest,file)),file,manifest):html;
       if(file==='index.html'&&manifest)bound=bound.replace('<head>','<head>\n    <link rel="preload" as="image" href="assets/home-city/map_bg.svg?v=20261010-city-name" fetchpriority="high" />');
+      const pattern=manifest?.bindings['assets/home-city/city-checker-tile.svg'];
+      if(file==='index.html'&&pattern)bound=bound.replace('<head>',`<head>\n    <link rel="preload" as="image" href="${pattern}" fetchpriority="high" />`);
       if(manifest?.fonts)bound=bound.replace(/<link[^>]+href=["'][^"']*keinann-pop-jp\.woff2[^"']*["'][^>]*>\s*/g,'');
       await writeFile(target,file==='index.html'?applyDataRoutes(createYoutubeSnapshot(bound,youtube),dataRoutes):bound);
     }

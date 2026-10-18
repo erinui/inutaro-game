@@ -25,7 +25,7 @@ export function rewriteCss(source, sourceFile, outputFile, bindings = {}) {
 }
 export async function validateAssetManifest(root, manifest) {
   if(manifest?.version!==1 || !Array.isArray(manifest.outputs) || !manifest.bindings || typeof manifest.bindings!=='object') throw new Error('Invalid asset manifest');
-  const selected=new Set([...Object.values(manifest.bindings),...(manifest.activeOutputs||[])]);
+  const selected=new Set([...Object.values(manifest.bindings),...Object.values(manifest.topImageBindings||{}),...(manifest.activeOutputs||[])]);
   const files=new Set();
   for(const [file,metadata] of Object.entries(manifest.imageDimensions||{})){
     if(!safePath(file)||!Number.isInteger(metadata.width)||!Number.isInteger(metadata.height)||metadata.width<1||metadata.height<1)throw new Error('Invalid image metadata');
@@ -48,8 +48,12 @@ export async function validateAssetManifest(root, manifest) {
     }
   }
   for(const [source,file] of Object.entries(manifest.bindings)) if(!safePath(source)||!files.has(file)) throw new Error('Invalid binding path or missing output');
+  for(const [source,file] of Object.entries(manifest.topImageBindings||{})) if(!safePath(source)||!source.startsWith('assets/characters/')||!files.has(file)) throw new Error('Invalid TOP image binding');
   for(const file of selected) if(!files.has(file)) throw new Error('Missing active output');
   return [...files];
+}
+export function bindingsForDocument(manifest, document) {
+  return document === 'index.html' ? {...manifest.bindings, ...manifest.topImageBindings} : manifest.bindings;
 }
 export function applyAssetBindings(html, htmlFile, bindings) {
   return html.replace(/\b(src|href)=(['"])([^'"<>]+)\2/g,(original,attribute,quote,url)=>{
