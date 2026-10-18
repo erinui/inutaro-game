@@ -2534,8 +2534,8 @@ body.city-home .section-title::before { width: 16px; height: 16px; flex: 0 0 16p
 body.city-home .section-more { align-self: flex-end; font-size: 15px; line-height: 22px; white-space: nowrap; text-underline-offset: 4px; }
 body.city-home .section-more:hover { text-decoration: underline; }
 body.city-home .section-title { scroll-margin-top: calc(var(--top-header-height, 72px) + 24px); }
-body.city-home :is(a, button):focus-visible,
-body.city-home .section-title:focus { outline: 3px solid #1664a8; outline-offset: 5px; }
+body.city-home :is(a, button):focus-visible { outline: 3px solid #1664a8; outline-offset: 5px; }
+body.city-home .section-title:focus { outline: none; }
 
 body.city-home .content-carousel { margin: 0; padding: 0; min-width: 0; }
 body.city-home .content-carousel-track {

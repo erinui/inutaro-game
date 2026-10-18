@@ -12,7 +12,7 @@
     "home.js": "assets/versioned/home.c0f62f7392d78b70.js",
     "site-nav.js": "assets/versioned/site-nav.d79a4edce5d01e04.js",
     "site-migration.js": "assets/versioned/site-migration.04f7e2c2720920f1.js",
-    "home.css": "assets/versioned/home.aaafce3ebfd6f974.css",
+    "home.css": "assets/versioned/home.f0e0ec9f21efc909.css",
     "assets/characters/chara_inutaro_origin.png": "assets/versioned/chara_inutaro_origin.ae856bd0e8728287.webp",
     "assets/characters/chara_inutaro_nuigurumi.png": "assets/versioned/chara_inutaro_nuigurumi.42fa624a81609db1.webp",
     "assets/characters/chara_erika-san.png": "assets/versioned/chara_erika-san.c663015a5d197a6e.webp",
@@ -2207,6 +2207,16 @@
       }
     },
     {
+      "file": "assets/versioned/home.aaafce3ebfd6f974.css",
+      "sha256": "aaafce3ebfd6f974f9bcd881e3978edd8f6b4b0420e9eb484626a4b9e4a5b0ec",
+      "bytes": 153629,
+      "sources": {
+        "home.css": "86625c64c69a80675bcb48265206e9d925393bf8b738f50c97ab70298d0ff374"
+      },
+      "kind": "css",
+      "mime": "text/css"
+    },
+    {
       "file": "assets/versioned/home.c0f62f7392d78b70.js",
       "sha256": "c0f62f7392d78b7074e183a2ab1177b826285a044f4bc7eee928bf2fc9325e8c",
       "bytes": 24108,
@@ -2237,11 +2247,11 @@
       "mime": "text/javascript"
     },
     {
-      "file": "assets/versioned/home.aaafce3ebfd6f974.css",
-      "sha256": "aaafce3ebfd6f974f9bcd881e3978edd8f6b4b0420e9eb484626a4b9e4a5b0ec",
-      "bytes": 153629,
+      "file": "assets/versioned/home.f0e0ec9f21efc909.css",
+      "sha256": "f0e0ec9f21efc909d3737da1440fabe953738d0f72513e8af81a84df96b25ec9",
+      "bytes": 153647,
       "sources": {
-        "home.css": "86625c64c69a80675bcb48265206e9d925393bf8b738f50c97ab70298d0ff374"
+        "home.css": "7a14614f406a44c72b60f16d0ba34796f4009ff3d2da5f17c7318ad9da39a3b3"
       },
       "kind": "css",
       "mime": "text/css"
