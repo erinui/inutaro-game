@@ -41,4 +41,16 @@
 
 非公開証跡: `drafts/top-focus-review-20261018/` の `03-production-before-sp.jpg`、`04-preview-after-sp.jpg`、`after-1440-game.jpg`、`anchor-results.json`。24ケースの結果はCSS幅・操作方法・activeElement・outline・黒枠・影・見出し座標を記録している。以前の16サイズ98枚の撮影記録は修正前の記録としてそのまま残した。
 
-状態: ローカル修正と確認を完了。GitHubへのpush・本番公開は今回行っていない。
+## GitHub反映・本番確認
+
+利用者の公開依頼により、実装コミット `9be27784f5ebb37e32e73035adde081406eed673` をmainへ通常pushした。元の作業ツリー・主GitHubアカウントを変更せず、隔離した公開候補とerinuiの既存認証で実施した。
+
+- 最新main `7f5dfe2` の動画・記事・商品JSONを保持。既知の3JSONは取得日時だけの差であることを比較し、試験用の完全バイト列記録だけを更新した。コンテンツや取得処理は変更していない。
+- ローカルの関連試験23件合格。[GitHub CI](https://github.com/erinui/inutaro-game/actions/runs/39129516957)でNode20.20.2・全179件合格、失敗/skipなし。公開ビルド272ファイルの検証成功。利用者の指定どおり、ローカルのChrome自動操作は実施していない。
+- Cloudflare本番ビルド `72254af2-aa03-4ba1-be50-ef62a2b959d0` 成功。[GitHub Pagesの公開](https://github.com/erinui/inutaro-game/actions/runs/39129758795)も成功。
+- 正規TOPと新CSSは200。TOPが新ハッシュCSSを参照し、配信CSSのSHA-256が `f0e0ec9f21efc909d3737da1440fabe953738d0f72513e8af81a84df96b25ec9` と完全一致。新CSSはimmutable、旧パスのCSSは再検証付きで更新された。
+- 本番アプリ内ブラウザで390×844/1440×900の各6導線、計12クリックを再確認。到着見出しのoutlineはnone、黒枠・影・ヘッダー下への到着を維持。取得できたJavaScriptエラー0件。証跡は同じ非公開フォルダの `production-390-character.jpg`、`production-1440-character.jpg`、`production-anchor-results.json`。
+
+検証ブランチ向けのCloudflareプレビューは、既存の `npx wrangler preview` 設定にpreviewsブロックがないため失敗した。本番のdeployとは別であり、本番公開成功を確認している。今回の範囲外のためプレビュー設定を変更していない。またGitHub ActionsのNode20系actionランタイム非推奨警告は、今回の試験失敗ではなく今後の保守対象として残す。
+
+状態: GitHub main反映・本番配信・本番画面確認を完了。
