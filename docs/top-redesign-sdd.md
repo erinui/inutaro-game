@@ -332,4 +332,13 @@ PC/SP各6導線×クリック/Enterの24ケースをアプリ内ブラウザで�
 
 「ゲームをえらぶ」カードだけ旧 `map_game.png` を参照していたため、マップのゲーム導線と同じ `map_game.svg?v=20260802-map-svg` に統一した。公開用ビルドでは双方とも既存の `assets/versioned/map_game.7767c1008d763cee.webp`（640×640）を使う。カード321×432、画像領域、contain、文言、遷移先 `games/`、lazy/asyncは維持。新規画像生成・CSS・JS変更はない。
 
-ソース参照と公開用の参照一致を検査する2試験をRed→Greenで確認。既存の保護・ビルド試験を含む関連35件が合格。アプリ内ブラウザのPC/SP指定で2枚目を表示し、同じ画像の読み込み、カード寸法、画像の全体表示を確認した。非公開証跡: `drafts/game-card-artwork-review/`。今回はローカル修正・検証までで、GitHub・本番公開は未実施。
+ソース参照と公開用の参照一致を検査する2試験をRed→Greenで確認。既存の保護・ビルド試験を含む関連35件が合格。アプリ内ブラウザのPC/SP指定で2枚目を表示し、同じ画像の読み込み、カード寸法、画像の全体表示を確認した。非公開証跡: `drafts/game-card-artwork-review/`。
+
+### 2026-10-19 GitHub反映・本番確認
+
+- 実装 `c422e59` をmainへ通常push。[CI](https://github.com/erinui/inutaro-game/actions/runs/39140027031)は全189件合格、失敗・skipなし。公開ビルド273ファイルを確認した。
+- Cloudflare本番ビルド `98e6a140-31f0-44c8-af2c-6ec389f68268` と[GitHub Pages公開](https://github.com/erinui/inutaro-game/actions/runs/39140283463)が成功。
+- 本番HTMLと画像は200応答。マップとカードが同一WebPを参照し、画像SHA-256 `7767c1008d763cee2302c40aff2b8743cc05382afd4cb58213a39ba89a4ba0be` がローカル原本と一致した。カードの遷移先・lazy/async・640×640の画像寸法指定も維持。
+- アプリ内ブラウザの1440×900・390×844指定でカルーセル2枚目を表示。カード321×432、画像contain・全体表示、画像読み込み成功、文書横はみ出しなし、取得できたJSエラー0件を確認。物理端末での再検証は今回行っていない。
+
+非公開の本番証跡: `drafts/game-card-artwork-review/published-1440-game.jpg`、`published-390-game.jpg`、`published-results.json`。状態: GitHub main・本番反映、PC/SPの本番目視確認を完了。
