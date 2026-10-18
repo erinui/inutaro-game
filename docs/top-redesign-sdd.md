@@ -327,3 +327,9 @@ PC/SP各6導線×クリック/Enterの24ケースをアプリ内ブラウザで�
 - 本番390×844/1440×900指定で、各12件の日時降順・URL重複なし・AND MOREなし・文書横はみ出しなしを確認。各11回の送りで末尾へ到達して次ボタンが無効。両条件で全12画像の読み込み成功、取得できたJSエラー0件。
 
 非公開の公開証跡は同じフォルダの `published-390-first.jpg` / `published-390-last.jpg` / `published-1440-first.jpg` / `published-1440-last.jpg` と `published-results.json`。実機iOS/Android・物理タッチの再確認は今回行っていない。状態: GitHub main反映・本番配信・PC/SP本番確認を完了。
+
+## 17. ゲーム一覧カードの画像統一
+
+「ゲームをえらぶ」カードだけ旧 `map_game.png` を参照していたため、マップのゲーム導線と同じ `map_game.svg?v=20260802-map-svg` に統一した。公開用ビルドでは双方とも既存の `assets/versioned/map_game.7767c1008d763cee.webp`（640×640）を使う。カード321×432、画像領域、contain、文言、遷移先 `games/`、lazy/asyncは維持。新規画像生成・CSS・JS変更はない。
+
+ソース参照と公開用の参照一致を検査する2試験をRed→Greenで確認。既存の保護・ビルド試験を含む関連35件が合格。アプリ内ブラウザのPC/SP指定で2枚目を表示し、同じ画像の読み込み、カード寸法、画像の全体表示を確認した。非公開証跡: `drafts/game-card-artwork-review/`。今回はローカル修正・検証までで、GitHub・本番公開は未実施。
