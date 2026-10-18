@@ -106,7 +106,9 @@ test('TOP-W04: category colors follow content rather than the card index when a 
   try {
     await page.waitForFunction(()=>document.querySelector('[data-news-cards]')?.children.length===12);
     await page.evaluate(()=>renderLatestNews({youtube:{ok:true,videos:[]}}));
-    assert.equal(await page.locator('.news-section .content-card-kicker[data-category="NOTE"]').evaluate(n=>getComputedStyle(n).backgroundColor),'rgb(204, 231, 215)');
+    const colors = await page.locator('.news-section .content-card-kicker[data-category="NOTE"]').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).backgroundColor));
+    assert.equal(colors.length, 6);
+    for (const color of colors) assert.equal(color, 'rgb(204, 231, 215)');
   } finally {await page.close();}
 });
 
