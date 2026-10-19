@@ -387,7 +387,9 @@ pages/privacy.html
 
 ルール:
 
-- 左端はアイコン付きの「エリカッテシティ」リンク
+- 左端は犬タロー オリジン画像付きの「エリカッテシティ」リンク。共通ヘッダーを持つ全7ページで同一画像を使う
+- 高さはPC72px、760px以下は64px。ロゴはPC44px高・25px文字、SP44px高・20px文字。画像はPC20×34px、SP18×28px、contain・丸枠/回転なし
+- PCナビは枠なし・透明背景、hover/focus-visibleは下線。画像・高さ・余白・ナビの最終CSSはTOP/下層で共有し、本文のデザインとは独立させる
 - 右側はそのページから必要な主要ページだけを表示
 - 現在開いているページへの重複リンクは基本的に置かない
 - SP幅では三本線メニューに集約
@@ -447,6 +449,9 @@ assets/fonts/keinann-pop-jp-source.md
 - Safariで画像の四角い影が目立たないよう、画像自体には `drop-shadow` を使う
 - テキストの白・灰色ドロップシャドウは読みにくくなるため、基本的に使わない
 - セクション見出しはポップなラベル調で統一する
+- 下層6ページもTOPと同じキャラクターパターンを使う。`city-checker-tile.svg`を960×384pxで反復、不透明度0.07、ベース#fff7e8。ページ最小高100svhで背景を描画する
+- ページやカード内の丸い背景装飾、下層見出し・ゲーム画像の静的な傾きは使わない。カード内は単色、キャラクター画像面の色分けは維持する
+- 下層ページ上部の英語eyebrow等と重複したゲームバッジは撤去。公開状態・特徴タグ・操作ボタンなど意味を持つ情報は残す
 
 ### 7.4 レスポンシブ
 
@@ -464,7 +469,8 @@ assets/fonts/keinann-pop-jp-source.md
 
 | パス | 用途 |
 | --- | --- |
-| `assets/icon-192.png` | サイトアイコン、ブランド、OGP |
+| `assets/icon-192.png` | サイトアイコン、ゲーム紹介、OGP。ヘッダー画像には使わない |
+| `assets/characters/chara_inutaro_origin.png` | 全7ページの共通ヘッダー画像。公開時は既存の軽量 `chara_inutaro_origin-top` WebPへバインド。プロフィール本文は大きい版を維持 |
 | `assets/favicon.png` | favicon |
 | `assets/apple-touch-icon.png` | iOS用アイコン |
 | `assets/fonts/` | サイトフォント |

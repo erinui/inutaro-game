@@ -8,6 +8,11 @@ export function applyStaticImageMetadata(html,document,manifest){
   if(!url||/^(?:[a-z]+:|\/|#)/i.test(url))continue;
   const source=path.posix.normalize(path.posix.join(path.posix.dirname(document),url.split(/[?#]/)[0]));
   let image=outputs.get(source)||manifest.imageDimensions?.[source],replacement;
+  const character='assets/characters/chara_inutaro_origin.png';
+  const headerCharacter=manifest.topImageBindings?.[character];
+  if(headerCharacter&&(node.parent?.attrs.class||'').split(/\s/).includes('brand')&&[character,manifest.bindings?.[character],headerCharacter].includes(source)){
+   image=outputs.get(headerCharacter);replacement=path.posix.relative(path.posix.dirname(document),headerCharacter);
+  }
   if(source==='assets/icon-192.png'&&(node.parent?.attrs.class||'').split(/\s/).includes('brand')&&manifest.headerLogo){
    image=manifest.headerLogo;replacement=path.posix.relative(path.posix.dirname(document),image.file);
   }

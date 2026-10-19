@@ -28,7 +28,14 @@ test("SEO-PUBLISH-01: deploy output contains only approved public files", async 
     let manifest;
     try { manifest=JSON.parse(await readFile(path.join(root,'config/home-performance-assets.json'),'utf8')); } catch(error){if(error.code!=='ENOENT')throw error;}
     const normalize=(html,document)=>{
-      const edits=htmlNodes(html).filter(n=>n.tag==='img').map(n=>({start:n.start,end:n.openEnd,value:'<img '+Object.entries(n.attrs).filter(([k])=>!['width','height','decoding'].includes(k)).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>k+'='+JSON.stringify(k==='src'&&/icon-192\.png/.test(v)?v.split('?')[0]:v)).join(' ')+' />'}));
+      const edits=htmlNodes(html).filter(n=>n.tag==='img').map(n=>{
+        const values={...n.attrs};
+        const headerCharacter=manifest?.topImageBindings?.['assets/characters/chara_inutaro_origin.png'];
+        if(n.parent?.attrs.class==='brand'&&headerCharacter&&new URL(values.src,new URL(document,'https://fixture.invalid/')).pathname==='/'+headerCharacter){
+          values.src=path.posix.relative(path.posix.dirname(document),'assets/characters/chara_inutaro_origin.png');
+        }
+        return {start:n.start,end:n.openEnd,value:'<img '+Object.entries(values).filter(([k])=>!['width','height','decoding'].includes(k)).sort(([a],[b])=>a.localeCompare(b)).map(([k,v])=>k+'='+JSON.stringify(k==='src'&&/icon-192\.png/.test(v)?v.split('?')[0]:v)).join(' ')+' />'};
+      });
       for(const e of edits.reverse())html=html.slice(0,e.start)+e.value+html.slice(e.end);
       html=html.replace(/\n    <link rel="preload" as="image" href="assets\/home-city\/map_bg\.svg\?v=20261010-city-name" fetchpriority="high" \/>/,'');
       const pattern=manifest?.bindings['assets/home-city/city-checker-tile.svg'];

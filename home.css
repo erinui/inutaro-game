@@ -1511,11 +1511,11 @@ body.city-home .site-footer {
 }
 
 body:not(.city-home) {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
   overflow-y: auto;
-  background:
-    radial-gradient(circle at 8% 8%, rgba(255, 233, 106, 0.62) 0 54px, transparent 55px),
-    radial-gradient(circle at 91% 18%, rgba(255, 181, 210, 0.42) 0 64px, transparent 65px),
-    linear-gradient(180deg, #e5fbff 0%, #fffef8 38%, #f1ffe8 100%);
+  background: #fff7e8;
   color: var(--ink);
 }
 
@@ -1564,7 +1564,7 @@ body:not(.city-home) .brand img {
   border-radius: 50%;
   background: #fff;
   box-shadow: 2px 2px 0 #111;
-  transform: rotate(-4deg);
+  transform: none;
 }
 
 body:not(.city-home) .site-nav {
@@ -1705,7 +1705,7 @@ body:not(.city-home) h2 {
   box-shadow: 5px 5px 0 #111;
   font-size: clamp(24px, 3vw, 34px);
   line-height: 1;
-  transform: rotate(-1deg);
+  transform: none;
 }
 
 body:not(.city-home) h2::before {
@@ -1729,20 +1729,6 @@ body:not(.city-home) p {
   color: #314239;
   font-size: 16px;
   line-height: 1.85;
-}
-
-body:not(.city-home) .eyebrow {
-  display: inline-flex;
-  margin: 0 0 10px;
-  padding: 2px 12px 4px;
-  border: 2px solid #111;
-  border-radius: 999px;
-  background: var(--pink);
-  box-shadow: 3px 3px 0 #111;
-  color: #111;
-  font-size: 14px;
-  letter-spacing: 0;
-  text-transform: uppercase;
 }
 
 body:not(.city-home) .page-hero {
@@ -1777,10 +1763,7 @@ body:not(.city-home) .game-thumb {
   min-height: 220px;
   place-items: center;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.75) 0 34px, transparent 35px),
-    repeating-linear-gradient(-45deg, rgba(17, 17, 17, 0.045) 0 7px, transparent 7px 16px),
-    var(--sky);
+  background: var(--sky);
   border-right: 3px solid #111;
 }
 
@@ -1791,29 +1774,12 @@ body:not(.city-home) .game-thumb img {
   border-radius: 18px;
   object-fit: cover;
   box-shadow: 5px 5px 0 #111;
-  transform: rotate(-4deg);
+  transform: none;
 }
 
 body:not(.city-home) .game-thumb span {
   color: #111;
   font-size: 28px;
-}
-
-body:not(.city-home) .thumb-badge {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 0 10px;
-  border: 2px solid #111;
-  border-radius: 999px;
-  background: var(--sun);
-  color: #111;
-  font-size: 13px;
-  box-shadow: 3px 3px 0 #111;
-  transform: rotate(3deg);
 }
 
 body:not(.city-home) .game-card-body {
@@ -1867,9 +1833,7 @@ body:not(.city-home) .game-card.is-coming {
 }
 
 body:not(.city-home) .game-card.is-coming .game-thumb {
-  background:
-    repeating-linear-gradient(45deg, rgba(17, 17, 17, 0.045) 0 8px, transparent 8px 18px),
-    #f4ece5;
+  background: #f4ece5;
 }
 
 body:not(.city-home) .content-page {
@@ -1880,9 +1844,7 @@ body:not(.city-home) .content-panel {
   padding: clamp(22px, 4vw, 34px);
   border: 4px solid #111;
   border-radius: 22px;
-  background:
-    radial-gradient(circle at 96% 10%, rgba(114, 216, 255, 0.34) 0 48px, transparent 49px),
-    #fff;
+  background: #fff;
   box-shadow: 7px 7px 0 #111;
 }
 
@@ -1909,11 +1871,7 @@ body:not(.city-home) .character-profile-page {
   padding: clamp(18px, 4vw, 38px);
   border: 4px solid #111;
   border-radius: 30px;
-  background:
-    radial-gradient(circle at 8% 6%, rgba(255, 233, 106, 0.48) 0 56px, transparent 58px),
-    radial-gradient(circle at 94% 12%, rgba(255, 181, 210, 0.34) 0 66px, transparent 68px),
-    radial-gradient(circle at 50% 100%, rgba(125, 223, 154, 0.26) 0 130px, transparent 132px),
-    linear-gradient(180deg, #fffef8 0%, #f4ffe9 100%);
+  background: #fffef8;
   box-shadow: 8px 8px 0 #111;
   overflow: visible;
 }
@@ -1974,10 +1932,7 @@ body:not(.city-home) .character-profile-page {
   padding: clamp(18px, 3vw, 30px);
   border-left: 2px solid #111;
   border-radius: 0;
-  background:
-    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.58) 0 42px, transparent 44px),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 58%),
-    var(--profile-bg);
+  background: var(--profile-bg);
   box-shadow: inset 0 -10px 0 rgba(17, 17, 17, 0.08);
   overflow: hidden;
 }
@@ -2028,7 +1983,7 @@ body:not(.city-home) .character-profile-card h2 {
   font-size: clamp(26px, 3.6vw, 40px);
   line-height: 1;
   white-space: nowrap;
-  transform: rotate(-1deg);
+  transform: none;
 }
 
 body:not(.city-home) .character-profile-card h2::before {
@@ -2287,7 +2242,7 @@ body:not(.city-home) .site-footer {
   }
 }
 
-/* TOP v2 is scoped so the shared lower-page design remains unchanged. */
+/* TOP v2 content stays scoped; the shared header is defined below. */
 body.city-home {
   --top-header-height: 72px;
   --top-map-height: min(960px, calc(100svh - 120px));
@@ -2297,7 +2252,9 @@ body.city-home {
   background: #fff7e8;
 }
 
-body.city-home .site-header {
+/* Shared site header: keep TOP and lower pages on the same final rules. */
+body.city-home .site-header,
+body:not(.city-home) .site-header {
   height: 72px;
   min-height: 72px;
   padding: 10px 30px;
@@ -2307,7 +2264,8 @@ body.city-home .site-header {
   backdrop-filter: none;
 }
 
-body.city-home .brand {
+body.city-home .brand,
+body:not(.city-home) .brand {
   height: 44px;
   min-height: 44px;
   gap: 10px;
@@ -2316,7 +2274,8 @@ body.city-home .brand {
   line-height: 30px;
 }
 
-body.city-home .brand img {
+body.city-home .brand img,
+body:not(.city-home) .brand img {
   width: 20px;
   height: 34px;
   border: 0;
@@ -2327,8 +2286,12 @@ body.city-home .brand img {
   transform: none;
 }
 
-body.city-home .site-nav { gap: 26px; }
-body.city-home .site-nav a {
+body.city-home .site-nav,
+body:not(.city-home) .site-nav {
+  gap: 26px;
+}
+body.city-home .site-nav a,
+body:not(.city-home) .site-nav a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -2340,7 +2303,14 @@ body.city-home .site-nav a {
   font-size: 15px;
   line-height: 22px;
 }
-body.city-home .site-nav a:hover { background: transparent; text-decoration: underline; text-underline-offset: 5px; }
+body.city-home .site-nav a:hover,
+body:not(.city-home) .site-nav a:hover,
+body.city-home .site-nav a:focus-visible,
+body:not(.city-home) .site-nav a:focus-visible {
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
 
 body.city-home .site-page {
   display: grid;
@@ -2393,7 +2363,8 @@ body.city-home .city-map-layout {
 }
 body.city-home .city-map-layout::before,
 body.city-home .carousel-section::before,
-body.city-home .character-section::before {
+body.city-home .character-section::before,
+body:not(.city-home)::before {
   position: absolute;
   z-index: -1;
   inset: 0;
@@ -2687,11 +2658,16 @@ body.city-home .footer-inner a { font-size: 14px; line-height: 22px; }
 }
 @media (max-width: 760px) {
   body.city-home { --top-header-height: 64px; }
-  body.city-home .site-header { height: 64px; min-height: 64px; padding: 8px 16px; gap: 12px; }
-  body.city-home .brand { padding: 2px 12px; font-size: 20px; gap: 8px; }
-  body.city-home .brand img { width: 18px; height: 28px; }
-  body.city-home .site-nav { gap: 10px; }
-  body.city-home .site-nav a { justify-content: center; }
+  body.city-home .site-header,
+  body:not(.city-home) .site-header { height: 64px; min-height: 64px; padding: 8px 16px; gap: 12px; }
+  body.city-home .brand,
+  body:not(.city-home) .brand { padding: 2px 12px; font-size: 20px; gap: 8px; }
+  body.city-home .brand img,
+  body:not(.city-home) .brand img { width: 18px; height: 28px; }
+  body.city-home .site-nav,
+  body:not(.city-home) .site-nav { gap: 10px; }
+  body.city-home .site-nav a,
+  body:not(.city-home) .site-nav a { justify-content: center; }
 }
 @media (prefers-reduced-motion: reduce) {
   html:has(body.city-home) { scroll-behavior: auto; }

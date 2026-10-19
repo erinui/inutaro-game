@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-19",
+  "pattern": "assets/home-city/city-checker-tile.svg",
+  "patternSize": "960px 384px",
+  "patternOpacity": "0.07",
+  "removedEyebrows": {
+    "games/index.html": "ゲーム開発会社",
+    "pages/characters.html": "Characters",
+    "pages/blog.html": "News",
+    "pages/illustrations.html": "Illustrations",
+    "pages/terms.html": "Terms",
+    "pages/privacy.html": "Privacy"
+  }
+}

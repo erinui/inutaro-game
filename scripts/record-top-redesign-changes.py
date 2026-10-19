@@ -1,4 +1,4 @@
-"""Record reviewed TOP-only fragments without replacing earlier acceptance baselines."""
+"""Record reviewed site-design fragments without replacing earlier baselines."""
 import difflib
 import hashlib
 import json
@@ -10,7 +10,7 @@ base = '97ba5f0'
 baseline = json.loads((root / 'tests/fixtures/top-redesign-baseline.json').read_text())
 sha = lambda value: hashlib.sha256(value).hexdigest()
 report = {'design': 'TOP v2 / PC main / 2026-10-18', 'baseCommit': base, 'beforeHashes': {}, 'afterHashes': {}, 'changes': []}
-for file in ['index.html', 'home.css', 'home.js', 'scripts/build-site.mjs', 'scripts/lib/home-assets.mjs', 'config/home-performance-assets.json']:
+for file in ['index.html', 'home.css', 'home.js', 'scripts/build-site.mjs', 'scripts/lib/home-assets.mjs', 'config/home-performance-assets.json', 'scripts/lib/home-image-html.mjs', 'games/index.html', *[f'pages/{name}.html' for name in ['characters', 'blog', 'illustrations', 'terms', 'privacy']]]:
     before = subprocess.check_output(['git', 'show', f'{base}:{file}'], cwd=root)
     after = (root / file).read_bytes()
     if file in baseline['sourceHashes']:

@@ -43,6 +43,30 @@ test('TOP-W01: a corrupt registry cannot bypass the existing whole-file hashes',
   assert.throws(() => restoreVerifiedTopDataRefresh(file, registry.files[file].after, registry), /registry/);
 });
 
+test('TOP-W01: recorded upstream acquisition generations retain the exact prior payload',()=>{
+  for(const [file,generations] of Object.entries(topDataRefresh.verifiedGenerations||{})){
+    const entry=topDataRefresh.files[file],oldDate=JSON.parse(entry.after).fetchedAt;
+    for(const generation of generations){
+      const source=entry.after.replace(JSON.stringify(oldDate),JSON.stringify(generation.fetchedAt));
+      assert.equal(hash(source),generation.sha256,file);
+      assert.equal(restoreVerifiedTopDataRefresh(file,source),entry.before,file);
+    }
+  }
+});
+
+test('TOP-W01: even a rehashed upstream acquisition record cannot authorize payload edits',()=>{
+  for(const [file,generations] of Object.entries(topDataRefresh.verifiedGenerations||{})){
+    if(!generations.length)continue;
+    const registry=structuredClone(topDataRefresh),generation=registry.verifiedGenerations[file][0];
+    const value=JSON.parse(registry.files[file].after);
+    value.fetchedAt=generation.fetchedAt;
+    value.ok=!value.ok;
+    const source=JSON.stringify(value,null,2)+'\n';
+    generation.sha256=hash(source);
+    assert.throws(()=>restoreVerifiedTopDataRefresh(file,source,registry),/preserve payload/);
+  }
+});
+
 test('TOP-W01: recorded data refreshes alter only fetchedAt and root serialization order', () => {
   assert.equal(Object.keys(topDataRefresh.files).length, 3);
   for (const entry of Object.values(topDataRefresh.files)) {
@@ -89,7 +113,9 @@ test('TOP-W01/08: only the exact reviewed TOP generation crosses the previous ac
 test('TOP-W01: lower pages, game, collectors and deployment contracts remain protected', async () => {
   assert.equal(Object.keys(baseline.protectedHashes).length, 19);
   for (const [file, expected] of Object.entries(baseline.protectedHashes)) {
-    assert.equal(hash(await readFile(sourceFile(file))), expected, file);
+    const bytes=await readFile(sourceFile(file));
+    const restored=file.endsWith('.html')?restoreTopRedesignChanges(file,bytes.toString()):bytes;
+    assert.equal(hash(restored), expected, file);
   }
 });
 

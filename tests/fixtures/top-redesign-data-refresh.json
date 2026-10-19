@@ -22,5 +22,28 @@
       "before": "{\n  \"ok\": true,\n  \"fetchedAt\": \"2026-10-17T12:08:59.677Z\",\n  \"shopUrl\": \"https://suzuri.jp/erikanuinui\",\n  \"items\": [\n    {\n      \"id\": 26955057,\n      \"title\": \"犬タローインラインスケート ステッカー\",\n      \"url\": \"https://suzuri.jp/erikanuinui/10016386/sticker/m/white\",\n      \"thumbnailUrl\": \"https://lens.suzuri.jp/v3/500x500/sticker/m/white/10016386/1653220060-1575x1575.png.webp?h=f334a7fc6f7348f2abe6d9475fe963c10b0ddc05&printed=true\",\n      \"priceWithTax\": 512,\n      \"publishedAt\": \"2022-05-22T20:49:41.759+09:00\"\n    },\n    {\n      \"id\": 8338689,\n      \"title\": \"ホットケーキシェフ！犬タロー ミニクリアマルチケース\",\n      \"url\": \"https://suzuri.jp/erikanuinui/3678101/mini-clear-multi-case/m/clear\",\n      \"thumbnailUrl\": \"https://lens.suzuri.jp/v3/500x500/mini-clear-multi-case/m/clear/3678101/1590409653-1200x1200.png.1.8554+0.0-0.0036.webp?h=f1fd6ee6efa7f185631a87918fb4ff4b3f0812a5&printed=true\",\n      \"priceWithTax\": 1639,\n      \"publishedAt\": \"2020-05-25T21:29:07.352+09:00\"\n    }\n  ]\n}\n",
       "after": "{\n  \"ok\": true,\n  \"fetchedAt\": \"2026-10-18T12:35:22.662Z\",\n  \"shopUrl\": \"https://suzuri.jp/erikanuinui\",\n  \"items\": [\n    {\n      \"id\": 26955057,\n      \"title\": \"犬タローインラインスケート ステッカー\",\n      \"url\": \"https://suzuri.jp/erikanuinui/10016386/sticker/m/white\",\n      \"thumbnailUrl\": \"https://lens.suzuri.jp/v3/500x500/sticker/m/white/10016386/1653220060-1575x1575.png.webp?h=f334a7fc6f7348f2abe6d9475fe963c10b0ddc05&printed=true\",\n      \"priceWithTax\": 512,\n      \"publishedAt\": \"2022-05-22T20:49:41.759+09:00\"\n    },\n    {\n      \"id\": 8338689,\n      \"title\": \"ホットケーキシェフ！犬タロー ミニクリアマルチケース\",\n      \"url\": \"https://suzuri.jp/erikanuinui/3678101/mini-clear-multi-case/m/clear\",\n      \"thumbnailUrl\": \"https://lens.suzuri.jp/v3/500x500/mini-clear-multi-case/m/clear/3678101/1590409653-1200x1200.png.1.8554+0.0-0.0036.webp?h=f1fd6ee6efa7f185631a87918fb4ff4b3f0812a5&printed=true\",\n      \"priceWithTax\": 1639,\n      \"publishedAt\": \"2020-05-25T21:29:07.352+09:00\"\n    }\n  ]\n}\n"
     }
+  },
+  "verifiedGenerations": {
+    "assets/home-city/youtube-latest.json": [
+      {
+        "sha256": "a5d8971d8988a2b55b2dc7c5de90fa22c97c61afb4670232a8bd8d6008de3ae8",
+        "fetchedAt": "2026-10-19T04:33:13.616Z",
+        "commit": "1abecb60d3e51ee92842d19e592d94946996ba49"
+      }
+    ],
+    "assets/home-city/note-latest.json": [
+      {
+        "sha256": "dae887565a2b1dabcd9332218b0b78b90fa1a3ef4ed8e3eb560faed93df46cc7",
+        "fetchedAt": "2026-10-19T04:33:15.686Z",
+        "commit": "1abecb60d3e51ee92842d19e592d94946996ba49"
+      }
+    ],
+    "assets/home-city/suzuri-latest.json": [
+      {
+        "sha256": "8b50f5c5275ca0f138c983fd424e2bc037a17dcb6019804d37a052b1789e08b1",
+        "fetchedAt": "2026-10-19T04:33:16.712Z",
+        "commit": "1abecb60d3e51ee92842d19e592d94946996ba49"
+      }
+    ]
   }
 }
