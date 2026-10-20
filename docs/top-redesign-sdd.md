@@ -389,4 +389,14 @@ PC/SP各6導線×クリック/Enterの24ケースをアプリ内ブラウザで�
 
 実施結果: 新規2試験をRed→Greenで確認し、関連49件合格。アプリ内ブラウザの335/390/700/701/900/1024/1440指定で検証し、全文表示、16:9画像、横はみ出し・操作要素の重なりなし、701pxから2列への切替を確認。TOPカードは321×432px・従来の枠/角丸/影/余白を維持。「あそぶ」からゲーム本体の開始前画面へ遷移でき、準備中にはリンクがないことも確認した。
 
-非公開証跡: `drafts/game-list-cards-20261020/` のPC/SP全体キャプチャと `results.json`。物理端末・Safariは今回再検証していない。状態: ローカル実装・公開用ビルド・アプリ内ブラウザ確認完了、GitHub/本番未反映。Figmaは変更していない。
+非公開証跡: `drafts/game-list-cards-20261020/` のPC/SP全体キャプチャと `results.json`。物理端末・Safariは今回再検証していない。ローカル検証を完了し、下記のとおりGitHub/本番へ反映済み。Figmaは変更していない。
+
+### 2026-10-20 GitHub反映・本番確認
+
+- 最新main `562817a` の自動更新データを保持し、実装 `4d6d6fe` を通常push。3JSONの取得日時とYouTubeの累計再生数3129→3130以外に内容差がないことを確認。正確なSHA世代・元コミット・再生数の変更前後を保護テストへ記録し、未記録の変更や他項目の書き換えは許可していない。元の作業ツリーのデータと主GitHubアカウントは変更していない。
+- 関連50試験が合格。[GitHub CI](https://github.com/erinui/inutaro-game/actions/runs/39358514489)は全209件合格、失敗・skipなし。公開用ビルド276ファイルを確認。
+- Cloudflare本番ビルド `7818861c-fb1a-4ffd-ba35-63968ec1c617` と[GitHub Pages公開](https://github.com/erinui/inutaro-game/actions/runs/39358766877)が成功。
+- 本番ゲーム一覧・CSS・画像の200応答を確認。CSS `home.a859891f822d7102.css` と画像 `gameplay-preview.529ffff67ed0440d.webp` のSHA-256が公開用ビルドと一致した。
+- アプリ内ブラウザの1440×1000/390×844指定で本番を目視確認。PCは525×547.8125pxの2列、SPは幅339pxの1列。画像は16:9のcontainで全体表示、本文切れ・横はみ出しなし。準備中にリンクがないこと、「あそぶ」からゲーム開始前画面への遷移を確認。TOPカードは321×432px、枠・角丸・影・余白を維持し、取得できたJSエラーは0件。
+
+本番証跡: `drafts/game-list-cards-20261020/published-1440-games.jpg`、`published-390-games.jpg`、`published-results.json`、`published-http.json`。状態: GitHub main・本番配信・PC/SP公開画面確認を完了。物理端末・Safariの再検証およびFigmaの変更は行っていない。
