@@ -1802,40 +1802,10 @@ body:not(.city-home) .game-card h3 {
   overflow-wrap: anywhere;
 }
 
-body:not(.city-home) .game-card-body p:not(.game-status) {
+body:not(.city-home) .game-card-body p {
   margin-bottom: 0;
   font-size: 15px;
   line-height: 23px;
-}
-
-body:not(.city-home) .game-status {
-  display: inline-flex;
-  width: fit-content;
-  min-height: 28px;
-  margin-bottom: 10px;
-  padding: 2px 10px;
-  border: 1.5px solid #111;
-  border-radius: 14px;
-  background: #ffe49a;
-  color: #111;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-body:not(.city-home) .game-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-body:not(.city-home) .game-meta span {
-  padding: 4px 10px;
-  border: 1.5px solid #111;
-  border-radius: 14px;
-  background: #fff;
-  color: #111;
-  font-size: 13px;
-  line-height: 20px;
 }
 
 body:not(.city-home) .card-button {
@@ -1857,8 +1827,7 @@ body:not(.city-home) .game-card.is-coming {
   background: var(--paper);
 }
 
-body:not(.city-home) .game-card.is-coming .game-thumb,
-body:not(.city-home) .game-card.is-coming .game-status {
+body:not(.city-home) .game-card.is-coming .game-thumb {
   background: #fff0bc;
 }
 
@@ -2050,26 +2019,6 @@ body:not(.city-home) .character-profile-card h2::before {
   margin-bottom: 0;
 }
 
-.character-profile-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.character-profile-tags span {
-  display: inline-flex;
-  min-height: 30px;
-  align-items: center;
-  padding: 4px 10px 6px;
-  border: 2px solid #111;
-  border-radius: 999px;
-  background: #fff;
-  box-shadow: 2px 2px 0 #111;
-  color: #111;
-  font-size: 13px;
-}
-
 .profile-inutaro-origin {
   --profile-color: #1d64aa;
   --profile-bg: #d8ebff;
@@ -2082,6 +2031,12 @@ body:not(.city-home) .character-profile-card h2::before {
 .profile-inutaro-origin .character-profile-image {
   position: relative;
   overflow: visible;
+}
+
+@media (min-width: 901px) {
+  .profile-inutaro-origin .character-profile-image {
+    min-height: 380px;
+  }
 }
 
 body:not(.city-home) .profile-inutaro-origin .character-profile-image img {

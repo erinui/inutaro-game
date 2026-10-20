@@ -1,5 +1,13 @@
 # エリカッテシティ サイト全体 仕様・設計資料
 
+最終更新: 2026-10-20（共通デザイン・ゲーム一覧カード・ラベル撤去を現行仕様へ整理）
+
+### 最新状態
+
+共通ヘッダー・下層の背景／傾き整理とゲーム一覧カードは本番公開確認済み（デザイン実装 `4d6d6fe`、検証記録 `5dfa27c`）。ゲーム一覧の補足2件・状態2件、キャラクターの特徴14件のラベル撤去はローカル実装・関連60試験・8幅×2ページの検証まで完了し、GitHub／本番未反映。TOPニュースのカテゴリ、見出し・名前の背景、操作ボタン、ゲームHUD、日付・価格等の通常テキストは維持する。
+
+現在の全体状態は[開発まとめ](project-summary.md)、承認・検証・公開の記録は[TOP改修SDD](top-redesign-sdd.md)第18〜21節、画面寸法は[画面設計書](screen-design-specification.md)を参照する。今回の資料更新はWebソース・Figmaの追加変更や公開を含まない。以下の冒頭追記は工程当時の履歴であり、後続の追加承認を優先する。
+
 2026-10-18 ニュース新着順改修: ニュースは取得済み各カテゴリの全候補を横断し、更新日時または公開日時の降順で最大12件とする。カテゴリ別1件制限とゲーム先頭固定は撤去。日時不明は末尾、12件未満なら実数で終了し、ニュースにAND MOREは設けない。通常カテゴリ枠の件数・取得頻度は維持。`755bf41` / `fd53ee4` でGitHub main・本番へ公開し、CI全187件とPC/SP本番確認が完了。詳細は[TOP改修SDD第16節](top-redesign-sdd.md)を参照。
 
 2026-10-18 TOP v2実装: 最新仕様・検証・公開状態は[TOP改修SDD 2.3](top-redesign-sdd.md)第12〜14節を正本とする。PCは1100px以上で左マップ固定＋右7枠、SPは通常の縦並び。マップ6点は対応見出しへ移動し、X/イラストは従来の直接リンク。下記の旧TOPの寸法・ガイド・直接リンク説明より同SDDを優先する。下層・ゲーム・取得処理の仕様は変更しない。
@@ -8,7 +16,7 @@
 
 2026-10-18 新レイアウト変更仕様: TOPの「PC新レイアウト検討」は、[固定マップとレコメンド配置の変更仕様](top-pc-map-recommend-layout-change.md)を参照する。左マップはブラウザ高に合わせて全体表示し、右側は残り幅にレコメンドを配置。マップのスポット選択を対象レコメンドへの自動スクロールに変更する。新案の配置・マップ操作は同資料を優先し、以下の公開サイトの実装記録とは区別する。
 
-最終更新: 2026-10-11（SEO・読み込み改善Aの本番公開と検証を反映）
+旧版記録: 2026-10-11（SEO・読み込み改善Aの本番公開と検証）
 
 2026-09-12資料追加: 現行ソースの画面をFigmaへ再現する作業は、[作成方法](figma-reproduction-method.md) → [下層画面デザイン設計書](screen-design-specification.md) → [Figma作成計画書](figma-screen-production-plan.md)の順に参照する。下層6ページのPC/SP実測と、ゲーム本体の未実証項目を区別している。本資料の既存本文は2026-07-26時点の総合仕様として保持する。
 
@@ -155,8 +163,10 @@ site-nav.js
 - エリカッテシティの入口
 - マップ型ナビゲーション
 - ゲーム、キャラクター、SNS、YouTube、ブログ、グッズ、LINEスタンプへの導線
-- おしらせカード
-- なかまたち紹介への導線
+- 新着順のニュースカード
+- キャラクター紹介への導線
+
+1100px以上は左に高さ追従の固定マップ、右に案内と7カテゴリを配置し、未満では縦積みにする。TOPカードは321×432px基準で、表示枚数は残り幅に応じる。旧仕様の「PC常時3枚」を採用しない。
 
 主要セクション:
 
@@ -165,8 +175,8 @@ site-nav.js
 | 共通ヘッダー | ロゴ付きブランド、ゲーム、キャラクター、おしらせ |
 | ヒーロー | `エリカッテシティ` とサイト説明 |
 | まちを歩く | 縦長マップと説明カード |
-| キャラクター紹介 | キャラクター紹介ページへの導線。PCは3枚表示、SPは横スクロール |
-| おしらせ | サイト内導線カード |
+| ニュース | 取得済み全カテゴリの候補を更新日／公開日の降順で最大12件。カテゴリ別1件制限・ゲーム先頭固定・AND MOREなし |
+| キャラクター紹介 | 5キャラを横カルーセル。画像と名前のみ、先頭は紹介ページ先頭、他は対応するarticleアンカー |
 | ゲーム | ゲーム導線カード |
 | YouTube | 最新5本と、6件目がある場合の `and more` カード |
 | ブログ | note RSSと記事OGP画像から最新5記事と、6件目がある場合の `and more` カード |
@@ -174,22 +184,24 @@ site-nav.js
 | LINEスタンプ | 販売中作品を全件表示。6件目がある場合のみ `and more` カード |
 | フッター | 外部リンク、規約、ポリシー |
 
+ニュース→キャラクター紹介→ゲーム→YouTube→ブログ→グッズ→LINEスタンプの順。通常枠の6件目のmoreカード見出しは「まだまだあるよ」。カテゴリの枠付き表示はニュースだけとし、単一カテゴリ枠へ復活させない。
+
 ### 5.2 トップページのマップ導線
 
 マップは `assets/home-city/map_bg.svg` を背景にし、その上にリンク画像と装飾画像を重ねます。
 
 | 表示 | クラス | 遷移先 | 状態 |
 | --- | --- | --- | --- |
-| キャラクター | `.map-link-character` | `pages/characters.html` | 設定済み |
+| キャラクター | `.map-link-character` | `#character-title` | ページ内 |
 | X | `.map-link-sns` | `https://x.com/erikanuinui` | 別タブ |
-| LINEスタンプ | `.map-link-linestamp` | `https://store.line.me/emojishop/author/2919902/ja` | 別タブ |
-| ゲーム | `.map-link-game` | `games/` | 設定済み |
-| グッズ | `.map-link-goods` | `https://suzuri.jp/erikanuinui` | 別タブ |
-| ブログ | `.map-link-blog` | `https://note.com/erinui` | 別タブ |
+| LINEスタンプ | `.map-link-linestamp` | `#line-stamp-title` | ページ内 |
+| ゲーム | `.map-link-game` | `#game-title` | ページ内 |
+| グッズ | `.map-link-goods` | `#goods-title` | ページ内 |
+| ブログ | `.map-link-blog` | `#blog-title` | ページ内 |
 | イラスト | `.map-link-illustrate` | `pages/illustrations.html` | 仮ページ |
-| YouTube | `.map-link-youtube` | YouTubeチャンネル | 別タブ |
+| YouTube | `.map-link-youtube` | `#youtube-title` | ページ内 |
 
-外部リンクは `target="_blank"` と `rel="noopener noreferrer"` を付けます。
+外部リンクは `target="_blank"` と `rel="noopener noreferrer"` を付けます。マップ6点はおすすめ見出しへ移動し、各カード／「すべて見る」から内部ページ・外部サービスへ遷移します。到着見出しをフォーカスした際の青い枠は撤去済みですが、操作要素のキーボードフォーカス表示は維持します。
 
 ### 5.3 マップ装飾
 
@@ -204,7 +216,7 @@ site-nav.js
 
 ### 5.4 YouTube看板
 
-YouTube看板は、看板画像 `map_youtube.png` の内側に最新動画サムネイルと登録者数表示を重ねます。
+YouTube看板は、背景 `map_youtube_bg.svg`、サムネイル／登録者数の画面、前面看板 `map_youtube.svg` の3層を1リンクに内包します。公開用画像の実参照はasset manifestのバインディングを正本とします。
 
 表示内容:
 
@@ -245,7 +257,7 @@ site-nav.js
 | 公開中 | 犬タローの虫さんまって×2 | `games/inutaro-mushi/` |
 | 準備中 | 次のゲーム | 未設定 |
 
-カードはTOPと共通の2px黒枠・12px角丸・4px/5px影・16px/18px余白を使います。画像上／本文下、16:9サムネイルの全体表示、PC2列・700px以下1列（最大560px）です。紹介画像はTOPと同じ `gameplay-preview.png`。全文・公開状態・プレイ情報は維持し、カードの高さは内容に応じます。
+カードはTOPと共通の2px黒枠・12px角丸・4px/5px影・16px/18px余白を使います。画像上／本文下、16:9サムネイルの全体表示、PC2列・700px以下1列（最大560px）です。紹介画像はTOPと同じ `gameplay-preview.png`。2026-10-20追加依頼により「公開中／準備中」「プレイ時間 40秒／PC / SP対応」のラベルは撤去。説明本文と操作ボタンは維持し、カードの高さは内容に応じます。上表の状態は作品の状態を整理したもので、画面上のラベルではありません。
 
 今後ゲームを追加する場合は、`games/{slug}/index.html` を追加し、`games/index.html` にカードを増やします。
 
@@ -324,6 +336,8 @@ assets/characters/
 - キャラクター名は黄色のピル型ラベルで統一
 - SPでは1カラムにし、画像エリアを上、本文を下にする
 - 犬タロー（オリジン）のみSPでも上にはみ出す
+- 特徴タグ14件は表示しない。本文・名前の黄色背景・画像・アンカーは維持する
+- タグ撤去による高さ減少で頭が冒頭文へ近づくため、901px以上のオリジン画像面だけ最小高380px。カード高の固定や全カードの強制同高化はしない
 
 ### 5.8 おしらせ・ブログ
 
@@ -385,7 +399,7 @@ pages/privacy.html
 
 見た目は `home.css` で統一しています。
 
-トップページでは、本文ラッパーに `.site-page`、ヒーロー補助ラベルに `.hero-label` を使用します。検討用由来の `draft-*` クラスは本番HTML/CSSから撤去済みです。
+トップページの本文ラッパーは `.site-page`。ヒーロー補助ラベルは現行HTMLに設置しません。検討用由来の `draft-*` クラスは本番HTML/CSSから撤去済みです。
 
 ルール:
 
@@ -409,11 +423,11 @@ pages/privacy.html
 ```css
 @font-face {
   font-family: "KeinannPop";
-  font-display: block;
+  font-display: swap;
 }
 ```
 
-`font-display: block` により、読み込み前に別フォントで一瞬表示される挙動を抑えています。
+公開用CSSではJPフォントをunicode-range付きの分割WOFF2へバインドし、`font-display: swap`を使用します。原本は以下のパスで保持し、画像・フォント・CSS/JSの配信出力は`config/home-performance-assets.json`でSHAとともに管理します。原本と配信用軽量データを混同しません。
 
 フォントファイル:
 
@@ -446,14 +460,14 @@ assets/fonts/keinann-pop-jp-source.md
 
 - 黒い太線のボーダーを基本にする
 - カードは角丸を強めにする
-- ボタンやラベルはピル型を多用する
+- 操作ボタン・見出し・キャラクター名にピル型を使う。補足ラベルはTOPニュースのカテゴリ表示以外に設けない
 - 影は `box-shadow` と `drop-shadow` を使い分ける
 - Safariで画像の四角い影が目立たないよう、画像自体には `drop-shadow` を使う
 - テキストの白・灰色ドロップシャドウは読みにくくなるため、基本的に使わない
 - セクション見出しはポップなラベル調で統一する
 - 下層6ページもTOPと同じキャラクターパターンを使う。`city-checker-tile.svg`を960×384pxで反復、不透明度0.07、ベース#fff7e8。ページ最小高100svhで背景を描画する
 - ページやカード内の丸い背景装飾、下層見出し・ゲーム画像の静的な傾きは使わない。カード内は単色、キャラクター画像面の色分けは維持する
-- 下層ページ上部の英語eyebrow等と重複したゲームバッジは撤去。公開状態・特徴タグ・操作ボタンなど意味を持つ情報は残す
+- 下層ページ上部の英語eyebrow等、ゲームの状態・プレイ情報ラベル、キャラクターの特徴タグは撤去。本文・見出し・名前背景・操作ボタン・ゲームHUDは残す。タグ削除後もオリジンの頭が冒頭文と重ならないよう、PCの画像面のみ最小高380pxを確保する
 
 ### 7.4 レスポンシブ
 
@@ -471,7 +485,7 @@ assets/fonts/keinann-pop-jp-source.md
 
 | パス | 用途 |
 | --- | --- |
-| `assets/icon-192.png` | サイトアイコン、ゲーム紹介、OGP。ヘッダー画像には使わない |
+| `assets/icon-192.png` | サイトアイコン・OGP。ヘッダーや現在のゲーム紹介画像には使わない |
 | `assets/characters/chara_inutaro_origin.png` | 全7ページの共通ヘッダー画像。公開時は既存の軽量 `chara_inutaro_origin-top` WebPへバインド。プロフィール本文は大きい版を維持 |
 | `assets/favicon.png` | favicon |
 | `assets/apple-touch-icon.png` | iOS用アイコン |
@@ -485,20 +499,22 @@ assets/fonts/keinann-pop-jp-source.md
 | --- | --- |
 | `assets/home-city/map_bg.svg` | マップ背景 |
 | `assets/home-city/map_character.svg` | キャラクター紹介リンク |
-| `assets/home-city/map_sns.png` | Xリンク |
-| `assets/home-city/map_linestamp.png` | LINEスタンプリンク |
-| `assets/home-city/map_game.png` | ゲームリンク |
-| `assets/home-city/map_goods.png` | グッズリンク |
-| `assets/home-city/map_blog.png` | ブログリンク |
-| `assets/home-city/map_illastrate.png` | イラストリンク |
-| `assets/home-city/map_youtube.png` | YouTube看板 |
+| `assets/home-city/map_sns2.svg` | Xリンク |
+| `assets/home-city/map_linestamp.svg` | LINEスタンプリンク |
+| `assets/home-city/map_game.svg` | ゲームリンク・TOPの「ゲームをえらぶ」カード |
+| `assets/home-city/map_goods.svg` | グッズリンク |
+| `assets/home-city/map_note.svg` | ブログリンク |
+| `assets/home-city/map_illast.svg` | イラストリンク |
+| `assets/home-city/map_youtube.svg` / `map_youtube_bg.svg` | YouTubeの前面看板／画面背景 |
 | `assets/home-city/map_decoration_*.png` | 非リンク装飾 |
 | `assets/home-city/youtube-latest.json` | YouTube最新情報の静的フォールバック |
-| `assets/home-city/youtube-thumb-1..5.jpg` | YouTubeカルーセル用最新サムネイル |
+| `assets/home-city/youtube-thumb-{id}-{hash}.webp` | schemaVersion 2の保存済みサムネイル。JSONのlocalThumbnail.url・SHA・寸法で参照。旧JPGは初期フォールバック用 |
 | `assets/home-city/note-latest.json` | note RSSから取得した最新記事と保存済みサムネイルの参照 |
 | `assets/home-city/note-thumb-1..6.(png/jpg/webp)` | note記事ページのOGP画像を保存したブログカルーセル用サムネイル |
 | `assets/home-city/suzuri-latest.json` | SUZURI APIから取得した最新商品 |
 | `assets/home-city/line-stamps.json` | 現在販売中のLINEスタンプ・絵文字 |
+
+表は入力原本・データの役割。公開ビルドはmanifestに従い`assets/versioned/`の画像とハッシュ付きCSS/JSへ変換します。原本・過去の公開出力は保持し、旧PNGを検索結果だけで一括削除しません。
 
 ### 8.3 キャラクター紹介
 
@@ -523,6 +539,7 @@ assets/fonts/keinann-pop-jp-source.md
 | `assets/games/inutaro-mushi/item_b.png` | 蝶 |
 | `assets/games/inutaro-mushi/item_c.png` | トンボ |
 | `assets/games/inutaro-mushi/bg.jpg` | ゲーム背景 |
+| `assets/games/inutaro-mushi/gameplay-preview.png` | TOPとゲーム一覧に共通のジャンプ・虫のプレイ風景。公開用800×450 WebP、containで全体表示 |
 | `assets/games/inutaro-mushi/bgm.mp3` | BGM |
 | `assets/games/inutaro-mushi/sound_jump.mp3` | ジャンプ効果音 |
 | `assets/games/inutaro-mushi/sound_itemget.mp3` | 虫さん取得音 |
@@ -586,10 +603,10 @@ Cloudflareへ移管した場合は、`functions/api/latest-youtube.js` を使っ
 
 ## 12. 開発・確認フロー
 
-ローカル確認は以下を基本にします。
+公開用参照を含めたローカル確認は以下を基本にします。起動ログのURLを使い、8780等の固定ポートを前提にしません。
 
 ```text
-http://127.0.0.1:8780/
+node scripts/preview-site.mjs --built
 ```
 
 確認対象:
@@ -603,26 +620,27 @@ http://127.0.0.1:8780/
 - YouTube看板のフォールバック表示
 - 外部リンクの別タブ遷移
 
-GitHub Pages反映時は、`main` へコミットして公開反映します。YouTube最新情報もGitHub Actionsから `main` へコミットされます。
+公開承認後は最新mainを確認し、自動更新JSONを古いローカルデータで上書きせず、承認した差分だけをコミットします。検証ブランチのCI合格後にmainへ通常pushし、Cloudflare本番ビルド・旧GitHub Pages・本番PC/SPを確認します。未公開のラベル撤去に、以前の全209件CI合格や本番確認を流用しません。
 
 ## 13. 現在の未設定・検討中項目
 
 | 項目 | 状態 |
 | --- | --- |
 | ブログ内製化 | 現在はnoteへの導線 |
-| Cloudflare移管 | `functions/api/latest-youtube.js` は準備済み。移管時に環境変数設定が必要 |
-| ルートドメイン運用 | 現在は `erinui/inutaro-game` 配下。将来的に `erinui.github.io` 直下運用を検討 |
+| ラベル撤去の公開 | ローカル実装・関連60件合格。GitHub／本番反映は別工程 |
+| Cloudflare配信 | 移管済み。静的アセットWorkerを使用し、旧Pages FunctionsのAPIは実行しない |
+| ルートドメイン運用 | 本番は `https://erinui.com/`。旧GitHub Pagesは移転誘導用 |
 | 3Dプロトタイプ | `games/inutaro-3d-prototype/` は試作扱い |
 | 検討用ワイヤー | `drafts/home-wireframe/` は検討用で、本番導線とは分離 |
 | イラストページ | 仮ページ設置済み。内容は今後追加 |
-| OGP・共有URL | 現在の公開URL `https://erinui.github.io/inutaro-game/` に合わせて更新済み |
+| OGP・共有URL | `https://erinui.com/` と本番の拡張子なし正規URLを採用済み |
 | 固定ページOGP | キャラクター、ブログ、規約、ポリシー、イラストに基本OGP追加済み |
 | トップのクラス名 | `draft-*` 命名を本番用へ整理済み |
 | 未追跡ファイル | 旧素材、検討用、試作の扱いを分類して整理予定 |
 
 ## 14. 改善対応計画
 
-2026-07-26時点のサイト全体確認に基づく改善設計と実装手順は、`docs/site-improvement-plan.md` にまとめます。
+以下は2026-07-26時点の計画履歴で、現在の未設定一覧ではありません。設計経緯は`docs/site-improvement-plan.md`、直近の確定仕様・公開状態は[TOP改修SDD](top-redesign-sdd.md)第15〜21節を参照します。
 
 実装時は以下の順で進めます。
 
@@ -677,7 +695,7 @@ assets/
 - `assets/characters/`
 - `pages/characters.html`
 - `home.css` のキャラクター別背景・画像サイズ変数
-- トップページの「なかまたち」表示
+- トップページの「キャラクター紹介」カルーセルと対応アンカー
 
 ### デザインルールを変える場合
 

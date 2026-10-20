@@ -1,8 +1,8 @@
 # エリカッテシティ サイト階層整理
 
-最終更新: 2026-10-10（名称・本番ドメインとSEO計画への参照を更新）
+最終更新: 2026-10-20（現行のマップ内移動・セクション順・共通化・ラベル撤去を反映）
 
-サイト名称は「エリカッテシティ」に確定。名称の設計ルールは[総合仕様2.1](site-specification.md#21-サイト名称の設計ルール)を参照する。以下の名称は採用仕様であり、Web・Figma・公開サイトの全箇所が更新済みという意味ではない。名称変更の工程ではURL、ディレクトリ、リポジトリ名、外部アカウント名は変更しない。新本番ドメインに合わせるURL改修は別のSEO計画で扱う。
+サイト名称は「エリカッテシティ」。現在の状態は[開発まとめ](project-summary.md)、名称のルールは[総合仕様2.1](site-specification.md#21-サイト名称の設計ルール)を参照する。共通デザイン・ゲーム一覧カードは公開確認済み。補足・状態・特徴ラベル18件の撤去だけはローカル検証済み・GitHub／本番未反映。今回、ページ追加・URL変更・ファイル移動・Figma変更は行っていない。
 
 ## 1. 基本方針
 
@@ -84,26 +84,28 @@ SEO追加ファイル: `robots.txt`、`sitemap.xml`、`site-migration.js`、`_he
 | `/` | `index.html` | エリカッテシティ トップ |
 | `/games/` | `games/index.html` | ゲーム一覧 |
 | `/games/inutaro-mushi/` | `games/inutaro-mushi/index.html` | ゲーム本体 |
-| `/pages/characters.html` | `pages/characters.html` | キャラクター紹介 |
-| `/pages/illustrations.html` | `pages/illustrations.html` | イラスト |
-| `/pages/blog.html` | `pages/blog.html` | おしらせ・ブログ |
-| `/pages/terms.html` | `pages/terms.html` | 利用規約 |
-| `/pages/privacy.html` | `pages/privacy.html` | プライバシーポリシー |
+| `/pages/characters` | `pages/characters.html` | キャラクター紹介 |
+| `/pages/illustrations` | `pages/illustrations.html` | イラスト |
+| `/pages/blog` | `pages/blog.html` | おしらせ・ブログ |
+| `/pages/terms` | `pages/terms.html` | 利用規約 |
+| `/pages/privacy` | `pages/privacy.html` | プライバシーポリシー |
+
+表のURLは本番の正規URL。ローカル検証ではソースの`.html`パスを使う。既存の相対リンクをURL表記の整理だけで書き換えない。
 
 ## 4. トップページ導線
 
-トップページは、縦長マップを中心にしたナビゲーションです。
+トップページは1100px以上で左固定マップ＋右情報、未満は縦積みです。マップ6スポットは同じページのおすすめへ移動し、そこにあるカード／「すべて見る」から詳細へ進みます。
 
 | 導線 | 遷移先 | 備考 |
 | --- | --- | --- |
-| キャラクター | `pages/characters.html` | サイト内 |
+| キャラクター | `#character-title` | 紹介ページへはカード／すべて見る |
 | X | `https://x.com/erikanuinui` | 外部、別タブ |
-| LINEスタンプ | `https://store.line.me/emojishop/author/2919902/ja` | 外部、別タブ |
-| ゲーム | `games/` | サイト内 |
-| グッズ | `https://suzuri.jp/erikanuinui` | 外部、別タブ |
-| ブログ | `https://note.com/erinui` | 外部、別タブ |
+| LINEスタンプ | `#line-stamp-title` | 販売作品・作者一覧へはカード／すべて見る |
+| ゲーム | `#game-title` | ゲーム本体・一覧へはカード／すべて見る |
+| グッズ | `#goods-title` | SUZURIへはカード／すべて見る |
+| ブログ | `#blog-title` | noteへはカード／すべて見る |
 | イラスト | `pages/illustrations.html` | 仮ページ |
-| YouTube | YouTubeチャンネル | 外部、別タブ |
+| YouTube | `#youtube-title` | 動画・チャンネルへはカード／すべて見る |
 
 YouTube看板は、最新3本のサムネイルと登録者数を10秒周期で切り替えます。
 
@@ -120,6 +122,7 @@ YouTube看板は、最新3本のサムネイルと登録者数を10秒周期で�
 ルール:
 
 - 左端はアイコン付きの「エリカッテシティ」
+- ロゴは全7ページで犬タロー オリジン、PC72px／760px以下64px高。hover/focus-visibleは下線で統一
 - 右側は主要ページへのリンク
 - 現在ページへの重複リンクは置かない
 - SPでは三本線メニューへ集約
@@ -138,8 +141,13 @@ index.html
 - 共通ヘッダー
 - ヒーロー
 - まちを歩くマップ
-- おしらせ
-- なかまたち
+- ニュース（新着順・最大12件、カテゴリ表示あり）
+- キャラクター紹介
+- ゲーム
+- YouTube
+- ブログ
+- グッズ
+- LINEスタンプ
 - フッター
 
 ### ゲーム一覧
@@ -154,6 +162,8 @@ games/index.html
 - ページヒーロー
 - ゲームカード
 - フッター
+
+カードは画像上／本文下、PC2列・700px以下1列。TOPと同じ枠・影・余白とゲーム風景画像を使う。補足2件・状態2件のラベルはローカルで撤去済み。準備中カードの説明・非操作状態は維持する。
 
 ### ゲーム本体
 
@@ -185,7 +195,7 @@ pages/characters.html
 - キャラクターカード一覧
 - フッター
 
-カードはPCで左右交互、SPで1カラムにします。犬タロー（オリジン）のみ、画像がカード上部からはみ出す演出を持ちます。
+カードはPCで左右交互、900px以下で画像上・本文下の1カラム。犬タロー（オリジン）のみ、画像がカード上部からはみ出します。特徴タグ14件はローカルで撤去済み、名前の黄色背景は維持。PCオリジン画像面の最小高380pxと検証寸法は[画面設計書](screen-design-specification.md)を参照。
 
 ### おしらせ・ブログ
 

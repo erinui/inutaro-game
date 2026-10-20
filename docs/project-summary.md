@@ -1,10 +1,22 @@
 # エリカッテシティ / 犬タローゲーム 開発まとめ
 
-最終更新: 2026-10-10（名称改訂。その他は既存の概要を維持）
+最終更新: 2026-10-20（共通デザイン・ゲーム一覧カード・ラベル撤去まで反映）
 
-同日公開追記: 名称・確定TOP/ゲーム一覧原稿・道路文字・主7ページのJP書体はGitHubへ反映し、公開ページをPC/SPで確認済み。[SDD/TDDと公開検証](site-design-implementation.md)を参照。以下の「資料更新は公開を含まない」は名称設計時点の記録。問い合わせ/ファンアート用途とSafari実機は引き続き未確定・未検証。
+本資料を現在状態の入口とする。正式名称は「エリカッテシティ」、本番は `https://erinui.com/`。過去の制作記録と現行仕様が異なる場合は、ユーザーの追加指示と[TOP改修SDD](top-redesign-sdd.md)第15〜21節、[総合仕様](site-specification.md)、[画面設計](screen-design-specification.md)を優先する。
 
-正式なサイト・まちの名称は「エリカッテシティ」。旧名称「えりぬいシティ」からの変更を確定した。外部アカウント名・URL・ゲーム名は維持する。名称ルールは[総合仕様2.1](site-specification.md#21-サイト名称の設計ルール)、反映設計と残作業は[文言反映設計](figma-copy-change-plan.md)を参照。今回の資料更新はWebソース変更・GitHub公開を含まない。
+### 現在の反映状態
+
+| 改修 | 状態・確認範囲 |
+| --- | --- |
+| TOP v2・ニュース新着順／最大12件 | GitHub main・本番へ公開済み。仕様と当時の検証はSDD第14〜17節 |
+| 共通ヘッダー・下層の背景／傾き／旧ラベル整理 | `6a24d32` で公開確認済み。SDD第18〜19節 |
+| ゲーム一覧の共通カード化・ゲーム風景画像 | `4d6d6fe` で公開、検証記録は `5dfa27c`。CI全209件合格・本番PC/SP確認済み。SDD第20節 |
+| TOPニュース以外のラベル18件撤去 | ローカル実装・公開用ビルド・関連60試験・8幅×2ページの確認済み。GitHub／本番未反映。SDD第21節 |
+| 今回の資料整備 | 資料のみ更新。追加のソース改修・Figma変更・GitHub公開・本番再検証は行っていない |
+
+ラベル撤去はゲームの補足2件・状態2件とキャラクターの特徴14件。ニュース分類、見出し・名前の黄色背景、操作ボタン、ゲームHUD、通常テキストの日付・価格等は維持する。PCのオリジン画像面だけ最小高380pxを確保し、頭のはみ出し演出を保つ。
+
+確認用サーバーの起動方法は `node scripts/preview-site.mjs --built`。直近の確認URLは `http://127.0.0.1:58033/` だが、ポートは起動ごとに変わる。証跡は `drafts/card-label-removal-20261020/` に保存し、公開対象には含めない。物理端末・Safariは今回再検証していない。2026-10-19〜20のWeb追加改修をFigmaへ同期済みとは扱わない。
 
 ## 1. 目的
 
@@ -22,7 +34,9 @@
 | `docs/home-latest-content.md` | トップのYouTube、note、SUZURI、LINEスタンプ最新情報表示 |
 | `docs/performance-optimization-review.md` | ゲームパフォーマンス改善検討 |
 | `docs/directory-structure-review.md` | フォルダ構成、素材整理、公開対象の確認 |
-| `docs/screen-design-specification.md` | Figma画面のデザイン仕様と名称改訂ルール |
+| `docs/screen-design-specification.md` | 現行の共通・下層デザイン仕様と、Figma制作当時の測定記録 |
+| `docs/top-redesign-sdd.md` | 追加要件、実装・試験・本番確認、未公開差分の正本 |
+| `docs/top-redesign-design-spec.md` / `docs/top-redesign-detail-spec.md` | TOPの意図・共通パーツ／寸法・操作契約 |
 | `docs/figma-copy-change-plan.md` | 改修案の文言差分、確定事項、未確定事項、反映・検証手順 |
 
 ## 2. 現在の全体像
@@ -42,13 +56,13 @@
 現在の公開URL:
 
 ```text
-https://erinui.github.io/inutaro-game/
+https://erinui.com/
 ```
 
-将来的な親ホーム想定:
+旧公開先（移転案内・canonicalで本番へ誘導）:
 
 ```text
-https://erinui.github.io/
+https://erinui.github.io/inutaro-game/
 ```
 
 ## 3. ページ構成
@@ -82,8 +96,8 @@ https://erinui.github.io/
 
 | 領域 | 内容 |
 | --- | --- |
-| トップ | 縦長マップ、YouTube看板、装飾アニメーション、おしらせ、なかまたち |
-| ゲーム一覧 | 公開中ゲームと準備中ゲームをカード表示 |
+| トップ | 1100px以上は左固定マップ＋右7枠、未満は縦積み。ニュース→キャラクター紹介→ゲーム→YouTube→ブログ→グッズ→LINEスタンプ |
+| ゲーム一覧 | TOPと共通の枠・影・余白、ゲーム風景画像上／本文下。PC2列、700px以下1列。状態・補足ラベルはローカルで撤去済み |
 | ゲーム本体 | 40秒の虫さん捕獲ゲーム、固定横画面、保存・共有、音声 |
 | キャラクター紹介 | 画像込みプロフィールカード、左右交互配置、犬タローのはみ出し演出 |
 | イラスト | 将来のイラスト掲載用ページ。現在は準備中表示 |
@@ -94,11 +108,13 @@ https://erinui.github.io/
 ## 5. デザイン方針
 
 - 手描き感のあるポップな公式サイト
-- 黒い太線、ステッカー風ラベル、角丸カード
+- 黒い枠と影、黄色の見出し・名前背景、共通ルールのカード
 - サイト全体で `けいなんポップ体` を使用
 - テキストの白・灰色ドロップシャドウは控え、読みやすさを優先
 - トップと下層ページで共通ヘッダーの見た目を統一
 - SPでは三本線メニューに集約
+- 下層もTOPと同じキャラクターパターン。丸い背景装飾・見出しの傾きは使わない
+- 補足ラベルはTOPニュースのカテゴリだけ。ゲーム・キャラクターの撤去はローカル検証済みで、本番反映は別工程
 
 ## 6. 技術構成
 
@@ -112,7 +128,10 @@ https://erinui.github.io/
 | `games/inutaro-mushi/index.html` | ゲーム本体HTML |
 | `games/inutaro-mushi/style.css` | ゲームUI |
 | `games/inutaro-mushi/game.js` | ゲームロジック |
-| `functions/api/latest-youtube.js` | Cloudflare Pages Functions用YouTube API |
+| `functions/api/latest-youtube.js` | 旧Pages Functions用API。現行の静的アセットWorkerでは実行しない |
+| `scripts/build-site.mjs` | 公開8HTML・許可ファイル、ハッシュ付きコード／画像・分割フォント・初期データを組み立てる |
+| `config/home-performance-assets.json` | 入力素材から公開用出力への参照・SHA・寸法の管理 |
+| `scripts/update-home-latest.mjs` | 取得先別に検証し、正常分のみをmainへ反映する通常更新の入口 |
 | `scripts/update-youtube-latest.mjs` | GitHub Actions用YouTube更新 |
 | `scripts/update-note-latest.mjs` | GitHub Actions用note RSS更新 |
 | `scripts/update-suzuri-latest.mjs` | GitHub Actions用SUZURI商品更新 |
@@ -120,10 +139,10 @@ https://erinui.github.io/
 ## 7. 公開・更新
 
 - 開発元は `main`
-- GitHub Pages公開は `main` のルートを前提
-- YouTube、note、SUZURIの最新情報は GitHub Actions で4時間ごとの10分に自動更新
-- GitHub Pagesでは静的JSONとサムネイル画像を配信
-- Cloudflare移管時は `/api/latest-youtube` を動的APIとして利用可能
+- 本番はCloudflare Workers Buildsがmainから公開用distを生成・配信。旧GitHub Pagesはmainのルート公開を維持
+- YouTube、note、SUZURIはGitHub Actions `10 */4 * * *`（UTC基準、JSTの01/05/09/13/17/21時10分。実行遅延あり）で更新。LINEは手動JSON管理
+- 本番ブラウザは静的JSONを優先し、秘密情報や取得トークンを配信しない。取得失敗時は直前の正常データを保持
+- 資料・テスト・drafts・試作・functions・秘密設定は本番distへ入れない
 
 ## 8. 未設定・検討中
 
@@ -131,14 +150,15 @@ https://erinui.github.io/
 | --- | --- |
 | イラストページ | 仮ページを設置済み。内容は今後追加 |
 | ブログ内製化 | 現在はnoteへの外部導線 |
-| Cloudflare移管 | API実装は用意済み。環境変数設定が必要 |
-| ルートサイト移行 | `https://erinui.github.io/` 直下運用は今後検討 |
+| ラベル撤去の公開 | ローカルで完了。本番公開は別途依頼後、最新mainの自動更新データを保持して実施 |
+| Figma同期 | 今回のWeb追加改修を反映していない。資料の更新をFigma更新と混同しない |
+| 問い合わせ・ファンアート用途 | 未確定。新規ページや送信機能を実装済みとは扱わない |
 | `drafts/home-wireframe/` | 検討用。本番導線とは分離 |
 | `games/inutaro-3d-prototype/` | 試作。本番ゲーム一覧には未掲載 |
 
-## 9. 直近の改善対応計画
+## 9. 過去の改善対応計画（2026-07-26）
 
-2026-07-26時点のサイト全体確認で、実装修正前に以下の対応方針を整理しました。詳細は `docs/site-improvement-plan.md` を参照します。
+以下は2026-07-26時点の記録。旧ドメインや移管予定を現行仕様に戻さない。直近の状態は冒頭の表、改善設計の履歴は `docs/site-improvement-plan.md` を参照する。
 
 | 優先度 | 項目 | 方針 |
 | --- | --- | --- |

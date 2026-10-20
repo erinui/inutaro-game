@@ -1,6 +1,8 @@
 # トップページ最新コンテンツ表示
 
-最終更新: 2026-10-18（ニュース新着順・最大12件をGitHub mainと本番へ公開。CI全187件・PC/SP本番確認済み）
+最終更新: 2026-10-20（現行のカード・分類表示とラベル撤去の範囲を整理）
+
+ニュースの新着順・最大12件は2026-10-18に公開確認済み（当時のCI全187件）。今回のゲーム／キャラクターのラベル18件撤去はローカル検証済み・本番未反映で、取得処理・データ件数・更新周期は変更していない。全体の公開状態は[開発まとめ](project-summary.md)、追加承認と検証は[TOP改修SDD](top-redesign-sdd.md)第20〜21節を参照する。
 
 ## 目的
 
@@ -13,15 +15,20 @@
 - 取得結果が5件以下の場合は、取得できた全件のみを表示する。
 - `and more` は各サービスの一覧ページへ別タブで遷移する。
 - SPではカードを横スクロール、PCでは左右ボタンで操作する。
+- moreカードの見出しは「まだまだあるよ」。枠付きカテゴリは混在するニュースだけに表示し、通常カテゴリ枠には設けない。
+- ニュースは通常枠と別契約で、全候補の新着順・最大12件、moreカードなし。詳細は末尾のニュース仕様を参照する。
+- TOPは321×432px基準・画像contain。PCも常時3枚とは限らず、固定マップを除いた残り幅で表示する。SPでも左右矢印を使え、1枚分＋間隔22pxで進む。全件収まる場合は操作ボタンを非表示にする。
 
 ## データ元と更新方式
 
 | ジャンル | データ元 | 更新方法 | 表示ファイル |
 | --- | --- | --- | --- |
-| YouTube | YouTube Data API v3 | GitHub Actionsで4時間ごとの10分 | `youtube-latest.json`、`youtube-thumb-1..5.jpg` |
+| YouTube | YouTube Data API v3 | GitHub Actionsで4時間ごとの10分 | `youtube-latest.json`、schemaVersion 2のlocalThumbnailで指定した`youtube-thumb-{id}-{hash}.webp` |
 | ブログ | note RSSと記事ページのOGP画像 | GitHub Actionsで4時間ごとの10分 | `note-latest.json`、`note-thumb-1..6.(png/jpg/webp)` |
 | グッズ | SUZURI API v1 | `SUZURI_ACCESS_TOKEN` 登録後、GitHub Actionsで4時間ごとの10分 | `suzuri-latest.json` |
 | LINEスタンプ | LINE STORE作者ページの公開情報 | 現在は静的JSONを手動更新 | `line-stamps.json` |
+
+Actionsの指定は`10 */4 * * *`（UTC基準、JSTの01/05/09/13/17/21時10分）。起動時刻の保証ではなく遅延する場合がある。旧JPGは初期HTML原本のフォールバックとして残るが、公開ビルドは検証済みJSONから保存済みWebPを初期画像へ反映する。
 
 ## ブラウザでの読み込み
 
