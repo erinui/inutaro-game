@@ -47,7 +47,13 @@ test('TOP-W01: recorded upstream acquisition generations retain the exact prior 
   for(const [file,generations] of Object.entries(topDataRefresh.verifiedGenerations||{})){
     const entry=topDataRefresh.files[file],oldDate=JSON.parse(entry.after).fetchedAt;
     for(const generation of generations){
-      const source=entry.after.replace(JSON.stringify(oldDate),JSON.stringify(generation.fetchedAt));
+      let source=entry.after.replace(JSON.stringify(oldDate),JSON.stringify(generation.fetchedAt));
+      if(generation.youtubeViewCount){
+        const value=JSON.parse(source);
+        assert.equal(value.channel.statistics.viewCount,generation.youtubeViewCount.before);
+        value.channel.statistics.viewCount=generation.youtubeViewCount.after;
+        source=JSON.stringify(value,null,2)+'\n';
+      }
       assert.equal(hash(source),generation.sha256,file);
       assert.equal(restoreVerifiedTopDataRefresh(file,source),entry.before,file);
     }
@@ -64,6 +70,23 @@ test('TOP-W01: even a rehashed upstream acquisition record cannot authorize payl
     const source=JSON.stringify(value,null,2)+'\n';
     generation.sha256=hash(source);
     assert.throws(()=>restoreVerifiedTopDataRefresh(file,source,registry),/preserve payload/);
+  }
+});
+
+test('TOP-W01: recorded view-count changes cannot authorize other counts or fields',()=>{
+  const file='assets/home-city/youtube-latest.json';
+  const generation=topDataRefresh.verifiedGenerations[file].find(item=>item.youtubeViewCount);
+  assert.ok(generation,'reviewed upstream count generation');
+  for(const mutation of ['viewCount','subscriberCount']){
+    const registry=structuredClone(topDataRefresh);
+    const record=registry.verifiedGenerations[file].find(item=>item.youtubeViewCount);
+    const value=JSON.parse(registry.files[file].after);
+    value.fetchedAt=record.fetchedAt;
+    value.channel.statistics.viewCount=record.youtubeViewCount.after;
+    value.channel.statistics[mutation]++;
+    const source=JSON.stringify(value,null,2)+'\n';
+    record.sha256=hash(source);
+    assert.throws(()=>restoreVerifiedTopDataRefresh(file,source,registry),/reviewed view count|preserve payload/);
   }
 });
 

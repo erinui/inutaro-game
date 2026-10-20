@@ -23,6 +23,14 @@ export function restoreVerifiedTopDataRefresh(file, source, registry = topDataRe
   if(generation){
     assert.match(generation.commit,/^[a-f0-9]{40}$/);
     assert.equal(after.fetchedAt,generation.fetchedAt,`${file}: recorded acquisition timestamp`);
+    if(generation.youtubeViewCount){
+      assert.equal(file,'assets/home-city/youtube-latest.json');
+      const count=generation.youtubeViewCount;
+      assert.ok(Number.isSafeInteger(count.after)&&count.after>=count.before,`${file}: reviewed view count`);
+      assert.equal(before.channel.statistics.viewCount,count.before,`${file}: reviewed view count before`);
+      assert.equal(after.channel.statistics.viewCount,count.after,`${file}: reviewed view count after`);
+      after.channel.statistics.viewCount=count.before;
+    }
   }
   assert.equal(typeof before.fetchedAt, 'string', `${file}: registry before fetchedAt`);
   assert.equal(typeof after.fetchedAt, 'string', `${file}: registry after fetchedAt`);

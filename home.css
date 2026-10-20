@@ -22,6 +22,10 @@
   --mint: #b9f6d0;
   --orange: #ffbf57;
   --blue: #72d8ff;
+  --card-border: 2px solid #111;
+  --card-radius: 12px;
+  --card-shadow: 4px 5px 0 #111;
+  --card-padding: 16px 18px;
 }
 
 * {
@@ -1743,58 +1747,79 @@ body:not(.city-home) .section {
 body:not(.city-home) .game-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 22px;
 }
 
 body:not(.city-home) .game-card {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
-  min-height: 264px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  min-height: 0;
+  padding: var(--card-padding);
   overflow: hidden;
-  border: 4px solid #111;
-  border-radius: 20px;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
   background: var(--paper);
-  box-shadow: 7px 7px 0 #111;
+  box-shadow: var(--card-shadow);
 }
 
 body:not(.city-home) .game-thumb {
   position: relative;
   display: grid;
-  min-height: 220px;
+  min-height: 0;
+  aspect-ratio: 16 / 9;
   place-items: center;
   overflow: hidden;
-  background: var(--sky);
-  border-right: 3px solid #111;
+  background: transparent;
+  border-radius: 8px;
 }
 
 body:not(.city-home) .game-thumb img {
-  width: 140px;
-  height: 140px;
-  border: 3px solid #111;
-  border-radius: 18px;
-  object-fit: cover;
-  box-shadow: 5px 5px 0 #111;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   transform: none;
 }
 
 body:not(.city-home) .game-thumb span {
   color: #111;
-  font-size: 28px;
+  font-size: 32px;
 }
 
 body:not(.city-home) .game-card-body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 18px;
-  padding: 22px;
+  min-width: 0;
+  gap: 12px;
+  padding: 16px 0 0;
+}
+
+body:not(.city-home) .game-card h3 {
+  font-size: 22px;
+  line-height: 30px;
+  overflow-wrap: anywhere;
+}
+
+body:not(.city-home) .game-card-body p:not(.game-status) {
+  margin-bottom: 0;
+  font-size: 15px;
+  line-height: 23px;
 }
 
 body:not(.city-home) .game-status {
-  margin-bottom: 8px;
-  color: #d33f7c;
+  display: inline-flex;
+  width: fit-content;
+  min-height: 28px;
+  margin-bottom: 10px;
+  padding: 2px 10px;
+  border: 1.5px solid #111;
+  border-radius: 14px;
+  background: #ffe49a;
+  color: #111;
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 20px;
 }
 
 body:not(.city-home) .game-meta {
@@ -1804,13 +1829,13 @@ body:not(.city-home) .game-meta {
 }
 
 body:not(.city-home) .game-meta span {
-  padding: 7px 11px;
-  border: 2px solid #111;
-  border-radius: 999px;
+  padding: 4px 10px;
+  border: 1.5px solid #111;
+  border-radius: 14px;
   background: #fff;
-  box-shadow: 2px 2px 0 #111;
   color: #111;
   font-size: 13px;
+  line-height: 20px;
 }
 
 body:not(.city-home) .card-button {
@@ -1829,11 +1854,35 @@ body:not(.city-home) .card-button {
 }
 
 body:not(.city-home) .game-card.is-coming {
-  background: #fff9ed;
+  background: var(--paper);
 }
 
-body:not(.city-home) .game-card.is-coming .game-thumb {
-  background: #f4ece5;
+body:not(.city-home) .game-card.is-coming .game-thumb,
+body:not(.city-home) .game-card.is-coming .game-status {
+  background: #fff0bc;
+}
+
+body:not(.city-home) .game-card .card-button {
+  border-width: 2px;
+  box-shadow: 3px 4px 0 #111;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+body:not(.city-home) .game-card a:focus-visible {
+  outline: 3px solid #1664a8;
+  outline-offset: 3px;
+}
+
+body:not(.city-home) .game-card .card-button:hover {
+  background: var(--sun);
+}
+
+@media (max-width: 700px) {
+  body:not(.city-home) .game-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 560px;
+  }
 }
 
 body:not(.city-home) .content-page {
@@ -2081,10 +2130,6 @@ body:not(.city-home) .site-footer {
 }
 
 @media (max-width: 900px) {
-  body:not(.city-home) .game-grid {
-    grid-template-columns: 1fr;
-  }
-
   .character-profile-card,
   .character-profile-card-feature,
   .character-profile-card-alt {
@@ -2181,14 +2226,6 @@ body:not(.city-home) .site-footer {
     width: 100%;
     justify-content: center;
     padding: 7px 12px;
-  }
-
-  body:not(.city-home) .game-card {
-    grid-template-columns: 1fr;
-  }
-
-  body:not(.city-home) .game-thumb {
-    min-height: 190px;
   }
 
   .character-profile-list {
@@ -2529,11 +2566,11 @@ body.city-home :is(.content-carousel-card, .character-card) {
   min-height: 432px;
   min-width: 0;
   gap: 0;
-  padding: 16px 18px;
-  border: 2px solid #111;
-  border-radius: 12px;
+  padding: var(--card-padding);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
   background: #fffef8;
-  box-shadow: 4px 5px 0 #111;
+  box-shadow: var(--card-shadow);
   scroll-snap-align: start;
 }
 body.city-home .content-card-media {
