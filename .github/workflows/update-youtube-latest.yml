@@ -18,15 +18,18 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: "20"
+          node-version-file: .node-version
+
+      - name: Verify supported Node.js runtime
+        run: node scripts/check-node-version.mjs
 
       - name: Setup pinned WebP codecs
         uses: ./.github/actions/setup-home-webp

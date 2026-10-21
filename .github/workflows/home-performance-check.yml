@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'codex/home-performance-verification-*'
+      - 'codex/node-security-*'
   workflow_dispatch:
 
 permissions:
@@ -14,12 +15,15 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20.20.2'
+          node-version-file: .node-version
+      - name: Verify supported Node.js runtime
+        run: node scripts/check-node-version.mjs
+
       - name: Setup pinned WebP codecs
         uses: ./.github/actions/setup-home-webp
       - name: Install pinned test dependencies
@@ -43,7 +47,7 @@ jobs:
           git diff --exit-code
       - name: Save verification report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: home-performance-verification
           path: |

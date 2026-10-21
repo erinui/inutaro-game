@@ -1,0 +1,68 @@
+{
+  "beforeHashes": {
+    "scripts/build-site.mjs": "e829cf3d44803817abcf9a303d91bc30744775ed47c08d4805fe4c48b5353e6b",
+    "scripts/update-home-latest.mjs": "f74d36f1c0c43b6eaec7833dc29167ff22a03ec236539d02bc7d7141d09a28b8",
+    ".github/workflows/update-youtube-latest.yml": "3fc81156652f912b9ed3c102a5b18513d2310bb8a2003533734f9888ad8062d4"
+  },
+  "afterHashes": {
+    "scripts/build-site.mjs": "d6536fda35c87a85a5537bb203e1878b5229e8786d1c4c8ef2f0a79ad093baf3",
+    "scripts/update-home-latest.mjs": "f1c93f240a0e38594a92be1e10defaf24ded0b06b9d09e31bdfbf073b9390b3d",
+    ".github/workflows/update-youtube-latest.yml": "3f42ac0c91a95ee5502cfa98aac9c1050e2a246304f61016dc0f94f74b502717"
+  },
+  "changes": [
+    {
+      "file": "scripts/build-site.mjs",
+      "before": "",
+      "after": "import {assertNodeVersion} from './check-node-version.mjs';\n",
+      "count": 1
+    },
+    {
+      "file": "scripts/build-site.mjs",
+      "before": "",
+      "after": "  assertNodeVersion();\n",
+      "count": 1
+    },
+    {
+      "file": "scripts/update-home-latest.mjs",
+      "before": "",
+      "after": "import {assertNodeVersion} from './check-node-version.mjs';\n",
+      "count": 1
+    },
+    {
+      "file": "scripts/update-home-latest.mjs",
+      "before": "",
+      "after": "  assertNodeVersion();\n",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "          node-version: \"20\"",
+      "after": "          node-version-file: .node-version",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "",
+      "after": "      - name: Verify supported Node.js runtime\n        run: node scripts/check-node-version.mjs\n\n",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "actions/checkout@v4",
+      "after": "actions/checkout@v6",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "actions/setup-node@v4",
+      "after": "actions/setup-node@v6",
+      "count": 1
+    },
+    {
+      "file": "scripts/build-site.mjs",
+      "before": "",
+      "after": "  console.log(`Build runtime: Node.js ${assertNodeVersion()}`);\n",
+      "count": 1
+    }
+  ]
+}

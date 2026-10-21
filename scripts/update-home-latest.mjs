@@ -1,3 +1,4 @@
+import {assertNodeVersion} from './check-node-version.mjs';
 import { mkdtemp, mkdir, readdir, lstat, readFile, writeFile, rm, appendFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -197,6 +198,7 @@ export function updateSummary(result, saved) {
   return { markdown: lines.join("\n") + "\n", failed: saved !== "success" || result.providers.some(p => p.status === "failed") };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  assertNodeVersion();
   const { values } = parseArgs({ options: { report: { type: "string", default: path.join(tmpdir(), `erinui-home-result-${process.pid}.json`) }, publish: { type: "boolean" }, finish: { type: "boolean" }, saved: { type: "string", default: "success" } } });
   try {
     if (values.finish) {
