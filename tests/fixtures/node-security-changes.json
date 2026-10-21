@@ -7,7 +7,7 @@
   "afterHashes": {
     "scripts/build-site.mjs": "384e45f968e4f6fcbf799f8e57a716cd6923b73e5c4870306a13049950910a85",
     "scripts/update-home-latest.mjs": "f1c93f240a0e38594a92be1e10defaf24ded0b06b9d09e31bdfbf073b9390b3d",
-    ".github/workflows/update-youtube-latest.yml": "3a9ba199dd5ac3cbd3aa818c4b4134be02f723b872b39cd638dc8564d33e7c6f"
+    ".github/workflows/update-youtube-latest.yml": "3f42ac0c91a95ee5502cfa98aac9c1050e2a246304f61016dc0f94f74b502717"
   },
   "changes": [
     {
@@ -44,6 +44,18 @@
       "file": ".github/workflows/update-youtube-latest.yml",
       "before": "",
       "after": "      - name: Verify supported Node.js runtime\n        run: node scripts/check-node-version.mjs\n\n",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "actions/checkout@v4",
+      "after": "actions/checkout@v6",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "actions/setup-node@v4",
+      "after": "actions/setup-node@v6",
       "count": 1
     }
   ]

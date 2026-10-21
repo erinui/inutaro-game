@@ -22,6 +22,7 @@ Node.js 2026-10-21のセキュリティ更新に対応する。基準は24.22.1�
 CloudflareのNODE_VERSION環境変数が別値を指定している場合は合わせて更新する。
 ガードは公開ファイルや外部データに書き込みを始める前に検査する。
 ゲーム、画面、収集周期、APIの利用目的、公開ファイルの許可リストは変更しない。
+checkout/setup-node/upload-artifactはv6、cacheはv5へ更新する。各action.ymlのruns.using=node24を公式リポジトリで確認した。アクション自体のパッチレベルはGitHub-hosted runnerが管理するため、setup-nodeの指定とは区別する。
 追加のURL制限やsecret分離は今回のランタイム修正とは別の改善として扱う。
 
 ## 参照
