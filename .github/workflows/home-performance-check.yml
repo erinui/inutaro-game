@@ -24,6 +24,9 @@ jobs:
       - name: Verify supported Node.js runtime
         run: node scripts/check-node-version.mjs
 
+      - name: Verify official runtime bootstrap
+        run: bash scripts/deploy-cloudflare.sh --verify-only
+
       - name: Setup pinned WebP codecs
         uses: ./.github/actions/setup-home-webp
       - name: Install pinned test dependencies

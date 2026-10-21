@@ -1,6 +1,6 @@
 # Node.js セキュリティ対応計画・実施記録（2026-10-22）
 
-状態: 改修・main反映・CI・本番データ更新は完了。Cloudflareでの実ビルド確認は対象アカウントのログイン待ち。
+状態: 改修・main反映・CI・本番データ更新は完了。Cloudflare自動インストール障害の対処と本番再確認を実施中。
 
 ## 目的と範囲
 
@@ -56,3 +56,18 @@ checkout/setup-node/upload-artifactはv6、cacheはv5へ更新する。各action
 4. 最新JSONと正規ページの公開を再確認し、この記録を完了へ更新する。
 
 ローカル証跡は `.performance-evidence/node-security-20261022/` に保存（非公開・Git対象外）。
+
+## アプリ内ブラウザでの再確認
+
+保存済みプロファイルで対象アカウントに接続できた。前のログイン待ちは解消済み。
+Cloudflare build `0b21f85d-302e-48a5-9b21-67933dda45d1` は24.22.1の検出後、ツール導入段階で失敗していた。アプリのビルドコードには未到達。
+
+### 自動導入障害への対応
+
+- `scripts/deploy-cloudflare.sh` が公式HTTPS配布から24.22.1を取得し、固定SHA-256照合後にのみ展開・実行する。
+- Linux x64のSHA: `6c172a9ab6718f7b801fb5a7bd486af2ee5e32758086a04b84fcce2aa77095e6`。
+- `--verify-only` をLinux CIで実行し、ダウンロード・SHA・実ランタイムの検証だけを行う。
+- CloudflareのDeploy commandを `bash scripts/deploy-cloudflare.sh` に変更する。
+- 自動ツール導入だけはビルドイメージのプリインストール版を選ぶ（NODE_VERSION=24.18.0）。SKIP_DEPENDENCY_INSTALL=1で自動依存導入を止める。旧版でnpm・Wrangler・プロジェクトコードを実行せず、スクリプト内で検証済み24.22.1をPATHの先頭に置いてからそれらを実行する。
+- このブートストラップ用設定はプロジェクト実行版ではない。`.node-version`と実行ガードの基準は24.22.1を維持する。失敗時は公開せず停止する。
+- `.node-version`更新時は導入スクリプトの公式SHAも更新する。証跡確認後、状態を完了に変更する。
