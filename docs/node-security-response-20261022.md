@@ -1,5 +1,7 @@
 # Node.js セキュリティ対応計画・実施記録（2026-10-22）
 
+状態: 改修・main反映・CI・本番データ更新は完了。Cloudflareでの実ビルド確認は対象アカウントのログイン待ち。
+
 ## 目的と範囲
 
 Node.js 2026-10-21のセキュリティ更新に対応する。基準は24.22.1。
@@ -39,4 +41,18 @@ checkout/setup-node/upload-artifactはv6、cacheはv5へ更新する。各action
 - 開発端末は公式24.22.1をユーザー領域へ導入。bash/zshのPATHと既存コマンドリンクを変更し、元設定・元リンク先を `~/.local/share/inutaro-node/` に保存。古い実行中プロセスは再起動まで旧ランタイムのまま。
 - Homebrewのnode@24は24.22.0だったため採用せず、今回導入した当該パッケージは除去済み。依存ライブラリが更新されたため、既存コマンドリンクも公式修正版へ統一した。
 - 先行Linux CIでは、最新mainの自動更新済みJSONが過去の完全一致登録に含まれず2件失敗。公開データを変更せず、main `326ee7582fad6a3beca2acefa5c7c667ad065955` の正確なSHAを追加登録した。差分は取得日時とYouTube総視聴数3129→3133のみで、記事・動画・商品payloadの同一性を確認した。
-- GitHub CI・本番ビルド・実更新の検証は続行中。
+- Linux CI [39636747857](https://github.com/erinui/inutaro-game/actions/runs/39636747857): 213件全件合格、失敗・skipなし。Node.js 24.22.1のランタイム検査と公開ビルドも成功。
+- [PR #1](https://github.com/erinui/inutaro-game/pull/1) をmainへsquash merge済み。反映コミット: `12a42beb55055e85db0de3c7df7fdac6fa9ce2fe`。
+- 本番更新workflow [39637594313](https://github.com/erinui/inutaro-game/actions/runs/39637594313): Node.js 24.22.1でyoutube/note/suzuriすべてsuccess、保存はpushed。生成コミット `804376408bdca3cd811cd81ba783303e23b14caf`。
+- 旧GitHub Pagesの公開は成功。本番Cloudflareサイトは268静的ファイルのbytes一致、8ページの正規URL転送・タイトル、4非公開パスの404、計280項目を確認した。ただし、この確認はNode更新後のCloudflareデプロイを証明しない。
+- CloudflareのGitHubチェックはcheck suiteがqueuedで、個別build checkの結果が未到着。対象アカウントの管理画面にも未接続のため、新しいランタイムで本番ビルドが成功したとは判断しない。
+- 許可されたGoogleログインは完了したが、当該Googleアカウントには対象Cloudflareアカウントの権限がなかった。対象アカウントでのログインを利用者へ依頼済み。
+
+## 残件と再開手順
+
+1. 対象Cloudflareアカウントへログインし、inutaro-gameのBuild設定と実行履歴を確認する。
+2. NODE_VERSIONが`.node-version`と異なる値を上書きしていれば24.22.1に統一する。ビルド対象branchと監視パスも確認する。
+3. 最新mainの再ビルドを実行し、ログの `Build runtime: Node.js 24.22.1`（または同じmajorの新しい修正版）、成功、配信バージョンを確認する。
+4. 最新JSONと正規ページの公開を再確認し、この記録を完了へ更新する。
+
+ローカル証跡は `.performance-evidence/node-security-20261022/` に保存（非公開・Git対象外）。
