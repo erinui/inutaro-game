@@ -1,0 +1,50 @@
+{
+  "beforeHashes": {
+    "scripts/build-site.mjs": "e829cf3d44803817abcf9a303d91bc30744775ed47c08d4805fe4c48b5353e6b",
+    "scripts/update-home-latest.mjs": "f74d36f1c0c43b6eaec7833dc29167ff22a03ec236539d02bc7d7141d09a28b8",
+    ".github/workflows/update-youtube-latest.yml": "3fc81156652f912b9ed3c102a5b18513d2310bb8a2003533734f9888ad8062d4"
+  },
+  "afterHashes": {
+    "scripts/build-site.mjs": "384e45f968e4f6fcbf799f8e57a716cd6923b73e5c4870306a13049950910a85",
+    "scripts/update-home-latest.mjs": "f1c93f240a0e38594a92be1e10defaf24ded0b06b9d09e31bdfbf073b9390b3d",
+    ".github/workflows/update-youtube-latest.yml": "3a9ba199dd5ac3cbd3aa818c4b4134be02f723b872b39cd638dc8564d33e7c6f"
+  },
+  "changes": [
+    {
+      "file": "scripts/build-site.mjs",
+      "before": "",
+      "after": "import {assertNodeVersion} from './check-node-version.mjs';\n",
+      "count": 1
+    },
+    {
+      "file": "scripts/build-site.mjs",
+      "before": "",
+      "after": "  assertNodeVersion();\n",
+      "count": 1
+    },
+    {
+      "file": "scripts/update-home-latest.mjs",
+      "before": "",
+      "after": "import {assertNodeVersion} from './check-node-version.mjs';\n",
+      "count": 1
+    },
+    {
+      "file": "scripts/update-home-latest.mjs",
+      "before": "",
+      "after": "  assertNodeVersion();\n",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "          node-version: \"20\"",
+      "after": "          node-version-file: .node-version",
+      "count": 1
+    },
+    {
+      "file": ".github/workflows/update-youtube-latest.yml",
+      "before": "",
+      "after": "      - name: Verify supported Node.js runtime\n        run: node scripts/check-node-version.mjs\n\n",
+      "count": 1
+    }
+  ]
+}

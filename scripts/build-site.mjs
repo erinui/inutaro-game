@@ -1,3 +1,4 @@
+import {assertNodeVersion} from './check-node-version.mjs';
 import { mkdir, copyFile, readFile, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import path from "node:path";
@@ -19,6 +20,7 @@ const publicFiles = [
 ];
 
 export async function buildSite(output, {recovery,copy=copyFile}={}) {
+  assertNodeVersion();
   const dataRoutes=recovery ? normalizeDataRecovery(recovery) : await loadDataRecovery(root);
   // Only versioned assets belong in a release, not local drafts or downloaded originals.
   const assets = execFileSync("git", ["ls-files", "-z", "--", "assets"], { cwd: root, encoding: "utf8" }).split("\0").filter(Boolean);

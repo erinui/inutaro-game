@@ -26,7 +26,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version-file: .node-version
+
+      - name: Verify supported Node.js runtime
+        run: node scripts/check-node-version.mjs
 
       - name: Setup pinned WebP codecs
         uses: ./.github/actions/setup-home-webp

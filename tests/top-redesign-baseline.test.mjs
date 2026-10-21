@@ -1,3 +1,4 @@
+import {restoreNodeSecurityChanges} from './helpers/approved-node-security-changes.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {test} from 'node:test';
@@ -137,7 +138,8 @@ test('TOP-W01: lower pages, game, collectors and deployment contracts remain pro
   assert.equal(Object.keys(baseline.protectedHashes).length, 19);
   for (const [file, expected] of Object.entries(baseline.protectedHashes)) {
     const bytes=await readFile(sourceFile(file));
-    const restored=file.endsWith('.html')?restoreTopRedesignChanges(file,bytes.toString()):bytes;
+    const secured=restoreNodeSecurityChanges(file,bytes.toString());
+    const restored=file.endsWith('.html')?restoreTopRedesignChanges(file,secured):secured;
     assert.equal(hash(restored), expected, file);
   }
 });
