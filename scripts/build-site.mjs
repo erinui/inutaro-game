@@ -74,6 +74,7 @@ export async function buildSite(output, {recovery,copy=copyFile}={}) {
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  console.log(`Build runtime: Node.js ${assertNodeVersion()}`);
   const files = await buildSite(path.join(root, "dist"));
   process.stdout.write(`Built ${files.length} public files in dist/\n`);
 }
