@@ -23,7 +23,7 @@
 | Cloudflareビルド | 公式24.22.1のSHA照合後にnpm・Wrangler・ビルドを実行 | 成功 |
 | 公開確認 | 静的268ファイル、8ページ、非公開4パス | 280項目すべて成功 |
 
-ビルド・更新のガードは、基準と同じmajorのそれ以降のminor/patchを許可する。
+ビルド・更新のガードは、基準と同じmajorのそれ以降の安定版minor/patchを許可する。プレリリース・不正形式は拒否する。
 画面・ゲーム・収集周期・公開ファイルの許可リストは変更していない。
 既存の完全一致テストは今回の限定差分だけを逆適用し、以前の基準を保持する。
 自動更新済みJSONは取得日時・YouTube総視聴数以外のpayload一致を確認し、正確なSHAだけを追記登録した。公開データを過去へ戻していない。
@@ -57,7 +57,7 @@ Cloudflareの公式インストーラーが修正版を扱えるようになっ�
 - [最終Linux CI 39639268593](https://github.com/erinui/inutaro-game/actions/runs/39639268593): 215件合格、失敗・skipなし。公式Linux版のSHAと実行検査も成功。
 - [本番更新 39637594313](https://github.com/erinui/inutaro-game/actions/runs/39637594313): 24.22.1で3サービスすべてsuccess、保存pushed。生成コミット `804376408bdca3cd811cd81ba783303e23b14caf`。
 - [Cloudflare本番ビルド](https://dash.cloudflare.com/4b0c107033ce4f72efdc42b6dc0bac2e/workers/services/view/inutaro-game/production/builds/8a7e003c-9367-4dfb-9b4b-a5dff1759a90): `Official Node.js 24.22.1 linux-x64 SHA-256 verified.`、`Build runtime: Node.js 24.22.1`、277公開ファイル生成、`Success! Build completed.`を確認。
-- 本番配信Version ID: `a04dbe91-253a-428b-800f-a0bc5e5f147d`。`erinui.com`へのデプロイ成功。
+- 初回の検証済み本番配信Version ID: `a04dbe91-253a-428b-800f-a0bc5e5f147d`。`erinui.com`へのデプロイ成功。
 - デプロイ後に最新mainから生成した公開ファイルと照合。268静的ファイルはbytes一致、8HTMLは正規URLへの転送とタイトルを確認。`.node-version`・導入スクリプト・対応資料・`.env.local`は公開しない。
 - ローカル証跡: `.performance-evidence/node-security-20261022/`（Git対象外）。
 
@@ -74,3 +74,20 @@ Cloudflareの公式インストーラーが修正版を扱えるようになっ�
 
 - https://nodejs.org/en/blog/vulnerability/october-2026-security-releases
 - https://developers.cloudflare.com/workers/ci-cd/builds/build-image/
+
+## レビューと再検証（2026-10-22）
+
+PR #1・#2の差分、公式SHA、現行main、Cloudflareの実ビルド・更新履歴をレビューした。
+レビューで再現した以下の境界条件を修正し、回帰検査を追加した。
+
+| 指摘 | 修正 |
+| --- | --- |
+| バージョンガードが将来minorのプレリリースも受け入れる | 3要素の安定版表記と安全な整数だけを解析し、プレリリースと不正形式を拒否 |
+| デプロイ引数の2個目以降を無視する | 引数なし、または`--verify-only`の1個だけを許可。余分・空の引数はダウンロード前に拒否 |
+| 現行のビルド案内にNode20以降という旧要件が残る | 現在の要件を24.22.1に訂正。過去のNode20/25測定値は履歴として明記 |
+
+元のNode.js導入方式のSHA照合・実行順序・秘密情報の非公開・通常更新の既存ガードに、今回のレビューで追加の阻害事項は見つからなかった。
+Cloudflareの`NODE_VERSION`値は準備用であり、実際のプロジェクト処理の版とは区別する。プロバイダー内部の処理やGitHub-hosted runnerの組み込みランタイムのパッチ管理まで保証するものではない。
+受け入れ試験は自動更新データの正確なSHA世代を記録するため、データ更新後の再検証ではpayloadを比較して世代を追記する。任意のデータを正規化して合格させない。
+再検証はmain `31ad904623beab341bdb5c14f414cb412bda8c2a`のデータを基に実施し、取得日時と総視聴数以外の値が以前の受け入れpayloadと同一であることを確認した。
+ローカルの全216テストは合格（失敗・skipなし）。Linux CIと本番再検証の結果は以下に追記する。

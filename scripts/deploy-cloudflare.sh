@@ -20,7 +20,7 @@ case "$(uname -s):$(uname -m)" in
     ;;
   *) echo 'Unsupported runtime installation platform.' >&2; exit 1 ;;
 esac
-if [[ "${1:-}" != '' && "${1:-}" != '--verify-only' ]]; then
+if [[ $# -gt 1 || ( $# -eq 1 && "$1" != '--verify-only' ) ]]; then
   echo 'Usage: deploy-cloudflare.sh [--verify-only]' >&2
   exit 1
 fi

@@ -12,9 +12,10 @@ const script = fileURLToPath(new URL('../scripts/deploy-cloudflare.sh', import.m
 async function fakeTools(run) {
   const directory = await mkdtemp(path.join(tmpdir(), 'inutaro-runtime-test-'));
   const sentinel = path.join(directory, 'executed');
+  const downloadSentinel = path.join(directory, 'downloaded');
   try {
     const tools = {
-      curl: '#!/bin/bash\nwhile [[ $# -gt 0 ]]; do if [[ "$1" == "--output" ]]; then printf corrupt > "$2"; exit 0; fi; shift; done\nexit 1\n',
+      curl: '#!/bin/bash\ntouch "$BOOTSTRAP_DOWNLOAD_SENTINEL"\nwhile [[ $# -gt 0 ]]; do if [[ "$1" == "--output" ]]; then printf corrupt > "$2"; exit 0; fi; shift; done\nexit 1\n',
       tar: '#!/bin/bash\ntouch "$BOOTSTRAP_SENTINEL"\nexit 1\n',
       node: '#!/bin/bash\ntouch "$BOOTSTRAP_SENTINEL"\nexit 1\n',
       npx: '#!/bin/bash\ntouch "$BOOTSTRAP_SENTINEL"\nexit 1\n',
@@ -23,7 +24,7 @@ async function fakeTools(run) {
       await writeFile(path.join(directory, name), source);
       await chmod(path.join(directory, name), 0o700);
     }
-    await run({env: {...process.env, PATH: directory + ':' + process.env.PATH, BOOTSTRAP_SENTINEL: sentinel}});
+    await run({env: {...process.env, PATH: directory + ':' + process.env.PATH, BOOTSTRAP_SENTINEL: sentinel, BOOTSTRAP_DOWNLOAD_SENTINEL: downloadSentinel}}, downloadSentinel);
     await assert.rejects(access(sentinel), {code: 'ENOENT'});
   } finally { await rm(directory, {recursive: true, force: true}); }
 }
@@ -37,11 +38,14 @@ test('Runtime bootstrap rejects corrupt downloads before extraction or execution
   });
 });
 
-test('Runtime bootstrap rejects unknown arguments without deploying', async () => {
-  await fakeTools(async options => {
-    await assert.rejects(execute('bash', [script, '--unknown'], options), error => {
-      assert.match(error.stderr, /Usage:/);
-      return true;
+test('Runtime bootstrap rejects all unexpected arguments before downloading or deploying', async () => {
+  for (const args of [['--unknown'], ['--verify-only', '--unknown'], ['', '--verify-only'], ['']]) {
+    await fakeTools(async (options, downloadSentinel) => {
+      await assert.rejects(execute('bash', [script, ...args], options), error => {
+        assert.match(error.stderr, /Usage:/);
+        return true;
+      });
+      await assert.rejects(access(downloadSentinel), {code: 'ENOENT'});
     });
-  });
+  }
 });
