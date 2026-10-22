@@ -20,8 +20,8 @@ case "$(uname -s):$(uname -m)" in
     ;;
   *) echo 'Unsupported runtime installation platform.' >&2; exit 1 ;;
 esac
-if [[ "${1:-}" != '' && "${1:-}" != '--verify-only' ]]; then
-  echo 'Usage: deploy-cloudflare.sh [--verify-only]' >&2
+if [[ $# -gt 1 || ( $# -eq 1 && "$1" != '--verify-only' && "$1" != '--preview' ) ]]; then
+  echo 'Usage: deploy-cloudflare.sh [--verify-only|--preview]' >&2
   exit 1
 fi
 runtime_dir="$(mktemp -d "${TMPDIR:-/tmp}/inutaro-node-runtime.XXXXXX")"
@@ -46,4 +46,8 @@ if [[ "${1:-}" == '--verify-only' ]]; then
   echo 'Verified Node.js runtime installation; deployment was not requested.'
   exit 0
 fi
-npx --yes wrangler deploy
+if [[ "${1:-}" == '--preview' ]]; then
+  npx --yes wrangler preview
+else
+  npx --yes wrangler deploy
+fi

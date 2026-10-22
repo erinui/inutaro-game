@@ -65,6 +65,15 @@
           "before": 3129,
           "after": 3133
         }
+      },
+      {
+        "sha256": "58bd8a2c75e99f784fd673486dd8d4893cb57d8b189e153b38fcf5347b948319",
+        "fetchedAt": "2026-10-21T23:15:59.207Z",
+        "commit": "31ad904623beab341bdb5c14f414cb412bda8c2a",
+        "youtubeViewCount": {
+          "before": 3129,
+          "after": 3133
+        }
       }
     ],
     "assets/home-city/note-latest.json": [
@@ -92,6 +101,11 @@
         "sha256": "14ab861d90d7f6f25624d216b4a82c2cacc494ab29c3ed5419216e8a769daee1",
         "fetchedAt": "2026-10-21T16:45:44.664Z",
         "commit": "99e19ca4139946f4cf5e582fc8fb4d787bae2169"
+      },
+      {
+        "sha256": "41c27eaaee0fc03af26202fb6f22c25262154be0182860b7a4b4c0a7d046c407",
+        "fetchedAt": "2026-10-21T23:16:01.602Z",
+        "commit": "31ad904623beab341bdb5c14f414cb412bda8c2a"
       }
     ],
     "assets/home-city/suzuri-latest.json": [
@@ -119,6 +133,11 @@
         "sha256": "b312ec47892b2554bdc748bce862787191140db94ce12dd3220599a418325b19",
         "fetchedAt": "2026-10-21T16:45:45.519Z",
         "commit": "99e19ca4139946f4cf5e582fc8fb4d787bae2169"
+      },
+      {
+        "sha256": "6500a5bd1768f4e2076b5e1ce704afffc4dfdcc4eeb98172a67c7def7dedb735",
+        "fetchedAt": "2026-10-21T23:16:02.551Z",
+        "commit": "31ad904623beab341bdb5c14f414cb412bda8c2a"
       }
     ]
   }

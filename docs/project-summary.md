@@ -1,6 +1,6 @@
 # エリカッテシティ / 犬タローゲーム 開発まとめ
 
-最終更新: 2026-10-20（共通デザイン・ゲーム一覧カード・ラベル撤去まで反映）
+最終更新: 2026-10-22（Node.jsセキュリティ対応とレビューを反映）
 
 本資料を現在状態の入口とする。正式名称は「エリカッテシティ」、本番は `https://erinui.com/`。過去の制作記録と現行仕様が異なる場合は、ユーザーの追加指示と[TOP改修SDD](top-redesign-sdd.md)第15〜21節、[総合仕様](site-specification.md)、[画面設計](screen-design-specification.md)を優先する。
 
@@ -12,6 +12,7 @@
 | 共通ヘッダー・下層の背景／傾き／旧ラベル整理 | `6a24d32` で公開確認済み。SDD第18〜19節 |
 | ゲーム一覧の共通カード化・ゲーム風景画像 | `4d6d6fe` で公開、検証記録は `5dfa27c`。CI全209件合格・本番PC/SP確認済み。SDD第20節 |
 | TOPニュース以外のラベル18件撤去 | `227c320` でGitHub main・本番へ反映。関連60試験・全体CI211件合格、ゲーム／キャラクター／TOPのPC/SP本番確認済み。SDD第21節 |
+| Node.jsセキュリティ対応 | 実行基準24.22.1。CIアクション更新、実行時ガード、Cloudflare公式SHA検証導入を反映。[対応・レビュー記録](node-security-response-20261022.md)を参照 |
 | 公開前の資料整備 | 8資料を更新した工程。当時は資料のみで、その後の公開依頼により上記の本番確認まで実施。Figmaは未変更 |
 
 ラベル撤去はゲームの補足2件・状態2件とキャラクターの特徴14件。ニュース分類、見出し・名前の黄色背景、操作ボタン、ゲームHUD、通常テキストの日付・価格等は維持する。PCのオリジン画像面だけ最小高380pxを確保し、頭のはみ出し演出を保つ。
@@ -137,6 +138,9 @@ https://erinui.github.io/inutaro-game/
 | `scripts/update-suzuri-latest.mjs` | GitHub Actions用SUZURI商品更新 |
 
 ## 7. 公開・更新
+
+- 開発・CI・更新処理は`.node-version`の24.22.1を使用。安定版24系で基準未満・別major・プレリリースを拒否する。
+- Cloudflareは`bash scripts/deploy-cloudflare.sh`が公式SHA検証後に24.22.1を導入する。`NODE_VERSION=24.18.0`はプラットフォーム準備だけに使い、npm・Wrangler・公開ビルドは修正版で実行する。保守時は[対応記録](node-security-response-20261022.md)を参照。
 
 - 開発元は `main`
 - 本番はCloudflare Workers Buildsがmainから公開用distを生成・配信。旧GitHub Pagesはmainのルート公開を維持

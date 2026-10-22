@@ -4,6 +4,7 @@
   "workers_dev": true,
   "routes": [{ "pattern": "erinui.com", "custom_domain": true }],
   "build": { "command": "node scripts/build-site.mjs" },
+  "previews": {},
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
