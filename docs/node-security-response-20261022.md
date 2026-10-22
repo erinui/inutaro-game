@@ -17,11 +17,11 @@
 | 実行時検査 | CI、ビルド、自動更新の入口で旧版・別majorを拒否 | 完了 |
 | 開発端末 | 公式macOS版のSHA確認、bash/zshと既存コマンドを切り替え | 完了 |
 | CIアクション | checkout/setup-node/upload-artifactをv6、cacheをv5へ更新 | 完了 |
-| ローカル検証 | 既存211件、境界値と限定差分、隔離ビルド・note取得 | 成功 |
-| Linux CI | 公式Linux版の導入、改ざん拒否、全215件の試験 | 全件合格 |
+| ローカル検証 | 境界値・限定差分・隔離ビルド・ブラウザを含む全216件 | 全件合格 |
+| Linux CI | 公式Linux版の導入、改ざん拒否、レビュー後の全216件 | 全件合格 |
 | 本番データ更新 | YouTube・note・SUZURIの実取得とmain保存 | 全サービス成功 |
 | Cloudflareビルド | 公式24.22.1のSHA照合後にnpm・Wrangler・ビルドを実行 | 成功 |
-| 公開確認 | 静的268ファイル、8ページ、非公開4パス | 280項目すべて成功 |
+| 公開確認 | 静的268ファイル、8ページ、非公開5パス | 本番・プレビューとも281項目成功 |
 
 ビルド・更新のガードは、基準と同じmajorのそれ以降の安定版minor/patchを許可する。プレリリース・不正形式は拒否する。
 画面・ゲーム・収集周期・公開ファイルの許可リストは変更していない。
@@ -55,7 +55,7 @@ Cloudflareの公式インストーラーが修正版を扱えるようになっ�
 
 - [PR #1](https://github.com/erinui/inutaro-game/pull/1): ランタイム統一。main反映 `12a42beb55055e85db0de3c7df7fdac6fa9ce2fe`。
 - [PR #2](https://github.com/erinui/inutaro-game/pull/2): Cloudflare導入対策。main反映 `d8956c39a798ad660b7a06b4cc2ffcbc9a0b964d`。
-- [最終Linux CI 39639268593](https://github.com/erinui/inutaro-game/actions/runs/39639268593): 215件合格、失敗・skipなし。公式Linux版のSHAと実行検査も成功。
+- [初回対応のLinux CI 39639268593](https://github.com/erinui/inutaro-game/actions/runs/39639268593): 215件合格、失敗・skipなし。公式Linux版のSHAと実行検査も成功。
 - [本番更新 39637594313](https://github.com/erinui/inutaro-game/actions/runs/39637594313): 24.22.1で3サービスすべてsuccess、保存pushed。生成コミット `804376408bdca3cd811cd81ba783303e23b14caf`。
 - [Cloudflare本番ビルド](https://dash.cloudflare.com/4b0c107033ce4f72efdc42b6dc0bac2e/workers/services/view/inutaro-game/production/builds/8a7e003c-9367-4dfb-9b4b-a5dff1759a90): `Official Node.js 24.22.1 linux-x64 SHA-256 verified.`、`Build runtime: Node.js 24.22.1`、277公開ファイル生成、`Success! Build completed.`を確認。
 - 初回の検証済み本番配信Version ID: `a04dbe91-253a-428b-800f-a0bc5e5f147d`。`erinui.com`へのデプロイ成功。
@@ -92,6 +92,16 @@ PR #1・#2の差分、公式SHA、現行main、Cloudflareの実ビルド・更�
 Cloudflareの`NODE_VERSION`値は準備用であり、実際のプロジェクト処理の版とは区別する。プロバイダー内部の処理やGitHub-hosted runnerの組み込みランタイムのパッチ管理まで保証するものではない。
 受け入れ試験は自動更新データの正確なSHA世代を記録するため、データ更新後の再検証ではpayloadを比較して世代を追記する。任意のデータを正規化して合格させない。
 再検証はmain `31ad904623beab341bdb5c14f414cb412bda8c2a`のデータを基に実施し、取得日時と総視聴数以外の値が以前の受け入れpayloadと同一であることを確認した。
-ローカルの全216テストは合格（失敗・skipなし）。Linux CIと本番再検証の結果は以下に追記する。
+ローカル・Linux CIの全216テストは合格（失敗・skipなし）。最終結果を以下に記録する。
 
 ブランチのプレビューは[Cloudflare公式設定](https://developers.cloudflare.com/workers/previews/configuration/)に従い、空の`previews`設定を明示する。静的assetsとcustom buildは共通で、本番routeやsecretをプレビュー設定へ複製しない。
+
+### レビュー後の最終結果
+
+- [PR #3](https://github.com/erinui/inutaro-game/pull/3)をmainへ反映: `eb76c7564452a20f07088beda4c5625471d80ca4`。
+- [最終Linux CI 39698117872](https://github.com/erinui/inutaro-game/actions/runs/39698117872): 最終差分`e474fcf26501b13bb9b59321001ede9c4226a35b`で216件合格、失敗・skipなし。公式Linux SHA照合も成功。
+- 修正前後の公開ビルド277ファイルはすべてbytes一致。
+- [プレビュービルド](https://dash.cloudflare.com/4b0c107033ce4f72efdc42b6dc0bac2e/workers/services/view/inutaro-game/production/previews/codex-node-security-review-20261022/builds/3a3b1548-753d-4c69-8e72-f8ea253f9beb): SHA照合→24.22.1実行→277ファイル生成→プレビュー配信成功。共通Previews Baseと対象ブランチのコマンドを保存済み。既存プレビューは個別のビルド設定を保持するため、再利用時はその設定も確認する。
+- [本番ビルド](https://dash.cloudflare.com/4b0c107033ce4f72efdc42b6dc0bac2e/workers/services/view/inutaro-game/production/builds/d968d2a8-d2a8-4920-a6ed-e41a469dace6): SHA照合と24.22.1の実ビルド、`Success! Build completed.`を確認。Version ID `cbdbdc8f-2004-466a-9a52-0d1fba8eb584`。
+- 本番・プレビューとも268静的ファイルのbytes、8HTMLの転送・タイトル、内部用5パスの404を照合し、281項目成功。
+- プロジェクト概要・サイト仕様・外部情報更新・性能実装・本資料の5資料を更新。今回のレビュー範囲で未解決の阻害事項なし。
