@@ -39,7 +39,7 @@ test('Runtime bootstrap rejects corrupt downloads before extraction or execution
 });
 
 test('Runtime bootstrap rejects all unexpected arguments before downloading or deploying', async () => {
-  for (const args of [['--unknown'], ['--verify-only', '--unknown'], ['', '--verify-only'], ['']]) {
+  for (const args of [['--unknown'], ['--verify-only', '--unknown'], ['--preview', '--unknown'], ['', '--verify-only'], ['']]) {
     await fakeTools(async (options, downloadSentinel) => {
       await assert.rejects(execute('bash', [script, ...args], options), error => {
         assert.match(error.stderr, /Usage:/);

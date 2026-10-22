@@ -42,6 +42,7 @@ SKIP_DEPENDENCY_INSTALLだけでは、このツール導入は省略されなか
 | Production branch | main |
 | Build command | 未指定（Wranglerのcustom buildを利用） |
 | Deploy command | `bash scripts/deploy-cloudflare.sh` |
+| Non-production deploy command | `bash scripts/deploy-cloudflare.sh --preview` |
 | NODE_VERSION | `24.18.0`（自動ツール導入段階だけのブートストラップ用） |
 | SKIP_DEPENDENCY_INSTALL | `1` |
 
@@ -83,7 +84,8 @@ PR #1・#2の差分、公式SHA、現行main、Cloudflareの実ビルド・更�
 | 指摘 | 修正 |
 | --- | --- |
 | バージョンガードが将来minorのプレリリースも受け入れる | 3要素の安定版表記と安全な整数だけを解析し、プレリリースと不正形式を拒否 |
-| デプロイ引数の2個目以降を無視する | 引数なし、または`--verify-only`の1個だけを許可。余分・空の引数はダウンロード前に拒否 |
+| デプロイ引数の2個目以降を無視する | 引数なし、または`--verify-only`・`--preview`のいずれか1個だけを許可。余分・空の引数はダウンロード前に拒否 |
+| Cloudflareブランチ用コマンドが要求する`previews`設定が未定義 | `previews: {}`を明示し、プレビューも公式SHA検証付きスクリプトを使用 |
 | 現行のビルド案内にNode20以降という旧要件が残る | 現在の要件を24.22.1に訂正。過去のNode20/25測定値は履歴として明記 |
 
 元のNode.js導入方式のSHA照合・実行順序・秘密情報の非公開・通常更新の既存ガードに、今回のレビューで追加の阻害事項は見つからなかった。
@@ -91,3 +93,5 @@ Cloudflareの`NODE_VERSION`値は準備用であり、実際のプロジェク�
 受け入れ試験は自動更新データの正確なSHA世代を記録するため、データ更新後の再検証ではpayloadを比較して世代を追記する。任意のデータを正規化して合格させない。
 再検証はmain `31ad904623beab341bdb5c14f414cb412bda8c2a`のデータを基に実施し、取得日時と総視聴数以外の値が以前の受け入れpayloadと同一であることを確認した。
 ローカルの全216テストは合格（失敗・skipなし）。Linux CIと本番再検証の結果は以下に追記する。
+
+ブランチのプレビューは[Cloudflare公式設定](https://developers.cloudflare.com/workers/previews/configuration/)に従い、空の`previews`設定を明示する。静的assetsとcustom buildは共通で、本番routeやsecretをプレビュー設定へ複製しない。
