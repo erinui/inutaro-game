@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "ok": true,
-  "fetchedAt": "2026-10-24T18:45:59.664Z",
+  "fetchedAt": "2026-10-24T22:26:55.492Z",
   "channel": {
     "id": "UCdnf6zMzSdZuvUxS-CS2REQ",
     "title": "erikaさんはぬいちゅーばぁ",
@@ -15,6 +15,24 @@
     }
   },
   "videos": [
+    {
+      "id": "kamvayCLpcU",
+      "title": "犬タローとおでかけ #無印良品 の購入品✨#ぬい撮り",
+      "description": "",
+      "publishedAt": "2026-10-24T20:03:06Z",
+      "url": "https://www.youtube.com/watch?v=kamvayCLpcU",
+      "thumbnail": {
+        "url": "https://i.ytimg.com/vi/kamvayCLpcU/maxresdefault.jpg",
+        "width": 1280,
+        "height": 720
+      },
+      "localThumbnail": {
+        "url": "assets/home-city/youtube-thumb-kamvayCLpcU-6c8981e61a088a46.webp",
+        "width": 640,
+        "height": 360,
+        "sha256": "6c8981e61a088a467f1bc1090275580d2e847acce8b8a20498738f2a8a5db706"
+      }
+    },
     {
       "id": "TIhVy4qVlVE",
       "title": "【へたくそ】ゲームセンターに行ったよ🕹️【タイミンほしい】",
@@ -103,24 +121,6 @@
         "width": 640,
         "height": 360,
         "sha256": "0e053d004d75738599c3aa124c3bc050e5981c120d00276489f9e9f9e00709da"
-      }
-    },
-    {
-      "id": "CZvxgnKnYuw",
-      "title": "[おひさ！]４月の振り返りぬいlog",
-      "description": "２月に職場がなくなってから\n結構くるしくひもじい３月を過ごし、\n必死に人間生活をこなしておりました。\n\nしかし！\n４月は新しい職場を紹介していただきましたー！\n\n……あれ、５月はどうなるの？",
-      "publishedAt": "2026-04-24T15:31:36Z",
-      "url": "https://www.youtube.com/watch?v=CZvxgnKnYuw",
-      "thumbnail": {
-        "url": "https://i.ytimg.com/vi/CZvxgnKnYuw/maxresdefault.jpg",
-        "width": 1280,
-        "height": 720
-      },
-      "localThumbnail": {
-        "url": "assets/home-city/youtube-thumb-CZvxgnKnYuw-f1630464add3f9dd.webp",
-        "width": 640,
-        "height": 360,
-        "sha256": "f1630464add3f9dd5544b060895f7da6d02cce3594d70a0e0fe618a3a2bf5edf"
       }
     }
   ]
