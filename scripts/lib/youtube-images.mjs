@@ -53,7 +53,7 @@ export async function createYoutubeImage({bytes,videoId,directory}) {
   return image;
  }finally{await rm(source,{force:true});await rm(candidate,{force:true});}
 }
-export async function validateYoutubeImage(image,videoId,directory) {
+export async function validateYoutubeImage(image,videoId,directory,{decode=true}={}) {
  if(!validId(videoId)||!image||!Number.isInteger(image.width)||!Number.isInteger(image.height)||image.width<=0||image.height<=0||! /^[a-f0-9]{64}$/.test(image.sha256||''))throw new Error('Invalid local thumbnail');
  const name=`youtube-thumb-${videoId}-${image.sha256.slice(0,16)}.webp`;
  if(image.url!==`assets/home-city/${name}`)throw new Error('Thumbnail identity mismatch');
@@ -61,6 +61,6 @@ export async function validateYoutubeImage(image,videoId,directory) {
  if(!(await lstat(filename)).isFile())throw new Error('Thumbnail must be a regular file');
  const bytes=await readFile(filename),size=imageDimensions(bytes);
  if(sha256(bytes)!==image.sha256||size.width!==image.width||size.height!==image.height)throw new Error('Thumbnail hash or dimensions mismatch');
- await execute(process.env.DWEBP_BINARY||'dwebp',['-quiet',filename,'-o',process.platform==='win32'?'NUL':'/dev/null'],{timeout:12000});
+ if(decode)await execute(process.env.DWEBP_BINARY||'dwebp',['-quiet',filename,'-o',process.platform==='win32'?'NUL':'/dev/null'],{timeout:12000});
  return true;
 }

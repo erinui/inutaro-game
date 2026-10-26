@@ -1,3 +1,4 @@
+import './isolated-fetch-hook.mjs';
 const nativeTimeout = AbortSignal.timeout;
 AbortSignal.timeout = milliseconds => {
   if (milliseconds !== 12000) throw new Error("Expected 12-second HTTP limit");
@@ -17,9 +18,9 @@ globalThis.fetch = async (url, options = {}) => {
   if (malformed === "note" && pathname === "/erinui/rss") return new Response("<html>Unavailable</html>");
   if (pathname === "/youtube/v3/channels") return Response.json({ items: [{ id: "fixture", snippet: { title: "fixture" }, contentDetails: { relatedPlaylists: { uploads: "fixture" } }, statistics: {} }] });
   if (pathname === "/youtube/v3/playlistItems") return Response.json({ items: [] });
-  if (pathname === "/erinui/rss") return new Response('<rss><channel><item><title>Fixture</title><link>https://note.com/erinui/n/fixture</link><description>Fixture</description><pubDate>2026-10-11</pubDate></item></channel></rss>');
-  if (pathname === "/erinui/n/fixture") return process.env.LATEST_FIXTURE_IMAGE === "1" ? new Response('<meta property="og:image" content="https://example.com/fixture.png">') : new Response("not found", { status: 404 });
-  if (pathname === "/fixture.png") return new Response(Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==", "base64"), { headers: { "Content-Type": "image/png" } });
-  if (pathname === "/api/v1/products") return Response.json({ products: [{ id: 1, title: "Fixture", sampleUrl: "https://suzuri.jp/erikanuinui/1", sampleImageUrl: "https://example.com/fixture.jpg", priceWithTax: 100 }] });
+  if (pathname === "/erinui/rss") return new Response('<rss><channel><item><title>Fixture</title><link>https://note.com/erinui/n/nfixture</link><description>Fixture</description><pubDate>2026-10-11</pubDate></item></channel></rss>');
+  if (pathname === "/erinui/n/nfixture") return process.env.LATEST_FIXTURE_IMAGE === "1" ? new Response('<meta property="og:image" content="https://assets.st-note.com/img/fixture.png">') : new Response("not found", { status: 404 });
+  if (pathname === "/img/fixture.png") return new Response(Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==", "base64"), { headers: { "Content-Type": "image/png" } });
+  if (pathname === "/api/v1/products") return Response.json({ products: [{ id: 1, title: "Fixture", sampleUrl: "https://suzuri.jp/erikanuinui/1", sampleImageUrl: "https://lens.suzuri.jp/v3/fixture.jpg", priceWithTax: 100 }] });
   throw new Error("Unexpected fixture request");
 };

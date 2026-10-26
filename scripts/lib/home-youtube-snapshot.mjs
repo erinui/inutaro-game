@@ -1,3 +1,4 @@
+import {validPublicUrl,validThumbnail} from './provider-url-policy.mjs';
 import {sha256} from './home-assets.mjs';
 const escape=text=>String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const channel='https://www.youtube.com/@%E3%81%88%E3%82%8A%E3%81%AC%E3%81%84';
@@ -49,7 +50,7 @@ export function youtubeThumbnail(video,schemaVersion){
  if(schemaVersion===2&&video?.thumbnail)throw new Error('Missing local thumbnail');
  const url=video?.thumbnail?.url;
  if(!url)return null;
- if(!/^https:\/\//.test(url))throw new Error('Invalid thumbnail URL');
+ if(!validThumbnail(url,'youtube'))throw new Error('Invalid thumbnail URL');
  return {url,width:video.thumbnail.width||640,height:video.thumbnail.height||360};
 }
 export function createYoutubeSnapshot(html,data){
@@ -74,7 +75,7 @@ export function createYoutubeSnapshot(html,data){
    patch(node.start,node.openEnd,attrs(html.slice(node.start,node.openEnd),{src:active&&image?image.url:null,'data-src':!active&&image?image.url:null,'data-video-id':video?.id||null,width:image?.width||640,height:image?.height||360,decoding:'async'}));
   }else if(node.tag==='a'){
    if(!video&&(data.videos.length||index>0)){patch(node.start,node.end,'');continue;}
-   if(video&&!/^https:\/\//.test(video.url))throw new Error('Invalid video link');
+   if(video&&!validPublicUrl(video.url,'youtube'))throw new Error('Invalid video link');
    patch(node.start,node.openEnd,attrs(html.slice(node.start,node.openEnd),{href:video?.url||channel,'data-video-id':video?.id||null,'aria-label':`${video?.title||'YouTube'}を開く`}));
    const children=nodes.filter(n=>n.start>node.start&&n.end<node.end);
    const title=children.find(n=>n.tag==='h3');if(title)patch(title.openEnd,title.endStart,escape(video?.title||'YouTubeでみる'));

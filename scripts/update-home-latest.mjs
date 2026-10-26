@@ -1,3 +1,4 @@
+import {validPublicUrl,validThumbnail} from './lib/provider-url-policy.mjs';
 import {assertNodeVersion} from './check-node-version.mjs';
 import { mkdtemp, mkdir, readdir, lstat, readFile, writeFile, rm, appendFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -16,9 +17,6 @@ const providers = [
   { id: "suzuri", script: "update-suzuri-latest.mjs", secret: "SUZURI_ACCESS_TOKEN", json: "suzuri-latest.json", pattern: /^suzuri-latest\.json$/ },
 ];
 const hash = bytes => createHash("sha256").update(bytes).digest("hex");
-const validUrl = value => {
-  try { const url = new URL(value); return typeof value === "string" && ["https:", "http:"].includes(url.protocol) && !url.username && !url.password; } catch { return false; }
-};
 function ensure(condition, code = "invalid-output") {
   if (!condition) throw Object.assign(new Error(code), { code });
 }
@@ -32,7 +30,7 @@ async function fileSet(directory, pattern) {
   }
   return files;
 }
-export async function validateOutput(id, directory) {
+export async function validateOutput(id, directory, {decodeImages=true}={}) {
   const provider = providers.find(p => p.id === id);
   ensure(provider);
   ensure((await readdir(directory)).every(name => provider.pattern.test(name)));
@@ -43,15 +41,15 @@ export async function validateOutput(id, directory) {
   ensure(data.ok === true && typeof data.fetchedAt === "string" && Number.isFinite(Date.parse(data.fetchedAt)));
   const items = id === "youtube" ? data.videos : data.items;
   ensure(Array.isArray(items) && items.length <= 6);
-  if (id === "youtube") ensure(data.channel && typeof data.channel.id === "string" && typeof data.channel.title === "string" && validUrl(data.channel.url) && data.channel.statistics && typeof data.channel.statistics === "object");
+  if (id === "youtube") ensure(data.channel && typeof data.channel.id === "string" && typeof data.channel.title === "string" && validPublicUrl(data.channel.url,'youtube') && data.channel.statistics && typeof data.channel.statistics === "object");
   const referenced = new Set([provider.json]);
   for (const [index, item] of items.entries()) {
-    ensure(item && typeof item.title === "string" && item.title.length > 0 && validUrl(item.url));
+    ensure(item && typeof item.title === "string" && item.title.length > 0 && validPublicUrl(item.url,id));
     if (id === "youtube" && item.thumbnail) {
-      ensure(validUrl(item.thumbnail.url));
+      ensure(validThumbnail(item.thumbnail.url,'youtube'));
       if (index < 5) referenced.add(`youtube-thumb-${index + 1}.jpg`);
       if(data.schemaVersion===2) {
-        await validateYoutubeImage(item.localThumbnail,item.id,directory);
+        await validateYoutubeImage(item.localThumbnail,item.id,directory,{decode:decodeImages});
         referenced.add(path.basename(item.localThumbnail.url));
       }
     }
@@ -61,7 +59,7 @@ export async function validateOutput(id, directory) {
       referenced.add(path.basename(item.thumbnailUrl));
     }
     if (id === "suzuri") {
-      ensure(!item.thumbnailUrl || validUrl(item.thumbnailUrl));
+      ensure(!item.thumbnailUrl || validThumbnail(item.thumbnailUrl,'suzuri'));
       ensure(item.priceWithTax === null || (Number.isFinite(item.priceWithTax) && item.priceWithTax >= 0));
     }
   }
@@ -76,11 +74,16 @@ export async function validateOutput(id, directory) {
   }
   return files;
 }
+export function collectorEnvironment(id,env,stage){
+ const names=['PATH','LANG','TMPDIR','HOME','INUTARO_FETCH_ONLY','INUTARO_NO_IMAGE_DECODE','CWEBP_BINARY','DWEBP_BINARY'];
+ const allowed={youtube:['YOUTUBE_API_KEY','YOUTUBE_CHANNEL_ID','YOUTUBE_HANDLE','YOUTUBE_MAX_RESULTS'],note:['NOTE_RSS_URL','NOTE_MAX_RESULTS'],suzuri:['SUZURI_ACCESS_TOKEN','SUZURI_SHOP_URL','SUZURI_USER_NAME','SUZURI_MAX_RESULTS']}[id]||[];
+ return Object.fromEntries([...names,...allowed].filter(k=>typeof env[k]==='string').map(k=>[k,env[k]]).concat([['HOME_LATEST_OUTPUT_DIR',stage]]));
+}
 export function runCollector(provider, { root, stage, env, timeoutMs = 180000 }) {
   return new Promise((resolve, reject) => {
     const grouped = process.platform !== "win32";
     const child = spawn(process.execPath, [path.join(root, "scripts", provider.script)], {
-      cwd: root, env: { ...env, HOME_LATEST_OUTPUT_DIR: stage }, stdio: "ignore", detached: grouped,
+      cwd: root, env: collectorEnvironment(provider.id,env,stage), stdio: "ignore", detached: grouped,
     });
     let timedOut = false;
     const timer = setTimeout(() => {
@@ -120,7 +123,7 @@ export async function updateHomeLatest({ root = rootDirectory, env = process.env
       await mkdir(stage);
       try {
         await collect(provider, { root, stage, env });
-        replacements.set(provider.id, await validateOutput(provider.id, stage));
+        replacements.set(provider.id, await validateOutput(provider.id, stage, {decodeImages:env.INUTARO_NO_IMAGE_DECODE!=='1'}));
         record.status = "success";
         record.reason = "validated";
       } catch (error) {

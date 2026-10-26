@@ -36,6 +36,11 @@ jobs:
           npm ci --ignore-scripts --no-fund
           node node_modules/playwright/cli.js install-deps chromium
           echo "CHROME_EXECUTABLE=$(node scripts/install-test-browser.mjs)" >> "$GITHUB_ENV"
+      - name: Audit collection and deployment dependencies
+        run: |
+          npm audit --audit-level=high
+          npm ci --prefix tools/deploy --ignore-scripts --no-fund
+          npm audit --prefix tools/deploy --audit-level=high
       - name: Verify codecs and build
         run: |
           node --version

@@ -20,9 +20,9 @@ const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 0, 0xff, 0xd9]);
 const env = { YOUTUBE_API_KEY: "fixture-key", SUZURI_ACCESS_TOKEN: "fixture-token" };
 const fetchedAt = "2026-10-11T00:00:00.000Z";
 function payload(id) {
-  const item = { title: id, url: `https://example.com/${id}`, publishedAt: fetchedAt };
-  if (id === "youtube") return { ok: true, fetchedAt, channel: { id: "fixture", title: "fixture", url: "https://www.youtube.com/channel/fixture", statistics: {} }, videos: [{ ...item, id: "one", thumbnail: { url: "https://example.com/image.jpg" } }] };
-  return { ok: true, fetchedAt, items: [{ ...item, ...(id === "suzuri" ? { thumbnailUrl: "https://example.com/product.jpg", priceWithTax: 100 } : {}) }] };
+  const item = { title: id, url: {youtube:'https://www.youtube.com/watch?v=one',note:'https://note.com/erinui/n/nfixture',suzuri:'https://suzuri.jp/erikanuinui/1'}[id], publishedAt: fetchedAt };
+  if (id === "youtube") return { ok: true, fetchedAt, channel: { id: "fixture", title: "fixture", url: "https://www.youtube.com/channel/fixture", statistics: {} }, videos: [{ ...item, id: "one", thumbnail: { url: "https://i.ytimg.com/vi/one/default.jpg" } }] };
+  return { ok: true, fetchedAt, items: [{ ...item, ...(id === "suzuri" ? { thumbnailUrl: "https://lens.suzuri.jp/v3/fixture.jpg", priceWithTax: 100 } : {}) }] };
 }
 async function output(id, directory) {
   await writeFile(path.join(directory, jsonNames[id]), JSON.stringify(payload(id)));
@@ -142,7 +142,11 @@ test("U09/U10: workflow preserves cadence, reports after save, no broad staging 
   assert.match(source, /workflow_dispatch:/);
   assert.match(source, /cancel-in-progress: false/);
   assert.match(source, /timeout-minutes: 15/);
-  assert.ok(source.indexOf("--finish") > source.indexOf("--publish"));
+  assert.match(source, /needs: process-images/);
+  assert.match(source, /node scripts\/publish-candidates.mjs/);
+  const publisher=await readFile(path.join(root,'scripts/publish-candidates.mjs'),'utf8');
+  assert.ok(publisher.indexOf('if(!verified)') < publisher.indexOf("/merge`,'PUT'"));
+  assert.ok(publisher.includes("sha:commit.sha"));
   assert.ok(!source.includes("git add -A -- assets/home-city"));
   assert.ok(!source.includes("--force"));
 });
@@ -160,8 +164,13 @@ test("U05/U07: real collectors use isolated output, OGP fallback and HTTP abort"
   await assert.rejects(exec(process.execPath, ["--import", fixture, path.join(root, "scripts/update-youtube-latest.mjs")], {
     cwd: root, env: { ...process.env, ...env, HOME_LATEST_OUTPUT_DIR: path.join(directory, "youtube"), LATEST_FIXTURE_HANG: "1" }, timeout: 2000,
   }), error => error.killed === false && /TimeoutError|AbortError/.test(error.stderr));
-  await exec(process.execPath, ["--import", fixture, path.join(root, "scripts/update-note-latest.mjs")], {
+  const oldNote=await readFile(path.join(directory,'note/note-latest.json'));
+  await assert.rejects(exec(process.execPath, ["--import", fixture, path.join(root, "scripts/update-note-latest.mjs")], {
     cwd: root, env: { ...process.env, ...env, HOME_LATEST_OUTPUT_DIR: path.join(directory, "note"), LATEST_FIXTURE_IMAGE: "1", PATH: "/nonexistent" }, timeout: 5000,
+  }));
+  assert.deepEqual(await readFile(path.join(directory,'note/note-latest.json')),oldNote,'failed conversion keeps previous JSON');
+  await exec(process.execPath, ["--import", fixture, path.join(root, "scripts/update-note-latest.mjs")], {
+    cwd: root, env: { ...process.env, ...env, HOME_LATEST_OUTPUT_DIR: path.join(directory, "note"), LATEST_FIXTURE_IMAGE: "1", INUTARO_FETCH_ONLY:'1', PATH: "/nonexistent" }, timeout: 5000,
   });
   const note = JSON.parse(await readFile(path.join(directory, "note/note-latest.json")));
   assert.equal(note.items[0].thumbnailUrl, "assets/home-city/note-thumb-1.png");

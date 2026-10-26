@@ -145,9 +145,10 @@ test("I02/I03: native lazy images load at anchors and on carousel page two", asy
     page.on("pageerror", error => errors.push(error.message));
     await page.route("**/*", async route => {
       const url = new URL(route.request().url());
+      if(url.hostname==='i.ytimg.com')return route.fulfill({contentType:'image/jpeg',body:await readFile(new URL('../assets/home-city/youtube-thumb-1.jpg',import.meta.url))});
       if (url.origin !== server.url) return route.abort();
       if (url.pathname.endsWith("youtube-latest.json")) {
-        const data = { ok: true, videos: Array.from({ length: 6 }, (_, i) => ({ title: `動画${i + 1}`, url: `https://www.youtube.com/watch?v=${i}`, thumbnail: { url: `${server.url}/assets/home-city/youtube-thumb-${Math.min(i + 1, 5)}.jpg` } })) };
+        const data = { ok: true, videos: Array.from({ length: 6 }, (_, i) => ({ title: `動画${i + 1}`, url: `https://www.youtube.com/watch?v=${i}`, thumbnail: { url: `https://i.ytimg.com/vi/video_${i}/default.jpg` } })) };
         return route.fulfill({ json: data });
       }
       return route.continue();

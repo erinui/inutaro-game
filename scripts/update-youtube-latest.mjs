@@ -1,3 +1,4 @@
+import {safeFetch} from './lib/safe-fetch.mjs';
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createYoutubeImage } from './lib/youtube-images.mjs';
@@ -38,12 +39,17 @@ const data = {
 await Promise.all(
   videos.map(async (video, index) => {
     if (!video.thumbnail?.url) return;
-    const response = await fetch(video.thumbnail.url, { signal: AbortSignal.timeout(12_000), headers: {Accept:'image/jpeg'} });
+    const response = await safeFetch(video.thumbnail.url, {kind: 'youtubeImage', signal: AbortSignal.timeout(12_000), headers: {Accept:'image/jpeg'} });
     if (!response.ok) {
       throw new Error(`Failed to download thumbnail ${index + 1}: ${response.status}`);
     }
     const bytes = Buffer.from(await response.arrayBuffer());
-    video.localThumbnail = await createYoutubeImage({bytes,videoId:video.id,directory:OUT_DIR});
+    if(process.env.INUTARO_FETCH_ONLY==='1'){
+      if(!/^[A-Za-z0-9_-]{1,80}$/.test(video.id))throw new Error('Invalid video id');
+      const rawFile=`youtube-raw-${video.id}.jpg`;
+      await writeFile(path.join(OUT_DIR,rawFile),bytes,{flag:'wx'});
+      video.rawThumbnail=rawFile;
+    }else video.localThumbnail = await createYoutubeImage({bytes,videoId:video.id,directory:OUT_DIR});
     if(index<5) {
       if(bytes[0]!==255||bytes[1]!==216)throw new Error('Legacy JPEG is unavailable; previous provider output retained');
       await writeFile(path.join(OUT_DIR, `youtube-thumb-${index + 1}.jpg`), bytes);
@@ -112,7 +118,7 @@ async function fetchLatestVideos(playlistId) {
 }
 
 async function youtubeFetch(pathname) {
-  const response = await fetch(`${API_BASE}${pathname}`, {
+  const response = await safeFetch(`${API_BASE}${pathname}`, {kind: 'youtubeApi',
     signal: AbortSignal.timeout(12_000),
     headers: {
       Accept: "application/json",
@@ -120,8 +126,7 @@ async function youtubeFetch(pathname) {
   });
   const data = await response.json();
   if (!response.ok) {
-    const message = data?.error?.message || `YouTube API request failed: ${response.status}`;
-    throw new Error(message);
+    throw new Error(`YouTube API request failed: ${response.status}`);
   }
   return data;
 }
