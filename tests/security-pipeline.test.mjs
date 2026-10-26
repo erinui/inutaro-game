@@ -41,13 +41,14 @@ async function publication(t,mode){
  try{outcome=await exec(process.execPath,['--import',path.join(root,'tests/helpers/publisher-api-fixture.mjs'),path.join(root,'scripts/publish-candidates.mjs'),input],{cwd:p,env:{...process.env,GITHUB_REPOSITORY:'erinui/inutaro-game',GITHUB_RUN_ID:'123',GITHUB_SHA:'a'.repeat(40),GITHUB_TOKEN:'dummy-only',PUBLISH_FIXTURE_MODE:mode,PUBLISH_FIXTURE_LOG:log},timeout:20000});}catch(e){outcome=e;}
  return {p,outcome,requests:(await readFile(log,'utf8')).trim().split('\n').filter(Boolean).map(s=>JSON.parse(s)),original};
 }
-test('Security: publication checks base, validates passive data, verifies exact head and merges via PR',async t=>{
+test('Security: publication checks base, validates passive data and leaves verification and merge to the protected PR',async t=>{
  const {outcome,requests}=await publication(t,'success');assert.equal(outcome.code,undefined,outcome.stderr);
  const tree=requests.find(r=>r.route==='/git/trees');assert.ok(tree);assert.ok(tree.paths.every(p=>p.startsWith('assets/home-city/')||['tests/fixtures/top-redesign-data-refresh.json','tests/fixtures/seo-performance-changes.json'].includes(p)));
- const merge=requests.find(r=>r.route.endsWith('/merge'));assert.deepEqual(merge.body,{sha:'b'.repeat(40),merge_method:'squash'});assert.ok(requests.findIndex(r=>r.route.endsWith('/runs'))<requests.indexOf(merge));
+ assert.ok(requests.some(r=>r.route==='/pulls'));assert.ok(outcome.stdout.includes('Publication pending'));
+ assert.ok(!requests.some(r=>r.route.endsWith('/merge')||r.route.endsWith('/dispatches')||r.route.endsWith('/approve')));
 });
-test('Security: failed verification leaves the data PR unmerged',async t=>{
- const {outcome,requests}=await publication(t,'failed');assert.equal(outcome.code,1);assert.ok(requests.some(r=>r.route==='/pulls'));assert.ok(!requests.some(r=>r.route.endsWith('/merge')));
+test('Security: missing main protection stops before creating a PR or mutating files',async t=>{
+ const {outcome,requests}=await publication(t,'unprotected');assert.equal(outcome.code,1);assert.match(outcome.stderr,/Main protection is required/);assert.ok(!requests.some(r=>r.method!=='GET'));
 });
 test('Security: stale workflow base stops before touching files or creating a PR',async t=>{
  const {p,outcome,requests,original}=await publication(t,'stale');assert.equal(outcome.code,1);assert.ok(!requests.some(r=>r.method!=='GET'));
@@ -75,4 +76,9 @@ test('Security: changed note images retain original history and record each exac
   assert.ok(entry,`${name}: missing exact image acceptance`);assert.equal(entry.previous,baseline.hashes[name]);
   assert.equal(entry.accepted,createHash('sha256').update(await readFile(path.join(p,name))).digest('hex'));
  }
+});
+
+test('Security: an existing own data PR prevents duplicate publication and file changes',async t=>{
+ const {p,outcome,requests,original}=await publication(t,'pending');assert.equal(outcome.code,undefined,outcome.stderr);assert.match(outcome.stdout,/Pending data PR:/);assert.ok(!requests.some(r=>r.method!=='GET'));
+ for(const [name,bytes]of original)assert.deepEqual(await readFile(path.join(p,'assets/home-city',name)),bytes);
 });
