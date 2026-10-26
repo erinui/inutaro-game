@@ -54,8 +54,9 @@ test('Security: stale workflow base stops before touching files or creating a PR
 });
 
 test('Security: image sandbox refuses root, privilege escalation, capabilities or host network',()=>{
- const good={platform:'linux',uid:1001,status:'NoNewPrivs: 1\nCapEff: 0000000000000000\n',interfaces:['lo'],routes:'Iface Destination Gateway Flags\n'};assert.doesNotThrow(()=>validateImageSandbox(good));
- for(const bad of [{uid:0},{status:'NoNewPrivs: 0\nCapEff: 0000000000000000\n'},{status:'NoNewPrivs: 1\nCapEff: 0000000000000001\n'},{interfaces:['lo','eth0']},{routes:'Iface Destination Gateway Flags\neth0 00000000 01000000 3\n'}])assert.throws(()=>validateImageSandbox({...good,...bad}),/sandbox/);
+ const good={platform:'linux',uid:1001,status:'NoNewPrivs: 1\nCapEff: 0000000000000000\n',interfaces:['lo'],routes:'Iface Destination Gateway Flags\n',hostNamespace:'net:[1]',networkNamespace:'net:[2]'};assert.doesNotThrow(()=>validateImageSandbox(good));
+ assert.doesNotThrow(()=>validateImageSandbox({...good,routes:''}));
+ for(const bad of [{hostNamespace:'net:[2]'},{uid:0},{status:'NoNewPrivs: 0\nCapEff: 0000000000000000\n'},{status:'NoNewPrivs: 1\nCapEff: 0000000000000001\n'},{interfaces:['lo','eth0']},{routes:'Iface Destination Gateway Flags\neth0 00000000 01000000 3\n'}])assert.throws(()=>validateImageSandbox({...good,...bad}),/sandbox/);
 });
 
 test('Security: oversized external text is rejected before promotion or rendering',async t=>{
