@@ -9,3 +9,12 @@ https://:version-inutaro-game.erikanuinui.workers.dev/*
 # Only content-addressed immutable assets get a long browser cache lifetime.
 /assets/versioned/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Start in report-only; enforce after preview and game/browser compatibility checks.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=300
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com https://lens.suzuri.jp https://stickershop.line-scdn.net; font-src 'self'; media-src 'self'; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'

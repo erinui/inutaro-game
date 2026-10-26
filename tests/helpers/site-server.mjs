@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 export const root = path.resolve(fileURLToPath(new URL("../../", import.meta.url)));
 const mime = { ".html": "text/html; charset=utf-8", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".xml": "application/xml; charset=utf-8", ".txt": "text/plain; charset=utf-8", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".ttf": "font/ttf" };
 
-export async function startSiteServer({directory=root,files,compressed=false}={}) {
+export async function startSiteServer({directory=root,files,compressed=false,headers={}}={}) {
   const servingRoot=path.resolve(directory);
   if(servingRoot!==root&&!Array.isArray(files))throw new Error('Built preview requires an explicit public file list');
   const requests=[];
@@ -26,6 +26,7 @@ export async function startSiteServer({directory=root,files,compressed=false}={}
         return;
       }
       const bytes = await readFile(file);
+      for(const [name,value]of Object.entries(headers))res.setHeader(name,value);
       res.setHeader("Content-Type", mime[path.extname(file)] || "application/octet-stream");
       if(files)res.setHeader('Cache-Control',relative.startsWith('assets/versioned/')?'public, max-age=31536000, immutable':'public, max-age=0, must-revalidate');
       if(compressed&&/text\/|json|xml|svg/.test(mime[path.extname(file)]||'')&&/br/.test(req.headers['accept-encoding']||'')){
