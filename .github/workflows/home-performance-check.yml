@@ -12,6 +12,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: verify-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-24.04
@@ -31,10 +35,11 @@ jobs:
 
       - name: Setup pinned WebP codecs
         uses: ./.github/actions/setup-home-webp
+      # ubuntu-24.04 already provides Chrome shared libraries; the pinned binary
+      # and browser tests verify them without a second unbounded apt font download.
       - name: Install pinned test dependencies
         run: |
           npm ci --ignore-scripts --no-fund
-          node node_modules/playwright/cli.js install-deps chromium
           echo "CHROME_EXECUTABLE=$(node scripts/install-test-browser.mjs)" >> "$GITHUB_ENV"
       - name: Audit collection and deployment dependencies
         run: |
