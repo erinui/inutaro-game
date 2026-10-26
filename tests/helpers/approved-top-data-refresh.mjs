@@ -23,6 +23,14 @@ export function restoreVerifiedTopDataRefresh(file, source, registry = topDataRe
   if(generation){
     assert.match(generation.commit,/^[a-f0-9]{40}$/);
     assert.equal(after.fetchedAt,generation.fetchedAt,`${file}: recorded acquisition timestamp`);
+    for(const change of generation.reviewedPayloadChanges||[]){
+      const allowed=file.includes('youtube')?[['videos'],['channel','statistics']]:[['items']];
+      assert.ok(allowed.some(p=>JSON.stringify(p)===JSON.stringify(change.path)),`${file}: explicit upstream payload only`);
+      let a=after,b=before;for(const key of change.path.slice(0,-1)){a=a[key];b=b[key];}const key=change.path.at(-1);
+      assert.deepEqual(b[key],change.before,`${file}: reviewed upstream before`);
+      assert.deepEqual(a[key],change.after,`${file}: reviewed upstream after`);
+      a[key]=structuredClone(change.before);
+    }
     if(generation.youtubeViewCount){
       assert.equal(file,'assets/home-city/youtube-latest.json');
       const count=generation.youtubeViewCount;

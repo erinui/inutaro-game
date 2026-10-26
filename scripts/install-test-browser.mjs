@@ -1,0 +1,18 @@
+import {readFile,mkdtemp} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {tmpdir} from 'node:os';
+import path from 'node:path';
+import {execFileSync} from 'node:child_process';
+const config=JSON.parse(await readFile(new URL('../config/test-browser.json',import.meta.url),'utf8'));
+const platform=config.platforms[`${process.platform}-${process.arch}`];
+if(!platform)throw new Error('Unsupported browser platform');
+const directory=await mkdtemp(path.join(process.env.RUNNER_TEMP||tmpdir(),'inutaro-browser-'));
+const zip=path.join(directory,'browser.zip');
+execFileSync('curl',['--fail','--silent','--show-error','--location','--proto','=https','--max-time','180','--retry','2',`https://storage.googleapis.com/chrome-for-testing-public/${config.version}/${platform.archive}`,'--output',zip],{stdio:'inherit'});
+if(createHash('sha256').update(await readFile(zip)).digest('hex')!==platform.sha256)throw new Error('Browser archive checksum mismatch');
+execFileSync('unzip',['-q',zip,'-d',directory]);
+const executable=path.join(directory,platform.executable);
+const version=execFileSync(executable,['--version'],{encoding:'utf8'}).trim();
+if(!version.includes(config.version))throw new Error('Browser runtime mismatch');
+console.error(`Verified browser: ${version}`);
+console.log(executable);

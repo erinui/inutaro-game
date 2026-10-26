@@ -46,8 +46,9 @@ if [[ "${1:-}" == '--verify-only' ]]; then
   echo 'Verified Node.js runtime installation; deployment was not requested.'
   exit 0
 fi
+npm ci --prefix tools/deploy --ignore-scripts --no-fund
 if [[ "${1:-}" == '--preview' ]]; then
-  npx --yes wrangler preview
+  node tools/deploy/node_modules/wrangler/bin/wrangler.js preview
 else
-  npx --yes wrangler deploy
+  node tools/deploy/node_modules/wrangler/bin/wrangler.js deploy
 fi

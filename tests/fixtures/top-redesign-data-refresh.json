@@ -74,6 +74,243 @@
           "before": 3129,
           "after": 3133
         }
+      },
+      {
+        "sha256": "3adfa5d8b960254b396f4ee25b767fa42418c4d7c4b60a0c6d48e916480f527b",
+        "commit": "023cdf7ae86bf5588bbd5e3a98849a22f25c0a17",
+        "fetchedAt": "2026-10-26T15:08:29.572Z",
+        "youtubeViewCount": {
+          "before": 3129,
+          "after": 4093
+        },
+        "reviewedPayloadChanges": [
+          {
+            "path": [
+              "videos"
+            ],
+            "before": [
+              {
+                "id": "TIhVy4qVlVE",
+                "title": "【へたくそ】ゲームセンターに行ったよ🕹️【タイミンほしい】",
+                "description": "タイミーでいただいたお給料を\nタイミンゲットのために溶かしてしまった\n情けないタイミーさんです🌼\n\n\n\n\n\n\n\n\n\n▼訪れた場所(訪問順)\n池袋東口/サンシャイン60通り/GiGO池袋総本店\n\n▼フォント\nけいなんポップ体JP修正版\nよっぱふでフォント(Yoppa-fude font)\n玉ねぎ楷書「激」無料版  ver.7.00\n\n▼使用した機器やソフトなど\niPhone 16 Pro/iPad(めっちゃ古い)\nOsmo Pocket 3/LARK M2S\nダビンチリゾルブ/プロクリエイト\n\n▼出演\nタイミン/えりぬい/人間えりか(手足)\n\n▼special Thanks\n何度も直してくれた【GiGOスタッフさんたち】\n楽しく働いた思い出ばっかり【タイミーさせてくれた企業】\nタイミーする勇気をくれた【最推しVtuber】\n\n\n休業期間中…\nタイミーなかったらやばかったくらい\n収入とメンタルを救われました。",
+                "publishedAt": "2026-09-27T13:01:10Z",
+                "url": "https://www.youtube.com/watch?v=TIhVy4qVlVE",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/TIhVy4qVlVE/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-TIhVy4qVlVE-022d3fa08346307c.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "022d3fa08346307c7eb744c3e870e2a08c6619272df821f178038dfabb6fcf34"
+                }
+              },
+              {
+                "id": "eA9TRTuAcgI",
+                "title": "【ぬいlog】無計画な大阪観光【のんびり楽しい旅】",
+                "description": "全力で満喫するために、記録残すつもりなかったんだけど…気づいたら楽しくって動画を撮ってた。ので、それを切ったりつなげたりしたよ。\n\n[１日目]お友達とN響×ポケモンのオケコン、新世界\n[２日目]大阪港・新大阪らへんをぷらぷら\n\n\n\n\n\n\n\n▼訪れた場所(訪問順)\nホテル新大阪/FLINDERS LANE(フリンダースレーン)/ザ・シンフォニーホール/新世界串かつ 八重勝/串かつだるまジャンジャン店/スマートボールニュースター/スーパーナショナル築港店/喫茶ロマン/海遊館/たこ焼十八番西中島本店/スーパー玉出淀川/りくろーおじさんの店JR新大阪駅中央口/りくろーおじさんの店新幹線改札内店\n\n▼BGM\nDOVA-SYNDROMEから２曲使用させていただきました。\n作曲者様、運営者様、ありがとうございます。\n\n▼フォント\nけいなんポップ体JP修正版\nYDWあおさぎ\nboothからダウンロードさせていただきました。\n製作者様、関係者様、ありがとうございます。\n\n・ご都合の悪い点など、何かございましたらメールかXのDMでご連絡くださいませ。\n\n▼使用した機器やソフトなど\niPhone 16 Pro/iPad(めっちゃ古い)/Kodak Charmera MILLENNIUM\nダビンチリゾルブ/プロクリエイト\n\n▼出演\n犬タロー/ウソッキーちゃん/どこむいとる/えりぬい/人間えりか(手足)\n\n▼special Thanks\nコンサートに誘ってくれた【モクロートレーナー】\n案内と運転をしてくれた【トリトドントレーナー】\nマダコとユキちゃんの居所を教えてくれた【海遊館スタッフさん】\n太平洋水槽のお食事タイムで場所を分けてくれた【海外のファミリー】\n迂回経路を考えてくれた【駅員さん】\n誕プレでCharmeraをくれた【AちゃんRちゃん】\n\n\n全部が全部、私を活かしているんだな。\nチーズケーキも…全部ひとりで食べちゃったな…。",
+                "publishedAt": "2026-08-27T12:44:53Z",
+                "url": "https://www.youtube.com/watch?v=eA9TRTuAcgI",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/eA9TRTuAcgI/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-eA9TRTuAcgI-319732850841d139.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "319732850841d1395b9d17de457338ab2f098fbc253fd6d8800819876752ebac"
+                }
+              },
+              {
+                "id": "0SYZWyrYrKk",
+                "title": "【犬タローごめん】もっちゅりんをご機嫌に食す！！可愛すぎておかしくなっちゃうっ",
+                "description": "やばいやばいやばい！\nネットオーダーしてからずっっっと\n楽しみに待ってたもっちゅりん！！！\n\n美味しい以前に可愛すぎて…\nこの可愛さは記録しておかねば…\n\n犬タローもいっぱい我慢したね！ごめんね！",
+                "publishedAt": "2026-07-02T09:33:28Z",
+                "url": "https://www.youtube.com/watch?v=0SYZWyrYrKk",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-0SYZWyrYrKk-2fc235f4f126aebe.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "2fc235f4f126aebe95a54d95ae1d666a341c403211039f9a93286c61739b2d66"
+                }
+              },
+              {
+                "id": "v9yCQAbBghw",
+                "title": "バタピーコーラvsみそピーコーラ|行け千葉県民の魂(ソウル)！熱き闘いがここに🥜",
+                "description": "ぬいちゅーばーたるもの\n流行ってるもんはとりあえずやっとこ🥜\nということで、今更のバタピーコーラです！！\n\nしかし私は千葉県民。\nピーナッツといったら、ピーナッツ味噌…\n\nみそピーでしょ？！？！\n\nピーナッツ界のW杯開催🏆\n🇺🇸アメリカ🆚千葉🇯🇵\n勝者はどちらだ。\n\n………という気持ちで編集してました。\n全然サッカーの話はしてません。",
+                "publishedAt": "2026-06-27T05:33:03Z",
+                "url": "https://www.youtube.com/watch?v=v9yCQAbBghw",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-v9yCQAbBghw-311b7cb6703c6398.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "311b7cb6703c6398b37310a50f5854c39ab0f7c31e938a9d57a07554ba194c47"
+                }
+              },
+              {
+                "id": "0mzRY_-7uvU",
+                "title": "【IKEA】ぽこポケコラボがてんこもりすぎる",
+                "description": "IKEAのコラボイベントが楽しい…っ！\nぽこあポケモンとコラボだよ。\n\nパピモッチも私も大はしゃぎでした。",
+                "publishedAt": "2026-05-05T05:06:52Z",
+                "url": "https://www.youtube.com/watch?v=0mzRY_-7uvU",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-0mzRY_-7uvU-0e053d004d757385.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "0e053d004d75738599c3aa124c3bc050e5981c120d00276489f9e9f9e00709da"
+                }
+              },
+              {
+                "id": "CZvxgnKnYuw",
+                "title": "[おひさ！]４月の振り返りぬいlog",
+                "description": "２月に職場がなくなってから\n結構くるしくひもじい３月を過ごし、\n必死に人間生活をこなしておりました。\n\nしかし！\n４月は新しい職場を紹介していただきましたー！\n\n……あれ、５月はどうなるの？",
+                "publishedAt": "2026-04-24T15:31:36Z",
+                "url": "https://www.youtube.com/watch?v=CZvxgnKnYuw",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/CZvxgnKnYuw/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-CZvxgnKnYuw-f1630464add3f9dd.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "f1630464add3f9dd5544b060895f7da6d02cce3594d70a0e0fe618a3a2bf5edf"
+                }
+              }
+            ],
+            "after": [
+              {
+                "id": "kamvayCLpcU",
+                "title": "犬タローとおでかけ #無印良品 の購入品✨#ぬい撮り",
+                "description": "",
+                "publishedAt": "2026-10-24T20:03:06Z",
+                "url": "https://www.youtube.com/watch?v=kamvayCLpcU",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/kamvayCLpcU/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-kamvayCLpcU-6c8981e61a088a46.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "6c8981e61a088a467f1bc1090275580d2e847acce8b8a20498738f2a8a5db706"
+                }
+              },
+              {
+                "id": "TIhVy4qVlVE",
+                "title": "【へたくそ】ゲームセンターに行ったよ🕹️【タイミンほしい】",
+                "description": "タイミーでいただいたお給料を\nタイミンゲットのために溶かしてしまった\n情けないタイミーさんです🌼\n\n\n\n\n\n\n\n\n\n▼訪れた場所(訪問順)\n池袋東口/サンシャイン60通り/GiGO池袋総本店\n\n▼フォント\nけいなんポップ体JP修正版\nよっぱふでフォント(Yoppa-fude font)\n玉ねぎ楷書「激」無料版  ver.7.00\n\n▼使用した機器やソフトなど\niPhone 16 Pro/iPad(めっちゃ古い)\nOsmo Pocket 3/LARK M2S\nダビンチリゾルブ/プロクリエイト\n\n▼出演\nタイミン/えりぬい/人間えりか(手足)\n\n▼special Thanks\n何度も直してくれた【GiGOスタッフさんたち】\n楽しく働いた思い出ばっかり【タイミーさせてくれた企業】\nタイミーする勇気をくれた【最推しVtuber】\n\n\n休業期間中…\nタイミーなかったらやばかったくらい\n収入とメンタルを救われました。",
+                "publishedAt": "2026-09-27T13:01:10Z",
+                "url": "https://www.youtube.com/watch?v=TIhVy4qVlVE",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/TIhVy4qVlVE/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-TIhVy4qVlVE-022d3fa08346307c.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "022d3fa08346307c7eb744c3e870e2a08c6619272df821f178038dfabb6fcf34"
+                }
+              },
+              {
+                "id": "eA9TRTuAcgI",
+                "title": "【ぬいlog】無計画な大阪観光【のんびり楽しい旅】",
+                "description": "全力で満喫するために、記録残すつもりなかったんだけど…気づいたら楽しくって動画を撮ってた。ので、それを切ったりつなげたりしたよ。\n\n[１日目]お友達とN響×ポケモンのオケコン、新世界\n[２日目]大阪港・新大阪らへんをぷらぷら\n\n\n\n\n\n\n\n▼訪れた場所(訪問順)\nホテル新大阪/FLINDERS LANE(フリンダースレーン)/ザ・シンフォニーホール/新世界串かつ 八重勝/串かつだるまジャンジャン店/スマートボールニュースター/スーパーナショナル築港店/喫茶ロマン/海遊館/たこ焼十八番西中島本店/スーパー玉出淀川/りくろーおじさんの店JR新大阪駅中央口/りくろーおじさんの店新幹線改札内店\n\n▼BGM\nDOVA-SYNDROMEから２曲使用させていただきました。\n作曲者様、運営者様、ありがとうございます。\n\n▼フォント\nけいなんポップ体JP修正版\nYDWあおさぎ\nboothからダウンロードさせていただきました。\n製作者様、関係者様、ありがとうございます。\n\n・ご都合の悪い点など、何かございましたらメールかXのDMでご連絡くださいませ。\n\n▼使用した機器やソフトなど\niPhone 16 Pro/iPad(めっちゃ古い)/Kodak Charmera MILLENNIUM\nダビンチリゾルブ/プロクリエイト\n\n▼出演\n犬タロー/ウソッキーちゃん/どこむいとる/えりぬい/人間えりか(手足)\n\n▼special Thanks\nコンサートに誘ってくれた【モクロートレーナー】\n案内と運転をしてくれた【トリトドントレーナー】\nマダコとユキちゃんの居所を教えてくれた【海遊館スタッフさん】\n太平洋水槽のお食事タイムで場所を分けてくれた【海外のファミリー】\n迂回経路を考えてくれた【駅員さん】\n誕プレでCharmeraをくれた【AちゃんRちゃん】\n\n\n全部が全部、私を活かしているんだな。\nチーズケーキも…全部ひとりで食べちゃったな…。",
+                "publishedAt": "2026-08-27T12:44:53Z",
+                "url": "https://www.youtube.com/watch?v=eA9TRTuAcgI",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/eA9TRTuAcgI/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-eA9TRTuAcgI-319732850841d139.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "319732850841d1395b9d17de457338ab2f098fbc253fd6d8800819876752ebac"
+                }
+              },
+              {
+                "id": "0SYZWyrYrKk",
+                "title": "【犬タローごめん】もっちゅりんをご機嫌に食す！！可愛すぎておかしくなっちゃうっ",
+                "description": "やばいやばいやばい！\nネットオーダーしてからずっっっと\n楽しみに待ってたもっちゅりん！！！\n\n美味しい以前に可愛すぎて…\nこの可愛さは記録しておかねば…\n\n犬タローもいっぱい我慢したね！ごめんね！",
+                "publishedAt": "2026-07-02T09:33:28Z",
+                "url": "https://www.youtube.com/watch?v=0SYZWyrYrKk",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/0SYZWyrYrKk/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-0SYZWyrYrKk-2fc235f4f126aebe.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "2fc235f4f126aebe95a54d95ae1d666a341c403211039f9a93286c61739b2d66"
+                }
+              },
+              {
+                "id": "v9yCQAbBghw",
+                "title": "バタピーコーラvsみそピーコーラ|行け千葉県民の魂(ソウル)！熱き闘いがここに🥜",
+                "description": "ぬいちゅーばーたるもの\n流行ってるもんはとりあえずやっとこ🥜\nということで、今更のバタピーコーラです！！\n\nしかし私は千葉県民。\nピーナッツといったら、ピーナッツ味噌…\n\nみそピーでしょ？！？！\n\nピーナッツ界のW杯開催🏆\n🇺🇸アメリカ🆚千葉🇯🇵\n勝者はどちらだ。\n\n………という気持ちで編集してました。\n全然サッカーの話はしてません。",
+                "publishedAt": "2026-06-27T05:33:03Z",
+                "url": "https://www.youtube.com/watch?v=v9yCQAbBghw",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/v9yCQAbBghw/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-v9yCQAbBghw-311b7cb6703c6398.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "311b7cb6703c6398b37310a50f5854c39ab0f7c31e938a9d57a07554ba194c47"
+                }
+              },
+              {
+                "id": "0mzRY_-7uvU",
+                "title": "【IKEA】ぽこポケコラボがてんこもりすぎる",
+                "description": "IKEAのコラボイベントが楽しい…っ！\nぽこあポケモンとコラボだよ。\n\nパピモッチも私も大はしゃぎでした。",
+                "publishedAt": "2026-05-05T05:06:52Z",
+                "url": "https://www.youtube.com/watch?v=0mzRY_-7uvU",
+                "thumbnail": {
+                  "url": "https://i.ytimg.com/vi/0mzRY_-7uvU/maxresdefault.jpg",
+                  "width": 1280,
+                  "height": 720
+                },
+                "localThumbnail": {
+                  "url": "assets/home-city/youtube-thumb-0mzRY_-7uvU-0e053d004d757385.webp",
+                  "width": 640,
+                  "height": 360,
+                  "sha256": "0e053d004d75738599c3aa124c3bc050e5981c120d00276489f9e9f9e00709da"
+                }
+              }
+            ]
+          }
+        ],
+        "review": "Published upstream latest video kamvayCLpcU entered the six-video window; previous tail moved out. Retain current upstream content; explicit exact-byte adoption."
       }
     ],
     "assets/home-city/note-latest.json": [
@@ -106,6 +343,11 @@
         "sha256": "41c27eaaee0fc03af26202fb6f22c25262154be0182860b7a4b4c0a7d046c407",
         "fetchedAt": "2026-10-21T23:16:01.602Z",
         "commit": "31ad904623beab341bdb5c14f414cb412bda8c2a"
+      },
+      {
+        "sha256": "207cc2e365da94d86dc30746e743c7da4f428e5a0a94c20977e0a5dc81b85f1a",
+        "commit": "023cdf7ae86bf5588bbd5e3a98849a22f25c0a17",
+        "fetchedAt": "2026-10-26T15:08:31.970Z"
       }
     ],
     "assets/home-city/suzuri-latest.json": [
@@ -138,6 +380,11 @@
         "sha256": "6500a5bd1768f4e2076b5e1ce704afffc4dfdcc4eeb98172a67c7def7dedb735",
         "fetchedAt": "2026-10-21T23:16:02.551Z",
         "commit": "31ad904623beab341bdb5c14f414cb412bda8c2a"
+      },
+      {
+        "sha256": "3bc377a83f7fbfb56e1bb1f558fed00ce4ace17fb61b0132e4cbac25efaa4866",
+        "commit": "023cdf7ae86bf5588bbd5e3a98849a22f25c0a17",
+        "fetchedAt": "2026-10-26T15:08:33.054Z"
       }
     ]
   }

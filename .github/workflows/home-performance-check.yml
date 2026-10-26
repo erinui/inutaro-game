@@ -5,6 +5,8 @@ on:
     branches:
       - 'codex/home-performance-verification-*'
       - 'codex/node-security-*'
+      - 'codex/security-*'
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -15,10 +17,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: .node-version
       - name: Verify supported Node.js runtime
@@ -31,10 +33,9 @@ jobs:
         uses: ./.github/actions/setup-home-webp
       - name: Install pinned test dependencies
         run: |
-          npm install --prefix "$RUNNER_TEMP/home-test-deps" --no-save --ignore-scripts playwright@1.62.1 sharp@0.35.5 xml-js@1.6.11
-          echo "NODE_PATH=$RUNNER_TEMP/home-test-deps/node_modules" >> "$GITHUB_ENV"
-          node "$RUNNER_TEMP/home-test-deps/node_modules/playwright/cli.js" install --with-deps chromium
-          NODE_PATH="$RUNNER_TEMP/home-test-deps/node_modules" node -e 'console.log("CHROME_EXECUTABLE="+require("playwright").chromium.executablePath())' >> "$GITHUB_ENV"
+          npm ci --ignore-scripts --no-fund
+          node node_modules/playwright/cli.js install-deps chromium
+          echo "CHROME_EXECUTABLE=$(node scripts/install-test-browser.mjs)" >> "$GITHUB_ENV"
       - name: Verify codecs and build
         run: |
           node --version
@@ -50,7 +51,7 @@ jobs:
           git diff --exit-code
       - name: Save verification report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: home-performance-verification
           path: |

@@ -204,7 +204,33 @@
       "assets/home-city/youtube-latest.json": {
         "previous": "c2d4d4787c7f95af84ad9595285d6df4b8f76ce444b6cbb1c63d894a7b377d6e",
         "accepted": "3ec58f6cd2cc20ec283afd7a54eb18941572dda8a2629b385a6f77d10462bfca"
+      },
+      "assets/home-city/youtube-thumb-1.jpg": {
+        "previous": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b",
+        "accepted": "e7d03dd2efe8743daba4697db3cc323957755205391b2837816bd8c7399e2b4a"
+      },
+      "assets/home-city/youtube-thumb-2.jpg": {
+        "previous": "f3dc84abb879f1304004acca113090ae2694562814b6bfe13c573ce5f612e01c",
+        "accepted": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b"
+      },
+      "assets/home-city/youtube-thumb-3.jpg": {
+        "previous": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014",
+        "accepted": "f3dc84abb879f1304004acca113090ae2694562814b6bfe13c573ce5f612e01c"
+      },
+      "assets/home-city/youtube-thumb-4.jpg": {
+        "previous": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411",
+        "accepted": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014"
+      },
+      "assets/home-city/youtube-thumb-5.jpg": {
+        "previous": "524ef7457e43946fd3e3d520f5804443c3bd160cd8ce24f3aae7c945e47120ac",
+        "accepted": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411"
       }
-    }
+    },
+    "verifiedImageGenerations": [
+      {
+        "commit": "023cdf7ae86bf5588bbd5e3a98849a22f25c0a17",
+        "reason": "Latest upstream video kamvayCLpcU entered the six-video window. Reviewed exact JPEG shifts; source images preserved."
+      }
+    ]
   }
 }
