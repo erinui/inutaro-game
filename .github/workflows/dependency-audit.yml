@@ -30,3 +30,6 @@ jobs:
           npm ls --prefix tools/deploy undici --all
       - name: Verify fixed deployment CLI
         run: node tools/deploy/node_modules/wrangler/bin/wrangler.js --version
+      - name: Check official native release baselines
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: node scripts/check-native-security-releases.mjs

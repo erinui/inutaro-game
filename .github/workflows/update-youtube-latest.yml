@@ -91,11 +91,7 @@ jobs:
       - run: node scripts/check-node-version.mjs
       - run: npm ci --ignore-scripts --omit=dev --no-fund
       - uses: ./.github/actions/setup-home-webp
-      - name: Install maintained codec and record active restrictions
-        run: |
-          sudo apt-get install --no-install-recommends --yes imagemagick
-          convert -version
-          MAGICK_CONFIGURE_PATH="$GITHUB_WORKSPACE/config/imagemagick" convert -list policy
+      - uses: ./.github/actions/setup-home-imagemagick
       - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: raw-youtube
