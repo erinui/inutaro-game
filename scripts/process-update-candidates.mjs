@@ -4,6 +4,9 @@ import {imageDimensions,createYoutubeImage} from './lib/youtube-images.mjs';
 import {validPublicUrl,validThumbnail} from './lib/provider-url-policy.mjs';
 import {validateOutput} from './update-home-latest.mjs';import {assertNodeVersion} from './check-node-version.mjs';
 const execute=promisify(execFile);
+export function validateImageSandbox({platform,uid,status,interfaces,routes}){
+ if(platform!=='linux'||uid===0||!/^NoNewPrivs:\s+1$/m.test(status)||!/^CapEff:\s+0+$/m.test(status)||interfaces.some(n=>n!=='lo')||routes.trim().split('\n').length>1)throw new Error('Image sandbox requirements not met');
+}
 export function validateImage(bytes){
  if(bytes.length>10000000)throw new Error('Image size limit');
  const size=imageDimensions(bytes);
@@ -50,4 +53,6 @@ export async function processCandidates(input,output){
   await writeFile(path.join(target,'_status.json'),JSON.stringify({provider:id,state})+'\n');console.log(`${id}: ${state}`);
  }
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname)){assertNodeVersion();await processCandidates(...process.argv.slice(2));}
+if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname)){assertNodeVersion();if(process.env.INUTARO_SANDBOX_REQUIRED==='1'){
+ validateImageSandbox({platform:process.platform,uid:process.getuid(),status:await readFile('/proc/self/status','utf8'),interfaces:await readdir('/sys/class/net'),routes:await readFile('/proc/net/route','utf8')});console.log('Image sandbox verified: non-root, no-new-privileges, zero effective capabilities, no external network interface or route');
+ }await processCandidates(...process.argv.slice(2));}

@@ -107,7 +107,7 @@ jobs:
       - name: Process without network or API secrets
         run: |
           mkdir -p "$RUNNER_TEMP/image-home"
-          sudo unshare --net -- setpriv --reuid "$(id -u)" --regid "$(id -g)" --clear-groups env -i PATH="$PATH" HOME="$RUNNER_TEMP/image-home" MAGICK_CONFIGURE_PATH="$GITHUB_WORKSPACE/config/imagemagick" "$(command -v node)" scripts/process-update-candidates.mjs "$RUNNER_TEMP/raw" "$RUNNER_TEMP/processed"
+          sudo unshare --net -- setpriv --no-new-privs --bounding-set=-all --inh-caps=-all --ambient-caps=-all --reuid "$(id -u)" --regid "$(id -g)" --clear-groups env -i INUTARO_SANDBOX_REQUIRED=1 PATH="$PATH" HOME="$RUNNER_TEMP/image-home" MAGICK_CONFIGURE_PATH="$GITHUB_WORKSPACE/config/imagemagick" "$(command -v node)" scripts/process-update-candidates.mjs "$RUNNER_TEMP/raw" "$RUNNER_TEMP/processed"
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: processed-candidates

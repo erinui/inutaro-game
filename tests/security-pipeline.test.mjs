@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,readFile,writeFile,rm,symlink,copyFile} from 'node:fs/promises';import path from 'node:path';import os from 'node:os';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';import {fileURLToPath} from 'node:url';
 import {collectorEnvironment} from '../scripts/update-home-latest.mjs';
-import {checkedFiles,validateImage,processCandidates} from '../scripts/process-update-candidates.mjs';
+import {checkedFiles,validateImage,processCandidates,validateImageSandbox} from '../scripts/process-update-candidates.mjs';
 const exec=promisify(execFile),root=fileURLToPath(new URL('../',import.meta.url));
 async function temp(t){const p=await mkdtemp(path.join(os.tmpdir(),'inutaro-security-'));t.after(()=>rm(p,{recursive:true,force:true}));return p;}
 test('Security: collectors receive only their own dummy API secret and no execution injection',()=>{
@@ -51,4 +51,9 @@ test('Security: failed verification leaves the data PR unmerged',async t=>{
 test('Security: stale workflow base stops before touching files or creating a PR',async t=>{
  const {p,outcome,requests,original}=await publication(t,'stale');assert.equal(outcome.code,1);assert.ok(!requests.some(r=>r.method!=='GET'));
  for(const [name,bytes]of original)assert.deepEqual(await readFile(path.join(p,'assets/home-city',name)),bytes);
+});
+
+test('Security: image sandbox refuses root, privilege escalation, capabilities or host network',()=>{
+ const good={platform:'linux',uid:1001,status:'NoNewPrivs: 1\nCapEff: 0000000000000000\n',interfaces:['lo'],routes:'Iface Destination Gateway Flags\n'};assert.doesNotThrow(()=>validateImageSandbox(good));
+ for(const bad of [{uid:0},{status:'NoNewPrivs: 0\nCapEff: 0000000000000000\n'},{status:'NoNewPrivs: 1\nCapEff: 0000000000000001\n'},{interfaces:['lo','eth0']},{routes:'Iface Destination Gateway Flags\neth0 00000000 01000000 3\n'}])assert.throws(()=>validateImageSandbox({...good,...bad}),/sandbox/);
 });
