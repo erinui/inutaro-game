@@ -92,15 +92,15 @@ jobs:
       - run: npm ci --ignore-scripts --omit=dev --no-fund
       - uses: ./.github/actions/setup-home-webp
       - uses: ./.github/actions/setup-home-imagemagick
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: raw-youtube
           path: ${{ runner.temp }}/raw/youtube
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: raw-note
           path: ${{ runner.temp }}/raw/note
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: raw-suzuri
           path: ${{ runner.temp }}/raw/suzuri
@@ -130,7 +130,7 @@ jobs:
           node-version-file: .node-version
       - run: node scripts/check-node-version.mjs
       - run: npm ci --ignore-scripts --omit=dev --no-fund
-      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: processed-candidates
           path: ${{ runner.temp }}/processed
