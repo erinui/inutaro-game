@@ -19,6 +19,6 @@ export async function recordVerifiedData(root,baseCommit,runId){
  }
  await writeFile(file,JSON.stringify(registry,null,2)+'\n');
  const f=path.join(root,'tests/fixtures/seo-performance-changes.json'),seo=JSON.parse(await readFile(f,'utf8'));
- for(const [name,entry]of Object.entries(seo.acceptedUpstreamData.files))if(/^assets\/home-city\/youtube-thumb-[1-5]\.jpg$/.test(name))entry.accepted=hash(await readFile(path.join(root,name)));
+ for(const [name,entry]of Object.entries(seo.acceptedUpstreamData.files))if(/^assets\/home-city\/(?:youtube-thumb-[1-5]\.jpg|note-thumb-[1-6]\.(?:png|jpg|webp))$/.test(name))entry.accepted=hash(await readFile(path.join(root,name)));
  await writeFile(f,JSON.stringify(seo,null,2)+'\n');
 }

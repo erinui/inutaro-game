@@ -25,3 +25,17 @@ test('Security: credentialed API redirects never forward credentials',async()=>{
  let requests=0;const f=createSafeFetch({resolve:async()=>[{address:'8.8.8.8',family:4}],makeAgent:()=>({close:async()=>{}}),request:async()=>{requests++;return new Response(null,{status:302,headers:{Location:'https://suzuri.jp/api/v1/products'}});}});
  await assert.rejects(f('https://suzuri.jp/api/v1/products',{kind:'suzuriApi',headers:{Authorization:'Bearer dummy'}}),/redirect-policy/);assert.equal(requests,1);
 });
+
+test('Security: every currently published provider URL is accepted, including LINE emoji IDs',async()=>{
+ const {readFile}=await import('node:fs/promises');
+ for(const [file,provider]of [['youtube-latest','youtube'],['note-latest','note'],['suzuri-latest','suzuri'],['line-stamps','line']]){
+  const data=JSON.parse(await readFile(new URL(`../assets/home-city/${file}.json`,import.meta.url)));
+  for(const item of data.videos||data.items)assert.equal(validPublicUrl(item.url,provider),true,item.url);
+ }
+ assert.equal(validPublicUrl('https://www.youtube.com/watch?redirect=https://evil.invalid','youtube'),false);
+});
+test('Security: connector uses the checked DNS result without a second resolution',async()=>{
+ let resolutions=0,connected;
+ const f=createSafeFetch({resolve:async()=>{resolutions++;return [{address:'8.8.8.8',family:4}];},makeAgent:options=>{options.connect.lookup('note.com',{all:true},(_e,records)=>connected=records);return {close:async()=>{}};},request:async()=>new Response('ok')});
+ assert.equal(await (await f('https://note.com/erinui/n/n123',{kind:'noteArticle'})).text(),'ok');assert.equal(resolutions,1);assert.deepEqual(connected,[{address:'8.8.8.8',family:4}]);
+});
