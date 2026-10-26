@@ -1,11 +1,6 @@
 name: Verify home performance candidate
 
 on:
-  push:
-    branches:
-      - 'codex/home-performance-verification-*'
-      - 'codex/node-security-*'
-      - 'codex/security-*'
   pull_request:
   workflow_dispatch:
 
