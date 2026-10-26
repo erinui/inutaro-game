@@ -5,7 +5,11 @@ import {validPublicUrl,validThumbnail} from './lib/provider-url-policy.mjs';
 import {validateOutput} from './update-home-latest.mjs';import {assertNodeVersion} from './check-node-version.mjs';
 const execute=promisify(execFile);
 export function validateImageSandbox({platform,uid,status,interfaces,routes}){
- if(platform!=='linux'||uid===0||!/^NoNewPrivs:\s+1$/m.test(status)||!/^CapEff:\s+0+$/m.test(status)||interfaces.some(n=>n!=='lo')||routes.trim().split('\n').length>1)throw new Error('Image sandbox requirements not met');
+ if(platform!=='linux'||uid===0)throw new Error('Image sandbox: non-root Linux required');
+ if(!/^NoNewPrivs:\s+1$/m.test(status))throw new Error('Image sandbox: no-new-privileges required');
+ if(!/^CapEff:\s+0+$/m.test(status))throw new Error('Image sandbox: zero effective capabilities required');
+ if(interfaces.some(n=>n!=='lo'))throw new Error('Image sandbox: external network interface present');
+ if(!/^Iface\s/.test(routes)||routes.trim().split('\n').length>1)throw new Error('Image sandbox: unexpected network routes');
 }
 export function validateImage(bytes){
  if(bytes.length>10000000)throw new Error('Image size limit');
@@ -54,5 +58,6 @@ export async function processCandidates(input,output){
  }
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===path.resolve(new URL(import.meta.url).pathname)){assertNodeVersion();if(process.env.INUTARO_SANDBOX_REQUIRED==='1'){
- validateImageSandbox({platform:process.platform,uid:process.getuid(),status:await readFile('/proc/self/status','utf8'),interfaces:await readdir('/sys/class/net'),routes:await readFile('/proc/net/route','utf8')});console.log('Image sandbox verified: non-root, no-new-privileges, zero effective capabilities, no external network interface or route');
+ // /proc/net reflects this process's net namespace; the host sysfs mount does not.
+ validateImageSandbox({platform:process.platform,uid:process.getuid(),status:await readFile('/proc/self/status','utf8'),interfaces:(await readFile('/proc/net/dev','utf8')).trim().split('\n').slice(2).map(line=>line.trim().split(':')[0]),routes:await readFile('/proc/net/route','utf8')});console.log('Image sandbox verified: non-root, no-new-privileges, zero effective capabilities, no external network interface or route');
  }await processCandidates(...process.argv.slice(2));}
