@@ -121,7 +121,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      actions: write
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -135,7 +134,7 @@ jobs:
         with:
           name: processed-candidates
           path: ${{ runner.temp }}/processed
-      - name: Validate passive files, create PR, verify and merge
+      - name: Validate passive files and create reviewable PR
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/publish-candidates.mjs "$RUNNER_TEMP/processed"

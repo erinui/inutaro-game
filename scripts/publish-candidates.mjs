@@ -12,6 +12,11 @@ async function api(route,method='GET',data){
 }
 const current=(await api('/git/ref/heads/main')).object.sha;
 if(current!==base)throw new Error('Main advanced; discard stale candidate and rerun on current main');
+if(!(await api('/branches/main')).protected)throw new Error('Main protection is required; no publication PR was created');
+const open=await api('/pulls?state=open&base=main&per_page=100');
+if(open.length>=100)throw new Error('Too many open PRs to safely identify a pending update');
+const pending=open.find(pr=>pr.user?.login==='github-actions[bot]'&&pr.head?.repo?.full_name===repo&&/^automation\/home-latest-\d+$/.test(pr.head.ref)&&pr.title==='Update validated home data');
+if(pending){console.log(`Pending data PR: ${pending.html_url}; review it before collecting another publication candidate.`);process.exit(0);}
 let suzuriSkipped=false;
 try{const files=await checkedFiles(path.join(input,'suzuri'),/^(?:_status\.json|suzuri-latest\.json)$/),status=JSON.parse(files.get('_status.json'));suzuriSkipped=status.provider==='suzuri'&&status.state==='skipped';}catch{}
 const result=await updateHomeLatest({root,env:{INUTARO_NO_IMAGE_DECODE:'1',YOUTUBE_API_KEY:'candidate-only',SUZURI_ACCESS_TOKEN:suzuriSkipped?'':'candidate-only'},baseCommit:base,runCollector:async(provider,{stage})=>{
@@ -37,19 +42,8 @@ else{
  try{await api('/git/refs','POST',{ref:`refs/heads/${branch}`,sha:commit.sha});}catch{const ref=await api(`/git/ref/heads/${branch}`);if(ref.object.sha!==commit.sha)throw new Error('Existing publication branch differs; no overwrite');}
  const pr=await api('/pulls','POST',{title:'Update validated home data',head:branch,base:'main',body:`Validated provider data from workflow run ${runId}. Only provider output and exact data-acceptance metadata are included. Base ${base}.`});
  console.log(`Update PR: ${pr.html_url}`);
- // GITHUB_TOKEN-created PRs do not trigger pull_request workflows; dispatch explicitly.
- await api('/actions/workflows/home-performance-check.yml/dispatches','POST',{ref:branch});
- let verified=false;
- for(let attempt=0;attempt<30;attempt++){
-  const runs=await api(`/actions/workflows/home-performance-check.yml/runs?branch=${encodeURIComponent(branch)}&event=workflow_dispatch&per_page=10`);
-  const run=runs.workflow_runs.find(r=>r.head_sha===commit.sha);
-  if(run?.status==='completed'){if(run.conclusion!=='success')throw new Error('Update verification failed; PR remains unmerged');verified=true;break;}
-  await new Promise(resolve=>setTimeout(resolve,20000));
- }
- if(!verified)throw new Error('Update verification did not complete; PR remains unmerged');
- if((await api('/git/ref/heads/main')).object.sha!==base)throw new Error('Main advanced during verification; PR remains unmerged');
- const merged=await api(`/pulls/${pr.number}/merge`,'PUT',{sha:commit.sha,merge_method:'squash'});
- if(!merged.merged)throw new Error('Merge was not accepted');
- console.log(`Validated data merged: ${merged.sha}`);
+ // GITHUB_TOKEN PR workflows require a human approval. Dispatch checks do not
+ // satisfy protected-branch requirements, so leave validation and merge gated by PR.
+ console.log('Publication pending: approve PR workflows, confirm required verify success, then merge the PR normally. No direct merge is performed.');
  if(failed.length)process.exitCode=1;
 }
