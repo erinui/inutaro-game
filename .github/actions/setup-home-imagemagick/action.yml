@@ -1,0 +1,34 @@
+name: Setup patched ImageMagick
+description: Build SHA-verified ImageMagick 6.9.13-59 using pinned WebP and restricted image formats
+runs:
+  using: composite
+  steps:
+    - name: Read reviewed native baseline
+      id: source
+      shell: bash
+      run: |
+        node --input-type=module -e "import{readFileSync,appendFileSync}from'node:fs';const{imagemagick:m}=JSON.parse(readFileSync('config/native-security-baselines.json'));if(!/^6\.9\.13-[0-9]+$/.test(m.version)||!/^[a-f0-9]{64}$/.test(m.sha256))throw Error('Invalid native baseline');appendFileSync(process.env.GITHUB_OUTPUT,'version='+m.version+'\nsha256='+m.sha256+'\n')"
+    - name: Restore pinned ImageMagick
+      id: cache
+      uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+      with:
+        path: ${{ runner.temp }}/imagemagick-tools
+        key: imagemagick-${{ steps.source.outputs.version }}-ubuntu24-x64-${{ steps.source.outputs.sha256 }}-webp160-v1
+    - name: Build verified upstream security release
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        curl --fail --silent --show-error --location --proto '=https' --retry 2 --max-time 120 https://github.com/ImageMagick/ImageMagick6/releases/download/${{ steps.source.outputs.version }}/ImageMagick-${{ steps.source.outputs.version }}.tar.xz --output "$RUNNER_TEMP/imagemagick.tar.xz"
+        echo "${{ steps.source.outputs.sha256 }}  $RUNNER_TEMP/imagemagick.tar.xz" | sha256sum --check
+        tar -xJf "$RUNNER_TEMP/imagemagick.tar.xz" -C "$RUNNER_TEMP"
+        cd "$RUNNER_TEMP/ImageMagick-${{ steps.source.outputs.version }}"
+        PKG_CONFIG_PATH="$RUNNER_TEMP/webp-tools/lib/pkgconfig" CPPFLAGS="-I$RUNNER_TEMP/webp-tools/include" LDFLAGS="-L$RUNNER_TEMP/webp-tools/lib" ./configure --prefix="$RUNNER_TEMP/imagemagick-tools" --disable-shared --enable-static --disable-docs --disable-openmp --without-perl --without-magick-plus-plus --without-modules --without-x --without-heic --without-jxl --without-openexr --without-openjp2 --without-lcms --without-tiff --without-djvu --without-lqr --without-fontconfig --without-freetype --without-gslib --without-autotrace --without-bzlib --without-lzma --without-raqm --without-rsvg --without-wmf --with-png=yes --with-jpeg=yes --with-webp=yes
+        make -j2
+        make install
+    - name: Enable patched converter and verify active restrictions
+      shell: bash
+      run: |
+        echo "$RUNNER_TEMP/imagemagick-tools/bin" >> "$GITHUB_PATH"
+        "$RUNNER_TEMP/imagemagick-tools/bin/convert" -version
+        "$RUNNER_TEMP/imagemagick-tools/bin/convert" -version | grep 'ImageMagick ${{ steps.source.outputs.version }} '
+        MAGICK_CONFIGURE_PATH="$GITHUB_WORKSPACE/config/imagemagick" "$RUNNER_TEMP/imagemagick-tools/bin/convert" -list policy
