@@ -38,13 +38,15 @@ export async function validateOutput(id, directory, {decodeImages=true}={}) {
   ensure(files.has(provider.json));
   const data = JSON.parse(files.get(provider.json).toString());
   if(id==='youtube')ensure(data.schemaVersion===undefined||data.schemaVersion===1||data.schemaVersion===2);
-  ensure(data.ok === true && typeof data.fetchedAt === "string" && Number.isFinite(Date.parse(data.fetchedAt)));
+  ensure(data.ok === true && typeof data.fetchedAt === "string" && data.fetchedAt.length<=40 && Number.isFinite(Date.parse(data.fetchedAt)));
   const items = id === "youtube" ? data.videos : data.items;
   ensure(Array.isArray(items) && items.length <= 6);
   if (id === "youtube") ensure(data.channel && typeof data.channel.id === "string" && typeof data.channel.title === "string" && validPublicUrl(data.channel.url,'youtube') && data.channel.statistics && typeof data.channel.statistics === "object");
   const referenced = new Set([provider.json]);
   for (const [index, item] of items.entries()) {
-    ensure(item && typeof item.title === "string" && item.title.length > 0 && validPublicUrl(item.url,id));
+    ensure(item && typeof item.title === "string" && item.title.length > 0 && item.title.length<=500 && validPublicUrl(item.url,id));
+    for(const key of ['excerpt','kind','publishedAt','updatedAt'])ensure(item[key]===undefined||item[key]===null||(typeof item[key]==='string'&&item[key].length<=(key==='excerpt'?3000:100)));
+    if(id==='youtube')ensure(typeof item.id==='string'&&/^[A-Za-z0-9_-]{1,80}$/.test(item.id)&&new URL(item.url).pathname==='/watch'&&new URL(item.url).searchParams.get('v')===item.id);
     if (id === "youtube" && item.thumbnail) {
       ensure(validThumbnail(item.thumbnail.url,'youtube'));
       if (index < 5) referenced.add(`youtube-thumb-${index + 1}.jpg`);

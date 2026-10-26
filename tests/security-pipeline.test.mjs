@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,readFile,writeFile,rm,symlink,copyFile} from 'node:fs/promises';import path from 'node:path';import os from 'node:os';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';import {fileURLToPath} from 'node:url';
-import {collectorEnvironment} from '../scripts/update-home-latest.mjs';
+import {collectorEnvironment,validateOutput} from '../scripts/update-home-latest.mjs';
 import {checkedFiles,validateImage,processCandidates,validateImageSandbox} from '../scripts/process-update-candidates.mjs';
 const exec=promisify(execFile),root=fileURLToPath(new URL('../',import.meta.url));
 async function temp(t){const p=await mkdtemp(path.join(os.tmpdir(),'inutaro-security-'));t.after(()=>rm(p,{recursive:true,force:true}));return p;}
@@ -56,4 +56,10 @@ test('Security: stale workflow base stops before touching files or creating a PR
 test('Security: image sandbox refuses root, privilege escalation, capabilities or host network',()=>{
  const good={platform:'linux',uid:1001,status:'NoNewPrivs: 1\nCapEff: 0000000000000000\n',interfaces:['lo'],routes:'Iface Destination Gateway Flags\n'};assert.doesNotThrow(()=>validateImageSandbox(good));
  for(const bad of [{uid:0},{status:'NoNewPrivs: 0\nCapEff: 0000000000000000\n'},{status:'NoNewPrivs: 1\nCapEff: 0000000000000001\n'},{interfaces:['lo','eth0']},{routes:'Iface Destination Gateway Flags\neth0 00000000 01000000 3\n'}])assert.throws(()=>validateImageSandbox({...good,...bad}),/sandbox/);
+});
+
+test('Security: oversized external text is rejected before promotion or rendering',async t=>{
+ const p=await temp(t),data={ok:true,fetchedAt:'2026-10-27T00:00:00.000Z',items:[{title:'Normal',url:'https://note.com/erinui/n/n123'}]};await writeFile(path.join(p,'note-latest.json'),JSON.stringify(data));await validateOutput('note',p);
+ data.items[0].title='a'.repeat(501);await writeFile(path.join(p,'note-latest.json'),JSON.stringify(data));await assert.rejects(validateOutput('note',p));
+ data.items[0].title='Normal';data.items[0].excerpt='a'.repeat(3001);await writeFile(path.join(p,'note-latest.json'),JSON.stringify(data));await assert.rejects(validateOutput('note',p));
 });
