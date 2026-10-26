@@ -224,6 +224,31 @@
       "assets/home-city/youtube-thumb-5.jpg": {
         "previous": "524ef7457e43946fd3e3d520f5804443c3bd160cd8ce24f3aae7c945e47120ac",
         "accepted": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411"
+      },
+      "assets/home-city/note-thumb-2.png": {
+        "previous": "ba1db7d944dc2bd391acd66ba9ef7a267706078cecf28e7d46c8ada31e7c1c96",
+        "accepted": "ba1db7d944dc2bd391acd66ba9ef7a267706078cecf28e7d46c8ada31e7c1c96",
+        "reason": "Exact bytes from validated note image processing; preserve original baseline history."
+      },
+      "assets/home-city/note-thumb-3.png": {
+        "previous": "8ae2871511a7a3548c7a9f0d04423df65b337b2759246ec2593ffbda34084245",
+        "accepted": "8ae2871511a7a3548c7a9f0d04423df65b337b2759246ec2593ffbda34084245",
+        "reason": "Exact bytes from validated note image processing; preserve original baseline history."
+      },
+      "assets/home-city/note-thumb-4.png": {
+        "previous": "5fa2b36756aa6cebe341276479361307d3756adda3b35a8e8fdddf00f7f02fe9",
+        "accepted": "5fa2b36756aa6cebe341276479361307d3756adda3b35a8e8fdddf00f7f02fe9",
+        "reason": "Exact bytes from validated note image processing; preserve original baseline history."
+      },
+      "assets/home-city/note-thumb-5.png": {
+        "previous": "206bdbcebb91bbfb61482b43397538d55be7f9305dc8f74692de865d090c6d7d",
+        "accepted": "206bdbcebb91bbfb61482b43397538d55be7f9305dc8f74692de865d090c6d7d",
+        "reason": "Exact bytes from validated note image processing; preserve original baseline history."
+      },
+      "assets/home-city/note-thumb-6.png": {
+        "previous": "9d30b30ef2b637705eeb9974475818b94045f597a7eee99bfd6c28bf2e291931",
+        "accepted": "9d30b30ef2b637705eeb9974475818b94045f597a7eee99bfd6c28bf2e291931",
+        "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       }
     },
     "verifiedImageGenerations": [
