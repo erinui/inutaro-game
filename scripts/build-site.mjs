@@ -12,7 +12,7 @@ import { loadDataRecovery, normalizeDataRecovery, writeDataAliases, applyDataRou
 
 const root = fileURLToPath(new URL("../", import.meta.url));
 const publicFiles = [
-  "index.html", "home.css", "home.js", "site-nav.js", "site-migration.js",
+  "site-url-policy.js", "index.html", "home.css", "home.js", "site-nav.js", "site-migration.js",
   "robots.txt", "sitemap.xml", "_headers", "data/news.json",
   "games/index.html", "games/inutaro-mushi/index.html",
   "games/inutaro-mushi/style.css", "games/inutaro-mushi/game.js",

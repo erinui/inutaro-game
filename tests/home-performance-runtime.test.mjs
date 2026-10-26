@@ -15,7 +15,7 @@ test('HP-T07: same snapshot reconciles six videos into five plus more without re
  const sharp=require('sharp');
  const bytes=await sharp({create:{width:80,height:45,channels:3,background:'#caffee'}}).jpeg().toBuffer();
  const videos=[];
- for(let i=0;i<6;i++){const id=`video_${i}`;videos.push({id,title:`動画${i}`,url:`https://www.youtube.com/watch?v=${id}`,thumbnail:{url:`https://i.ytimg.com/${id}.jpg`},localThumbnail:await createYoutubeImage({bytes,videoId:id,directory:temp})});}
+ for(let i=0;i<6;i++){const id=`video_${i}`;videos.push({id,title:`動画${i}`,url:`https://www.youtube.com/watch?v=${id}`,thumbnail:{url:`https://i.ytimg.com/vi/${id}/default.jpg`},localThumbnail:await createYoutubeImage({bytes,videoId:id,directory:temp})});}
  const data={schemaVersion:2,ok:true,channel:{statistics:{}},videos};
  const html=createYoutubeSnapshot(await readFile(new URL('../index.html',import.meta.url),'utf8'),data);
  const source=await readFile(new URL('../home.js',import.meta.url),'utf8');

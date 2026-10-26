@@ -38,6 +38,6 @@ test('HP-T07: zero/one/three/five/six snapshots expose only available static car
 
 test('HP-REVIEW-03: v2 image metadata is required for videos beyond the three static slots too',()=>{
  const videos=Array.from({length:6},(_,i)=>({...data.videos[0],id:`v${i}`,url:`https://www.youtube.com/watch?v=v${i}`,localThumbnail:{...data.videos[0].localThumbnail,url:`assets/home-city/youtube-thumb-v${i}-${'a'.repeat(16)}.webp`}}));
- videos[5].thumbnail={url:'https://i.ytimg.com/v6.jpg'};delete videos[5].localThumbnail;
+ videos[5].thumbnail={url:'https://i.ytimg.com/vi/v6/default.jpg'};delete videos[5].localThumbnail;
  assert.throws(()=>createYoutubeSnapshot(fixture,{...data,videos}),/Missing local thumbnail/);
 });

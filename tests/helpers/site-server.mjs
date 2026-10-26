@@ -16,7 +16,7 @@ export async function startSiteServer({directory=root,files,compressed=false}={}
       requests.push(req.url);
       let relative = decodeURIComponent(new URL(req.url, "http://localhost").pathname).replace(/^\/+/, "");
       if (!relative || relative.endsWith("/")) relative += "index.html";
-      if (files ? !files.includes(relative) : !/^(index\.html$|home\.(css|js)$|site-(nav|migration)\.js$|robots\.txt$|sitemap\.xml$|pages\/[\w-]+\.html$|games\/(index\.html$|inutaro-mushi\/(index\.html|style\.css|game\.js)$)|assets\/)/.test(relative)) {
+      if (files ? !files.includes(relative) : !/^(index\.html$|home\.(css|js)$|site-(nav|migration|url-policy)\.js$|robots\.txt$|sitemap\.xml$|pages\/[\w-]+\.html$|games\/(index\.html$|inutaro-mushi\/(index\.html|style\.css|game\.js)$)|assets\/)/.test(relative)) {
         res.writeHead(404).end();
         return;
       }

@@ -33,7 +33,7 @@ async function output(directory,count=6){
  const videos=[];
  for(let i=0;i<count;i++){
   const id=`video_${i}`,image=await createYoutubeImage({bytes:jpeg,videoId:id,directory});
-  videos.push({id,title:`動画${i}`,url:`https://www.youtube.com/watch?v=${id}`,thumbnail:{url:'https://example.com/remote.jpg'},localThumbnail:image});
+  videos.push({id,title:`動画${i}`,url:`https://www.youtube.com/watch?v=${id}`,thumbnail:{url:`https://i.ytimg.com/vi/${id}/default.jpg`},localThumbnail:image});
   if(i<5)await writeFile(path.join(directory,`youtube-thumb-${i+1}.jpg`),jpeg);
  }
  const data={schemaVersion:2,ok:true,fetchedAt:'2026-10-17T00:00:00.000Z',channel:{id:'one',title:'channel',url:'https://www.youtube.com/channel/one',statistics:{}},videos};

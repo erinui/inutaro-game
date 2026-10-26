@@ -62,8 +62,8 @@ test("SEO-PUBLISH-01: deploy output contains only approved public files", async 
     const assets = execFileSync("git", ["ls-files", "-z", "--", "assets"], { cwd: root, encoding: "utf8" }).split("\0").filter(Boolean);
     for (const file of assets) assert.deepEqual(await readFile(path.join(output, file)), await readFile(path.join(root, file)), file);
     assert.ok(files.includes("data/news.json"));
-    assert.ok(files.every(file => /^(assets\/|pages\/[\w-]+\.html$|games\/(index\.html|inutaro-mushi\/(index\.html|style\.css|game\.js))$|data\/news\.json$|index\.html$|home\.(css|js)$|site-(nav|migration)\.js$|robots\.txt$|sitemap\.xml$|_headers$)/.test(file)), "No source, secrets, drafts, docs or tests in deployed output");
-    assert.deepEqual((await readdir(output)).sort(), ["_headers", "assets", "data", "games", "home.css", "home.js", "index.html", "pages", "robots.txt", "site-migration.js", "site-nav.js", "sitemap.xml"].sort());
+    assert.ok(files.every(file => /^(assets\/|pages\/[\w-]+\.html$|games\/(index\.html|inutaro-mushi\/(index\.html|style\.css|game\.js))$|data\/news\.json$|index\.html$|home\.(css|js)$|site-(nav|migration|url-policy)\.js$|robots\.txt$|sitemap\.xml$|_headers$)/.test(file)), "No source, secrets, drafts, docs or tests in deployed output");
+    assert.deepEqual((await readdir(output)).sort(), ["_headers", "assets", "data", "games", "home.css", "home.js", "index.html", "pages", "robots.txt", "site-migration.js", "site-nav.js", "site-url-policy.js", "sitemap.xml"].sort());
     await assert.rejects(buildSite(output), /already exists/, "Do not silently delete or overwrite an existing directory");
   } finally { await rm(temp, { recursive: true, force: true }); }
 });

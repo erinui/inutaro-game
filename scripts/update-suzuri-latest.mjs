@@ -1,3 +1,4 @@
+import {safeFetch} from './lib/safe-fetch.mjs';
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -13,7 +14,7 @@ if (!token) {
 }
 
 const params = new URLSearchParams({ userName: USER_NAME, limit: String(MAX_RESULTS) });
-const response = await fetch(`${API_URL}?${params.toString()}`, {
+const response = await safeFetch(`${API_URL}?${params.toString()}`, {kind: 'suzuriApi',
   signal: AbortSignal.timeout(12_000),
   headers: {
     Accept: "application/json",
@@ -23,7 +24,7 @@ const response = await fetch(`${API_URL}?${params.toString()}`, {
 const data = await response.json();
 
 if (!response.ok) {
-  throw new Error(data?.error?.message || `SUZURI API request failed: ${response.status}`);
+  throw new Error(`SUZURI API request failed: ${response.status}`);
 }
 
 if (!Array.isArray(data.products)) throw new Error("Invalid SUZURI product response.");

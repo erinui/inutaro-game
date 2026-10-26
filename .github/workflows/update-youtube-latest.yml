@@ -1,57 +1,145 @@
 name: Update home latest data
-
 on:
   workflow_dispatch:
   schedule:
     - cron: "10 */4 * * *"
-
 permissions:
-  contents: write
-
+  contents: read
 concurrency:
   group: home-latest-update
   cancel-in-progress: false
-
 jobs:
-  update-youtube-latest:
+  collect-youtube:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version-file: .node-version
-
-      - name: Verify supported Node.js runtime
-        run: node scripts/check-node-version.mjs
-
-      - name: Setup pinned WebP codecs
-        uses: ./.github/actions/setup-home-webp
-
-      - name: Collect and validate isolated updates
-        id: collect
+      - run: node scripts/check-node-version.mjs
+      - run: npm ci --ignore-scripts --omit=dev --no-fund
+      - name: Fetch only (no native image processing)
         env:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          YOUTUBE_CHANNEL_ID: ${{ vars.YOUTUBE_CHANNEL_ID || 'UCdnf6zMzSdZuvUxS-CS2REQ' }}
-          YOUTUBE_HANDLE: ${{ vars.YOUTUBE_HANDLE || '@えりぬい' }}
+          YOUTUBE_CHANNEL_ID: "UCdnf6zMzSdZuvUxS-CS2REQ"
           YOUTUBE_MAX_RESULTS: "6"
+        run: node scripts/prepare-provider.mjs youtube "$RUNNER_TEMP/provider"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: raw-youtube
+          path: ${{ runner.temp }}/provider
+          retention-days: 1
+  collect-note:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - run: node scripts/check-node-version.mjs
+      - run: npm ci --ignore-scripts --omit=dev --no-fund
+      - name: Fetch only (no native image processing)
+        env:
           NOTE_RSS_URL: "https://note.com/erinui/rss"
           NOTE_MAX_RESULTS: "6"
+        run: node scripts/prepare-provider.mjs note "$RUNNER_TEMP/provider"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: raw-note
+          path: ${{ runner.temp }}/provider
+          retention-days: 1
+  collect-suzuri:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - run: node scripts/check-node-version.mjs
+      - run: npm ci --ignore-scripts --omit=dev --no-fund
+      - name: Fetch only (no native image processing)
+        env:
           SUZURI_ACCESS_TOKEN: ${{ secrets.SUZURI_ACCESS_TOKEN }}
           SUZURI_USER_NAME: "erikanuinui"
           SUZURI_MAX_RESULTS: "6"
-        run: node scripts/update-home-latest.mjs --report "$RUNNER_TEMP/home-update-result.json"
-
-      - name: Save validated home data
-        id: save
-        run: node scripts/update-home-latest.mjs --publish --report "$RUNNER_TEMP/home-update-result.json"
-
-      - name: Report final retrieval and save status
-        if: always()
-        run: node scripts/update-home-latest.mjs --finish --report "$RUNNER_TEMP/home-update-result.json" --saved "${{ steps.save.outcome }}"
+        run: node scripts/prepare-provider.mjs suzuri "$RUNNER_TEMP/provider"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: raw-suzuri
+          path: ${{ runner.temp }}/provider
+          retention-days: 1
+  process-images:
+    needs: [collect-youtube, collect-note, collect-suzuri]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - run: node scripts/check-node-version.mjs
+      - run: npm ci --ignore-scripts --omit=dev --no-fund
+      - uses: ./.github/actions/setup-home-webp
+      - name: Install maintained codec and record active restrictions
+        run: |
+          sudo apt-get install --no-install-recommends --yes imagemagick
+          convert -version
+          MAGICK_CONFIGURE_PATH="$GITHUB_WORKSPACE/config/imagemagick" convert -list policy
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: raw-youtube
+          path: ${{ runner.temp }}/raw/youtube
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: raw-note
+          path: ${{ runner.temp }}/raw/note
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: raw-suzuri
+          path: ${{ runner.temp }}/raw/suzuri
+      - name: Process without network or API secrets
+        run: |
+          mkdir -p "$RUNNER_TEMP/image-home"
+          sudo unshare --net -- setpriv --reuid "$(id -u)" --regid "$(id -g)" --clear-groups env -i PATH="$PATH" HOME="$RUNNER_TEMP/image-home" MAGICK_CONFIGURE_PATH="$GITHUB_WORKSPACE/config/imagemagick" "$(command -v node)" scripts/process-update-candidates.mjs "$RUNNER_TEMP/raw" "$RUNNER_TEMP/processed"
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: processed-candidates
+          path: ${{ runner.temp }}/processed
+          retention-days: 1
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: process-images
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - run: node scripts/check-node-version.mjs
+      - run: npm ci --ignore-scripts --omit=dev --no-fund
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: processed-candidates
+          path: ${{ runner.temp }}/processed
+      - name: Validate passive files, create PR, verify and merge
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/publish-candidates.mjs "$RUNNER_TEMP/processed"

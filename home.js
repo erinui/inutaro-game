@@ -297,13 +297,16 @@ function youtubeThumbnailUrl(video, version) {
   }
   if (version === 2) return "";
   const url = video?.thumbnail?.url || "";
-  return /^https?:\/\//.test(url) ? url : "";
+  return globalThis.InutaroUrlPolicy?.image(url,"youtube") ? url : "";
 }
 
 function reconcileCards(track, specs) {
   const scrollLeft = track.scrollLeft;
   const old = [...track.children];
-  const desired = specs.map(spec => {
+  const allowed = specs.filter(spec => ['youtube','note','suzuri','line'].some(provider=>globalThis.InutaroUrlPolicy?.valid(spec.item.url,provider)));
+  if(specs.length&&!allowed.length)return;
+  const desired = allowed.map(spec => {
+    if(spec.thumbnailUrl&&!['youtube','note','suzuri','line'].some(provider=>globalThis.InutaroUrlPolicy?.image(spec.thumbnailUrl,provider)))spec={...spec,thumbnailUrl:''};
     const key = `${spec.category}:${spec.item.id || spec.item.url}`;
     const signature = JSON.stringify(spec);
     const node = old.find(n => n.getAttribute("data-card-key") === key ||

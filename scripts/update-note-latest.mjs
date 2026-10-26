@@ -1,3 +1,4 @@
+import {safeFetch} from './lib/safe-fetch.mjs';
 import { execFile } from "node:child_process";
 import { mkdir, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -10,7 +11,7 @@ const OUT_FILE = path.join(OUT_DIR, "note-latest.json");
 const NOTE_ORIGIN = "https://note.com/";
 const execFileAsync = promisify(execFile);
 
-const response = await fetchWithTimeout(FEED_URL, {
+const response = await fetchWithTimeout(FEED_URL, {kind: 'noteFeed',
   headers: {
     Accept: "application/rss+xml, application/xml, text/xml",
   },
@@ -78,14 +79,15 @@ function parseItem(itemXml) {
 
 async function saveThumbnail(outputPath, bytes) {
   const sourcePath = `${outputPath}.source`;
+  if(process.env.INUTARO_FETCH_ONLY==='1'){await writeFile(outputPath,bytes,{flag:'wx'});return;}
   await writeFile(sourcePath, bytes);
 
   try {
     // noteのOGPには上下の黒帯が含まれるため、外周色だけをトリミングして保存する。
-    await execFileAsync("convert", [sourcePath, "-trim", "+repage", outputPath], { timeout: 12_000 });
+    await execFileAsync("convert", [sourcePath, "-trim", "+repage", outputPath], { timeout: 12_000, env:{PATH:process.env.PATH,HOME:process.env.HOME,MAGICK_CONFIGURE_PATH:process.env.MAGICK_CONFIGURE_PATH} });
   } catch (_error) {
-    // 画像処理環境が利用できない場合も、記事画像の表示自体は維持する。
-    await writeFile(outputPath, bytes);
+    // 変換に失敗した未検証画像は公開候補にしない。
+    throw new Error('Image conversion failed; previous provider output retained');
   } finally {
     await rm(sourcePath, { force: true });
   }
@@ -95,7 +97,7 @@ async function fetchArticleThumbnail(articleUrl) {
   if (!articleUrl.startsWith(NOTE_ORIGIN)) return null;
 
   try {
-    const articleResponse = await fetchWithTimeout(articleUrl, {
+    const articleResponse = await fetchWithTimeout(articleUrl, {kind: 'noteArticle',
       headers: {
         Accept: "text/html,application/xhtml+xml",
       },
@@ -105,7 +107,7 @@ async function fetchArticleThumbnail(articleUrl) {
     const imageUrl = getOgImage(await articleResponse.text());
     if (!imageUrl || !imageUrl.startsWith("https://")) return null;
 
-    const imageResponse = await fetchWithTimeout(imageUrl, {
+    const imageResponse = await fetchWithTimeout(imageUrl, {kind: 'noteImage',
       headers: {
         Accept: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
       },
@@ -171,7 +173,7 @@ async function removeStaleThumbnails(items) {
 }
 
 async function fetchWithTimeout(url, options, timeoutMs = 12_000) {
-  return fetch(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });
+  return safeFetch(url, { ...options, signal: AbortSignal.timeout(timeoutMs) });
 }
 
 function getTagValues(xml, tagName) {
