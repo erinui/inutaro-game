@@ -36,6 +36,7 @@ async function publication(t,mode){
   const images=id==='youtube'?[...data.videos.filter(v=>v.localThumbnail).map(v=>path.basename(v.localThumbnail.url)),...Array.from({length:5},(_,i)=>`youtube-thumb-${i+1}.jpg`)]:id==='note'?data.items.filter(v=>v.thumbnailUrl).map(v=>path.basename(v.thumbnailUrl)):[];
   for(const image of new Set(images))await copyFile(path.join(root,'assets/home-city',image),path.join(d,image));
  }
+ if(mode==='changed-note-image')await copyFile(path.join(root,'assets/home-city/note-thumb-1.png'),path.join(input,'note/note-thumb-2.png'));
  const log=path.join(p,'api.jsonl');await writeFile(log,'');let outcome;
  try{outcome=await exec(process.execPath,['--import',path.join(root,'tests/helpers/publisher-api-fixture.mjs'),path.join(root,'scripts/publish-candidates.mjs'),input],{cwd:p,env:{...process.env,GITHUB_REPOSITORY:'erinui/inutaro-game',GITHUB_RUN_ID:'123',GITHUB_SHA:'a'.repeat(40),GITHUB_TOKEN:'dummy-only',PUBLISH_FIXTURE_MODE:mode,PUBLISH_FIXTURE_LOG:log},timeout:20000});}catch(e){outcome=e;}
  return {p,outcome,requests:(await readFile(log,'utf8')).trim().split('\n').filter(Boolean).map(s=>JSON.parse(s)),original};
@@ -63,4 +64,15 @@ test('Security: oversized external text is rejected before promotion or renderin
  const p=await temp(t),data={ok:true,fetchedAt:'2026-10-27T00:00:00.000Z',items:[{title:'Normal',url:'https://note.com/erinui/n/n123'}]};await writeFile(path.join(p,'note-latest.json'),JSON.stringify(data));await validateOutput('note',p);
  data.items[0].title='a'.repeat(501);await writeFile(path.join(p,'note-latest.json'),JSON.stringify(data));await assert.rejects(validateOutput('note',p));
  data.items[0].title='Normal';data.items[0].excerpt='a'.repeat(3001);await writeFile(path.join(p,'note-latest.json'),JSON.stringify(data));await assert.rejects(validateOutput('note',p));
+});
+
+test('Security: changed note images retain original history and record each exact published hash',async t=>{
+ const {p,outcome}=await publication(t,'changed-note-image');assert.equal(outcome.code,undefined,outcome.stderr);
+ const registry=JSON.parse(await readFile(path.join(p,'tests/fixtures/seo-performance-changes.json'))),baseline=JSON.parse(await readFile(path.join(root,'tests/fixtures/site-design-baseline.json')));
+ const {createHash}=await import('node:crypto');
+ for(let i=1;i<=6;i++){
+  const name=`assets/home-city/note-thumb-${i}.png`,entry=registry.acceptedUpstreamData.files[name];
+  assert.ok(entry,`${name}: missing exact image acceptance`);assert.equal(entry.previous,baseline.hashes[name]);
+  assert.equal(entry.accepted,createHash('sha256').update(await readFile(path.join(p,name))).digest('hex'));
+ }
 });
