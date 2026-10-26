@@ -14,7 +14,7 @@
 | 画像 | JPEG/PNG/WebP・寸法・静止画制限、ImageMagickのresource/delegate/coder policy | 実CIで現在の画像を処理。noteは上下16pxずつの黒帯のみ除去 |
 | データ保存 | 通常ファイル/容量/URL/SHA再検査、native decodeなし、限定パスのPR | 失敗時保持・不正成果物拒否・base不一致・検証失敗時非マージを確認 |
 | 再発防止 | Actions公式SHA、lock、PR/週次audit、Dependabot | audit0件。必須verifyにも両依存のauditを実行 |
-| 防御ヘッダー | nosniff/referrer/frame/permissions、短期HSTS、CSP段階導入 | 強制した候補CSPで8ページ、ゲーム操作/音声/PNG出力と解析を確認 |
+| 防御ヘッダー | nosniff/referrer/frame/permissions、短期HSTS、CSP強制適用 | Report-Onlyの実Cloudflareプレビューで8ページ・259 immutable assets・ゲーム・画像・解析を検証。CSP違反0件 |
 
 更新PRに含めるのはprovider出力と、その正確な世代を記録する2つの受け入れfixture JSONだけ。任意のソース変更を許可する正規化は行わない。画像・コードの過去のhash付きファイルは削除しない。
 

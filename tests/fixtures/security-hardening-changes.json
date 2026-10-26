@@ -24,7 +24,7 @@
     },
     "_headers": {
       "beforeSha256": "11e7cfaca431d05f09a0bd71b77d46f8eb551e771c17cfa20fc85c331b105b2b",
-      "afterSha256": "8e018589a1d3982f592039a8275d223359dbadc58fc105234dab96f38c75bec3",
+      "afterSha256": "ceda1825dc5a8a9fd06a643c5662c46f054c8f39fc5a9677cfb7697e9c12e771",
       "before": "# The primary workers.dev host is for verification, not the production search URL.\nhttps://inutaro-game.erikanuinui.workers.dev/*\n  X-Robots-Tag: noindex\n\n# Version preview URLs prefix the Worker name in the same hostname component.\nhttps://:version-inutaro-game.erikanuinui.workers.dev/*\n  X-Robots-Tag: noindex\n\n# Only content-addressed immutable assets get a long browser cache lifetime.\n/assets/versioned/*\n  Cache-Control: public, max-age=31536000, immutable\n"
     },
     "config/home-font-partitions.json": {
