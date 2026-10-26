@@ -55,6 +55,7 @@ test('TOP-W01: recorded upstream acquisition generations retain the exact prior 
         value.channel.statistics.viewCount=generation.youtubeViewCount.after;
         source=JSON.stringify(value,null,2)+'\n';
       }
+      if(generation.reviewedPayloadChanges){const value=JSON.parse(source);for(const change of generation.reviewedPayloadChanges){let n=value;for(const k of change.path.slice(0,-1))n=n[k];n[change.path.at(-1)]=change.after;}source=JSON.stringify(value,null,2)+'\n';}
       assert.equal(hash(source),generation.sha256,file);
       assert.equal(restoreVerifiedTopDataRefresh(file,source),entry.before,file);
     }

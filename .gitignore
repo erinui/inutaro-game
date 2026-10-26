@@ -4,3 +4,5 @@
 /dist/
 /.wrangler/
 /.performance-evidence/
+
+node_modules/

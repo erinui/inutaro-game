@@ -1,0 +1,13 @@
+{
+  "name": "inutaro-deploy",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "wrangler": "4.151.3"
+  },
+  "overrides": {
+    "miniflare": {
+      "undici": "7.30.1"
+    }
+  }
+}

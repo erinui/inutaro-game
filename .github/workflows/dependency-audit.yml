@@ -1,0 +1,32 @@
+name: Dependency security audit
+on:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '24 2 * * 1'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - run: node scripts/check-node-version.mjs
+      - name: Resolve locked dependencies without lifecycle scripts
+        run: |
+          npm ci --ignore-scripts --no-fund
+          npm ci --prefix tools/deploy --ignore-scripts --no-fund
+      - name: Reject high and critical advisories
+        run: |
+          npm audit --audit-level=high
+          npm audit --prefix tools/deploy --audit-level=high
+          npm ls undici --all
+          npm ls --prefix tools/deploy undici --all
+      - name: Verify fixed deployment CLI
+        run: node tools/deploy/node_modules/wrangler/bin/wrangler.js --version
