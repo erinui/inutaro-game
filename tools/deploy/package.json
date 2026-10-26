@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "dependencies": {
-    "wrangler": "4.151.3"
+    "wrangler": "4.152.0"
   },
   "overrides": {
     "miniflare": {
