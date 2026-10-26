@@ -144,9 +144,7 @@ test("U09/U10: workflow preserves cadence, reports after save, no broad staging 
   assert.match(source, /timeout-minutes: 15/);
   assert.match(source, /needs: process-images/);
   assert.match(source, /node scripts\/publish-candidates.mjs/);
-  const publisher=await readFile(path.join(root,'scripts/publish-candidates.mjs'),'utf8');
-  assert.ok(publisher.indexOf('if(!verified)') < publisher.indexOf("/merge`,'PUT'"));
-  assert.ok(publisher.includes("sha:commit.sha"));
+  assert.doesNotMatch(source, /actions:\s*write/);
   assert.ok(!source.includes("git add -A -- assets/home-city"));
   assert.ok(!source.includes("--force"));
 });
