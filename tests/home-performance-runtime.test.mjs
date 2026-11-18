@@ -135,3 +135,31 @@ test('HP-FONT-02/IMG-02/LOAD-01: compiled TOP loads subsets, reserves image size
  const missing=await page.locator('img').evaluateAll(nodes=>nodes.filter(n=>!n.hasAttribute('width')||!n.hasAttribute('height')).map(n=>n.outerHTML));assert.deepEqual(missing,[]);
  assert.equal(seen.some(u=>/gameplay-preview\.png/.test(u)),false);
 });
+
+test('current font: latest card text keeps original layout at mobile/desktop and DPR 1/2',async t=>{
+ const temp=await mkdtemp(path.join(os.tmpdir(),'erinui-current-font-'));t.after(()=>rm(temp,{recursive:true,force:true}));
+ const directory=path.join(temp,'site'),files=await buildSite(directory);
+ const server=await startSiteServer({directory,files});t.after(()=>server.close());
+ const browser=await chromium.launch({executablePath:process.env.CHROME_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});t.after(()=>browser.close());
+ for(const width of [390,1440])for(const deviceScaleFactor of [1,2]){
+  const results=[];
+  for(const original of [true,false]){
+   const page=await browser.newPage({viewport:{width,height:1000},deviceScaleFactor});
+   await page.route('**/*',async route=>{
+    const u=new URL(route.request().url());if(u.origin!==server.url)return route.abort();
+    if(original&&u.pathname.includes('/home-font-snapshot.')){
+     const css=await readFile(path.join(directory,u.pathname),'utf8');
+     return route.fulfill({contentType:'text/css',body:css.replace(/url\("[^"]+"\)/,'url("../fonts/keinann-pop-jp.woff2")')});
+    }
+    return route.continue();
+   });
+   await page.goto(server.url,{waitUntil:'networkidle'});await page.evaluate(()=>document.fonts.ready);
+   results.push(await page.locator('h1,h2,h3,main p').evaluateAll(nodes=>nodes.map(n=>{
+    const r=n.getBoundingClientRect(),range=document.createRange();range.selectNodeContents(n);
+    return {text:n.textContent,box:[r.x,r.y,r.width,r.height],lines:[...range.getClientRects()].map(r=>[r.x,r.y,r.width,r.height])};
+   })));
+   await page.close();
+  }
+  assert.deepEqual(results[1],results[0],`font layout ${width}px DPR${deviceScaleFactor}`);
+ }
+});

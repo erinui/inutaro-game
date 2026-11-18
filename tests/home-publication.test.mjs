@@ -38,3 +38,13 @@ test('publication: ignores other PR authors, repositories, titles and branches',
  const f=fixture({foreign:true});await reconcile(f.api,()=>{});assert.equal(f.mutations.length,0);
  for(const p of [{...f.pr,title:'Source update'},{...f.pr,head:{...f.pr.head,ref:'codex/source'}},{...f.pr,base:{ref:'other'}},{...f.pr,head:{...f.pr.head,repo:{full_name:'other/repo'}}}])assert.equal(isDataPr(p),false);
 });
+
+test('publication workflow: privileged reconciliation uses main, no artifacts or candidate code',async()=>{
+ const {readFile}=await import('node:fs/promises');
+ const workflow=await readFile(new URL('../.github/workflows/reconcile-home-updates.yml',import.meta.url),'utf8');
+ assert.match(workflow,/workflow_run:/);assert.match(workflow,/types: \[completed\]/);
+ assert.match(workflow,/ref: main/);assert.match(workflow,/persist-credentials: false/);
+ assert.match(workflow,/actions: write/);assert.doesNotMatch(workflow,/download-artifact|npm |head_sha|pull_request_target/);
+ const publisher=await readFile(new URL('../.github/workflows/update-youtube-latest.yml',import.meta.url),'utf8');
+ assert.doesNotMatch(publisher,/actions:\s*write/);
+});
