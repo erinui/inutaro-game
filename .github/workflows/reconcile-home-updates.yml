@@ -1,0 +1,35 @@
+name: Reconcile home data publication
+on:
+  workflow_run:
+    workflows: [Update home latest data, Verify home performance candidate, Dependency security audit]
+    types: [completed]
+  workflow_dispatch:
+  schedule:
+    - cron: '40 */4 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: home-data-reconciliation
+  cancel-in-progress: false
+jobs:
+  reconcile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      # Always execute main; workflow_run and candidate contents are untrusted.
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .node-version
+      - run: node scripts/check-node-version.mjs
+      - name: Approve and merge only verified provider data
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/reconcile-home-updates.mjs
