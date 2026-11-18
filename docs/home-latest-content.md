@@ -21,7 +21,7 @@
 
 ## データ元と更新方式
 
-本番の通常更新は `.github/workflows/update-youtube-latest.yml`。サービス別の収集3ジョブ→通信・API秘密情報を持たない画像処理→保存専用ジョブの順に実行する。Node.jsは`.node-version`の24.22.1を使い実版を検査する。データPRを自動作成して終了し、人がPRワークフローの実行を承認する。必須verify成功と最新baseへの追従を確認してから通常のPRマージで反映する。mainへの直接pushは行わない。手元用の旧入口`update-home-latest.mjs`と本番workflowの経路を区別する。詳細は[セキュリティ運用記録](security-hardening-operations-20261027.md)を参照。
+本番の通常更新は `.github/workflows/update-youtube-latest.yml`。サービス別の収集3ジョブ→通信・API秘密情報を持たない画像処理→保存専用ジョブの順に実行する。Node.jsは`.node-version`の24.22.1を使い実版を検査する。データPRを自動作成し、`reconcile-home-updates.yml` が信頼したmainのコードだけでデータ限定差分・収集元run・単一commitの親を照合する。実際のPR検証を開始し、必須verifyとauditの成功・最新baseを確認して通常マージする。古いbaseのPRは閉じ、最新mainから再収集する。ソース変更PRは自動操作しない。mainへの直接pushは行わない。手元用の旧入口`update-home-latest.mjs`と本番workflowの経路を区別する。詳細は[セキュリティ運用記録](security-hardening-operations-20261027.md)を参照。
 
 | ジャンル | データ元 | 更新方法 | 表示ファイル |
 | --- | --- | --- | --- |

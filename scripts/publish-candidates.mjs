@@ -16,7 +16,7 @@ if(!(await api('/branches/main')).protected)throw new Error('Main protection is 
 const open=await api('/pulls?state=open&base=main&per_page=100');
 if(open.length>=100)throw new Error('Too many open PRs to safely identify a pending update');
 const pending=open.find(pr=>pr.user?.login==='github-actions[bot]'&&pr.head?.repo?.full_name===repo&&/^automation\/home-latest-\d+$/.test(pr.head.ref)&&pr.title==='Update validated home data');
-if(pending){console.log(`Pending data PR: ${pending.html_url}; review it before collecting another publication candidate.`);process.exit(0);}
+if(pending){console.log(`Pending data PR: ${pending.html_url}; automatic reconciliation will start checks, merge verified data, or refresh a stale base.`);process.exit(0);}
 let suzuriSkipped=false;
 try{const files=await checkedFiles(path.join(input,'suzuri'),/^(?:_status\.json|suzuri-latest\.json)$/),status=JSON.parse(files.get('_status.json'));suzuriSkipped=status.provider==='suzuri'&&status.state==='skipped';}catch{}
 const result=await updateHomeLatest({root,env:{INUTARO_NO_IMAGE_DECODE:'1',YOUTUBE_API_KEY:'candidate-only',SUZURI_ACCESS_TOKEN:suzuriSkipped?'':'candidate-only'},baseCommit:base,runCollector:async(provider,{stage})=>{
@@ -42,8 +42,8 @@ else{
  try{await api('/git/refs','POST',{ref:`refs/heads/${branch}`,sha:commit.sha});}catch{const ref=await api(`/git/ref/heads/${branch}`);if(ref.object.sha!==commit.sha)throw new Error('Existing publication branch differs; no overwrite');}
  const pr=await api('/pulls','POST',{title:'Update validated home data',head:branch,base:'main',body:`Validated provider data from workflow run ${runId}. Only provider output and exact data-acceptance metadata are included. Base ${base}.`});
  console.log(`Update PR: ${pr.html_url}`);
- // GITHUB_TOKEN PR workflows require a human approval. Dispatch checks do not
- // satisfy protected-branch requirements, so leave validation and merge gated by PR.
- console.log('Publication pending: approve PR workflows, confirm required verify success, then merge the PR normally. No direct merge is performed.');
+ // A separate trusted-main workflow starts actual PR checks and merges only
+ // passive data after verify/audit success. This publisher has no actions permission.
+ console.log('Publication pending: automatic reconciliation will verify and merge this data PR under main protection.');
  if(failed.length)process.exitCode=1;
 }

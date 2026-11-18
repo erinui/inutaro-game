@@ -1,3 +1,4 @@
+import {currentFont} from './lib/current-font.mjs';
 import {assertNodeVersion} from './check-node-version.mjs';
 import { mkdir, copyFile, readFile, writeFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
@@ -46,6 +47,7 @@ export async function buildSite(output, {recovery,copy=copyFile}={}) {
     if (error.code === "EEXIST") throw new Error(`Build output already exists: ${output}. Use a fresh directory.`);
     throw error;
   }
+  const font=manifest?.fonts ? await currentFont(root) : null;
   for (const file of files) {
     const target = path.join(output, file);
     await mkdir(path.dirname(target), { recursive: true });
@@ -57,6 +59,7 @@ export async function buildSite(output, {recovery,copy=copyFile}={}) {
       const pattern=manifest?.bindings['assets/home-city/city-checker-tile.svg'];
       if(file==='index.html'&&pattern)bound=bound.replace('<head>',`<head>\n    <link rel="preload" as="image" href="${pattern}" fetchpriority="high" />`);
       if(manifest?.fonts)bound=bound.replace(/<link[^>]+href=["'][^"']*keinann-pop-jp\.woff2[^"']*["'][^>]*>\s*/g,'');
+      if(file==='index.html'&&font)bound=bound.replace('</head>',`<link rel="stylesheet" href="${font.cssFile}" data-home-font-snapshot />\n</head>`);
       await writeFile(target,file==='index.html'?applyDataRoutes(createYoutubeSnapshot(bound,youtube),dataRoutes):bound);
     }
   }
@@ -69,6 +72,9 @@ export async function buildSite(output, {recovery,copy=copyFile}={}) {
   if(manifest){
     const verified=await verifyRequiredAssets(output,Object.fromEntries(manifest.outputs.map(e=>[e.file,e.sha256])));
     if(!verified.passed)throw new Error('Generated asset changed during build: '+verified.failures.map(f=>f.file).join(', '));
+  }
+  if(font){
+    for(const [file,bytes]of [[font.file,font.bytes],[font.cssFile,font.css]]){await writeFile(path.join(output,file),bytes);files.push(file);}
   }
   return files;
 }

@@ -3,7 +3,7 @@
   "compatibility_date": "2026-10-06",
   "workers_dev": true,
   "routes": [{ "pattern": "erinui.com", "custom_domain": true }],
-  "build": { "command": "node scripts/build-site.mjs" },
+  "build": { "command": "python3 -m pip install --disable-pip-version-check --require-hashes --target /tmp/inutaro-font-build -r config/font-build-requirements.txt && PYTHONPATH=/tmp/inutaro-font-build node scripts/build-site.mjs" },
   "previews": {},
   "assets": {
     "directory": "./dist",

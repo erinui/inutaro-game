@@ -40,6 +40,7 @@ test("SEO-PUBLISH-01: deploy output contains only approved public files", async 
       html=html.replace(/\n    <link rel="preload" as="image" href="assets\/home-city\/map_bg\.svg\?v=20261010-city-name" fetchpriority="high" \/>/,'');
       const pattern=manifest?.bindings['assets/home-city/city-checker-tile.svg'];
       if(document==='index.html'&&pattern)html=html.replace(`\n    <link rel="preload" as="image" href="${pattern}" fetchpriority="high" />`,'');
+      html=html.replace(/<link[^>]+data-home-font-snapshot[^>]*>\n/g,'');
       html=html.replace(/<link[^>]+href=["'][^"']*keinann-pop-jp\.woff2[^"']*["'][^>]*>\s*/g,'');
       if(manifest?.headerLogo)html=html.replaceAll(manifest.headerLogo.file,'assets/icon-192.png');
       return html.replace(/\b(src|href)=(["'])([^"'<>]+)\2/g,(original,name,q,url)=>{

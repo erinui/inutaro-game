@@ -195,7 +195,7 @@
       },
       "assets/home-city/note-thumb-1.png": {
         "previous": "d9a1624977b13d4a88a78f4e86e768b798a979f00b605fe617601bf50188409b",
-        "accepted": "b2a39ee6c6314da72658922abfc95ce43b9c9b2e667a2cae1424080d79b098db"
+        "accepted": "46d78d4d1e48d4fd83eb033b46b0722e5781c1f3c1ded9f502337ac26e0034af"
       },
       "assets/home-city/suzuri-latest.json": {
         "previous": "f6fa7c67f9ade99fc816008540f7088f890bc9441e703177a2b1b20394d75b34",
@@ -207,47 +207,47 @@
       },
       "assets/home-city/youtube-thumb-1.jpg": {
         "previous": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b",
-        "accepted": "e7d03dd2efe8743daba4697db3cc323957755205391b2837816bd8c7399e2b4a"
+        "accepted": "aaf9d257bd7d16908b2b8343282c9f8fdfdd5dc7046cb9ccd6071009f2f2dff8"
       },
       "assets/home-city/youtube-thumb-2.jpg": {
         "previous": "f3dc84abb879f1304004acca113090ae2694562814b6bfe13c573ce5f612e01c",
-        "accepted": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b"
+        "accepted": "029fd29145e940b75c586007960aeaae8b8df611110819b2f9b74920c3823b4e"
       },
       "assets/home-city/youtube-thumb-3.jpg": {
         "previous": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014",
-        "accepted": "f3dc84abb879f1304004acca113090ae2694562814b6bfe13c573ce5f612e01c"
+        "accepted": "0c07e6774eeb3842a0ae03f146cd5b818c40f10f6c8769e6cc92a5b8486aa03d"
       },
       "assets/home-city/youtube-thumb-4.jpg": {
         "previous": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411",
-        "accepted": "d98f6e12f645c8cc5e9da08fae88d20c257c4fb2b5a0e294938d9d0b7ee25014"
+        "accepted": "e7d03dd2efe8743daba4697db3cc323957755205391b2837816bd8c7399e2b4a"
       },
       "assets/home-city/youtube-thumb-5.jpg": {
         "previous": "524ef7457e43946fd3e3d520f5804443c3bd160cd8ce24f3aae7c945e47120ac",
-        "accepted": "422ec0f23b7737d328754ac9bb93a758a58765f038ccb3974cb49341b1589411"
+        "accepted": "60d324dcdb4f5808c8bdb33c2fefb0670da4452951ad7c2d73f5d4ddd19e182b"
       },
       "assets/home-city/note-thumb-2.png": {
         "previous": "ba1db7d944dc2bd391acd66ba9ef7a267706078cecf28e7d46c8ada31e7c1c96",
-        "accepted": "77f9cb5975a0b471fb100a3b07bff5de6521462a2352296a028c3296f9c7f2b8",
+        "accepted": "295ea4844ee0a045958187c96f616f2d2bc7ff969852ef210de1d1f8ebc02950",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-3.png": {
         "previous": "8ae2871511a7a3548c7a9f0d04423df65b337b2759246ec2593ffbda34084245",
-        "accepted": "bfea3e546c685e40e49385ca3e45c96005d09e248228a340002f9d6e1fdac2fb",
+        "accepted": "5c724fd193bbf13a8bbc3bdb2a4d5da3de9f0406dbd94c0a59a5eb8927cef567",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-4.png": {
         "previous": "5fa2b36756aa6cebe341276479361307d3756adda3b35a8e8fdddf00f7f02fe9",
-        "accepted": "81486d85f35ff07b306902f861b69e9753ddda5ec3eb274c3f8d731a95cc9d91",
+        "accepted": "3b25808dff322dd22ac0cc3ea1f6ced9a5ee4f52cd9e7d00ee56555e02d8963a",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-5.png": {
         "previous": "206bdbcebb91bbfb61482b43397538d55be7f9305dc8f74692de865d090c6d7d",
-        "accepted": "6f6d447416b496c9b8d250883a8dc21eaebe8710c7fde860c4b5ff3ea3eecfcd",
+        "accepted": "145c31d554907b17779e9d90c51487c1ddc0b41801f7b53348f3677f9a1e4e07",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-6.png": {
         "previous": "9d30b30ef2b637705eeb9974475818b94045f597a7eee99bfd6c28bf2e291931",
-        "accepted": "c434764fbb8f290a019343e78e39172d786420b65c70fc77cb80a64db2e09da3",
+        "accepted": "8a687e38ae5159f73652e96eac60a07e0e9a8b4750244199160c95402016cdc8",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       }
     },
