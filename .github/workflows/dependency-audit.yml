@@ -32,6 +32,8 @@ jobs:
         run: node tools/deploy/node_modules/wrangler/bin/wrangler.js --version
       - name: Check official native release baselines
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/check-native-security-releases.mjs
       - name: Check resolved Python and Undici versions against advisories
         if: ${{ !cancelled() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') }}
