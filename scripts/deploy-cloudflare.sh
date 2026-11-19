@@ -3,19 +3,19 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 version="$(tr -d '\r\n' < .node-version)"
-if [[ "$version" != '24.22.1' ]]; then
+if [[ "$version" != '24.22.3' ]]; then
   echo 'Update the official archive checksums when changing .node-version.' >&2
   exit 1
 fi
 case "$(uname -s):$(uname -m)" in
   Linux:x86_64)
     platform='linux-x64'
-    expected='6c172a9ab6718f7b801fb5a7bd486af2ee5e32758086a04b84fcce2aa77095e6'
+    expected='4f2b175a6d53a5c617a80dba2676238a0688cef28c6da4eba35c7d844e66fcfb'
     archive="node-v${version}-${platform}.tar.xz"
     ;;
   Darwin:arm64)
     platform='darwin-arm64'
-    expected='89c682593d76cd44233fa53b1563264e7de9cbb189cad169135c5b4fadfbc0a7'
+    expected='ff6e17d4874b76d272212b908cc020d6e815fba5a6c7eaaa06add725840307fd'
     archive="node-v${version}-${platform}.tar.gz"
     ;;
   *) echo 'Unsupported runtime installation platform.' >&2; exit 1 ;;
