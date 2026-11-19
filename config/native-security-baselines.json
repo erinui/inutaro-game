@@ -1,6 +1,6 @@
 {
   "imagemagick": {
-    "version": "6.9.13-59",
-    "sha256": "1673e5400a345f6c9c52d65eac4127cb9bd474a8ff29a4816f2f03ef2810949c"
+    "version": "6.9.13-61",
+    "sha256": "13726dce63da3cf44011fac16181b66985e561100d0723630710f10bed84fe89"
   }
 }

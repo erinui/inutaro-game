@@ -1,5 +1,5 @@
 name: Setup patched ImageMagick
-description: Build SHA-verified ImageMagick 6.9.13-59 using pinned WebP and restricted image formats
+description: Build SHA-verified ImageMagick using pinned WebP and restricted image formats
 runs:
   using: composite
   steps:
