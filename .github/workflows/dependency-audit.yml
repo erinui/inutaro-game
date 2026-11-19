@@ -33,3 +33,6 @@ jobs:
       - name: Check official native release baselines
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: node scripts/check-native-security-releases.mjs
+      - name: Check resolved Python and Undici versions against advisories
+        if: ${{ !cancelled() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') }}
+        run: node scripts/audit-build-dependencies.mjs
