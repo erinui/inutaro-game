@@ -21,7 +21,7 @@
 
 ## データ元と更新方式
 
-本番の通常更新は `.github/workflows/update-youtube-latest.yml`。サービス別の収集3ジョブ→通信・API秘密情報を持たない画像処理→保存専用ジョブの順に実行する。Node.jsは`.node-version`の24.22.1を使い実版を検査する。データPRを自動作成し、`reconcile-home-updates.yml` が信頼したmainのコードだけでデータ限定差分・収集元run・単一commitの親を照合する。実際のPR検証を開始し、必須verifyとauditの成功・最新baseを確認して通常マージする。古いbaseのPRは閉じ、最新mainから再収集する。ソース変更PRは自動操作しない。mainへの直接pushは行わない。手元用の旧入口`update-home-latest.mjs`と本番workflowの経路を区別する。詳細は[セキュリティ運用記録](security-hardening-operations-20261027.md)を参照。
+YouTube・note・SUZURIはGitHub Actionsが収集し、通信とAPI秘密情報から隔離した画像処理を経て静的ファイルにする。データPRの検証と合格後のマージは条件付きで自動実行する。現行の時刻、権限、失敗時の対応は[運用手順](home-update-operations.md)を参照。
 
 | ジャンル | データ元 | 更新方法 | 表示ファイル |
 | --- | --- | --- | --- |

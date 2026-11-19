@@ -79,14 +79,7 @@ HOME_LIGHTHOUSE_CLI=<lighthouse/cli/index.js> HOME_LIGHTHOUSE_OUTPUT=<新規出�
 
 ## 再現・運用コマンド
 
-通常ビルドには外部パッケージや画像変換ツールは不要。生成物とmanifestを含むcheckoutで`.node-version`のNode.js 24.22.1を使う。基準未満・別major・プレリリースは実行ガードが拒否する。Cloudflareの公開手順と版更新時の注意は[Node.js対応・レビュー記録](node-security-response-20261022.md)を参照。
-
-```sh
-node scripts/build-site.mjs
-node scripts/preview-site.mjs --built
-```
-
-`dist/`は新規作成先であること。既存distの上書き・自動削除はしない。ソース直配信のpreviewは最適化版の最終確認に使わない。
+現行のNode.js・Pythonの準備とビルド・プレビューのコマンドは[運用手順のビルド節](home-update-operations.md#5-ビルド用フォントと実行環境)を参照する。最適化後の表示確認には、公開用の成果物をビルドして使う。
 
 元のCSS/JS、画像対応付け、font policyを変更した場合は明示的にコード資産を再生成する。
 
@@ -104,7 +97,7 @@ python3 scripts/generate-home-font-candidates.py /tmp/erinui-font-candidates --p
 
 分割ファイル全体の保存量は2,316,640 bytesで、初期取得量とは異なる。原本9,868コードポイントを保持し、必要なfaceだけを取得する。今回のPython実行環境は `/opt/homebrew/bin/python3.10`。
 
-以下は2026-10-17の生成・検証環境の履歴であり、現在のNode.js要件ではない。現在は24.22.1へ移行済み。
+以下は2026-10-17の生成・検証環境の記録。現在の要件は[運用手順](home-update-operations.md)を参照。
 
 ローカル生成はChrome 155.0.8059.80、cwebp/dwebp 1.6.0、sharp 0.35.5/libvips 8.18.7、FontTools 4.63.0。試験はPlaywright 1.62.1とxml-jsを使用。今回のローカルNodeは25.8.2、更新CIはNode20とubuntu-24.04。CIのWebPソースは1.6.0のtar SHAを検証する。GitHub Actions上の実行は未確認。
 
