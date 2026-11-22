@@ -195,7 +195,7 @@
       },
       "assets/home-city/note-thumb-1.png": {
         "previous": "d9a1624977b13d4a88a78f4e86e768b798a979f00b605fe617601bf50188409b",
-        "accepted": "f4939078a0492c59fc1f31bfb0419673f507bd0f0fb1079cd10667a9b7fb53c2"
+        "accepted": "6a38d2e174c8c31abe103e37974a571b5020b762b5608700f2bd2c1fae397c2d"
       },
       "assets/home-city/suzuri-latest.json": {
         "previous": "f6fa7c67f9ade99fc816008540f7088f890bc9441e703177a2b1b20394d75b34",
@@ -227,27 +227,27 @@
       },
       "assets/home-city/note-thumb-2.png": {
         "previous": "ba1db7d944dc2bd391acd66ba9ef7a267706078cecf28e7d46c8ada31e7c1c96",
-        "accepted": "0cd9f74066db4efef51a21abced1d5be65e57e378cef5da59524acb469a4e7ea",
+        "accepted": "b16bee641df4c1291921d67ff8df37c072e547f9ba4dfd53b7575438f0d512dd",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-3.png": {
         "previous": "8ae2871511a7a3548c7a9f0d04423df65b337b2759246ec2593ffbda34084245",
-        "accepted": "1627c277c99223704406da8a230229f37b5cc5a394f092666f475a48b16417ce",
+        "accepted": "c8b8efb992b2447740268c217e632baa14d5abdf19fc203a49fe0dfbded505d3",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-4.png": {
         "previous": "5fa2b36756aa6cebe341276479361307d3756adda3b35a8e8fdddf00f7f02fe9",
-        "accepted": "74c307e86247caa6c6990ff357e585fb04ffa1fa2fa9877009b6251a4d531ecb",
+        "accepted": "034beff998d73981ba95ea9dd16d8e51bfcb50f8beafab7e556ef3eb10cdc529",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-5.png": {
         "previous": "206bdbcebb91bbfb61482b43397538d55be7f9305dc8f74692de865d090c6d7d",
-        "accepted": "0bb65ddb7a2737cc3f59973c3e096364232bf31d227fb6b9ddd8f26f7c3a11d0",
+        "accepted": "b2ded0ff19bf6ddaf2616bc8722103268450316fc14cd208615ef5a4936483a5",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       },
       "assets/home-city/note-thumb-6.png": {
         "previous": "9d30b30ef2b637705eeb9974475818b94045f597a7eee99bfd6c28bf2e291931",
-        "accepted": "e98c41830eb4d0bf735563224fd5be34f7e7964a386878231fe599b6d423ed79",
+        "accepted": "90b031d522b828bc3651be61e63f9b17b751df83492c6f8b6d3933acbae37f08",
         "reason": "Exact bytes from validated note image processing; preserve original baseline history."
       }
     },
